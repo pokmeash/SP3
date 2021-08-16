@@ -410,9 +410,14 @@ void CPlayer2D::Update(const double dElapsedTime)
 
 	//CS: Update the animated sprite
 	animatedSprites->Update(dElapsedTime);
-
+	std::cout << "orig [" << i32vec2Index.x << "," << i32vec2Index.y << "] [" << i32vec2NumMicroSteps.x << "," << i32vec2NumMicroSteps.y << "]\n";
 	vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
 	vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
+
+	glm::i32vec2 index = glm::i32vec2(0,0), micro = glm::i32vec2(0, 0);
+	cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &index.x, &micro.x);
+	cSettings->ConvertFloatToIndexSpace(cSettings->y, vec2WSCoordinate.y, &index.y, &micro.y);
+	std::cout << "conv [" << index.x << "," << index.y << "] [" << micro.x << "," << micro.y << "]\n\n";
 
 	// Update the UV Coordinates
 	vec2UVCoordinate.x = cSettings->ConvertFloatToUVSpace(cSettings->x, vec2WSCoordinate.x, false);

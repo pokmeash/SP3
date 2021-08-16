@@ -74,6 +74,7 @@ public:
 	float ConvertIndexToUVSpace(const AXIS sAxis, const int iIndex, const bool bInvert, const float fOffset = 0.0f);
 	float ConvertFloatToUVSpace(const AXIS sAxis, const float iIndex, const bool bInvert);
 	float ConvertIndexToWSSpace(const AXIS sAxis, const int iIndex, const float fOffset = 0.f);
+	void ConvertFloatToIndexSpace(const AXIS sAxis, const float fCoord, int* iIndex,  int* iMicro);
 protected:
 	// Constructor
 	CSettings(void);
