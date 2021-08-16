@@ -36,6 +36,9 @@
     <Filter Include="Scripting">
       <UniqueIdentifier>{e615a983-2674-4f26-b69a-bca6c47fe2cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EventControl">
+      <UniqueIdentifier>{0f18bc2d-5e0c-4e31-bf44-4253454c1174}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\TimeControl\FPSCounter.cpp">
@@ -207,6 +210,12 @@
     </ClInclude>
     <ClInclude Include="Source\GUI\backends\imgui_impl_opengl3.h">
       <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventControl\Event.h">
+      <Filter>EventControl</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventControl\EventHandler.h">
+      <Filter>EventControl</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

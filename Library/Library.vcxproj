@@ -41,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\DesignPatterns\SingletonTemplate.h" />
+    <ClInclude Include="Source\EventControl\Event.h" />
+    <ClInclude Include="Source\EventControl\EventHandler.h" />
     <ClInclude Include="Source\GameControl\Settings.h" />
     <ClInclude Include="Source\GUI\backends\imgui_impl_glfw.h" />
     <ClInclude Include="Source\GUI\backends\imgui_impl_opengl3.h" />
