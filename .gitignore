@@ -1,27 +1,21 @@
-# Prerequisites
 *.d
 
-# Compiled Object files
 *.slo
 *.lo
 *.o
 
-# Precompiled Headers
 *.gch
 *.pch
 
-# Fortran module files
 *.mod
 *.smod
 
-# Folders
 .vs/
 .solutions/
 Debug/
 */Debug/
 Release/
 
-# Executables
 *.exe
 *.out
 *.app
