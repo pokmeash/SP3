@@ -1,14 +1,1 @@
-﻿  Player2D.cpp
-D:\SP3\NYP_Framework_Week16_SOLUTION\NYP_Framework_Week16_SOLUTION\App\Source\Scene2D\Player2D.cpp(549,22): warning C4018: '>=': signed/unsigned mismatch
-D:\SP3\NYP_Framework_Week16_SOLUTION\NYP_Framework_Week16_SOLUTION\App\Source\Scene2D\Player2D.cpp(579,22): warning C4018: '>=': signed/unsigned mismatch
-D:\SP3\NYP_Framework_Week16_SOLUTION\NYP_Framework_Week16_SOLUTION\App\Source\Scene2D\Player2D.cpp(673,66): warning C4244: '-=': conversion from 'float' to 'T', possible loss of data
-          with
-          [
-              T=glm::i32
-          ]
-D:\SP3\NYP_Framework_Week16_SOLUTION\NYP_Framework_Week16_SOLUTION\App\Source\Scene2D\Player2D.cpp(726,60): warning C4244: '-=': conversion from 'double' to 'T', possible loss of data
-          with
-          [
-              T=glm::i32
-          ]
-  App.vcxproj -> D:\SP3\NYP_Framework_Week16_SOLUTION\NYP_Framework_Week16_SOLUTION\Debug\App.exe
+﻿  App.vcxproj -> D:\Github\SP3\Debug\App.exe
