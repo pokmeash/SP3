@@ -17,6 +17,7 @@
 # Folders
 .vs/
 .solutions/
+Debug/
 Release/
 
 # Executables
