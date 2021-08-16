@@ -102,20 +102,21 @@ bool CPlayer2D::Init(void)
 	glBindVertexArray(VAO);
 	
 	// Load the player texture
-	if (LoadTexture("Image/scene2d_player.png", iTextureID) == false)
+	if (LoadTexture("Image/enemy1.png", iTextureID) == false)
 	{
 		std::cout << "Failed to load player tile texture" << std::endl;
 		return false;
 	}
 	
 	//CS: Create the animated sprite and setup the animation 
-	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(6, 3, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
-	animatedSprites->AddAnimation("idle", 0, 2);
-	animatedSprites->AddAnimation("right", 3, 5);
+	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(3, 3, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
+	animatedSprites->AddAnimation("idle", 3, 5);
+	animatedSprites->AddAnimation("right", 0, 2);
 	animatedSprites->AddAnimation("left", 6, 8);
-	animatedSprites->AddAnimation("idleWing", 9, 11);
-	animatedSprites->AddAnimation("rightWing", 12, 14);
-	animatedSprites->AddAnimation("leftWing", 15, 17);
+	//animatedSprites->AddAnimation("idleWing", 9, 11);
+	//animatedSprites->AddAnimation("rightWing", 12, 14);
+	//animatedSprites->AddAnimation("leftWing", 15, 17);
+
 	//CS: Play the "idle" animation as default
 	animatedSprites->PlayAnimation("idle", -1, 1.0f);
 

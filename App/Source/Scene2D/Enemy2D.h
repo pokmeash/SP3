@@ -194,6 +194,9 @@ protected:
 
 	int dir;
 
+	//Raycasting
+	bool rayCast(void);
+
 
 };
 
