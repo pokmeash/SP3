@@ -72,8 +72,8 @@ public:
 
 	// Convert an index number of a tile to a coordinate in UV Space
 	float ConvertIndexToUVSpace(const AXIS sAxis, const int iIndex, const bool bInvert, const float fOffset = 0.0f);
-
-	float ConvertFloatToUVSpace(const AXIS sAxis, const int iIndex, const bool bInvert);
+	float ConvertFloatToUVSpace(const AXIS sAxis, const float iIndex, const bool bInvert);
+	float ConvertIndexToWSSpace(const AXIS sAxis, const int iIndex, const float fOffset = 0.f);
 protected:
 	// Constructor
 	CSettings(void);

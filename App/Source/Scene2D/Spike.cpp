@@ -14,9 +14,7 @@ bool Spike::Init() {
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
     mesh = CMeshBuilder::GenerateQuad(glm::vec4(1, 1, 1, 1), cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
-    if (LoadTexture("Image/Spike.png")) {
-        return true;
-    }
+    return LoadTexture("Image/Spike.png");
 }
 void Spike::Update(const double dElapsedTime)
 {
