@@ -18,6 +18,7 @@
 .vs/
 .solutions/
 Debug/
+*/Debug/
 Release/
 
 # Executables
@@ -30,3 +31,4 @@ Release/
 *.tlog
 *.pdb
 *.idb
+*.obj
