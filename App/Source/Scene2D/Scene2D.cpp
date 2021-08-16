@@ -100,6 +100,10 @@ bool CScene2D::Init(void)
 		return false;
 	}
 	// Load the map into an array
+	// Map Level -> 1 - 10 Left Door Rooms
+	// Map Level -> 11 - 20 Up Door Rooms
+	// Map Level -> 21 - 30 Left Door Rooms
+	// Map Level -> 31 - 40 Up Door Rooms
 	if (cMap2D->LoadMap("Maps/DM2213_Map_Level_01.csv") == false)
 	{
 		// The loading of a map has failed. Return false

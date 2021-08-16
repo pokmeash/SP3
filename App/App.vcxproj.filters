@@ -95,6 +95,9 @@
     <ClCompile Include="Source\GameStateManagement\WinState.cpp">
       <Filter>GameStateManagement</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Scene2D\RoomManager.cpp">
+      <Filter>Scene2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -168,6 +171,9 @@
     </ClInclude>
     <ClInclude Include="Source\GameStateManagement\WinState.h">
       <Filter>GameStateManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\RoomManager.h">
+      <Filter>Scene2D</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
