@@ -61,6 +61,8 @@ public:
 	// The vec2 variable which stores the UV coordinates to render the Entity2D
 	glm::vec2 vec2UVCoordinate;
 
+	glm::vec2 vec2WSCoordinate;
+
 	//Entity stuff for bullets
 	glm::f32vec2 EntityVec2Index;
 

@@ -14,9 +14,7 @@ bool Bullet::Init() {
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
     mesh = CMeshBuilder::GenerateQuad(glm::vec4(1, 1, 1, 1), cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
-    if (LoadTexture("Image/Bullet.tga")) {
-        return true;
-    }
+    return LoadTexture("Image/Bullet.tga");
 }
 void Bullet::Update(const double dElapsedTime)
 {
