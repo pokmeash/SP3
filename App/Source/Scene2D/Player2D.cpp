@@ -329,6 +329,69 @@ void CPlayer2D::Update(const double dElapsedTime)
 		diry = -1;
 	}
 
+	//Swapping
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_UP) && swap == true)
+	{
+		unsigned int InvisRow = -1;
+		unsigned int InvisCol = -1;
+		unsigned int InvisRow2 = -1;
+		unsigned int InvisCol2 = -1;
+		bool counter = true;
+		bool counter2 = true;
+		swap = false;
+		cPhysics2D.SetStatus(CPhysics2D::STATUS::FALL);
+
+		while (counter)
+		{
+			counter = cMap2D->FindValue(97, InvisRow, InvisCol);
+			if (cMap2D->FindValue(97, InvisRow, InvisCol) == false)
+			{
+			}
+			cMap2D->SetMapInfo(InvisRow, InvisCol, 101);
+		}
+		while (counter2)
+		{
+			counter2 = cMap2D->FindValue(102, InvisRow, InvisCol);
+			if (cMap2D->FindValue(102, InvisRow, InvisCol) == false)
+			{
+			}
+			cMap2D->SetMapInfo(InvisRow, InvisCol, 96);
+		}
+		cSoundController->PlaySoundByID(8);
+
+
+	}
+	else if (cKeyboardController->IsKeyPressed(GLFW_KEY_UP) && swap == false)
+	{
+		unsigned int InvisRow = -1;
+		unsigned int InvisCol = -1;
+		unsigned int InvisRow2 = -1;
+		unsigned int InvisCol2 = -1;
+		bool counter = true;
+		bool counter2 = true;
+		swap = true;
+
+		cPhysics2D.SetStatus(CPhysics2D::STATUS::FALL);
+		while (counter)
+		{
+			counter = cMap2D->FindValue(101, InvisRow, InvisCol);
+			if (cMap2D->FindValue(101, InvisRow, InvisCol) == false)
+			{
+			}
+			cMap2D->SetMapInfo(InvisRow, InvisCol, 97);
+		}
+		while (counter2)
+		{
+			counter2 = cMap2D->FindValue(96, InvisRow2, InvisCol2);
+			if (cMap2D->FindValue(96, InvisRow2, InvisCol2) == false)
+			{
+			}
+			cMap2D->SetMapInfo(InvisRow2, InvisCol2, 102);
+		}
+		cSoundController->PlaySoundByID(8);
+	}
+
+
 
 	if (cKeyboardController->IsKeyPressed(GLFW_KEY_G))
 	{
