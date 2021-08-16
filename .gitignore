@@ -5,28 +5,28 @@
 *.slo
 *.lo
 *.o
-*.obj
 
 # Precompiled Headers
 *.gch
 *.pch
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
 # Fortran module files
 *.mod
 *.smod
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
+# Folders
+.vs/
+.solutions/
+Debug/
+Release/
 
 # Executables
 *.exe
 *.out
 *.app
+*.suo
+*.json
+*.sqlite
+*.tlog
+*.pdb
+*.idb
