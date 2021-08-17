@@ -40,7 +40,6 @@ CPlayGameState::~CPlayGameState(void)
  */
 bool CPlayGameState::Init(void)
 {
-
 	// Initialise the cScene2D instance
 	cScene2D = CScene2D::GetInstance();
 	if (cScene2D->Init() == false)

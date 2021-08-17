@@ -75,6 +75,7 @@ public:
 	float ConvertFloatToUVSpace(const AXIS sAxis, const float iIndex, const bool bInvert);
 	float ConvertIndexToWSSpace(const AXIS sAxis, const int iIndex, const float fOffset = 0.f);
 	void ConvertFloatToIndexSpace(const AXIS sAxis, const float fCoord, int* iIndex,  int* iMicro);
+	void ConvertMouseToWSSpace(int mouseX, int mouseY, float* posX, float* posY);
 protected:
 	// Constructor
 	CSettings(void);

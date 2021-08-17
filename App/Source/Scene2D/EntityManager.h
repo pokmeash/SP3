@@ -1,7 +1,7 @@
 #pragma once
 
 #include "EntityFactory.h"
-#include "Map2D.h"
+#include "MapManager.h"
 #include "DesignPatterns/SingletonTemplate.h"
 #include "GameControl/Settings.h"
 #include <vector>

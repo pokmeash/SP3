@@ -28,12 +28,8 @@ CScene2D::CScene2D(void)
  */
 CScene2D::~CScene2D(void)
 {
-	if (cSoundController)
-	{
-		// We won't delete this since it was created elsewhere
-		cSoundController = NULL;
-	}
-
+	std::cout << "destroy\n";
+	cSoundController = NULL;
 	if (cGameManager)
 	{
 		cGameManager->Destroy();
@@ -90,7 +86,7 @@ bool CScene2D::Init(void)
 	CShaderManager::GetInstance()->activeShader->setInt("texture1", 0);
 
 	// Create and initialise the Map 2D
-	cMap2D = CMap2D::GetInstance();
+	cMap2D = CMapManager::GetInstance();
 	// Set a shader to this class
 	cMap2D->SetShader("2DShader");
 	// Initialise the instance
@@ -232,8 +228,6 @@ bool CScene2D::Update(const double dElapsedTime)
 	// Call the cGUI_Scene2D's update method
 	cGUI_Scene2D->Update(dElapsedTime);
 
-
-
 	// Check if the game should go to the next level
 	if (cGameManager->bLevelCompleted == true)
 	{
@@ -319,8 +313,6 @@ void CScene2D::Render(void)
 	cMap2D->Render();
 	// Call the Map2D's PostRender()
 	cMap2D->PostRender();
-
-
 
 	// Call the cGUI_Scene2D's PreRender()
 	cGUI_Scene2D->PreRender();
