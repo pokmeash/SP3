@@ -106,7 +106,7 @@ bool CEnemy2D::Init(void)
 	quadMesh = CMeshBuilder::GenerateQuad(glm::vec4(1, 1, 1, 1), cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
 
 	// Load the enemy2D texture
-	if (LoadTexture("Image/enemy1.png", iTextureID) == false)
+	if (LoadTexture("Image/enemy3.png", iTextureID) == false)
 	{
 		std::cout << "Failed to load enemy2D tile texture" << std::endl;
 		return false;
@@ -114,10 +114,10 @@ bool CEnemy2D::Init(void)
 
 
 	//CS: Create the animated sprite and setup the animation 
-	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(3, 3, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
-	animatedSprites->AddAnimation("idle", 3, 5);
-	animatedSprites->AddAnimation("right", 0, 2);
-	animatedSprites->AddAnimation("left", 6, 8);
+	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(4, 3, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
+	animatedSprites->AddAnimation("idle", 0, 2);
+	animatedSprites->AddAnimation("right", 3, 5);
+	animatedSprites->AddAnimation("left", 0, 2);
 
 
 
@@ -1018,82 +1018,82 @@ void CEnemy2D::UpdatePosition(void)
 	}
 }
 
-bool CEnemy2D::rayCast(void)
-{
-	glm::i32vec2 vRayStart = i32vec2Index; //Enemy Location
-	glm::vec2 vRayDir = glm::normalize(glm::vec2(cPlayer2D->i32vec2Index - vRayStart)); //Direction between the enemy and player
-	glm::vec2 vRayUnitStepSize = glm::vec2(sqrt(1 + (vRayDir.y / vRayDir.x) * (vRayDir.y / vRayDir.x)), sqrt(1 + (vRayDir.x / vRayDir.y) * (vRayDir.x / vRayDir.y))); //Scaling factor that links Hypotenuse step change unit direction in either access
-
-	glm::vec2 vMapCheck = vRayStart; //Starting Point
-	glm::vec2 vRayLength; //Comparing length of X - cols and Y - rows
-	glm::vec2 vStep; //XY steps of tiles
-
-	if (vRayDir.x < 0)
-	{
-		vRayDir.x = -1;
-		vRayLength.x = (vRayDir.x - float(vMapCheck.x)) * vRayUnitStepSize.x;
-	}
-	else
-	{
-		vRayDir.x = 1;
-		vRayLength.x = (float(vMapCheck.x + 1) - vRayStart.x) * vRayUnitStepSize.x;
-	}
-	if (vRayDir.y < 0)
-	{
-		vRayDir.y = -1;
-		vRayLength.y = (vRayDir.y - float(vMapCheck.y)) * vRayUnitStepSize.y;
-	}
-	else
-	{
-		vRayDir.y = 1;
-		vRayLength.y = (float(vMapCheck.y + 1) - vRayStart.y) * vRayUnitStepSize.y;
-	}
-
-	bool collideWall = false;
-	float maxDistance = 500.f;
-	float minDistance = 0.f;
-
-	while (!collideWall && minDistance < maxDistance)
-	{
-		//Walking 
-		if (vRayLength.x < vRayLength.y)
-		{
-			vMapCheck.x += vStep.x;
-			minDistance = vRayLength.x;
-			vRayLength.x += vRayUnitStepSize.x;
-		}
-		else
-		{
-			vMapCheck.y += vStep.y;
-			minDistance = vRayLength.y;
-			vRayLength.y += vRayUnitStepSize.y;
-		}
-
-		if (cMap2D->[cMap2D->uiCurLevel] - 1 < vMapCheck.x)
-		{
-			vMapCheck.x = cMap2D->XArray[cMap2D->uiCurLevel] - 1;
-		}
-		//left
-		if (0 > vMapCheck.x)
-		{
-			vMapCheck.x = 0;
-		}
-		//up
-		if (cMap2D->YArray[cMap2D->uiCurLevel] - 1 < vMapCheck.y)
-		{
-			vMapCheck.y = cMap2D->YArray[cMap2D->uiCurLevel] - 1;
-		}
-		//down
-		if (0 > vMapCheck.y)
-		{
-			vMapCheck.y = 0;
-		}
-
-		if (cMap2D->GetMapInfo(vMapCheck.y, vMapCheck.x, false) == 1)
-		{
-			collideWall = true;
-		}
-	}
-	return collideWall;
-
-}
+//bool CEnemy2D::rayCast(void)
+//{
+//	glm::i32vec2 vRayStart = i32vec2Index; //Enemy Location
+//	glm::vec2 vRayDir = glm::normalize(glm::vec2(cPlayer2D->i32vec2Index - vRayStart)); //Direction between the enemy and player
+//	glm::vec2 vRayUnitStepSize = glm::vec2(sqrt(1 + (vRayDir.y / vRayDir.x) * (vRayDir.y / vRayDir.x)), sqrt(1 + (vRayDir.x / vRayDir.y) * (vRayDir.x / vRayDir.y))); //Scaling factor that links Hypotenuse step change unit direction in either access
+//
+//	glm::vec2 vMapCheck = vRayStart; //Starting Point
+//	glm::vec2 vRayLength; //Comparing length of X - cols and Y - rows
+//	glm::vec2 vStep; //XY steps of tiles
+//
+//	if (vRayDir.x < 0)
+//	{
+//		vRayDir.x = -1;
+//		vRayLength.x = (vRayDir.x - float(vMapCheck.x)) * vRayUnitStepSize.x;
+//	}
+//	else
+//	{
+//		vRayDir.x = 1;
+//		vRayLength.x = (float(vMapCheck.x + 1) - vRayStart.x) * vRayUnitStepSize.x;
+//	}
+//	if (vRayDir.y < 0)
+//	{
+//		vRayDir.y = -1;
+//		vRayLength.y = (vRayDir.y - float(vMapCheck.y)) * vRayUnitStepSize.y;
+//	}
+//	else
+//	{
+//		vRayDir.y = 1;
+//		vRayLength.y = (float(vMapCheck.y + 1) - vRayStart.y) * vRayUnitStepSize.y;
+//	}
+//
+//	bool collideWall = false;
+//	float maxDistance = 500.f;
+//	float minDistance = 0.f;
+//
+//	while (!collideWall && minDistance < maxDistance)
+//	{
+//		//Walking 
+//		if (vRayLength.x < vRayLength.y)
+//		{
+//			vMapCheck.x += vStep.x;
+//			minDistance = vRayLength.x;
+//			vRayLength.x += vRayUnitStepSize.x;
+//		}
+//		else
+//		{
+//			vMapCheck.y += vStep.y;
+//			minDistance = vRayLength.y;
+//			vRayLength.y += vRayUnitStepSize.y;
+//		}
+//
+//		if (cMap2D->[cMap2D->uiCurLevel] - 1 < vMapCheck.x)
+//		{
+//			vMapCheck.x = cMap2D->XArray[cMap2D->uiCurLevel] - 1;
+//		}
+//		//left
+//		if (0 > vMapCheck.x)
+//		{
+//			vMapCheck.x = 0;
+//		}
+//		//up
+//		if (cMap2D->YArray[cMap2D->uiCurLevel] - 1 < vMapCheck.y)
+//		{
+//			vMapCheck.y = cMap2D->YArray[cMap2D->uiCurLevel] - 1;
+//		}
+//		//down
+//		if (0 > vMapCheck.y)
+//		{
+//			vMapCheck.y = 0;
+//		}
+//
+//		if (cMap2D->GetMapInfo(vMapCheck.y, vMapCheck.x, false) == 1)
+//		{
+//			collideWall = true;
+//		}
+//	}
+//	return collideWall;
+//
+//}
