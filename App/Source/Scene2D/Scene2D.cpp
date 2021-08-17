@@ -207,7 +207,7 @@ bool CScene2D::Update(const double dElapsedTime)
 	{
 		enemyVector[i]->Update(dElapsedTime);
 	}
-	 
+
 	// Call the Map2D's update method
 	cMap2D->Update(dElapsedTime);
 

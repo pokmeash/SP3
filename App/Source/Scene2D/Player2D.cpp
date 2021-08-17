@@ -95,6 +95,8 @@ bool CPlayer2D::Init(void)
 
 	// Set the start position of the Player to iRow and iCol
 	i32vec2Index = glm::i32vec2(uiCol, uiRow);
+	vec2WSCoordinate = i32vec2Index;
+	vec2Vel = glm::vec2(0.f, 0.f);
 	// By default, microsteps should be zero
 	i32vec2NumMicroSteps = glm::i32vec2(0, 0);
 
@@ -166,6 +168,8 @@ bool CPlayer2D::Reset()
 
 	// Set the start position of the Player to iRow and iCol
 	i32vec2Index = glm::i32vec2(uiCol, uiRow);
+	vec2WSCoordinate = i32vec2Index;
+	vec2Vel = glm::vec2(0.f, 0.f);
 	// By default, microsteps should be zero
 	i32vec2NumMicroSteps = glm::i32vec2(0, 0);
 
@@ -195,30 +199,28 @@ bool CPlayer2D::Reset()
 void CPlayer2D::Update(const double dElapsedTime)
 {
 	// Store the old position
-	i32vec2OldIndex = i32vec2Index;
+	vec2WSOldCoordinates = vec2WSCoordinate;
 
 	// Get keyboard updates
 	if (cKeyboardController->IsKeyDown(GLFW_KEY_A))
 	{
 		// Calculate the new position to the left
-		if (i32vec2Index.x >= 0)
+		if (vec2WSCoordinate.x >= 0)
 		{
-			i32vec2NumMicroSteps.x-= 4;
-			if (i32vec2NumMicroSteps.x < 0)
-			{
-				i32vec2NumMicroSteps.x = ((int)cSettings->NUM_STEPS_PER_TILE_XAXIS);
-				i32vec2Index.x--;
-			}
+			vec2WSCoordinate.x -= 4.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
 		}
+		cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
 
 		// Constraint the player's position within the screen boundary
 		Constraint(LEFT);
 
+		vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
+
 		// If the new position is not feasible, then revert to old position
 		if (CheckPosition(LEFT) == false)
 		{
-			i32vec2Index = i32vec2OldIndex;
-			i32vec2NumMicroSteps.x = 0;
+			vec2WSCoordinate.x += 4.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
+			cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
 		}
 
 		// Check if player is in mid-air, such as walking off a platform
@@ -237,24 +239,22 @@ void CPlayer2D::Update(const double dElapsedTime)
 	else if (cKeyboardController->IsKeyDown(GLFW_KEY_D))
 	{
 		// Calculate the new position to the right
-		if (i32vec2Index.x < (int)cSettings->NUM_TILES_XAXIS)
+		if (vec2WSCoordinate.x < cSettings->NUM_TILES_XAXIS)
 		{
-			i32vec2NumMicroSteps.x+= 4;
-
-			if (i32vec2NumMicroSteps.x >= cSettings->NUM_STEPS_PER_TILE_XAXIS)
-			{
-				i32vec2NumMicroSteps.x = 0;
-				i32vec2Index.x++;
-			}
+			vec2WSCoordinate.x += 4.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
 		}
+
+		cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
 
 		// Constraint the player's position within the screen boundary
 		Constraint(RIGHT);
 
+		vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
+
 		// If the new position is not feasible, then revert to old position
 		if (CheckPosition(RIGHT) == false)
 		{
-			i32vec2NumMicroSteps.x = 0;
+			vec2WSCoordinate.x -= 4.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
 		}
 
 		// Check if player is in mid-air, such as walking off a platform
@@ -273,22 +273,22 @@ void CPlayer2D::Update(const double dElapsedTime)
 	if (cKeyboardController->IsKeyDown(GLFW_KEY_W))
 	{
 		// Calculate the new position up
-		if (i32vec2Index.y < (int)cSettings->NUM_TILES_YAXIS)
+		if (vec2WSCoordinate.y < cSettings->NUM_TILES_YAXIS)
 		{
-			i32vec2NumMicroSteps.y += 4;
-			if (i32vec2NumMicroSteps.y > cSettings->NUM_STEPS_PER_TILE_YAXIS)
-			{
-				i32vec2NumMicroSteps.y = 0;
-				i32vec2Index.y++;
-			}
+			vec2WSCoordinate.y += 4.f / cSettings->NUM_STEPS_PER_TILE_YAXIS;
 		}
+		cSettings->ConvertFloatToIndexSpace(cSettings->y, vec2WSCoordinate.y, &i32vec2Index.y, &i32vec2NumMicroSteps.y);
+		
 		// Constraint the player's position within the screen boundary
 		Constraint(UP);
+
+		vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
 
 		// If the new position is not feasible, then revert to old position
 		if (CheckPosition(UP) == false)
 		{
 			i32vec2NumMicroSteps.y = 0;
+			vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
 		}
 
 		//CS: Play the "idle" animation
@@ -301,24 +301,19 @@ void CPlayer2D::Update(const double dElapsedTime)
 	else if (cKeyboardController->IsKeyDown(GLFW_KEY_S))
 	{
 		// Calculate the new position down
-		if (i32vec2Index.y >= 0)
+		if (vec2WSCoordinate.y >= 0)
 		{
-			i32vec2NumMicroSteps.y -= 4;
-			if (i32vec2NumMicroSteps.y < 0)
-			{
-				i32vec2NumMicroSteps.y = ((int)cSettings->NUM_STEPS_PER_TILE_YAXIS);
-				i32vec2Index.y--;
-			}
+			vec2WSCoordinate.y -= 4.f / cSettings->NUM_STEPS_PER_TILE_YAXIS;
 		}
-
+		cSettings->ConvertFloatToIndexSpace(cSettings->y, vec2WSCoordinate.y, &i32vec2Index.y, &i32vec2NumMicroSteps.y);
 		// Constraint the player's position within the screen boundary
 		Constraint(DOWN);
-
+		vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
 		// If the new position is not feasible, then revert to old position
 		if (CheckPosition(DOWN) == false)
 		{
-			i32vec2Index = i32vec2OldIndex;
-			i32vec2NumMicroSteps.y = 0;
+			vec2WSCoordinate.y += 4.f / cSettings->NUM_STEPS_PER_TILE_YAXIS;
+			vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
 		}
 
 		//CS: Play the "idle" animation
@@ -326,42 +321,6 @@ void CPlayer2D::Update(const double dElapsedTime)
 		currentColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
 
 		dirx = 0;
-		diry = -1;
-	}
-	else if (cKeyboardController->IsKeyDown(GLFW_KEY_Z))
-	{
-		// Calculate the new position down
-		if (i32vec2Index.y >= 0)
-		{
-			i32vec2NumMicroSteps.x -= 4;
-			i32vec2NumMicroSteps.y -= 4;
-			if (i32vec2NumMicroSteps.y < 0)
-			{
-				i32vec2NumMicroSteps.y = ((int)cSettings->NUM_STEPS_PER_TILE_YAXIS);
-				i32vec2Index.y--;
-			}
-			if (i32vec2NumMicroSteps.x < 0)
-			{
-				i32vec2NumMicroSteps.x = ((int)cSettings->NUM_STEPS_PER_TILE_XAXIS);
-				i32vec2Index.x--;
-			}
-		}
-
-		// Constraint the player's position within the screen boundary
-		Constraint(DOWN);
-
-		// If the new position is not feasible, then revert to old position
-		if (CheckPosition(DOWN) == false)
-		{
-			i32vec2Index = i32vec2OldIndex;
-			i32vec2NumMicroSteps.y = 0;
-		}
-
-		//CS: Play the "idle" animation
-		animatedSprites->PlayAnimation("idle", -1, 1.0f);
-		currentColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
-
-		dirx = -1;
 		diry = -1;
 	}
 
@@ -427,12 +386,8 @@ void CPlayer2D::Update(const double dElapsedTime)
 		cSoundController->PlaySoundByID(8);
 	}
 
-
-
 	if (cKeyboardController->IsKeyPressed(GLFW_KEY_G))
 	{
-		vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x,i32vec2Index.x,i32vec2NumMicroSteps.x);
-		vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
 		cEntityManager->entitylist.push_back(cEntityFactory->ProduceBullets(vec2WSCoordinate, glm::f32vec2(0.5 * dirx, 0.5 * diry), glm::vec3(1, 1, 1), 0, E_BULLET));
 	}
 	//cSoundController->PlaySoundByID(3);
@@ -448,14 +403,6 @@ void CPlayer2D::Update(const double dElapsedTime)
 
 	//CS: Update the animated sprite
 	animatedSprites->Update(dElapsedTime);
-	std::cout << "orig [" << i32vec2Index.x << "," << i32vec2Index.y << "] [" << i32vec2NumMicroSteps.x << "," << i32vec2NumMicroSteps.y << "]\n";
-	vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
-	vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
-
-	glm::i32vec2 index = glm::i32vec2(0,0), micro = glm::i32vec2(0, 0);
-	cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &index.x, &micro.x);
-	cSettings->ConvertFloatToIndexSpace(cSettings->y, vec2WSCoordinate.y, &index.y, &micro.y);
-	std::cout << "conv [" << index.x << "," << index.y << "] [" << micro.x << "," << micro.y << "]\n\n";
 
 	// Update the UV Coordinates
 	vec2UVCoordinate.x = cSettings->ConvertFloatToUVSpace(cSettings->x, vec2WSCoordinate.x, false);

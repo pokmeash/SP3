@@ -31,7 +31,7 @@
     <ClCompile Include="Source\Scene2D\Map2D.cpp" />
     <ClCompile Include="Source\Scene2D\Physics2D.cpp" />
     <ClCompile Include="Source\Scene2D\Player2D.cpp" />
-    <ClCompile Include="Source\Scene2D\RoomManager.cpp" />
+    <ClCompile Include="Source\Scene2D\MapManager.cpp" />
     <ClCompile Include="Source\Scene2D\Scene2D.cpp" />
     <ClCompile Include="Source\Scene2D\Spike.cpp" />
     <ClCompile Include="Source\SoundController\SoundController.cpp" />
@@ -58,7 +58,7 @@
     <ClInclude Include="Source\Scene2D\Map2D.h" />
     <ClInclude Include="Source\Scene2D\Physics2D.h" />
     <ClInclude Include="Source\Scene2D\Player2D.h" />
-    <ClInclude Include="Source\Scene2D\RoomManager.h" />
+    <ClInclude Include="Source\Scene2D\MapManager.h" />
     <ClInclude Include="Source\Scene2D\Scene2D.h" />
     <ClInclude Include="Source\Scene2D\Spike.h" />
     <ClInclude Include="Source\SoundController\SoundController.h" />
