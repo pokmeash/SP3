@@ -159,7 +159,7 @@ protected:
 	int iFSMCounter;
 
 	// Max count in a state
-	const int iMaxFSMCounter = 60;
+	const int iMaxFSMCounter = 30;
 
 	// Load a texture
 	bool LoadTexture(const char* filename, GLuint& iTextureID);
@@ -193,6 +193,7 @@ protected:
 	bool ammo;
 
 	int dir;
+	int dirY;
 
 	//Raycasting
 	bool rayCast(void);

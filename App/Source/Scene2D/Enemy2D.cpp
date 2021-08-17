@@ -152,7 +152,7 @@ void CEnemy2D::Update(const double dElapsedTime)
 	switch (sCurrentFSM)
 	{
 	case IDLE:
-		//Means that each state changes every 2 seconds
+		//Means that each state changes every 1 second
 		if (iFSMCounter > iMaxFSMCounter)
 		{
 			sCurrentFSM = SEARCH;
@@ -162,7 +162,7 @@ void CEnemy2D::Update(const double dElapsedTime)
 		animatedSprites->PlayAnimation("idle", -1, 1.0f);
 		break;
 	case SEARCH:
-		if (cPhysics2D.CalculateDistance(i32vec2Index, cPlayer2D->i32vec2Index) < 15.0f)
+		if (cPhysics2D.CalculateDistance(i32vec2Index, cPlayer2D->i32vec2Index) < 10.0f)
 		{
 			if (iFSMCounter > iMaxFSMCounter)
 			{
@@ -194,6 +194,8 @@ void CEnemy2D::Update(const double dElapsedTime)
 				animatedSprites->PlayAnimation("right", -1, 1.0f);
 				cout << "ATTACK RIGHT" << endl;
 			}
+
+
 			else
 			{
 				InteractWithPlayer();
@@ -329,11 +331,11 @@ void CEnemy2D::Update(const double dElapsedTime)
 				sCurrentFSM = DAMAGED;
 			}
 
-			// Check if player is in mid-air, such as walking off a platform
-			if (IsMidAir() == true)
-			{
-				cPhysics2D.SetStatus(CPhysics2D::STATUS::FALL);
-			}
+			//// Check if player is in mid-air, such as walking off a platform
+			//if (IsMidAir() == true)
+			//{
+			//	cPhysics2D.SetStatus(CPhysics2D::STATUS::FALL);
+			//}
 
 			//CS: Play the "left" animation
 			//animatedSprites->PlayAnimation("left", -1, 1.0f);
@@ -366,11 +368,11 @@ void CEnemy2D::Update(const double dElapsedTime)
 				sCurrentFSM = DAMAGED;
 			}
 
-			// Check if player is in mid-air, such as walking off a platform
-			if (IsMidAir() == true)
-			{
-				cPhysics2D.SetStatus(CPhysics2D::STATUS::FALL);
-			}
+			//// Check if player is in mid-air, such as walking off a platform
+			//if (IsMidAir() == true)
+			//{
+			//	cPhysics2D.SetStatus(CPhysics2D::STATUS::FALL);
+			//}
 
 			//CS: Play the "right" animation
 			//animatedSprites->PlayAnimation("right", -1, 1.0f);
@@ -962,12 +964,6 @@ void CEnemy2D::UpdatePosition(void)
 			i32vec2NumMicroSteps.x = 0;
 		}
 
-		// Check if enemy2D is in mid-air, such as walking off a platform
-		if (IsMidAir() == true)
-		{
-			cPhysics2D.SetStatus(CPhysics2D::STATUS::FALL);
-		}
-
 		// Interact with the Player
 		InteractWithPlayer();
 	}
@@ -997,12 +993,6 @@ void CEnemy2D::UpdatePosition(void)
 			i32vec2NumMicroSteps.x = 0;
 		}
 
-		// Check if enemy2D is in mid-air, such as walking off a platform
-		if (IsMidAir() == true)
-		{
-			cPhysics2D.SetStatus(CPhysics2D::STATUS::FALL);
-		}
-
 		// Interact with the Player
 		InteractWithPlayer();
 	}
@@ -1010,90 +1000,34 @@ void CEnemy2D::UpdatePosition(void)
 	// if the player is above the enemy2D, then jump to attack
 	if (i32vec2Direction.y > 0)
 	{
-		if (cPhysics2D.GetStatus() == CPhysics2D::STATUS::IDLE)
+
+		// Move right
+		const int iOldIndex = i32vec2Index.y;
+		if (i32vec2Index.y < (int)cSettings->NUM_TILES_XAXIS)
 		{
-			cPhysics2D.SetStatus(CPhysics2D::STATUS::JUMP);
-			cPhysics2D.SetInitialVelocity(glm::vec2(0.0f, 3.5f));
+			i32vec2NumMicroSteps.y++;
+
+			if (i32vec2NumMicroSteps.y >= cSettings->NUM_STEPS_PER_TILE_XAXIS)
+			{
+				i32vec2NumMicroSteps.y = 0;
+				i32vec2Index.y++;
+			}
 		}
+
+		// Constraint the enemy2D's position within the screen boundary
+		Constraint(UP);
+
+		// Find a feasible position for the enemy2D's current position
+		if (CheckPosition(UP) == false)
+		{
+			FlipHorizontalDirection();
+			i32vec2Index = i32vec2OldIndex;
+			i32vec2NumMicroSteps.y = 0;
+		}
+
+		// Interact with the Player
+		InteractWithPlayer();
+
 	}
 }
 
-//bool CEnemy2D::rayCast(void)
-//{
-//	glm::i32vec2 vRayStart = i32vec2Index; //Enemy Location
-//	glm::vec2 vRayDir = glm::normalize(glm::vec2(cPlayer2D->i32vec2Index - vRayStart)); //Direction between the enemy and player
-//	glm::vec2 vRayUnitStepSize = glm::vec2(sqrt(1 + (vRayDir.y / vRayDir.x) * (vRayDir.y / vRayDir.x)), sqrt(1 + (vRayDir.x / vRayDir.y) * (vRayDir.x / vRayDir.y))); //Scaling factor that links Hypotenuse step change unit direction in either access
-//
-//	glm::vec2 vMapCheck = vRayStart; //Starting Point
-//	glm::vec2 vRayLength; //Comparing length of X - cols and Y - rows
-//	glm::vec2 vStep; //XY steps of tiles
-//
-//	if (vRayDir.x < 0)
-//	{
-//		vRayDir.x = -1;
-//		vRayLength.x = (vRayDir.x - float(vMapCheck.x)) * vRayUnitStepSize.x;
-//	}
-//	else
-//	{
-//		vRayDir.x = 1;
-//		vRayLength.x = (float(vMapCheck.x + 1) - vRayStart.x) * vRayUnitStepSize.x;
-//	}
-//	if (vRayDir.y < 0)
-//	{
-//		vRayDir.y = -1;
-//		vRayLength.y = (vRayDir.y - float(vMapCheck.y)) * vRayUnitStepSize.y;
-//	}
-//	else
-//	{
-//		vRayDir.y = 1;
-//		vRayLength.y = (float(vMapCheck.y + 1) - vRayStart.y) * vRayUnitStepSize.y;
-//	}
-//
-//	bool collideWall = false;
-//	float maxDistance = 500.f;
-//	float minDistance = 0.f;
-//
-//	while (!collideWall && minDistance < maxDistance)
-//	{
-//		//Walking 
-//		if (vRayLength.x < vRayLength.y)
-//		{
-//			vMapCheck.x += vStep.x;
-//			minDistance = vRayLength.x;
-//			vRayLength.x += vRayUnitStepSize.x;
-//		}
-//		else
-//		{
-//			vMapCheck.y += vStep.y;
-//			minDistance = vRayLength.y;
-//			vRayLength.y += vRayUnitStepSize.y;
-//		}
-//
-//		if (cMap2D->[cMap2D->uiCurLevel] - 1 < vMapCheck.x)
-//		{
-//			vMapCheck.x = cMap2D->XArray[cMap2D->uiCurLevel] - 1;
-//		}
-//		//left
-//		if (0 > vMapCheck.x)
-//		{
-//			vMapCheck.x = 0;
-//		}
-//		//up
-//		if (cMap2D->YArray[cMap2D->uiCurLevel] - 1 < vMapCheck.y)
-//		{
-//			vMapCheck.y = cMap2D->YArray[cMap2D->uiCurLevel] - 1;
-//		}
-//		//down
-//		if (0 > vMapCheck.y)
-//		{
-//			vMapCheck.y = 0;
-//		}
-//
-//		if (cMap2D->GetMapInfo(vMapCheck.y, vMapCheck.x, false) == 1)
-//		{
-//			collideWall = true;
-//		}
-//	}
-//	return collideWall;
-//
-//}
