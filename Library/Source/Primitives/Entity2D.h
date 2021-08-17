@@ -77,6 +77,7 @@ public:
 	enum ENTITY_TYPE {
 		E_NULL,
 		E_BULLET,
+		E_EBULLET,
 		E_SPIKE,
 		E_ENEMY,
 	};

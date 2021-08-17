@@ -328,6 +328,42 @@ void CPlayer2D::Update(const double dElapsedTime)
 		dirx = 0;
 		diry = -1;
 	}
+	else if (cKeyboardController->IsKeyDown(GLFW_KEY_Z))
+	{
+		// Calculate the new position down
+		if (i32vec2Index.y >= 0)
+		{
+			i32vec2NumMicroSteps.x -= 4;
+			i32vec2NumMicroSteps.y -= 4;
+			if (i32vec2NumMicroSteps.y < 0)
+			{
+				i32vec2NumMicroSteps.y = ((int)cSettings->NUM_STEPS_PER_TILE_YAXIS);
+				i32vec2Index.y--;
+			}
+			if (i32vec2NumMicroSteps.x < 0)
+			{
+				i32vec2NumMicroSteps.x = ((int)cSettings->NUM_STEPS_PER_TILE_XAXIS);
+				i32vec2Index.x--;
+			}
+		}
+
+		// Constraint the player's position within the screen boundary
+		Constraint(DOWN);
+
+		// If the new position is not feasible, then revert to old position
+		if (CheckPosition(DOWN) == false)
+		{
+			i32vec2Index = i32vec2OldIndex;
+			i32vec2NumMicroSteps.y = 0;
+		}
+
+		//CS: Play the "idle" animation
+		animatedSprites->PlayAnimation("idle", -1, 1.0f);
+		currentColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
+
+		dirx = -1;
+		diry = -1;
+	}
 
 	//Swapping
 	if (cKeyboardController->IsKeyPressed(GLFW_KEY_UP) && swap == true)
@@ -395,7 +431,9 @@ void CPlayer2D::Update(const double dElapsedTime)
 
 	if (cKeyboardController->IsKeyPressed(GLFW_KEY_G))
 	{
-		cEntityManager->entitylist.push_back(cEntityFactory->ProduceBullets(this->vec2GetCenter(), glm::f32vec2(0.5 * dirx, 0.5 * diry), glm::vec3(1, 1, 1), 0, E_BULLET));
+		vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x,i32vec2Index.x,i32vec2NumMicroSteps.x);
+		vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
+		cEntityManager->entitylist.push_back(cEntityFactory->ProduceBullets(vec2WSCoordinate, glm::f32vec2(0.5 * dirx, 0.5 * diry), glm::vec3(1, 1, 1), 0, E_BULLET));
 	}
 	//cSoundController->PlaySoundByID(3);
 	// Update Jump or Fall

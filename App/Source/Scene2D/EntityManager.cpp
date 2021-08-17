@@ -24,7 +24,7 @@ void EntityManager::Update(const double dElapsedTime)
 			CEntity2D* entity = (CEntity2D*)*it;
 			if (entity->isactive)
 			{
-				if (entity->type == CEntity2D::E_BULLET)
+				if (entity->type == CEntity2D::E_EBULLET)
 				{
 					entity->Update(dElapsedTime);
 					glm::i32vec2 temp;
@@ -50,6 +50,13 @@ void EntityManager::Update(const double dElapsedTime)
 							cEnemy2D->spikecollided = true;
 						}
 					}
+				}
+				if (entity->type == CEntity2D::E_BULLET)
+				{
+					entity->Update(dElapsedTime);
+					glm::i32vec2 temp;
+					temp.x = (int)entity->EntityVec2Index.x;
+					temp.y = (int)entity->EntityVec2Index.y;
 				}
 
 			}
