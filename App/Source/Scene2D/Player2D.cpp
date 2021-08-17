@@ -254,7 +254,8 @@ void CPlayer2D::Update(const double dElapsedTime)
 		// If the new position is not feasible, then revert to old position
 		if (CheckPosition(RIGHT) == false)
 		{
-			vec2WSCoordinate.x -= 4.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
+			i32vec2NumMicroSteps.x = 0;
+			vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
 		}
 
 		// Check if player is in mid-air, such as walking off a platform
@@ -281,9 +282,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 		
 		// Constraint the player's position within the screen boundary
 		Constraint(UP);
-
 		vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
-
 		// If the new position is not feasible, then revert to old position
 		if (CheckPosition(UP) == false)
 		{
@@ -312,10 +311,11 @@ void CPlayer2D::Update(const double dElapsedTime)
 		// If the new position is not feasible, then revert to old position
 		if (CheckPosition(DOWN) == false)
 		{
-			vec2WSCoordinate.y += 4.f / cSettings->NUM_STEPS_PER_TILE_YAXIS;
+			i32vec2Index.y++;
+			i32vec2NumMicroSteps.y = 0;
 			vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
 		}
-
+		std::cout << "[" << i32vec2Index.x << ", " << i32vec2Index.y << "] [" << i32vec2NumMicroSteps.x << ", " << i32vec2NumMicroSteps.y << "]\n";
 		//CS: Play the "idle" animation
 		animatedSprites->PlayAnimation("idle", -1, 1.0f);
 		currentColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
