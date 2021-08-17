@@ -15,8 +15,9 @@ using namespace std;
 #include "System\ImageLoader.h"
 
 // Include the Map2D as we will use it to check the player's movements and actions
-#include "Map2D.h"
+#include "MapManager.h"
 #include "Primitives/MeshBuilder.h"
+#include "Inputs/MouseController.h"
 
 // Include Game Manager
 #include "GameManager.h"
@@ -83,7 +84,7 @@ bool CPlayer2D::Init(void)
 	cSettings = CSettings::GetInstance();
 	cEntityManager = EntityManager::GetInstance();
 	// Get the handler to the CMap2D instance
-	cMap2D = CMap2D::GetInstance();
+	cMap2D = CMapManager::GetInstance();
 	// Find the indices for the player in arrMapInfo, and assign it to cPlayer2D
 	unsigned int uiRow = -1;
 	unsigned int uiCol = -1;
@@ -96,6 +97,7 @@ bool CPlayer2D::Init(void)
 	// Set the start position of the Player to iRow and iCol
 	i32vec2Index = glm::i32vec2(uiCol, uiRow);
 	vec2WSCoordinate = i32vec2Index;
+	vec2WSCoordinate.x += 0.5;
 	vec2Vel = glm::vec2(0.f, 0.f);
 	// By default, microsteps should be zero
 	i32vec2NumMicroSteps = glm::i32vec2(0, 0);
@@ -169,6 +171,7 @@ bool CPlayer2D::Reset()
 	// Set the start position of the Player to iRow and iCol
 	i32vec2Index = glm::i32vec2(uiCol, uiRow);
 	vec2WSCoordinate = i32vec2Index;
+	vec2WSCoordinate.x += 0.5;
 	vec2Vel = glm::vec2(0.f, 0.f);
 	// By default, microsteps should be zero
 	i32vec2NumMicroSteps = glm::i32vec2(0, 0);
@@ -386,9 +389,20 @@ void CPlayer2D::Update(const double dElapsedTime)
 		cSoundController->PlaySoundByID(8);
 	}
 
-	if (cKeyboardController->IsKeyPressed(GLFW_KEY_G))
+	static float delay = 0.f;
+	if (CMouseController::GetInstance()->IsButtonDown(0) && delay <= 0.f)
 	{
-		cEntityManager->entitylist.push_back(cEntityFactory->ProduceBullets(vec2WSCoordinate, glm::f32vec2(0.5 * dirx, 0.5 * diry), glm::vec3(1, 1, 1), 0, E_BULLET));
+		delay = 0.5f;
+		glm::i32vec2 mouse((int)CMouseController::GetInstance()->GetMousePositionX(), (int)CMouseController::GetInstance()->GetMousePositionY());
+		glm::vec2 wsSpace(0.f, 0.f);
+		cSettings->ConvertMouseToWSSpace(mouse.x, mouse.y, &(wsSpace.x), &(wsSpace.y));
+		glm::vec2 direction = wsSpace - vec2WSCoordinate;
+		direction = glm::normalize(direction);
+		direction *= 0.5f;
+		cEntityManager->entitylist.push_back(cEntityFactory->ProduceBullets(vec2WSCoordinate, direction, glm::vec3(1, 1, 1), 0, E_BULLET));
+	}
+	if (delay > 0) {
+		delay -= dElapsedTime;
 	}
 	//cSoundController->PlaySoundByID(3);
 	// Update Jump or Fall
@@ -466,7 +480,6 @@ void CPlayer2D::Render(void)
 	animatedSprites->Render();
 
 	glBindVertexArray(0);
-
 }
 
 /**

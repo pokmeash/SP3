@@ -7,8 +7,6 @@ using namespace std;
 
 #include "System\filesystem.h"
 
-
-
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
  */
@@ -28,12 +26,8 @@ CScene2D::CScene2D(void)
  */
 CScene2D::~CScene2D(void)
 {
-	if (cSoundController)
-	{
-		// We won't delete this since it was created elsewhere
-		cSoundController = NULL;
-	}
-
+	std::cout << "destroy\n";
+	cSoundController = NULL;
 	if (cGameManager)
 	{
 		cGameManager->Destroy();
@@ -90,36 +84,28 @@ bool CScene2D::Init(void)
 	CShaderManager::GetInstance()->activeShader->setInt("texture1", 0);
 
 	// Create and initialise the Map 2D
-	cMap2D = CMap2D::GetInstance();
+	cMap2D = CMapManager::GetInstance();
 	// Set a shader to this class
 	cMap2D->SetShader("2DShader");
 	// Initialise the instance
-	if (cMap2D->Init(3, 24, 32) == false)
+	if (!cMap2D->Init(3, 24, 32))
 	{
 		cout << "Failed to load CMap2D" << endl;
 		return false;
 	}
+
 	// Load the map into an array
-	// Map Level -> 1 - 10 Left Door Rooms
-	// Map Level -> 11 - 20 Up Door Rooms
-	// Map Level -> 21 - 30 Left Door Rooms
-	// Map Level -> 31 - 40 Up Door Rooms
-	if (cMap2D->LoadMap("Maps/DM2213_Map_Level_01.csv") == false)
-	{
-		// The loading of a map has failed. Return false
+	unsigned amt = FileSystem::getAmountOfSaves("Maps/Preset/1");
+	if (amt == 0) {
+		cout << "No presets were found!\n";
 		return false;
 	}
-	// Load the map into an array
-	if (cMap2D->LoadMap("Maps/DM2213_Map_Level_02.csv", 1) == false)
-	{
-		// The loading of a map has failed. Return false
-		return false;
-	}
-	// Load the map into an array
-	if (cMap2D->LoadMap("Maps/DM2213_Map_Level_03.csv", 2) == false)
-	{
-		// The loading of a map has failed. Return false
-		return false;
+	vector<std::string> files = FileSystem::getSaves("Maps/Preset/1");
+	for (unsigned i = 0; i < amt; ++i) {
+		if (!cMap2D->LoadMap(files[i], i)) {
+			std::cout << "Map " << files[i] << " could not load!\n";
+			return false;
+		}
 	}
 
 	// Activate diagonal movement
@@ -232,8 +218,6 @@ bool CScene2D::Update(const double dElapsedTime)
 	// Call the cGUI_Scene2D's update method
 	cGUI_Scene2D->Update(dElapsedTime);
 
-
-
 	// Check if the game should go to the next level
 	if (cGameManager->bLevelCompleted == true)
 	{
@@ -319,8 +303,6 @@ void CScene2D::Render(void)
 	cMap2D->Render();
 	// Call the Map2D's PostRender()
 	cMap2D->PostRender();
-
-
 
 	// Call the cGUI_Scene2D's PreRender()
 	cGUI_Scene2D->PreRender();

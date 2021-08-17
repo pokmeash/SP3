@@ -20,7 +20,7 @@
 #include "Primitives/Entity2D.h"
 
 // Include the Map2D as we will use it to check the player's movements and actions
-class CMap2D;
+class CMapManager;
 
 // Include Settings
 #include "GameControl\Settings.h"
@@ -113,7 +113,7 @@ protected:
 	CMesh* quadMesh;
 
 	// Handler to the CMap2D instance
-	CMap2D* cMap2D;
+	CMapManager* cMap2D;
 
 	// A transformation matrix for controlling where to render the entities
 	glm::mat4 transform;

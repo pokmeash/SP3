@@ -1,112 +1,115 @@
-//#include "RoomManager.h"
-//#include <iostream>
-//using namespace std;
-//
-//// Include Shader Manager
-//#include "RenderControl\ShaderManager.h"
-//
-//#include "System\filesystem.h"
-//
-//
-//
-///**
-// @brief Constructor This constructor has protected access modifier as this class will be a Singleton
-// */
-//CRoomManager2D::CRoomManager2D(void)
-//{
-//	cursor = 0;
-//	current = first;
-//}
-//
-///**
-// @brief Destructor
-// */
-//CRoomManager2D::~CRoomManager2D(void)
-//{
-//	//delete nodes in deconstructor
-//	CRoomNode* tempcurrent = first;
-//	while (tempcurrent != nullptr)
-//	{
-//		CRoomNode* NodeDelete = tempcurrent;
-//		tempcurrent = tempcurrent->next;
-//
-//		delete NodeDelete;
-//	}
-//}
-//
-//bool CRoomManager2D::getprev()
-//{
-//	if (current->prev == nullptr)
-//	{
-//		//if prev is null cant go prev so return false/error
-//		return false;
-//	}
-//	else
-//	{
-//		//Code for cursor to go prev
-//		current = current->prev;
-//		cursor--;
-//		return true;
-//	}
-//
-//}
-//
-//bool CRoomManager2D::getnext()
-//{
-//	if (current->next == nullptr)
-//	{
-//		//if next is null cant go next so return false/error
-//		return false;
-//	}
-//	else
-//	{
-//		//Code for cursor to go next
-//		current = current->next;
-//		cursor++;
-//		return true;
-//	}
-//}
-//
-//void CRoomManager2D::getadd()
-//{
-//	newnode = new CNode;
-//	if (current == nullptr)
-//	{
-//		first = last = current = newnode;
-//	}
-//	else if (current->val == 'E')
-//	{
-//		//check for end node 
-//		current->next = newnode;
-//		newnode->prev = current;
-//		last = newnode;
-//
-//		current->next->val = 'E';
-//		current->val = 'o';
-//
-//	}
-//	else
-//	{
-//		//with temp
-//
-//		/*CNode* newnode = new CNode;
-//		CNode* tempnode = current->next;
-//		current->next = newnode;
-//		newnode->val = 'w';
-//		newnode->next = tempnode;
-//		tempnode->prev = newnode;
-//		newnode->prev = current;*/
-//
-//		//without temp
-//
-//		newnode->next = current->next;
-//		newnode->prev = current;
-//
-//		current->next->prev = newnode;
-//		current->next = newnode;
-//
-//		newnode->val = 'w';
-//
-//	}
-//}
-//
+#include "MapManager.h"
+
+CMapManager::CMapManager() : currentFloor(NULL), currentRoom(0) {
+	currentFloor = new CMap2D();
+}
+
+CMapManager::~CMapManager()
+{
+	while (floorList.size() > 0)
+	{
+		CMap2D* floor = floorList.back();
+		delete floor;
+		floorList.pop_back();
+	}
+}
+
+void CMapManager::SetShader(const std::string& _name)
+{
+	CEntity2D::SetShader(_name);
+}
+
+bool CMapManager::Init(const unsigned int uiNumLevels, const unsigned int uiNumRows, const unsigned int uiNumCols)
+{
+	if (!currentFloor->Init(uiNumLevels, uiNumRows, uiNumCols)) {
+		return false;
+	}
+	floorList.push_back(currentFloor);
+	return true;
+}
+
+void CMapManager::Update(const double dt)
+{
+	if (currentFloor) {
+		currentFloor->Update(dt);
+	}
+}
+
+void CMapManager::PreRender()
+{
+	if (currentFloor) {
+		currentFloor->PreRender();
+	}
+}
+
+void CMapManager::Render()
+{
+	if (currentFloor) {
+		currentFloor->Render();
+	}
+}
+
+void CMapManager::PostRender()
+{
+	if (currentFloor) {
+		currentFloor->PostRender();
+	}
+}
+
+void CMapManager::SetNumTiles(const CSettings::AXIS sAxis, const unsigned int uiValue)
+{
+	currentFloor->SetNumTiles(sAxis, uiValue);
+}
+
+void CMapManager::SetNumSteps(const CSettings::AXIS sAxis, const unsigned int uiValue)
+{
+	currentFloor->SetNumSteps(sAxis, uiValue);
+}
+
+void CMapManager::SetMapInfo(const unsigned int uiRow, const unsigned int uiCol, const int iValue, const bool bInvert)
+{
+	currentFloor->SetMapInfo(uiRow, uiCol, iValue, bInvert);
+}
+
+int CMapManager::GetMapInfo(const unsigned int uiRow, const unsigned int uiCol, const bool bInvert) const
+{
+	return currentFloor->GetMapInfo(uiRow, uiCol, bInvert);
+}
+
+bool CMapManager::LoadMap(string filename, const unsigned int uiLevel)
+{
+	return currentFloor->LoadMap(filename, uiLevel);
+}
+
+bool CMapManager::SaveMap(string filename, const unsigned int uiLevel)
+{
+	return currentFloor->SaveMap(filename, uiLevel);
+}
+
+bool CMapManager::FindValue(const int iValue, unsigned int& uirRow, unsigned int& uirCol, const bool bInvert)
+{
+	return currentFloor->FindValue(iValue, uirRow, uirCol, bInvert);
+}
+
+void CMapManager::SetCurrentLevel(unsigned int uiCurLevel)
+{
+	currentFloor->SetCurrentLevel(uiCurLevel);
+}
+
+unsigned int CMapManager::GetCurrentLevel(void) const
+{
+	return currentFloor->GetCurrentLevel();
+}
+
+std::vector<glm::i32vec2> CMapManager::PathFind(const glm::i32vec2& startPos, const glm::i32vec2& targetPos, HeuristicFunction heuristicFunc, const int weight)
+{
+	return currentFloor->PathFind(startPos, targetPos, heuristicFunc, weight);
+}
+
+void CMapManager::SetDiagonalMovement(const bool bEnable)
+{
+	if (currentFloor) {
+		currentFloor->SetDiagonalMovement(bEnable);
+	}
+}
+
