@@ -13,9 +13,8 @@
 .vs/
 .solutions/
 Debug/
+*/Debug/
 Release/
-App.tlog/
-Library.tlog/
 
 *.exe
 *.out
@@ -27,6 +26,3 @@ Library.tlog/
 *.pdb
 *.idb
 *.obj
-*.tlog
-*.log
-*.txt

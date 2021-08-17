@@ -1,30 +1,28 @@
-#include "Spike.h"
+#include "DoubleShot.h"
 
 #include"RenderControl/ShaderManager.h"
 #include"System/ImageLoader.h"
 #include"Primitives/MeshBuilder.h"
 
-Spike::Spike()
+DoubleShot::DoubleShot()
 {}
-Spike::~Spike()
+DoubleShot::~DoubleShot()
 {}
 
-bool Spike::Init() {
+bool DoubleShot::Init() {
     cSettings = CSettings::GetInstance();
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
     mesh = CMeshBuilder::GenerateQuad(glm::vec4(1, 1, 1, 1), cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
-    return LoadTexture("Image/Spike.png");
+    return LoadTexture("Image/DoubleShot.png");
 }
-void Spike::Update(const double dElapsedTime)
+void DoubleShot::Update(const double dElapsedTime)
 {
-    EntityVec2Index += EntityVec2Vel;
-
     vec2UVCoordinate.x = cSettings->ConvertFloatToUVSpace(cSettings->x, EntityVec2Index.x, false);
     vec2UVCoordinate.y = cSettings->ConvertFloatToUVSpace(cSettings->y, EntityVec2Index.y, false);
 }
 
-void Spike::PreRender(void)
+void DoubleShot::PreRender(void)
 {
     glActiveTexture(GL_TEXTURE0);
     glEnable(GL_BLEND);
@@ -32,7 +30,7 @@ void Spike::PreRender(void)
     CShaderManager::GetInstance()->Use("2DShader");
 }
 
-void Spike::Render(void)
+void DoubleShot::Render(void)
 {
     glBindVertexArray(VAO);
     unsigned int transformLoc = glGetUniformLocation(CShaderManager::GetInstance()->activeShader->ID, "transform");
@@ -55,7 +53,7 @@ void Spike::Render(void)
     glBindVertexArray(0);
 }
 
-void Spike::PostRender(void)
+void DoubleShot::PostRender(void)
 {
     glDisable(GL_BLEND);
 }

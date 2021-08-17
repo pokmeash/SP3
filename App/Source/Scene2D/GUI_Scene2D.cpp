@@ -4,6 +4,7 @@
  Date: May 2021
  */
 #include "GUI_Scene2D.h"
+#include "Inputs/MouseController.h"
 
 #include <iostream>
 using namespace std;
@@ -210,26 +211,6 @@ void CGUI_Scene2D::Update(const double dElapsedTime)
 		cInventoryItem->GetCount(), cInventoryItem->GetMaxCount());
 	ImGui::End();
 	ImGui::PopStyleColor();
-
-
-
-	//// IMGUI window demo
-	//inventoryWindowFlags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar;
-	//ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));  // Set a background color
-	//ImGui::Begin("TestImage", NULL, inventoryWindowFlags);
-	//	ImGui::SetWindowPos(ImVec2(500.0f, 500.0f));
-	//	ImGui::SetWindowSize(ImVec2(200.0f, 100.0f));
-
-	//	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.0f, 1.0f, 0.0f, 1.0f));  // Set a background color
-	//	ImGui::BeginChild("TestImage2", ImVec2(175.0f, 75.0f), inventoryWindowFlags);
-	//		ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.0f, 0.0f, 1.0f, 1.0f));  // Set a background color
-	//		ImGui::BeginChild("TestImage3", ImVec2(150.0f, 50.0f), inventoryWindowFlags);
-	//		ImGui::EndChild();
-	//		ImGui::PopStyleColor();
-	//	ImGui::EndChild();
-	//	ImGui::PopStyleColor();
-	//ImGui::End();
-	//ImGui::PopStyleColor();
 
 	ImGui::End();
 }

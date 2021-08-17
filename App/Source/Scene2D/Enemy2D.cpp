@@ -20,7 +20,7 @@ using namespace std;
 #include "System\ImageLoader.h"
 
 // Include the Map2D as we will use it to check the player's movements and actions
-#include "Map2D.h"
+#include "MapManager.h"
 // Include math.h
 #include <math.h>
 
@@ -84,7 +84,7 @@ bool CEnemy2D::Init(void)
 	cSettings = CSettings::GetInstance();
 
 	// Get the handler to the CMap2D instance
-	cMap2D = CMap2D::GetInstance();
+	cMap2D = CMapManager::GetInstance();
 	// Find the indices for the player in arrMapInfo, and assign it to cPlayer2D
 	unsigned int uiRow = -1;
 	unsigned int uiCol = -1;
@@ -231,7 +231,7 @@ void CEnemy2D::Update(const double dElapsedTime)
 		if (ammo)
 		{
 			//BULLET CODE HERE
-			cEntityManager->entitylist.push_back(cEntityFactory->ProduceBullets(i32vec2Index, glm::f32vec2(0.5 * dir, 0), glm::vec3(1, 1, 1), 0, E_BULLET));
+			cEntityManager->entitylist.push_back(cEntityFactory->ProduceBullets(i32vec2Index, glm::f32vec2(0.5 * dir, 0), glm::vec3(1, 1, 1), 0, E_EBULLET));
 			ammo = false;
 		}
 		if (iFSMCounter > iMaxFSMCounter)
