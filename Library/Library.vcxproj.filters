@@ -217,5 +217,8 @@
     <ClInclude Include="Source\EventControl\EventHandler.h">
       <Filter>EventControl</Filter>
     </ClInclude>
+    <ClInclude Include="Source\System\MyMath.h">
+      <Filter>System</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
