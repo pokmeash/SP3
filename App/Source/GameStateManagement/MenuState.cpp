@@ -88,7 +88,10 @@ bool CMenuState::Init(void)
 	startButtonData.textureID = il->LoadTextureGetID(startButtonData.fileName.c_str(), false);
 	exitButtonData.fileName = "Image\\GUI\\ExitButton.png";
 	exitButtonData.textureID = il->LoadTextureGetID(exitButtonData.fileName.c_str(), false);
-
+	volupButtonData.fileName = "Image\\GUI\\VolUp.png";
+	volupButtonData.textureID = il->LoadTextureGetID(volupButtonData.fileName.c_str(), false);
+	voldownButtonData.fileName = "Image\\GUI\\VolDown.png";
+	voldownButtonData.textureID = il->LoadTextureGetID(voldownButtonData.fileName.c_str(), false);
 	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Wii.ogg"), 2, true, true);
 	for (int i = 0; i < 6; i++)
 	{
@@ -128,8 +131,8 @@ bool CMenuState::Update(const double dElapsedTime)
 
 		// Create a window called "Hello, world!" and append into it.
 		ImGui::Begin("Main Menu", NULL, window_flags);
-		ImGui::SetWindowPos(ImVec2(CSettings::GetInstance()->iWindowWidth/2.0 - buttonWidth/2.0, 
-			CSettings::GetInstance()->iWindowHeight/3.0));				// Set the top-left of the window at (10,10)
+		ImGui::SetWindowPos(ImVec2(CSettings::GetInstance()->iWindowWidth / 2.0 - buttonWidth / 2.0,
+			CSettings::GetInstance()->iWindowHeight / 12.0));					// Set the top-left of the window at (10,10)
 		ImGui::SetWindowSize(ImVec2(CSettings::GetInstance()->iWindowWidth, CSettings::GetInstance()->iWindowHeight));
 
 		//Added rounding for nicer effect
@@ -161,8 +164,21 @@ bool CMenuState::Update(const double dElapsedTime)
 
 			return false;
 		}
+		// Add codes for Start button here
+		if (ImGui::ImageButton((ImTextureID)volupButtonData.textureID,
+			ImVec2(buttonWidth, buttonHeight), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0)))
+		{
+			cSoundController->MasterVolumeIncrease();
+		}
+		// Add codes for Exit button here
+		if (ImGui::ImageButton((ImTextureID)voldownButtonData.textureID,
+			ImVec2(buttonWidth, buttonHeight), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0)))
+		{
+			cSoundController->MasterVolumeDecrease();
+		}
 		ImGui::End();
 	}
+	
 
 	//For keyboard controls
 	if (CKeyboardController::GetInstance()->IsKeyReleased(GLFW_KEY_SPACE))

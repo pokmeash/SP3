@@ -96,6 +96,7 @@ bool CPlayer2D::Init(void)
 	// Set the start position of the Player to iRow and iCol
 	i32vec2Index = glm::i32vec2(uiCol, uiRow);
 	vec2WSCoordinate = i32vec2Index;
+	vec2WSCoordinate.x += 0.5;
 	vec2Vel = glm::vec2(0.f, 0.f);
 	// By default, microsteps should be zero
 	i32vec2NumMicroSteps = glm::i32vec2(0, 0);
@@ -169,6 +170,7 @@ bool CPlayer2D::Reset()
 	// Set the start position of the Player to iRow and iCol
 	i32vec2Index = glm::i32vec2(uiCol, uiRow);
 	vec2WSCoordinate = i32vec2Index;
+	vec2WSCoordinate.x += 0.5;
 	vec2Vel = glm::vec2(0.f, 0.f);
 	// By default, microsteps should be zero
 	i32vec2NumMicroSteps = glm::i32vec2(0, 0);
@@ -388,6 +390,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 
 	if (cKeyboardController->IsKeyPressed(GLFW_KEY_G))
 	{
+
 		cEntityManager->entitylist.push_back(cEntityFactory->ProduceBullets(vec2WSCoordinate, glm::f32vec2(0.5 * dirx, 0.5 * diry), glm::vec3(1, 1, 1), 0, E_BULLET));
 	}
 	//cSoundController->PlaySoundByID(3);

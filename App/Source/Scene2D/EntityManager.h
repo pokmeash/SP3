@@ -11,6 +11,9 @@ class EntityManager : public CSingletonTemplate<EntityManager>
 	friend CSingletonTemplate<EntityManager>;
 public:
 
+    // Handler to the CMap2D instance
+    CMap2D* cMap2D;
+
     // Constructor
     EntityManager(void);
 

@@ -11,6 +11,7 @@ EntityManager::~EntityManager(void)
 
 bool EntityManager::Init(void)
 {
+	cMap2D = CMap2D::GetInstance();
 	return false;
 }
 
@@ -24,9 +25,9 @@ void EntityManager::Update(const double dElapsedTime)
 			CEntity2D* entity = (CEntity2D*)*it;
 			if (entity->isactive)
 			{
+				entity->Update(dElapsedTime);
 				if (entity->type == CEntity2D::E_EBULLET)
 				{
-					entity->Update(dElapsedTime);
 					glm::i32vec2 temp;
 					temp.x = (int)entity->EntityVec2Index.x;
 					temp.y = (int)entity->EntityVec2Index.y;
@@ -38,7 +39,6 @@ void EntityManager::Update(const double dElapsedTime)
 				}
 				else if (entity->type == CEntity2D::E_SPIKE)
 				{
-					entity->Update(dElapsedTime);
 					glm::i32vec2 temp;
 					temp.x = (int)entity->EntityVec2Index.x;
 					temp.y = (int)entity->EntityVec2Index.y;
@@ -53,10 +53,14 @@ void EntityManager::Update(const double dElapsedTime)
 				}
 				if (entity->type == CEntity2D::E_BULLET)
 				{
-					entity->Update(dElapsedTime);
 					glm::i32vec2 temp;
 					temp.x = (int)entity->EntityVec2Index.x;
 					temp.y = (int)entity->EntityVec2Index.y;
+					cout << temp.x << ", " << temp.y << endl;
+					if (cMap2D->GetMapInfo(temp.y, temp.x) >= 100)
+					{
+						entity->isactive = false;
+					}
 				}
 
 			}
