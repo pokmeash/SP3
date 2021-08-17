@@ -43,6 +43,8 @@ CPlayer2D::CPlayer2D(void)
 
 	// Initialise vec2UVCoordinate
 	vec2UVCoordinate = glm::vec2(0.0f);
+	baseStats = new BaseAttribute();
+	
 }
 
 /**
@@ -74,6 +76,7 @@ CPlayer2D::~CPlayer2D(void)
   */
 bool CPlayer2D::Init(void)
 {
+	
 	// Store the keyboard controller singleton instance here
 	cKeyboardController = CKeyboardController::GetInstance();
 	// Reset all keys since we are starting a new game
@@ -148,6 +151,8 @@ bool CPlayer2D::Init(void)
 	// Get the handler to the CSoundController
 	cSoundController = CSoundController::GetInstance();
 	swap = true;
+
+	
 	return true;
 }
 
@@ -196,7 +201,6 @@ void CPlayer2D::Update(const double dElapsedTime)
 {
 	// Store the old position
 	i32vec2OldIndex = i32vec2Index;
-
 	// Get keyboard updates
 	if (cKeyboardController->IsKeyDown(GLFW_KEY_A))
 	{
@@ -392,10 +396,11 @@ void CPlayer2D::Update(const double dElapsedTime)
 	}
 
 
-
+	//Bullet spawn
 	if (cKeyboardController->IsKeyPressed(GLFW_KEY_G))
 	{
-		cEntityManager->entitylist.push_back(cEntityFactory->ProduceBullets(this->vec2GetCenter(), glm::f32vec2(0.5 * dirx, 0.5 * diry), glm::vec3(1, 1, 1), 0, E_BULLET));
+		cout << baseStats->getProjSpeed() << endl;
+		cEntityManager->entitylist.push_back(cEntityFactory->ProduceBullets(this->vec2GetCenter(), glm::f32vec2(baseStats->getProjSpeed() * dirx, baseStats->getProjSpeed()* diry), glm::vec3(1, 1, 1), 0, E_BULLET));
 	}
 	//cSoundController->PlaySoundByID(3);
 	// Update Jump or Fall
@@ -847,6 +852,10 @@ void CPlayer2D::InteractWithMap(void)
 		cInventoryItem->Add(1);
 		// Erase the life from this position
 		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
+		break;
+	case 11:
+		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
+		baseStats->addProjSpeed(.5);
 		break;
 	case 20:
 		// Decrease the health by 1

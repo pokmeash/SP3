@@ -37,3 +37,11 @@ Spike* EntityFactory::ProduceSpikes(float EntityVec2Indexx,float EntityVec2Index
 
 	return temp;
 }
+
+//CEnemy2D* EntityFactory::ProduceEnemy(void)
+//{
+//	CEnemy2D* temp = new CEnemy2D;
+//	temp->SetShader("2DColorShader");
+//	return nullptr;
+//}
+

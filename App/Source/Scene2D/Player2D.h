@@ -42,6 +42,11 @@ class CMap2D;
 
 #include "EntityManager.h"
 
+// Power up related stuff - changing of the attirbutes hp, dmg , etc..
+#include "Attribute.h"
+#include "AttributeDecorator.h"
+#include "BaseAttribute.h"
+
 extern bool wings;
 class CPlayer2D : public CSingletonTemplate<CPlayer2D>, public CEntity2D
 {
@@ -80,6 +85,9 @@ protected:
 
 	glm::i32vec2 i32vec2OldIndex;
 
+
+	Attribute* baseStats;
+
 	// Handler to the CMap2D instance
 	CMap2D* cMap2D;
 
@@ -109,6 +117,7 @@ protected:
 	EntityManager* cEntityManager;
 
 	EntityFactory* cEntityFactory;
+
 
 	// Constructor
 	CPlayer2D(void);

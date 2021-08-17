@@ -919,6 +919,7 @@ void CEnemy2D::FlipHorizontalDirection(void)
 	i32vec2Direction.x *= -1;
 }
 
+
 /**
 @brief Update position.
 */
@@ -954,10 +955,10 @@ void CEnemy2D::UpdatePosition(void)
 		}
 
 		// Check if enemy2D is in mid-air, such as walking off a platform
-		if (IsMidAir() == true)
+		/*if (IsMidAir() == true)
 		{
 			cPhysics2D.SetStatus(CPhysics2D::STATUS::FALL);
-		}
+		}*/
 
 		// Interact with the Player
 		InteractWithPlayer();
@@ -989,10 +990,10 @@ void CEnemy2D::UpdatePosition(void)
 		}
 
 		// Check if enemy2D is in mid-air, such as walking off a platform
-		if (IsMidAir() == true)
+		/*if (IsMidAir() == true)
 		{
 			cPhysics2D.SetStatus(CPhysics2D::STATUS::FALL);
-		}
+		}*/
 
 		// Interact with the Player
 		InteractWithPlayer();

@@ -29,6 +29,7 @@
 // Include CEnemy2D
 #include "Enemy2D.h"
 
+//#include "../App/Source/Enemy/SpaceFly.h"
 // Include vector
 #include <vector>
 
@@ -36,7 +37,7 @@
 #include "Inputs\KeyboardController.h"
 
 // GUI
-//#include "GUI/GUI.h"
+#include "GUI/GUI.h"
 // GUI_Scene2D
 #include "GUI_Scene2D.h"
 
@@ -70,6 +71,8 @@ public:
 	// A vector containing the instance of CEnemy2Ds
 	vector<CEntity2D*> enemyVector;
 
+	void setPause(bool n);
+
 protected:
 	// The handler containing the instance of the 2D Map
 	CMap2D* cMap2D;
@@ -98,5 +101,7 @@ protected:
 	CScene2D(void);
 	// Destructor
 	virtual ~CScene2D(void);
+
+	bool isPaused;
 };
 

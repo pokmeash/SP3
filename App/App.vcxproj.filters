@@ -21,6 +21,9 @@
     <Filter Include="Entity">
       <UniqueIdentifier>{222dbe78-732b-45ad-b2ba-88d9d05fe027}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Enemy">
+      <UniqueIdentifier>{e8719cc8-9e73-40eb-b2f1-f4f1060e2243}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp">
@@ -95,6 +98,18 @@
     <ClCompile Include="Source\GameStateManagement\WinState.cpp">
       <Filter>GameStateManagement</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Scene2D\Attribute.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\BaseAttribute.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\AttributeDecorator.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Enemy\SpaceFly.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -168,6 +183,18 @@
     </ClInclude>
     <ClInclude Include="Source\GameStateManagement\WinState.h">
       <Filter>GameStateManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\Attribute.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\BaseAttribute.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\AttributeDecorator.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Enemy\SpaceFly.h">
+      <Filter>Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

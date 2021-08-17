@@ -88,7 +88,7 @@ bool CScene2D::Init(void)
 	//CShaderManager::GetInstance()->Add("2DShader", "Shader//Scene2D.vs", "Shader//Scene2D.fs");
 	CShaderManager::GetInstance()->Use("2DShader");
 	CShaderManager::GetInstance()->activeShader->setInt("texture1", 0);
-
+	isPaused = false;
 	// Create and initialise the Map 2D
 	cMap2D = CMap2D::GetInstance();
 	// Set a shader to this class
@@ -141,14 +141,21 @@ bool CScene2D::Init(void)
 	while (true)
 	{
 		CEnemy2D* cEnemy2D = new CEnemy2D();
+		//SpaceFly* cEnemy = new SpaceFly();
 		// Pass shader to cEnemy2D
 		cEnemy2D->SetShader("2DColorShader");
+		//cEnemy->SetShader("2DColorShader");
 		// Initialise the instance
 		if (cEnemy2D->Init() == true)
 		{
 			cEnemy2D->SetPlayer2D(cPlayer2D);
 			enemyVector.push_back(cEnemy2D);
 		}
+		/*else if (cEnemy->Init() == true)
+		{
+			cEnemy->SetPlayer2D(cPlayer2D);
+			enemyVector.push_back(cEnemy);
+		}*/
 		else
 		{
 			// Break out of this loop if the enemy has all been loaded
@@ -192,6 +199,16 @@ bool CScene2D::Init(void)
 */
 bool CScene2D::Update(const double dElapsedTime)
 {
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_ESCAPE))
+	{
+		isPaused = !isPaused;
+	}
+
+	if (isPaused)
+	{
+		cGUI_Scene2D->updatePause(dElapsedTime);
+		return true;
+	}
 	// Call the cPlayer2D's update method before Map2D as we want to capture the inputs before map2D update
 	cPlayer2D->Update(dElapsedTime);
 
@@ -332,4 +349,9 @@ void CScene2D::Render(void)
  */
 void CScene2D::PostRender(void)
 {
+}
+
+void CScene2D::setPause(bool n)
+{
+	isPaused = n;
 }

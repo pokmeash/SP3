@@ -4,7 +4,7 @@
  Date: May 2021
  */
 #include "GUI_Scene2D.h"
-
+#include "Scene2D.h"
 #include <iostream>
 using namespace std;
 bool wings = false;
@@ -89,6 +89,9 @@ bool CGUI_Scene2D::Init(void)
 	cInventoryItem = cInventoryManager->Add("Tree", "Image/Scene2D_StarTile.tga", 5, 0);
 	cInventoryItem->vec2Size = glm::vec2(25, 25);
 
+	CImageLoader* ImageLoad = CImageLoader::GetInstance();
+	Resume = (ImTextureID)ImageLoad->LoadTextureGetID("Image\\GUI\\ResumeButton.png", false);
+	Exit = (ImTextureID)ImageLoad->LoadTextureGetID("Image\\GUI\\ExitButton2.png", false);
 	return true;
 }
 
@@ -257,4 +260,64 @@ void CGUI_Scene2D::Render(void)
  */
 void CGUI_Scene2D::PostRender(void)
 {
+}
+
+void CGUI_Scene2D::updatePause(float dElapsedTime)
+{
+	// Start the Dear ImGui frame
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplGlfw_NewFrame();
+	ImGui::NewFrame();
+
+	ImGuiWindowFlags window_flags = 0;
+	window_flags |= ImGuiWindowFlags_NoTitleBar;
+	window_flags |= ImGuiWindowFlags_NoScrollbar;
+	//window_flags |= ImGuiWindowFlags_MenuBar;
+	window_flags |= ImGuiWindowFlags_NoBackground;
+	window_flags |= ImGuiWindowFlags_NoMove;
+	window_flags |= ImGuiWindowFlags_NoCollapse;
+	window_flags |= ImGuiWindowFlags_NoNav;
+
+	float buttonWidth = 180;
+	float buttonHeight = 80;
+
+	// 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
+	{
+		static float f = 0.0f;
+		static int counter = 0;
+
+		// Create a window called "Hello, world!" and append into it.
+		ImGui::Begin("Pause Menu", NULL, window_flags);
+		ImGui::SetWindowPos(ImVec2(CSettings::GetInstance()->iWindowWidth / 2.0f - buttonWidth / 2.0f,
+			CSettings::GetInstance()->iWindowHeight / 3.0f));                // Set the top-left of the window at (10,10)
+		ImGui::SetWindowSize(ImVec2((float)CSettings::GetInstance()->iWindowWidth, (float)CSettings::GetInstance()->iWindowHeight));
+
+		//Added rounding for nicer effect
+		ImGuiStyle& style = ImGui::GetStyle();
+		style.FrameRounding = 200.0f;
+
+		// Add codes for Start button here
+		if (ImGui::ImageButton(Resume, ImVec2(buttonWidth, buttonHeight), ImVec2(0, 0), ImVec2(1, 1), 1)) {
+			//Load into the game
+
+			CScene2D::GetInstance()->setPause(false);
+		}
+
+		// Add codes for Exit button here
+		if (ImGui::ImageButton(Exit, ImVec2(buttonWidth, buttonHeight), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), 1))
+		{
+			// Reset the CKeyboardController
+			CKeyboardController::GetInstance()->Reset();
+
+
+			CSoundController::GetInstance()->StopAllSound();
+
+			// Load the menu state
+			cout << "Quitting to main menu" << endl;
+
+			CGameStateManager::GetInstance()->SetActiveGameState("MenuState");
+		}
+
+		ImGui::End();
+	}
 }

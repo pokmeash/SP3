@@ -1,6 +1,6 @@
 ﻿  Settings.cpp
-D:\Github\SP3\Library\Source\GameControl\Settings.cpp(64,55): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-D:\Github\SP3\Library\Source\GameControl\Settings.cpp(66,50): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Year 2 Sem 1\SP3\SP3\Library\Source\GameControl\Settings.cpp(64,55): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Year 2 Sem 1\SP3\SP3\Library\Source\GameControl\Settings.cpp(66,50): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
   imgui_impl_glfw.cpp
   imgui_impl_opengl3.cpp
   GUI.cpp
@@ -13,12 +13,12 @@ D:\Github\SP3\Library\Source\GameControl\Settings.cpp(66,50): warning C4244: '='
   MouseController.cpp
   Collider.cpp
   Entity2D.cpp
-D:\Github\SP3\Library\Source\Primitives\Entity2D.cpp(183,26): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
+D:\Year 2 Sem 1\SP3\SP3\Library\Source\Primitives\Entity2D.cpp(183,26): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
           with
           [
               T=float
           ]
-D:\Github\SP3\Library\Source\Primitives\Entity2D.cpp(184,26): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
+D:\Year 2 Sem 1\SP3\SP3\Library\Source\Primitives\Entity2D.cpp(184,26): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
           with
           [
               T=float
@@ -28,7 +28,7 @@ D:\Github\SP3\Library\Source\Primitives\Entity2D.cpp(184,26): warning C4244: '='
   Mesh.cpp
   MeshBuilder.cpp
   SpriteAnimation.cpp
-D:\Github\SP3\Library\Source\Primitives\SpriteAnimation.cpp(75,62): warning C4244: 'argument': conversion from 'double' to 'const unsigned int', possible loss of data
+D:\Year 2 Sem 1\SP3\SP3\Library\Source\Primitives\SpriteAnimation.cpp(75,62): warning C4244: 'argument': conversion from 'double' to 'const unsigned int', possible loss of data
   ShaderManager.cpp
   TextRenderer.cpp
   Generating Code...
@@ -41,4 +41,4 @@ D:\Github\SP3\Library\Source\Primitives\SpriteAnimation.cpp(75,62): warning C424
   FPSCounter.cpp
   StopWatch.cpp
   Generating Code...
-  Library.vcxproj -> D:\Github\SP3\Debug\Library.lib
+  Library.vcxproj -> D:\Year 2 Sem 1\SP3\SP3\Debug\Library.lib
