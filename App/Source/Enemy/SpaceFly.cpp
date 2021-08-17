@@ -84,7 +84,7 @@ bool SpaceFly::Init(void)
 	cSettings = CSettings::GetInstance();
 
 	// Get the handler to the CMap2D instance
-	cMap2D = CMap2D::GetInstance();
+	cMap2D = CMapManager::GetInstance();
 	// Find the indices for the player in arrMapInfo, and assign it to cPlayer2D
 	unsigned int uiRow = -1;
 	unsigned int uiCol = -1;
