@@ -32,4 +32,11 @@ public:
 	unsigned int GetCurrentLevel(void) const;
 	std::vector<glm::i32vec2> PathFind(const glm::i32vec2& startPos, const glm::i32vec2& targetPos, HeuristicFunction heuristicFunc, const int weight = 1);
 	void SetDiagonalMovement(const bool bEnable);
+	CMap2D* ProduceMap(unsigned int level) {
+		CMap2D* map = new CMap2D();
+		map->SetShader(sShaderName);
+		if (!map->Init()) return NULL;
+		floorList.push_back(map);
+		return map;
+	}
 };

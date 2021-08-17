@@ -17,7 +17,6 @@ CMapManager::~CMapManager()
 void CMapManager::SetShader(const std::string& _name)
 {
 	CEntity2D::SetShader(_name);
-	currentFloor->SetShader(_name);
 }
 
 bool CMapManager::Init(const unsigned int uiNumLevels, const unsigned int uiNumRows, const unsigned int uiNumCols)

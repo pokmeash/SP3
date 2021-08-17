@@ -6,6 +6,8 @@
 
 #include <string>
 #include <cstdlib>
+#include <iostream>
+#include <vector>
 #include "../GameControl/Settings.h"
 
 #ifdef __linux__ 
@@ -15,6 +17,11 @@
 	#include <direct.h>
 	#define GetCurrentDir _getcwd
 #endif
+
+#define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
+#include <experimental/filesystem>
+
+using namespace std;
 
 class FileSystem
 {
@@ -26,6 +33,24 @@ public:
 	{
 		static std::string(*pathBuilder)(std::string const &) = getPathBuilder();
 		return (*pathBuilder)(path);
+	}
+	static unsigned int getAmountOfSaves(const std::string& path) {
+		unsigned counter = 0;
+		for (auto const& dir_entry : std::experimental::filesystem::directory_iterator(path)) {
+			if (dir_entry.path().extension().generic_string().compare(".csv") == 0) {
+				++counter;
+			}
+		}
+		return counter;
+	}
+	static std::vector<std::string> getSaves(const std::string& path) {
+		std::vector<std::string> vect;
+		for (auto const& dir_entry : std::experimental::filesystem::directory_iterator(path)) {
+			if (dir_entry.path().extension().generic_string().compare(".csv") == 0) {
+				vect.push_back(dir_entry.path().generic_string());
+			}
+		}
+		return vect;
 	}
 
 private:
