@@ -11,7 +11,7 @@ EntityManager::~EntityManager(void)
 
 bool EntityManager::Init(void)
 {
-	cMap2D = CMap2D::GetInstance();
+	cMap2D = CMapManager::GetInstance();
 	return false;
 }
 

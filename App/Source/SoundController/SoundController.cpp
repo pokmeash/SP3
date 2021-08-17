@@ -154,8 +154,6 @@ bool CSoundController::MasterVolumeIncrease(void)
 	// Increase the volume by 10%
 	cSoundEngine->setSoundVolume(fCurrentVolume + 0.1f);
 
-	std::cout << "vol increaased" << endl;
-
 	return true;
 }
 
@@ -174,9 +172,6 @@ bool CSoundController::MasterVolumeDecrease(void)
 
 	// Decrease the volume by 10%
 	cSoundEngine->setSoundVolume(fCurrentVolume - 0.1f);
-
-
-	std::cout << "vol decreaased" << endl;
 
 	return true;
 }

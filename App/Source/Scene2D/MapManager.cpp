@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 #include "MapManager.h"
 
 CMapManager::CMapManager() : currentFloor(NULL), currentRoom(0) {
@@ -115,4 +113,4 @@ void CMapManager::SetDiagonalMovement(const bool bEnable)
 		currentFloor->SetDiagonalMovement(bEnable);
 	}
 }
->>>>>>> player-float-movement
+
