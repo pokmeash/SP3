@@ -224,7 +224,7 @@ void CEnemy2D::Update(const double dElapsedTime)
 		if (ammo)
 		{
 			//BULLET CODE HERE
-			cEntityManager->entitylist.push_back(cEntityFactory->ProduceBullets(i32vec2Index, glm::f32vec2(0.5 * dir, 0), glm::vec3(1, 1, 1), 0, E_BULLET));
+			cEntityManager->entitylist.push_back(cEntityFactory->ProduceBullets(i32vec2Index, glm::f32vec2(0.5 * dir, 0), glm::vec3(1, 1, 1), 0, E_EBULLET));
 			ammo = false;
 		}
 		if (iFSMCounter > iMaxFSMCounter)

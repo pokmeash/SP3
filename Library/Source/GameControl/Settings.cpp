@@ -81,7 +81,7 @@ void CSettings::ConvertFloatToIndexSpace(const AXIS sAxis, const float fCoord, i
 		*iIndex = (int)(fCoord - 0.5f);
 		*iMicro = (int)(NUM_STEPS_PER_TILE_XAXIS * fOffset);
 		if (*iMicro >= NUM_STEPS_PER_TILE_XAXIS) {
-			*iMicro = 0;
+			*iMicro = (int)(NUM_STEPS_PER_TILE_YAXIS * fOffset) - NUM_STEPS_PER_TILE_XAXIS;
 			(*iIndex)++;
 		}
 	} else if (sAxis == y) {
@@ -89,7 +89,7 @@ void CSettings::ConvertFloatToIndexSpace(const AXIS sAxis, const float fCoord, i
 		*iIndex = (int)(fCoord);
 		*iMicro = (int)(NUM_STEPS_PER_TILE_YAXIS * fOffset);
 		if (*iMicro >= NUM_STEPS_PER_TILE_YAXIS) {
-			*iMicro = 0;
+			*iMicro = (int)(NUM_STEPS_PER_TILE_YAXIS * fOffset) - NUM_STEPS_PER_TILE_YAXIS;
 			(*iIndex)++;
 		}
 	}

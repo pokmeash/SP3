@@ -1,0 +1,4 @@
+﻿  Settings.cpp
+C:\Users\desti\Documents\GitHub\SP3\Library\Source\GameControl\Settings.cpp(84,56): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\desti\Documents\GitHub\SP3\Library\Source\GameControl\Settings.cpp(92,56): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Library.vcxproj -> C:\Users\desti\Documents\GitHub\SP3\Debug\Library.lib
