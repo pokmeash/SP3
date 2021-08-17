@@ -34,6 +34,7 @@ CMap2D::CMap2D(void)
  */
 CMap2D::~CMap2D(void)
 {
+	if (!cSettings) return;
 	// Delete AStar lists
 	DeleteAStarLists();
 
@@ -52,9 +53,6 @@ CMap2D::~CMap2D(void)
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
-
-	// Set this to NULL since it was created elsewhere, so we let it be deleted there.
-	cSettings = NULL;
 }
 
 /**

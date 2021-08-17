@@ -59,7 +59,6 @@ CIntroState::~CIntroState(void)
  */
 bool CIntroState::Init(void)
 {
-
 	// Include Shader Manager
 	CShaderManager::GetInstance()->Use("2DShader");
 	CShaderManager::GetInstance()->activeShader->setInt("texture1", 0);

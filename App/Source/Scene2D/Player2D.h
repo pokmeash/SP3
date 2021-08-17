@@ -23,7 +23,7 @@
 #include "Primitives/Entity2D.h"
 
 // Include the Map2D as we will use it to check the player's movements and actions
-class CMap2D;
+class CMapManager;
 
 // Include Keyboard controller
 #include "Inputs\KeyboardController.h"
@@ -41,11 +41,6 @@ class CMap2D;
 #include "..\SoundController\SoundController.h"
 
 #include "EntityManager.h"
-
-// Power up related stuff - changing of the attirbutes hp, dmg , etc..
-#include "Attribute.h"
-#include "AttributeDecorator.h"
-#include "BaseAttribute.h"
 
 extern bool wings;
 class CPlayer2D : public CSingletonTemplate<CPlayer2D>, public CEntity2D
@@ -85,11 +80,12 @@ protected:
 
 	glm::i32vec2 i32vec2OldIndex;
 
+	glm::vec2 vec2WSOldCoordinates;
 
-	Attribute* baseStats;
+	glm::vec2 vec2Vel;
 
 	// Handler to the CMap2D instance
-	CMap2D* cMap2D;
+	CMapManager* cMap2D;
 
 	// Keyboard Controller singleton instance
 	CKeyboardController* cKeyboardController;
@@ -117,7 +113,6 @@ protected:
 	EntityManager* cEntityManager;
 
 	EntityFactory* cEntityFactory;
-
 
 	// Constructor
 	CPlayer2D(void);

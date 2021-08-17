@@ -148,7 +148,7 @@ bool CSoundController::MasterVolumeIncrease(void)
 	float fCurrentVolume = cSoundEngine->getSoundVolume();
 
 	// Check if the maximum volume has been reached
-	if (fCurrentVolume == 1.0f)
+	if (fCurrentVolume >= 1.0f)
 		return false;
 
 	// Increase the volume by 10%
@@ -167,7 +167,7 @@ bool CSoundController::MasterVolumeDecrease(void)
 	float fCurrentVolume = cSoundEngine->getSoundVolume();
 
 	// Check if the minimum volume has been reached
-	if (fCurrentVolume == 0.0f)
+	if (fCurrentVolume <= 0.0f)
 		return false;
 
 	// Decrease the volume by 10%

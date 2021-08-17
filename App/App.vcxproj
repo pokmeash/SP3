@@ -25,6 +25,7 @@
     <ClCompile Include="Source\Scene2D\BackgroundEntity.cpp" />
     <ClCompile Include="Source\Scene2D\BaseAttribute.cpp" />
     <ClCompile Include="Source\Scene2D\Bullet.cpp" />
+    <ClCompile Include="Source\Scene2D\DoubleShot.cpp" />
     <ClCompile Include="Source\Scene2D\Enemy2D.cpp" />
     <ClCompile Include="Source\Scene2D\EntityFactory.cpp" />
     <ClCompile Include="Source\Scene2D\EntityManager.cpp" />
@@ -35,6 +36,7 @@
     <ClCompile Include="Source\Scene2D\Map2D.cpp" />
     <ClCompile Include="Source\Scene2D\Physics2D.cpp" />
     <ClCompile Include="Source\Scene2D\Player2D.cpp" />
+    <ClCompile Include="Source\Scene2D\MapManager.cpp" />
     <ClCompile Include="Source\Scene2D\Scene2D.cpp" />
     <ClCompile Include="Source\Scene2D\Spike.cpp" />
     <ClCompile Include="Source\SoundController\SoundController.cpp" />
@@ -55,6 +57,7 @@
     <ClInclude Include="Source\Scene2D\BackgroundEntity.h" />
     <ClInclude Include="Source\Scene2D\BaseAttribute.h" />
     <ClInclude Include="Source\Scene2D\Bullet.h" />
+    <ClInclude Include="Source\Scene2D\DoubleShot.h" />
     <ClInclude Include="Source\Scene2D\Enemy2D.h" />
     <ClInclude Include="Source\Scene2D\EntityFactory.h" />
     <ClInclude Include="Source\Scene2D\EntityManager.h" />
@@ -65,6 +68,7 @@
     <ClInclude Include="Source\Scene2D\Map2D.h" />
     <ClInclude Include="Source\Scene2D\Physics2D.h" />
     <ClInclude Include="Source\Scene2D\Player2D.h" />
+    <ClInclude Include="Source\Scene2D\MapManager.h" />
     <ClInclude Include="Source\Scene2D\Scene2D.h" />
     <ClInclude Include="Source\Scene2D\Spike.h" />
     <ClInclude Include="Source\SoundController\SoundController.h" />

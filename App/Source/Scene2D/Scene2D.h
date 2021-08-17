@@ -23,7 +23,7 @@
 #include "RenderControl\ShaderManager.h"
 
 // Include the Map2D as we will use it to check the player's movements and actions
-#include "Map2D.h"
+#include "MapManager.h"
 // Include CPlayer2D
 #include "Player2D.h"
 // Include CEnemy2D
@@ -75,7 +75,7 @@ public:
 
 protected:
 	// The handler containing the instance of the 2D Map
-	CMap2D* cMap2D;
+	CMapManager* cMap2D;
 	// The handler containing the instance of CPlayer2Ds
 	CPlayer2D* cPlayer2D;
 

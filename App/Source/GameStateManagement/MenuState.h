@@ -53,6 +53,8 @@ protected:
 	CBackgroundEntity* background;
 	ButtonData startButtonData;
 	ButtonData exitButtonData;
+	ButtonData volupButtonData;
+	ButtonData voldownButtonData;
 
 	// Handler to the CSoundController
 	CSoundController* cSoundController;

@@ -15,9 +15,10 @@ using namespace std;
 #include "System\ImageLoader.h"
 
 // Include the Map2D as we will use it to check the player's movements and actions
-#include "Map2D.h"
+#include "MapManager.h"
 #include "Primitives/MeshBuilder.h"
-
+#include "Inputs/MouseController.h"
+#include "System/MyMath.h"
 // Include Game Manager
 #include "GameManager.h"
 
@@ -43,8 +44,6 @@ CPlayer2D::CPlayer2D(void)
 
 	// Initialise vec2UVCoordinate
 	vec2UVCoordinate = glm::vec2(0.0f);
-	baseStats = new BaseAttribute();
-	
 }
 
 /**
@@ -76,7 +75,6 @@ CPlayer2D::~CPlayer2D(void)
   */
 bool CPlayer2D::Init(void)
 {
-	
 	// Store the keyboard controller singleton instance here
 	cKeyboardController = CKeyboardController::GetInstance();
 	// Reset all keys since we are starting a new game
@@ -86,7 +84,7 @@ bool CPlayer2D::Init(void)
 	cSettings = CSettings::GetInstance();
 	cEntityManager = EntityManager::GetInstance();
 	// Get the handler to the CMap2D instance
-	cMap2D = CMap2D::GetInstance();
+	cMap2D = CMapManager::GetInstance();
 	// Find the indices for the player in arrMapInfo, and assign it to cPlayer2D
 	unsigned int uiRow = -1;
 	unsigned int uiCol = -1;
@@ -98,6 +96,9 @@ bool CPlayer2D::Init(void)
 
 	// Set the start position of the Player to iRow and iCol
 	i32vec2Index = glm::i32vec2(uiCol, uiRow);
+	vec2WSCoordinate = i32vec2Index;
+	vec2WSCoordinate.x += 0.5;
+	vec2Vel = glm::vec2(0.f, 0.f);
 	// By default, microsteps should be zero
 	i32vec2NumMicroSteps = glm::i32vec2(0, 0);
 
@@ -142,17 +143,19 @@ bool CPlayer2D::Init(void)
 	// Add a Wing icon as one of the inventory items
 	cInventoryItem = cInventoryManager->Add("Wing", "Image/Scene2D_WingsTile.tga", 100, 100);
 	cInventoryItem->vec2Size = glm::vec2(25, 25);
+	
+	// Add a Wing icon as one of the inventory items
+	cInventoryItem = cInventoryManager->Add("DoubleShot", "Image/DoubleShot.png", 100, 100);
+	cInventoryItem->vec2Size = glm::vec2(25, 25);
 
 	jumpCount = 0;
 
 	dirx = 0;
-	diry = 1;
+	diry = -1;
 
 	// Get the handler to the CSoundController
 	cSoundController = CSoundController::GetInstance();
 	swap = true;
-
-	
 	return true;
 }
 
@@ -171,6 +174,9 @@ bool CPlayer2D::Reset()
 
 	// Set the start position of the Player to iRow and iCol
 	i32vec2Index = glm::i32vec2(uiCol, uiRow);
+	vec2WSCoordinate = i32vec2Index;
+	vec2WSCoordinate.x += 0.5;
+	vec2Vel = glm::vec2(0.f, 0.f);
 	// By default, microsteps should be zero
 	i32vec2NumMicroSteps = glm::i32vec2(0, 0);
 
@@ -200,29 +206,28 @@ bool CPlayer2D::Reset()
 void CPlayer2D::Update(const double dElapsedTime)
 {
 	// Store the old position
-	i32vec2OldIndex = i32vec2Index;
+	vec2WSOldCoordinates = vec2WSCoordinate;
+
 	// Get keyboard updates
 	if (cKeyboardController->IsKeyDown(GLFW_KEY_A))
 	{
 		// Calculate the new position to the left
-		if (i32vec2Index.x >= 0)
+		if (vec2WSCoordinate.x >= 0)
 		{
-			i32vec2NumMicroSteps.x-= 4;
-			if (i32vec2NumMicroSteps.x < 0)
-			{
-				i32vec2NumMicroSteps.x = ((int)cSettings->NUM_STEPS_PER_TILE_XAXIS);
-				i32vec2Index.x--;
-			}
+			vec2WSCoordinate.x -= 4.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
 		}
+		cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
 
 		// Constraint the player's position within the screen boundary
 		Constraint(LEFT);
 
+		vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
+
 		// If the new position is not feasible, then revert to old position
 		if (CheckPosition(LEFT) == false)
 		{
-			i32vec2Index = i32vec2OldIndex;
-			i32vec2NumMicroSteps.x = 0;
+			vec2WSCoordinate.x += 4.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
+			cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
 		}
 
 		// Check if player is in mid-air, such as walking off a platform
@@ -241,24 +246,23 @@ void CPlayer2D::Update(const double dElapsedTime)
 	else if (cKeyboardController->IsKeyDown(GLFW_KEY_D))
 	{
 		// Calculate the new position to the right
-		if (i32vec2Index.x < (int)cSettings->NUM_TILES_XAXIS)
+		if (vec2WSCoordinate.x < cSettings->NUM_TILES_XAXIS)
 		{
-			i32vec2NumMicroSteps.x+= 4;
-
-			if (i32vec2NumMicroSteps.x >= cSettings->NUM_STEPS_PER_TILE_XAXIS)
-			{
-				i32vec2NumMicroSteps.x = 0;
-				i32vec2Index.x++;
-			}
+			vec2WSCoordinate.x += 4.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
 		}
+
+		cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
 
 		// Constraint the player's position within the screen boundary
 		Constraint(RIGHT);
+
+		vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
 
 		// If the new position is not feasible, then revert to old position
 		if (CheckPosition(RIGHT) == false)
 		{
 			i32vec2NumMicroSteps.x = 0;
+			vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
 		}
 
 		// Check if player is in mid-air, such as walking off a platform
@@ -277,22 +281,20 @@ void CPlayer2D::Update(const double dElapsedTime)
 	if (cKeyboardController->IsKeyDown(GLFW_KEY_W))
 	{
 		// Calculate the new position up
-		if (i32vec2Index.y < (int)cSettings->NUM_TILES_YAXIS)
+		if (vec2WSCoordinate.y < cSettings->NUM_TILES_YAXIS)
 		{
-			i32vec2NumMicroSteps.y += 4;
-			if (i32vec2NumMicroSteps.y > cSettings->NUM_STEPS_PER_TILE_YAXIS)
-			{
-				i32vec2NumMicroSteps.y = 0;
-				i32vec2Index.y++;
-			}
+			vec2WSCoordinate.y += 4.f / cSettings->NUM_STEPS_PER_TILE_YAXIS;
 		}
+		cSettings->ConvertFloatToIndexSpace(cSettings->y, vec2WSCoordinate.y, &i32vec2Index.y, &i32vec2NumMicroSteps.y);
+		
 		// Constraint the player's position within the screen boundary
 		Constraint(UP);
-
+		vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
 		// If the new position is not feasible, then revert to old position
 		if (CheckPosition(UP) == false)
 		{
 			i32vec2NumMicroSteps.y = 0;
+			vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
 		}
 
 		//CS: Play the "idle" animation
@@ -305,26 +307,21 @@ void CPlayer2D::Update(const double dElapsedTime)
 	else if (cKeyboardController->IsKeyDown(GLFW_KEY_S))
 	{
 		// Calculate the new position down
-		if (i32vec2Index.y >= 0)
+		if (vec2WSCoordinate.y >= 0)
 		{
-			i32vec2NumMicroSteps.y -= 4;
-			if (i32vec2NumMicroSteps.y < 0)
-			{
-				i32vec2NumMicroSteps.y = ((int)cSettings->NUM_STEPS_PER_TILE_YAXIS);
-				i32vec2Index.y--;
-			}
+			vec2WSCoordinate.y -= 4.f / cSettings->NUM_STEPS_PER_TILE_YAXIS;
 		}
-
+		cSettings->ConvertFloatToIndexSpace(cSettings->y, vec2WSCoordinate.y, &i32vec2Index.y, &i32vec2NumMicroSteps.y);
 		// Constraint the player's position within the screen boundary
 		Constraint(DOWN);
-
+		vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
 		// If the new position is not feasible, then revert to old position
 		if (CheckPosition(DOWN) == false)
 		{
-			i32vec2Index = i32vec2OldIndex;
+			i32vec2Index.y++;
 			i32vec2NumMicroSteps.y = 0;
+			vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
 		}
-
 		//CS: Play the "idle" animation
 		animatedSprites->PlayAnimation("idle", -1, 1.0f);
 		currentColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
@@ -395,12 +392,34 @@ void CPlayer2D::Update(const double dElapsedTime)
 		cSoundController->PlaySoundByID(8);
 	}
 
-
-	//Bullet spawn
-	if (cKeyboardController->IsKeyPressed(GLFW_KEY_G))
+	static float delay = 0.f;
+	if (CMouseController::GetInstance()->IsButtonDown(0) && delay <= 0.f)
 	{
-		cout << baseStats->getProjSpeed() << endl;
-		cEntityManager->entitylist.push_back(cEntityFactory->ProduceBullets(this->vec2GetCenter(), glm::f32vec2(baseStats->getProjSpeed() * dirx, baseStats->getProjSpeed()* diry), glm::vec3(1, 1, 1), 0, E_BULLET));
+		delay = 0.5f;
+		glm::i32vec2 mouse((int)CMouseController::GetInstance()->GetMousePositionX(), (int)CMouseController::GetInstance()->GetMousePositionY());
+		glm::vec2 wsSpace(0.f, 0.f);
+		cSettings->ConvertMouseToWSSpace(mouse.x, mouse.y, &(wsSpace.x), &(wsSpace.y));
+		glm::vec2 direction = wsSpace - vec2WSCoordinate;
+		direction = glm::normalize(direction);
+		direction *= 0.5f;
+		if (cInventoryManager->Check("Tree"))
+		{
+			cInventoryItem = cInventoryManager->GetItem("Tree");
+			for (int i = -cInventoryItem->GetCount(); i <= cInventoryItem->GetCount(); i++)
+			{
+				glm::vec2 temp = direction;
+				cout << (Math::RadianToDegree(atan2f(temp.y, temp.x)) * i) << endl;
+				temp.y = sinf(atan2f(temp.y, temp.x) + 0.1 * i);
+				temp.x = cosf(atan2f(temp.y, temp.x) + 0.1 * i);
+				cout << temp.y << endl;
+				cout << temp.x << endl;
+				temp = glm::normalize(temp) * 0.5f;
+				cEntityManager->entitylist.push_back(cEntityFactory->ProduceBullets(vec2WSCoordinate, glm::vec2(temp.x, temp.y), glm::vec3(1, 1, 1), 0, E_BULLET));
+			}
+		}
+	}
+	if (delay > 0) {
+		delay -= dElapsedTime;
 	}
 	//cSoundController->PlaySoundByID(3);
 	// Update Jump or Fall
@@ -417,8 +436,8 @@ void CPlayer2D::Update(const double dElapsedTime)
 	animatedSprites->Update(dElapsedTime);
 
 	// Update the UV Coordinates
-	vec2UVCoordinate.x = cSettings->ConvertIndexToUVSpace(cSettings->x, i32vec2Index.x, false, i32vec2NumMicroSteps.x*cSettings->MICRO_STEP_XAXIS);
-	vec2UVCoordinate.y = cSettings->ConvertIndexToUVSpace(cSettings->y, i32vec2Index.y, false, i32vec2NumMicroSteps.y*cSettings->MICRO_STEP_YAXIS);
+	vec2UVCoordinate.x = cSettings->ConvertFloatToUVSpace(cSettings->x, vec2WSCoordinate.x, false);
+	vec2UVCoordinate.y = cSettings->ConvertFloatToUVSpace(cSettings->y, vec2WSCoordinate.y, false);
 	
 	//Update Door
 	if (cInventoryManager->Check("Tree"))
@@ -478,7 +497,6 @@ void CPlayer2D::Render(void)
 	animatedSprites->Render();
 
 	glBindVertexArray(0);
-
 }
 
 /**
@@ -852,10 +870,6 @@ void CPlayer2D::InteractWithMap(void)
 		cInventoryItem->Add(1);
 		// Erase the life from this position
 		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
-		break;
-	case 11:
-		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
-		baseStats->addProjSpeed(.5);
 		break;
 	case 20:
 		// Decrease the health by 1
