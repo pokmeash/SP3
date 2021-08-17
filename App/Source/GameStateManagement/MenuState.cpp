@@ -58,7 +58,6 @@ CMenuState::~CMenuState(void)
  */
 bool CMenuState::Init(void)
 {
-
 	CShaderManager::GetInstance()->Use("2DShader");
 	CShaderManager::GetInstance()->activeShader->setInt("texture1", 0);
 	cSoundController = CSoundController::GetInstance();

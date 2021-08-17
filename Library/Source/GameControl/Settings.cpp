@@ -95,6 +95,14 @@ void CSettings::ConvertFloatToIndexSpace(const AXIS sAxis, const float fCoord, i
 	}
 }
 
+void CSettings::ConvertMouseToWSSpace(int mouseX, int mouseY, float* posX, float* posY)
+{
+	int w = iWindowWidth;
+	int h = iWindowHeight;
+	*posX = (float)mouseX / w * NUM_TILES_XAXIS;
+	*posY = (float)(h - mouseY) / h * NUM_TILES_YAXIS;
+}
+
 // Update the specifications of the map
 void CSettings::UpdateSpecifications(void)
 {

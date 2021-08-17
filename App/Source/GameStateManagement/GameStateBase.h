@@ -8,9 +8,13 @@
  */
 class CGameStateBase
 {
+protected:
+	bool initalized;
 public:
 	// Constructor
-	CGameStateBase(void) {}
+	CGameStateBase(void) {
+		initalized = false;
+	}
 	// Destructor
 	virtual ~CGameStateBase(void) {}
 

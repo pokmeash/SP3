@@ -5,9 +5,6 @@
  */
 #pragma once
 
-// Include SingletonTemplate
-#include "DesignPatterns\SingletonTemplate.h"
-
 // Include GLEW
 #ifndef GLEW_STATIC
 #include <GL/glew.h>
@@ -71,60 +68,65 @@ namespace heuristic
 	unsigned int euclidean(const glm::i32vec2& v1, const glm::i32vec2& v2, int weight);
 }
 
-class CMap2D : public CSingletonTemplate<CMap2D>, public CEntity2D
+class CMap2D : public CEntity2D
 {
-	friend CSingletonTemplate<CMap2D>;
 public:
+	// Constructor
+	CMap2D(void);
+
+	// Destructor
+	virtual ~CMap2D(void);
+
 	// Init
-	bool Init(	const unsigned int uiNumLevels = 1,
+	virtual bool Init(	const unsigned int uiNumLevels = 1,
 				const unsigned int uiNumRows = 24,
 				const unsigned int uiNumCols = 32);
 
 	// Update
-	void Update(const double dElapsedTime);
+	virtual void Update(const double dElapsedTime);
 
 	// PreRender
-	void PreRender(void);
+	virtual void PreRender(void);
 
 	// Render
-	void Render(void);
+	virtual void Render(void);
 
 	// PostRender
-	void PostRender(void);
+	virtual void PostRender(void);
 
 	// Set the specifications of the map
-	void SetNumTiles(const CSettings::AXIS sAxis, const unsigned int uiValue);
-	void SetNumSteps(const CSettings::AXIS sAxis, const unsigned int uiValue);
+	virtual void SetNumTiles(const CSettings::AXIS sAxis, const unsigned int uiValue);
+	virtual void SetNumSteps(const CSettings::AXIS sAxis, const unsigned int uiValue);
 
 	// Set the value at certain indices in the arrMapInfo
-	void SetMapInfo(const unsigned int uiRow, const unsigned int uiCol, const int iValue, const bool bInvert = true);
+	virtual void SetMapInfo(const unsigned int uiRow, const unsigned int uiCol, const int iValue, const bool bInvert = true);
 
 	// Get the value at certain indices in the arrMapInfo
-	int GetMapInfo(const unsigned int uiRow, const unsigned int uiCol, const bool bInvert = true) const;
+	virtual int GetMapInfo(const unsigned int uiRow, const unsigned int uiCol, const bool bInvert = true) const;
 
 	// Load a map
-	bool LoadMap(string filename, const unsigned int uiLevel = 0);
+	virtual bool LoadMap(string filename, const unsigned int uiLevel = 0);
 
 	// Save a tilemap
-	bool SaveMap(string filename, const unsigned int uiLevel = 0);
+	virtual bool SaveMap(string filename, const unsigned int uiLevel = 0);
 
 	// Find the indices of a certain value in arrMapInfo
-	bool FindValue(const int iValue, unsigned int& uirRow, unsigned int& uirCol, const bool bInvert = true);
+	virtual bool FindValue(const int iValue, unsigned int& uirRow, unsigned int& uirCol, const bool bInvert = true);
 
 	// Set current level
-	void SetCurrentLevel(unsigned int uiCurLevel);
+	virtual void SetCurrentLevel(unsigned int uiCurLevel);
 	// Get current level
-	unsigned int GetCurrentLevel(void) const;
+	virtual unsigned int GetCurrentLevel(void) const;
 
 	// For AStar PathFinding
-	std::vector<glm::i32vec2> PathFind(	const glm::i32vec2& startPos, 
+	virtual std::vector<glm::i32vec2> PathFind(	const glm::i32vec2& startPos,
 										const glm::i32vec2& targetPos, 
 										HeuristicFunction heuristicFunc, 
 										const int weight = 1);
 	// Set if AStar PathFinding will consider diagonal movements
-	void SetDiagonalMovement(const bool bEnable);
+	virtual void SetDiagonalMovement(const bool bEnable);
 	// Print out details about this class instance in the console window
-	void PrintSelf(void) const;
+	virtual void PrintSelf(void) const;
 
 protected:
 	// The variable containing the rapidcsv::Document
@@ -147,12 +149,6 @@ protected:
 
 	//CS: The quadMesh for drawing the tiles
 	CMesh* quadMesh;
-
-	// Constructor
-	CMap2D(void);
-
-	// Destructor
-	virtual ~CMap2D(void);
 
 	// Load a texture
 	bool LoadTexture(const char* filename, const int iTextureCode);
