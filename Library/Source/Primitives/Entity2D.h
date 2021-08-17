@@ -76,9 +76,12 @@ public:
 
 	enum ENTITY_TYPE {
 		E_NULL,
+		//Projectile
 		E_BULLET,
 		E_EBULLET,
 		E_SPIKE,
+		//Powerup
+		E_DOUBLESHOT,
 		E_ENEMY,
 	};
 

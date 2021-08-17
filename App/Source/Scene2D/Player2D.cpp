@@ -18,7 +18,7 @@ using namespace std;
 #include "MapManager.h"
 #include "Primitives/MeshBuilder.h"
 #include "Inputs/MouseController.h"
-
+#include "System/MyMath.h"
 // Include Game Manager
 #include "GameManager.h"
 
@@ -143,11 +143,15 @@ bool CPlayer2D::Init(void)
 	// Add a Wing icon as one of the inventory items
 	cInventoryItem = cInventoryManager->Add("Wing", "Image/Scene2D_WingsTile.tga", 100, 100);
 	cInventoryItem->vec2Size = glm::vec2(25, 25);
+	
+	// Add a Wing icon as one of the inventory items
+	cInventoryItem = cInventoryManager->Add("DoubleShot", "Image/DoubleShot.png", 100, 100);
+	cInventoryItem->vec2Size = glm::vec2(25, 25);
 
 	jumpCount = 0;
 
 	dirx = 0;
-	diry = 1;
+	diry = -1;
 
 	// Get the handler to the CSoundController
 	cSoundController = CSoundController::GetInstance();
@@ -318,7 +322,6 @@ void CPlayer2D::Update(const double dElapsedTime)
 			i32vec2NumMicroSteps.y = 0;
 			vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
 		}
-		std::cout << "[" << i32vec2Index.x << ", " << i32vec2Index.y << "] [" << i32vec2NumMicroSteps.x << ", " << i32vec2NumMicroSteps.y << "]\n";
 		//CS: Play the "idle" animation
 		animatedSprites->PlayAnimation("idle", -1, 1.0f);
 		currentColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
@@ -399,7 +402,21 @@ void CPlayer2D::Update(const double dElapsedTime)
 		glm::vec2 direction = wsSpace - vec2WSCoordinate;
 		direction = glm::normalize(direction);
 		direction *= 0.5f;
-		cEntityManager->entitylist.push_back(cEntityFactory->ProduceBullets(vec2WSCoordinate, direction, glm::vec3(1, 1, 1), 0, E_BULLET));
+		if (cInventoryManager->Check("Tree"))
+		{
+			cInventoryItem = cInventoryManager->GetItem("Tree");
+			for (int i = -cInventoryItem->GetCount(); i <= cInventoryItem->GetCount(); i++)
+			{
+				glm::vec2 temp = direction;
+				cout << (Math::RadianToDegree(atan2f(temp.y, temp.x)) * i) << endl;
+				temp.y = sinf(atan2f(temp.y, temp.x) + 0.1 * i);
+				temp.x = cosf(atan2f(temp.y, temp.x) + 0.1 * i);
+				cout << temp.y << endl;
+				cout << temp.x << endl;
+				temp = glm::normalize(temp) * 0.5f;
+				cEntityManager->entitylist.push_back(cEntityFactory->ProduceBullets(vec2WSCoordinate, glm::vec2(temp.x, temp.y), glm::vec3(1, 1, 1), 0, E_BULLET));
+			}
+		}
 	}
 	if (delay > 0) {
 		delay -= dElapsedTime;

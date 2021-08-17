@@ -21,6 +21,7 @@
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Scene2D\BackgroundEntity.cpp" />
     <ClCompile Include="Source\Scene2D\Bullet.cpp" />
+    <ClCompile Include="Source\Scene2D\DoubleShot.cpp" />
     <ClCompile Include="Source\Scene2D\Enemy2D.cpp" />
     <ClCompile Include="Source\Scene2D\EntityFactory.cpp" />
     <ClCompile Include="Source\Scene2D\EntityManager.cpp" />
@@ -48,6 +49,7 @@
     <ClInclude Include="Source\GameStateManagement\WinState.h" />
     <ClInclude Include="Source\Scene2D\BackgroundEntity.h" />
     <ClInclude Include="Source\Scene2D\Bullet.h" />
+    <ClInclude Include="Source\Scene2D\DoubleShot.h" />
     <ClInclude Include="Source\Scene2D\Enemy2D.h" />
     <ClInclude Include="Source\Scene2D\EntityFactory.h" />
     <ClInclude Include="Source\Scene2D\EntityManager.h" />

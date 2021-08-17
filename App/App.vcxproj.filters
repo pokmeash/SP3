@@ -21,6 +21,9 @@
     <Filter Include="Entity">
       <UniqueIdentifier>{222dbe78-732b-45ad-b2ba-88d9d05fe027}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Powerups">
+      <UniqueIdentifier>{0b516f3b-67f9-4bca-863b-eb593daab0f8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp">
@@ -98,6 +101,9 @@
     <ClCompile Include="Source\Scene2D\MapManager.cpp">
       <Filter>Scene2D</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Scene2D\DoubleShot.cpp">
+      <Filter>Powerups</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -174,6 +180,9 @@
     </ClInclude>
     <ClInclude Include="Source\Scene2D\MapManager.h">
       <Filter>Scene2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\DoubleShot.h">
+      <Filter>Powerups</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
