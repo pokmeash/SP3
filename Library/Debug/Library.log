@@ -1,15 +1,4 @@
-﻿  GUI.cpp
-  Entity2D.cpp
-D:\SP3\SP3\Library\Source\Primitives\Entity2D.cpp(183,26): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-D:\SP3\SP3\Library\Source\Primitives\Entity2D.cpp(184,26): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-  TextRenderer.cpp
-  Generating Code...
-  Library.vcxproj -> D:\SP3\SP3\Debug\Library.lib
+﻿  Settings.cpp
+C:\Users\desti\Documents\GitHub\SP3\Library\Source\GameControl\Settings.cpp(84,56): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\desti\Documents\GitHub\SP3\Library\Source\GameControl\Settings.cpp(92,56): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Library.vcxproj -> C:\Users\desti\Documents\GitHub\SP3\Debug\Library.lib

@@ -80,6 +80,10 @@ protected:
 
 	glm::i32vec2 i32vec2OldIndex;
 
+	glm::vec2 vec2WSOldCoordinates;
+
+	glm::vec2 vec2Vel;
+
 	// Handler to the CMap2D instance
 	CMap2D* cMap2D;
 
