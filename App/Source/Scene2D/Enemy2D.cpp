@@ -111,7 +111,6 @@ bool CEnemy2D::Init(void)
 		return false;
 	}
 
-
 	//CS: Create the animated sprite and setup the animation 
 	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(3, 3, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
 	animatedSprites->AddAnimation("idle", 0, 2);
