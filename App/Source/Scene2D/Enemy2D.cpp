@@ -241,15 +241,10 @@ void CEnemy2D::Update(const double dElapsedTime)
 		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, cPlayer2D->vec2WSCoordinate) < 5.0f)
 		{
 			// Calculate a path to the player
-			//cMap2D->PrintSelf();
-			//cout << "StartPos: " << i32vec2Index.x << ", " << i32vec2Index.y << endl;
-			//cout << "TargetPos: " << cPlayer2D->i32vec2Index.x << ", " 
-			//		<< cPlayer2D->i32vec2Index.y << endl;
 			auto path = cMap2D->PathFind(i32vec2Index,
 				cPlayer2D->i32vec2Index,
 				heuristic::euclidean,
 				10);
-			//cout << "=== Printing out the path ===" << endl;
 
 			// Calculate new destination
 			bool bFirstPosition = true;
