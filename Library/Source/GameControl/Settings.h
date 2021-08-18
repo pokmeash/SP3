@@ -30,6 +30,17 @@ public:
 		NUM_AXIS
 	};
 
+	enum KEYBINDS
+	{
+		MOVE_UP = 0,
+		MOVE_DOWN,
+		MOVE_LEFT,
+		MOVE_RIGHT,
+		TRIGGER_SHOOT,
+		TRIGGER_POWERUP,
+		TOTAL_KEYBINDS
+	};
+
 	// File information
 	char* logl_root;	// Root directory for loading digital assets
 
@@ -45,6 +56,7 @@ public:
 	unsigned int iWindowPosY = 50;
 	bool bDisableMousePointer = false;
 	bool bShowMousePointer = true;
+	unsigned int iKeybinds[TOTAL_KEYBINDS];
 
 	// Frame Rate Information
 	const unsigned char FPS = 30; // FPS of this game
@@ -76,6 +88,7 @@ public:
 	float ConvertIndexToWSSpace(const AXIS sAxis, const int iIndex, const float fOffset = 0.f);
 	void ConvertFloatToIndexSpace(const AXIS sAxis, const float fCoord, int* iIndex,  int* iMicro);
 	void ConvertMouseToWSSpace(int mouseX, int mouseY, float* posX, float* posY);
+	void SaveKeybinds();
 protected:
 	// Constructor
 	CSettings(void);

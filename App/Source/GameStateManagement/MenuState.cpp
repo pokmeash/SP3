@@ -167,14 +167,9 @@ bool CMenuState::Update(const double dElapsedTime)
 		if (ImGui::ImageButton((ImTextureID)volupButtonData.textureID,
 			ImVec2(buttonWidth, buttonHeight), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0)))
 		{
-			cSoundController->MasterVolumeIncrease();
+			CGameStateManager::GetInstance()->SetActiveGameState("SettingsState");
 		}
-		// Add codes for Exit button here
-		if (ImGui::ImageButton((ImTextureID)voldownButtonData.textureID,
-			ImVec2(buttonWidth, buttonHeight), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0)))
-		{
-			cSoundController->MasterVolumeDecrease();
-		}
+
 		ImGui::End();
 	}
 	

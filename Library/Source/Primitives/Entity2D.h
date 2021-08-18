@@ -87,11 +87,11 @@ public:
 
 	ENTITY_TYPE type;
 
-	bool isactive;
-
 	int enemyhealth;
 
 	bool spikecollided;
+
+	bool bIsActive;
 
 protected:
 	// Name of Shader Program instance

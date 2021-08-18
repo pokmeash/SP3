@@ -209,7 +209,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 	vec2WSOldCoordinates = vec2WSCoordinate;
 
 	// Get keyboard updates
-	if (cKeyboardController->IsKeyDown(GLFW_KEY_A))
+	if (cKeyboardController->IsKeyDown(cSettings->iKeybinds[CSettings::MOVE_LEFT]))
 	{
 		// Calculate the new position to the left
 		if (vec2WSCoordinate.x >= 0)
@@ -217,11 +217,9 @@ void CPlayer2D::Update(const double dElapsedTime)
 			vec2WSCoordinate.x -= 4.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
 		}
 		cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
-
+		
 		// Constraint the player's position within the screen boundary
 		Constraint(LEFT);
-
-		vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
 
 		// If the new position is not feasible, then revert to old position
 		if (CheckPosition(LEFT) == false)
@@ -243,7 +241,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 		dirx = -1;
 		diry = 0;
 	}
-	else if (cKeyboardController->IsKeyDown(GLFW_KEY_D))
+	else if (cKeyboardController->IsKeyDown(cSettings->iKeybinds[CSettings::MOVE_RIGHT]))
 	{
 		// Calculate the new position to the right
 		if (vec2WSCoordinate.x < cSettings->NUM_TILES_XAXIS)
@@ -278,7 +276,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 		dirx = 1;
 		diry = 0;
 	}
-	if (cKeyboardController->IsKeyDown(GLFW_KEY_W))
+	if (cKeyboardController->IsKeyDown(cSettings->iKeybinds[CSettings::MOVE_UP]))
 	{
 		// Calculate the new position up
 		if (vec2WSCoordinate.y < cSettings->NUM_TILES_YAXIS)
@@ -304,7 +302,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 		dirx = 0;
 		diry = 1;
 	}
-	else if (cKeyboardController->IsKeyDown(GLFW_KEY_S))
+	else if (cKeyboardController->IsKeyDown(cSettings->iKeybinds[CSettings::MOVE_DOWN]))
 	{
 		// Calculate the new position down
 		if (vec2WSCoordinate.y >= 0)
@@ -329,9 +327,12 @@ void CPlayer2D::Update(const double dElapsedTime)
 		dirx = 0;
 		diry = -1;
 	}
-
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_DOWN))
+	{
+		CGameManager::GetInstance()->bLevelCompleted = true;
+	}
 	//Swapping
-	if (cKeyboardController->IsKeyPressed(GLFW_KEY_UP) && swap == true)
+	if (cKeyboardController->IsKeyPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP]) && swap == true)
 	{
 		unsigned int InvisRow = -1;
 		unsigned int InvisCol = -1;
@@ -348,6 +349,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 			if (cMap2D->FindValue(97, InvisRow, InvisCol) == false)
 			{
 			}
+			if (!counter) break;
 			cMap2D->SetMapInfo(InvisRow, InvisCol, 101);
 		}
 		while (counter2)
@@ -356,13 +358,14 @@ void CPlayer2D::Update(const double dElapsedTime)
 			if (cMap2D->FindValue(102, InvisRow, InvisCol) == false)
 			{
 			}
+			if (!counter2) break;
 			cMap2D->SetMapInfo(InvisRow, InvisCol, 96);
 		}
 		cSoundController->PlaySoundByID(8);
 
 
 	}
-	else if (cKeyboardController->IsKeyPressed(GLFW_KEY_UP) && swap == false)
+	else if (cKeyboardController->IsKeyPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP]) && swap == false)
 	{
 		unsigned int InvisRow = -1;
 		unsigned int InvisCol = -1;
@@ -379,6 +382,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 			if (cMap2D->FindValue(101, InvisRow, InvisCol) == false)
 			{
 			}
+			if (!counter) break;
 			cMap2D->SetMapInfo(InvisRow, InvisCol, 97);
 		}
 		while (counter2)
@@ -387,13 +391,14 @@ void CPlayer2D::Update(const double dElapsedTime)
 			if (cMap2D->FindValue(96, InvisRow2, InvisCol2) == false)
 			{
 			}
+			if (!counter2) break;
 			cMap2D->SetMapInfo(InvisRow2, InvisCol2, 102);
 		}
 		cSoundController->PlaySoundByID(8);
 	}
 
 	static float delay = 0.f;
-	if (CMouseController::GetInstance()->IsButtonDown(0) && delay <= 0.f)
+	if (CMouseController::GetInstance()->IsButtonDown(cSettings->iKeybinds[CSettings::TRIGGER_SHOOT]) && delay <= 0.f)
 	{
 		delay = 0.5f;
 		glm::i32vec2 mouse((int)CMouseController::GetInstance()->GetMousePositionX(), (int)CMouseController::GetInstance()->GetMousePositionY());
@@ -408,11 +413,8 @@ void CPlayer2D::Update(const double dElapsedTime)
 			for (int i = -cInventoryItem->GetCount(); i <= cInventoryItem->GetCount(); i++)
 			{
 				glm::vec2 temp = direction;
-				cout << (Math::RadianToDegree(atan2f(temp.y, temp.x)) * i) << endl;
 				temp.y = sinf(atan2f(temp.y, temp.x) + 0.1 * i);
 				temp.x = cosf(atan2f(temp.y, temp.x) + 0.1 * i);
-				cout << temp.y << endl;
-				cout << temp.x << endl;
 				temp = glm::normalize(temp) * 0.5f;
 				cEntityManager->entitylist.push_back(cEntityFactory->ProduceBullets(vec2WSCoordinate, glm::vec2(temp.x, temp.y), glm::vec3(1, 1, 1), 0, E_BULLET));
 			}

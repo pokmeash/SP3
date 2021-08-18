@@ -101,6 +101,9 @@
     <ClCompile Include="Source\Scene2D\DoubleShot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\GameStateManagement\SettingsState.cpp">
+      <Filter>GameStateManagement</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -180,6 +183,9 @@
     </ClInclude>
     <ClInclude Include="Source\Scene2D\DoubleShot.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameStateManagement\SettingsState.h">
+      <Filter>GameStateManagement</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -26,12 +26,6 @@
 // Include SoundController
 #include "..\SoundController\SoundController.h"
 
-struct ButtonData
-{
-	std::string fileName;
-	unsigned textureID;
-};
-
 class CMenuState : public CGameStateBase
 {
 public:

@@ -95,22 +95,6 @@ bool CMap2D::Init(	const unsigned int uiNumLevels,
 	quadMesh = CMeshBuilder::GenerateQuad(glm::vec4(1, 1, 1, 1), cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
 
 	// Load and create textures
-	// Load the ground texture
-	if (LoadTexture("Image/Scene2D_GroundTile.tga", 100) == false)
-	{
-		std::cout << "Failed to load ground tile texture" << std::endl;
-		return false;
-	}
-	if (LoadTexture("Image/Scene2D_NonInvisTile.tga", 101) == false)
-	{
-		std::cout << "Failed to load NonInvis tile texture" << std::endl;
-		return false;
-	}
-	if (LoadTexture("Image/Scene2D_NonInvisTile.tga", 102) == false)
-	{
-		std::cout << "Failed to load NonInvis tile texture" << std::endl;
-		return false;
-	}
 	// Load the tree texture
 	if (LoadTexture("Image/Scene2D_StarTile.tga", 2) == false)
 	{
@@ -153,16 +137,38 @@ bool CMap2D::Init(	const unsigned int uiNumLevels,
 		std::cout << "Failed to load Invis tile texture" << std::endl;
 		return false;
 	}
-	// Load the Locked Exit texture
-	if (LoadTexture("Image/Scene2D_LockedExit.tga", 103) == false)
-	{
-		std::cout << "Failed to load LockedExit tile texture" << std::endl;
-		return false;
-	}
+
 	// Load the Exit texture
 	if (LoadTexture("Image/Scene2D_Exit.tga", 99) == false)
 	{
 		std::cout << "Failed to load Exit tile texture" << std::endl;
+		return false;
+	}
+	// Load the Locked Exit texture
+	if (LoadTexture("Image/Scene2D_LockedExit.tga", 100) == false)
+	{
+		std::cout << "Failed to load LockedExit tile texture" << std::endl;
+		return false;
+	}
+	// Load the ground texture
+	if (LoadTexture("Image/Scene2D_GroundTile.tga", 101) == false)
+	{
+		std::cout << "Failed to load ground tile texture" << std::endl;
+		return false;
+	}
+	if (LoadTexture("Image/Scene2D_GroundTile.tga", 102) == false)
+	{
+		std::cout << "Failed to load ground tile texture" << std::endl;
+		return false;
+	}
+	if (LoadTexture("Image/Scene2D_GroundTile.tga", 103) == false)
+	{
+		std::cout << "Failed to load ground tile texture" << std::endl;
+		return false;
+	}
+	if (LoadTexture("Image/Scene2D_GroundTile.tga", 104) == false)
+	{
+		std::cout << "Failed to load ground tile texture" << std::endl;
 		return false;
 	}
 

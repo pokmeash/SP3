@@ -87,17 +87,18 @@ bool CScene2D::Init(void)
 	cMap2D = CMapManager::GetInstance();
 	// Set a shader to this class
 	cMap2D->SetShader("2DShader");
-	// Initialise the instance
-	if (!cMap2D->Init(3, 24, 32))
-	{
-		cout << "Failed to load CMap2D" << endl;
-		return false;
-	}
+	
 
 	// Load the map into an array
 	unsigned amt = FileSystem::getAmountOfSaves("Maps/Preset/1");
 	if (amt == 0) {
 		cout << "No presets were found!\n";
+		return false;
+	}
+	// Initialise the instance
+	if (!cMap2D->Init(amt, 24, 32))
+	{
+		cout << "Failed to load CMap2D" << endl;
 		return false;
 	}
 	vector<std::string> files = FileSystem::getSaves("Maps/Preset/1");
@@ -136,7 +137,6 @@ bool CScene2D::Init(void)
 		// Initialise the instance
 		if (cEnemy2D->Init() == true)
 		{
-			cEnemy2D->SetPlayer2D(cPlayer2D);
 			enemyVector.push_back(cEnemy2D);
 		}
 		else
@@ -235,7 +235,6 @@ bool CScene2D::Update(const double dElapsedTime)
 			// Initialise the instance
 			if (cEnemy2D->Init() == true)
 			{
-				cEnemy2D->SetPlayer2D(cPlayer2D);
 				enemyVector.push_back(cEnemy2D);
 			}
 			else
