@@ -67,6 +67,7 @@
     <ClInclude Include="Source\System\CSVWriter.h" />
     <ClInclude Include="Source\System\filesystem.h" />
     <ClInclude Include="Source\System\ImageLoader.h" />
+    <ClInclude Include="Source\System\LoadIni.h" />
     <ClInclude Include="Source\System\LoadOBJ.h" />
     <ClInclude Include="Source\System\MyMath.h" />
     <ClInclude Include="Source\System\rapidcsv.h" />

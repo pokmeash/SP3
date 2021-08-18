@@ -12,7 +12,7 @@
 #include <includes/gtc/matrix_transform.hpp>
 #include <includes/gtc/type_ptr.hpp>
 
-#include "MenuState.h"
+#include "SettingsState.h"
 
 // Include CGameStateManager
 #include "GameStateManager.h"
@@ -32,6 +32,7 @@
 
 // Include CKeyboardController
 #include "Inputs/KeyboardController.h"
+#include "Inputs/MouseController.h"
 
 #include <iostream>
 #include "System\filesystem.h"
@@ -40,23 +41,22 @@ using namespace std;
 /**
  @brief Constructor
  */
-CMenuState::CMenuState(void)
-	: background(NULL)
+CSettingsState::CSettingsState(void)
+	: background(NULL), activeKeybindSetButton(NULL)
 {
-
 }
 
 /**
  @brief Destructor
  */
-CMenuState::~CMenuState(void)
+CSettingsState::~CSettingsState(void)
 {
 }
 
 /**
  @brief Init this class instance
  */
-bool CMenuState::Init(void)
+bool CSettingsState::Init(void)
 {
 	CShaderManager::GetInstance()->Use("2DShader");
 	CShaderManager::GetInstance()->activeShader->setInt("texture1", 0);
@@ -83,28 +83,43 @@ bool CMenuState::Init(void)
 
 	// Load the images for buttons
 	CImageLoader* il = CImageLoader::GetInstance();
-	startButtonData.fileName = "Image\\GUI\\PlayButton.png";
-	startButtonData.textureID = il->LoadTextureGetID(startButtonData.fileName.c_str(), false);
-	exitButtonData.fileName = "Image\\GUI\\ExitButton.png";
-	exitButtonData.textureID = il->LoadTextureGetID(exitButtonData.fileName.c_str(), false);
-	volupButtonData.fileName = "Image\\GUI\\VolUp.png";
-	volupButtonData.textureID = il->LoadTextureGetID(volupButtonData.fileName.c_str(), false);
-	voldownButtonData.fileName = "Image\\GUI\\VolDown.png";
-	voldownButtonData.textureID = il->LoadTextureGetID(voldownButtonData.fileName.c_str(), false);
-	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Wii.ogg"), 2, true, true);
+	CSettings* cs = CSettings::GetInstance();
+
+	buttonData[EXIT].fileName = "Image/GUI/ExitButton.png";
+	buttonData[VOL_UP].fileName = "Image/GUI/VolUp.png";
+	buttonData[VOL_DOWN].fileName = "Image/GUI/VolDown.png";
+	buttonData[CHANGE_UP].keybindID = CSettings::MOVE_UP;
+	buttonData[CHANGE_UP].keybindType = "Up";
+	buttonData[CHANGE_DOWN].keybindID = CSettings::MOVE_DOWN;
+	buttonData[CHANGE_DOWN].keybindType = "Down";
+	buttonData[CHANGE_LEFT].keybindID = CSettings::MOVE_LEFT;
+	buttonData[CHANGE_LEFT].keybindType = "Left";
+	buttonData[CHANGE_RIGHT].keybindID = CSettings::MOVE_RIGHT;
+	buttonData[CHANGE_RIGHT].keybindType = "Right";
+	buttonData[CHANGE_SHOOT].keybindID = CSettings::TRIGGER_SHOOT;
+	buttonData[CHANGE_SHOOT].keybindType = "Shoot";
+	buttonData[CHANGE_ACTIVATE].keybindID = CSettings::TRIGGER_POWERUP;
+	buttonData[CHANGE_ACTIVATE].keybindType = "Activate";
+	
+	for (unsigned i = 0; i < TOTAL_BUTTONS; ++i) {
+		if (buttonData[i].keybindID == -1)
+		buttonData[i].textureID = il->LoadTextureGetID(buttonData[i].fileName.c_str(), false);
+	}
+
+	cSoundController->PlaySoundByID(2);
 	for (int i = 0; i < 6; i++)
 	{
 		cSoundController->VolumeDecrease(2);
 	}
 	bgm = true;
-
+	std::cout << "CSettingsState::Init\n";
 	return true;
 }
 
 /**
  @brief Update this class instance
  */
-bool CMenuState::Update(const double dElapsedTime)
+bool CSettingsState::Update(const double dElapsedTime)
 {
 	// Start the Dear ImGui frame
 	ImGui_ImplOpenGL3_NewFrame();
@@ -122,13 +137,11 @@ bool CMenuState::Update(const double dElapsedTime)
 
 	float buttonWidth = 256;
 	float buttonHeight = 128;
-
 	// 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
 	{
 		static float f = 0.0f;
 		static int counter = 0;
 
-		// Create a window called "Hello, world!" and append into it.
 		ImGui::Begin("Main Menu", NULL, window_flags);
 		ImGui::SetWindowPos(ImVec2(CSettings::GetInstance()->iWindowWidth / 2.0 - buttonWidth / 2.0,
 			CSettings::GetInstance()->iWindowHeight / 12.0));					// Set the top-left of the window at (10,10)
@@ -139,7 +152,7 @@ bool CMenuState::Update(const double dElapsedTime)
 		style.FrameRounding = 200.0f;
 		
 		// Add codes for Start button here
-		if (ImGui::ImageButton((ImTextureID)startButtonData.textureID, 
+		if (ImGui::ImageButton((ImTextureID)buttonData[EXIT].textureID, 
 			ImVec2(buttonWidth, buttonHeight), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0)))
 		{
 			cSoundController->PlaySoundByID(7);
@@ -151,29 +164,54 @@ bool CMenuState::Update(const double dElapsedTime)
 			cSoundController->StopAllSound();
 			cSoundController->PlaySoundByID(3);
 		}
-		// Add codes for Exit button here
-		if (ImGui::ImageButton((ImTextureID)exitButtonData.textureID,
-			ImVec2(buttonWidth, buttonHeight), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0)))
-		{
-			cSoundController->PlaySoundByID(7);
-			// Reset the CKeyboardController
-			CKeyboardController::GetInstance()->Reset();
 
-			// Load the menu state
+		for (unsigned i = 0; i < TOTAL_BUTTONS; ++i) {
+			if (buttonData[i].keybindID == -1) continue;
+			if (glfwGetKeyName(CSettings::GetInstance()->iKeybinds[buttonData[i].keybindID], 0) != NULL)
+				buttonData[i].buttonName = buttonData[i].keybindType + ": " + glfwGetKeyName(CSettings::GetInstance()->iKeybinds[buttonData[i].keybindID], 0);
+			else {
+				std::stringstream ss;
+				ss << buttonData[i].keybindType << ": " << "Button_" << CSettings::GetInstance()->iKeybinds[buttonData[i].keybindID] << std::endl;
+				buttonData[i].buttonName = ss.str();
+			}
+			if (ImGui::Button(buttonData[i].buttonName.c_str(), ImVec2(buttonWidth * 0.5, buttonHeight * 0.5))) {
+				if (activeKeybindSetButton) continue;
+				activeKeybindSetButton = &buttonData[i];
+			}
+		}
 
-			return false;
-		}
-		// Add codes for Start button here
-		if (ImGui::ImageButton((ImTextureID)volupButtonData.textureID,
-			ImVec2(buttonWidth, buttonHeight), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0)))
-		{
-			CGameStateManager::GetInstance()->SetActiveGameState("SettingsState");
-		}
+		if (activeKeybindSetButton) {
+			ImGuiWindowFlags inventoryWindowFlags = ImGuiWindowFlags_AlwaysAutoResize |
+				ImGuiWindowFlags_NoTitleBar |
+				ImGuiWindowFlags_NoMove |
+				ImGuiWindowFlags_NoResize |
+				ImGuiWindowFlags_NoCollapse |
+				ImGuiWindowFlags_NoScrollbar;
+			ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.0f, 0.0f, 1.0f, 1.0f));
+			ImGui::Begin("waiting", NULL, inventoryWindowFlags);
+			ImGui::SetWindowPos(ImVec2(25.0f, 550.0f));
+			ImGui::SetWindowSize(ImVec2(200.0f, 25.0f));
+			ImGui::TextColored(ImVec4(1, 1, 0, 1), "Waiting for input");
+			ImGui::End();
+			ImGui::PopStyleColor();
+			for (int key = 0; key < CKeyboardController::GetInstance()->MAX_KEYS; key++) {
+				if (CKeyboardController::GetInstance()->IsKeyPressed(key) || CMouseController::GetInstance()->IsButtonPressed(key)) {
+					CSettings::GetInstance()->iKeybinds[activeKeybindSetButton->keybindID] = key;
+					CSettings::GetInstance()->SaveKeybinds();
+					if (glfwGetKeyName(key, 0) != NULL)
+						activeKeybindSetButton->buttonName = activeKeybindSetButton->keybindType + ": " + glfwGetKeyName(key, 0);
+					else {
+						std::stringstream ss;
+						ss << activeKeybindSetButton->keybindType << ": " << "Button_" << key << std::endl;
+						activeKeybindSetButton->buttonName = ss.str();
+					}
+					activeKeybindSetButton = nullptr;
+					break;
+				}
+			}		}
 
 		ImGui::End();
 	}
-	
-
 	//For keyboard controls
 	if (CKeyboardController::GetInstance()->IsKeyReleased(GLFW_KEY_SPACE))
 	{
@@ -182,7 +220,7 @@ bool CMenuState::Update(const double dElapsedTime)
 		CKeyboardController::GetInstance()->Reset();
 
 		// Load the menu state
-		CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
+		CGameStateManager::GetInstance()->SetActiveGameState("MenuState");
 		cSoundController->StopAllSound();
 		cSoundController->PlaySoundByID(3);
 		return true;
@@ -210,7 +248,7 @@ bool CMenuState::Update(const double dElapsedTime)
 /**
  @brief Render this class instance
  */
-void CMenuState::Render(void)
+void CSettingsState::Render(void)
 {
 	// Clear the screen and buffer
 	glClearColor(0.0f, 0.55f, 1.00f, 1.00f);
@@ -227,7 +265,7 @@ void CMenuState::Render(void)
 /**
  @brief Destroy this class instance
  */
-void CMenuState::Destroy(void)
+void CSettingsState::Destroy(void)
 {
 	// Delete the background
 	if (background)
@@ -235,6 +273,8 @@ void CMenuState::Destroy(void)
 		delete background;
 		background = NULL;
 	}
+
+	std::cout << "CSettingsState::Destroy\n";
 
 	// Cleanup
 	ImGui_ImplOpenGL3_Shutdown();
