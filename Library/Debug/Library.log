@@ -1,6 +1,6 @@
 ﻿  Settings.cpp
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\GameControl\Settings.cpp(84,56): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\GameControl\Settings.cpp(92,56): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\Library\Source\GameControl\Settings.cpp(84,56): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\Library\Source\GameControl\Settings.cpp(92,56): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
   imgui_impl_glfw.cpp
   imgui_impl_opengl3.cpp
   GUI.cpp
@@ -13,12 +13,12 @@ D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\GameControl\Sett
   MouseController.cpp
   Collider.cpp
   Entity2D.cpp
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\Primitives\Entity2D.cpp(183,26): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\Library\Source\Primitives\Entity2D.cpp(183,26): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
           with
           [
               T=float
           ]
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\Primitives\Entity2D.cpp(184,26): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\Library\Source\Primitives\Entity2D.cpp(184,26): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
           with
           [
               T=float
@@ -28,7 +28,7 @@ D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\Primitives\Entit
   Mesh.cpp
   MeshBuilder.cpp
   SpriteAnimation.cpp
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\Primitives\SpriteAnimation.cpp(75,62): warning C4244: 'argument': conversion from 'double' to 'const unsigned int', possible loss of data
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\Library\Source\Primitives\SpriteAnimation.cpp(75,62): warning C4244: 'argument': conversion from 'double' to 'const unsigned int', possible loss of data
   ShaderManager.cpp
   TextRenderer.cpp
   Generating Code...
@@ -41,4 +41,4 @@ D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\Primitives\Sprit
   FPSCounter.cpp
   StopWatch.cpp
   Generating Code...
-  Library.vcxproj -> D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Debug\Library.lib
+  Library.vcxproj -> C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\Debug\Library.lib
