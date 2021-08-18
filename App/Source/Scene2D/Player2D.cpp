@@ -227,7 +227,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 		if (CheckPosition(LEFT) == false)
 		{
 			vec2WSCoordinate.x += 4.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
-			cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
+			vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
 		}
 
 		// Check if player is in mid-air, such as walking off a platform
@@ -351,6 +351,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 			if (cMap2D->FindValue(97, InvisRow, InvisCol) == false)
 			{
 			}
+			if (!counter) break;
 			cMap2D->SetMapInfo(InvisRow, InvisCol, 101);
 		}
 		while (counter2)
@@ -359,6 +360,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 			if (cMap2D->FindValue(102, InvisRow, InvisCol) == false)
 			{
 			}
+			if (!counter2) break;
 			cMap2D->SetMapInfo(InvisRow, InvisCol, 96);
 		}
 		cSoundController->PlaySoundByID(8);
@@ -382,6 +384,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 			if (cMap2D->FindValue(101, InvisRow, InvisCol) == false)
 			{
 			}
+			if (!counter) break;
 			cMap2D->SetMapInfo(InvisRow, InvisCol, 97);
 		}
 		while (counter2)
@@ -390,6 +393,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 			if (cMap2D->FindValue(96, InvisRow2, InvisCol2) == false)
 			{
 			}
+			if (!counter2) break;
 			cMap2D->SetMapInfo(InvisRow2, InvisCol2, 102);
 		}
 		cSoundController->PlaySoundByID(8);

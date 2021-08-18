@@ -74,7 +74,6 @@ public:
 	glm::vec2 Getvec2UVCoordinates(void) const;
 
 	// boolean flag to indicate if this enemy is active
-	bool bIsActive;
 
 protected:
 	enum DIRECTION

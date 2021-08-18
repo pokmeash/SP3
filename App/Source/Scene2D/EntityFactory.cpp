@@ -14,7 +14,7 @@ Bullet* EntityFactory::ProduceBullets(glm::f32vec2 EntityVec2Index, glm::f32vec2
 	temp->EntityVec3Scale = EntityVec3Scale;
 	temp->rotation = rotation;
 	temp->type = type;
-	temp->isactive = true;
+	temp->bIsActive = true;
 
 	temp->Init();
 
@@ -31,7 +31,7 @@ Spike* EntityFactory::ProduceSpikes(float EntityVec2Indexx,float EntityVec2Index
 	temp->EntityVec3Scale = EntityVec3Scale;
 	temp->rotation = rotation;
 	temp->type = type;
-	temp->isactive = true;
+	temp->bIsActive = true;
 
 	temp->Init();
 
@@ -47,7 +47,7 @@ CEnemy2D* EntityFactory::ProduceEnemy(glm::f32vec2 EntityVec2Index, glm::f32vec2
 	temp->EntityVec3Scale = EntityVec3Scale;
 	temp->rotation = rotation;
 	temp->type = type;
-	temp->isactive = true;
+	temp->bIsActive = true;
 
 	temp->Init();
 
@@ -63,7 +63,7 @@ DoubleShot* EntityFactory::ProduceDoubleShot(glm::f32vec2 EntityVec2Index, glm::
 	temp->EntityVec3Scale = EntityVec3Scale;
 	temp->rotation = rotation;
 	temp->type = type;
-	temp->isactive = true;
+	temp->bIsActive = true;
 
 	temp->Init();
 
