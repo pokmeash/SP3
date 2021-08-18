@@ -64,6 +64,26 @@ void EntityManager::Update(const double dElapsedTime)
 						{
 							entity->isactive = false;
 						}
+						for (CEntity2D* cEnemy2D : CScene2D::GetInstance()->enemyVector)
+						{
+							cout << cEnemy2D->i32vec2Index.x << "," << cEnemy2D->i32vec2Index.y << endl;
+							cout << cEnemy2D->vec2WSCoordinate.x << "," << cEnemy2D->vec2WSCoordinate.y << endl;
+							if (temp.x >= cEnemy2D->i32vec2Index.x - 1 && temp.x <= cEnemy2D->i32vec2Index.x + 1 && temp.y >= cEnemy2D->i32vec2Index.y - 1 && temp.y <= cEnemy2D->i32vec2Index.y + 1)
+							{
+								//pass back into enemy
+								if (cEnemy2D->enemyhealth <= 0)
+								{
+									cEnemy2D->isactive = false;
+								}
+								else
+								{
+									cEnemy2D->enemyhealth--;
+									cout << "hit" << endl;
+									cout << cEnemy2D->enemyhealth << endl;
+								}
+								entity->isactive = false;
+							}
+						}
 						break;
 					}
 				}

@@ -137,7 +137,6 @@ bool CScene2D::Init(void)
 		// Initialise the instance
 		if (cEnemy2D->Init() == true)
 		{
-			cEnemy2D->SetPlayer2D(cPlayer2D);
 			enemyVector.push_back(cEnemy2D);
 		}
 		else
@@ -236,7 +235,6 @@ bool CScene2D::Update(const double dElapsedTime)
 			// Initialise the instance
 			if (cEnemy2D->Init() == true)
 			{
-				cEnemy2D->SetPlayer2D(cPlayer2D);
 				enemyVector.push_back(cEnemy2D);
 			}
 			else

@@ -38,6 +38,22 @@ Spike* EntityFactory::ProduceSpikes(float EntityVec2Indexx,float EntityVec2Index
 	return temp;
 }
 
+CEnemy2D* EntityFactory::ProduceEnemy(glm::f32vec2 EntityVec2Index, glm::f32vec2 EntityVec2Vel, glm::vec3 EntityVec3Scale, float rotation, CEntity2D::ENTITY_TYPE type)
+{
+	CEnemy2D* temp = new CEnemy2D;
+
+	temp->EntityVec2Index = EntityVec2Index;
+	temp->EntityVec2Vel = EntityVec2Vel;
+	temp->EntityVec3Scale = EntityVec3Scale;
+	temp->rotation = rotation;
+	temp->type = type;
+	temp->isactive = true;
+
+	temp->Init();
+
+	return temp;
+}
+
 DoubleShot* EntityFactory::ProduceDoubleShot(glm::f32vec2 EntityVec2Index, glm::f32vec2 EntityVec2Vel, glm::vec3 EntityVec3Scale, float rotation, CEntity2D::ENTITY_TYPE type)
 {
 	DoubleShot* temp = new DoubleShot;

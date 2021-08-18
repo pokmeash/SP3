@@ -2,11 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-<<<<<<< HEAD
       <FullPath>D:\SP3\SP3\Debug\App.exe</FullPath>
-=======
-      <FullPath>D:\Github\SP3\Debug\App.exe</FullPath>
->>>>>>> main
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

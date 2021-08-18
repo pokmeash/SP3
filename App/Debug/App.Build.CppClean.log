@@ -1,6 +1,5 @@
 d:\sp3\sp3\app\debug\vc142.pdb
 d:\sp3\sp3\app\debug\vc142.idb
-d:\sp3\sp3\app\debug\physics2d.obj
 d:\sp3\sp3\app\debug\map2d.obj
 d:\sp3\sp3\app\debug\inventorymanager.obj
 d:\sp3\sp3\app\debug\inventoryitem.obj
@@ -14,6 +13,7 @@ d:\sp3\sp3\app\debug\bullet.obj
 d:\sp3\sp3\app\debug\backgroundentity.obj
 d:\sp3\sp3\app\debug\main.obj
 d:\sp3\sp3\app\debug\winstate.obj
+d:\sp3\sp3\app\debug\settingsstate.obj
 d:\sp3\sp3\app\debug\playgamestate.obj
 d:\sp3\sp3\app\debug\music.obj
 d:\sp3\sp3\app\debug\menustate.obj
@@ -26,6 +26,7 @@ d:\sp3\sp3\app\debug\spike.obj
 d:\sp3\sp3\app\debug\scene2d.obj
 d:\sp3\sp3\app\debug\mapmanager.obj
 d:\sp3\sp3\app\debug\player2d.obj
+d:\sp3\sp3\app\debug\physics2d.obj
 d:\sp3\sp3\debug\app.exe
 d:\sp3\sp3\debug\app.ilk
 d:\sp3\sp3\debug\app.pdb

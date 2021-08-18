@@ -19,7 +19,7 @@ bool Spike::Init() {
 void Spike::Update(const double dElapsedTime)
 {
     EntityVec2Index += EntityVec2Vel;
-
+    
     vec2UVCoordinate.x = cSettings->ConvertFloatToUVSpace(cSettings->x, EntityVec2Index.x, false);
     vec2UVCoordinate.y = cSettings->ConvertFloatToUVSpace(cSettings->y, EntityVec2Index.y, false);
 }
