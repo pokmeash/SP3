@@ -40,7 +40,7 @@ CEnemy2D::CEnemy2D(void)
 
 	// Initialise vecIndex
 	i32vec2Index = glm::i32vec2(0);
-
+	vec2WSCoordinate = glm::vec2(0);
 	// Initialise vecNumMicroSteps
 	i32vec2NumMicroSteps = glm::i32vec2(0);
 
@@ -96,6 +96,7 @@ bool CEnemy2D::Init(void)
 
 	// Set the start position of the Player to iRow and iCol
 	i32vec2Index = glm::i32vec2(uiCol, uiRow);
+	vec2WSCoordinate = glm::vec2(uiCol + 0.5f, uiRow);
 	// By default, microsteps should be zero
 	i32vec2NumMicroSteps = glm::i32vec2(0, 0);
 
@@ -162,7 +163,7 @@ void CEnemy2D::Update(const double dElapsedTime)
 		animatedSprites->PlayAnimation("idle", -1, 1.0f);
 		break;
 	case SEARCH:
-		if (cPhysics2D.CalculateDistance(i32vec2Index, cPlayer2D->i32vec2Index) < 15.0f)
+		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, cPlayer2D->vec2WSCoordinate) < 15.0f)
 		{
 			if (iFSMCounter > iMaxFSMCounter)
 			{
@@ -175,18 +176,18 @@ void CEnemy2D::Update(const double dElapsedTime)
 		animatedSprites->PlayAnimation("idle", -1, 1.0f);
 		break;
 	case ATTACK:
-		if (cPhysics2D.CalculateDistance(i32vec2Index, cPlayer2D->i32vec2Index) >= 20.0f)
+		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, cPlayer2D->vec2WSCoordinate) >= 20.0f)
 		{
 			sCurrentFSM = SEARCH;
 		}
-		else if (cPhysics2D.CalculateDistance(i32vec2Index, cPlayer2D->i32vec2Index) >= 10.0f && cPhysics2D.CalculateDistance(i32vec2Index, cPlayer2D->i32vec2Index) < 20.0f)
+		else if (cPhysics2D.CalculateDistance(vec2WSCoordinate, cPlayer2D->vec2WSCoordinate) >= 10.0f && cPhysics2D.CalculateDistance(i32vec2Index, cPlayer2D->i32vec2Index) < 20.0f)
 		{
-			if (cPlayer2D->i32vec2Index.x < i32vec2Index.x)
+			if (cPlayer2D->vec2WSCoordinate.x < vec2WSCoordinate.x)
 			{
 				dir = -1;
 				animatedSprites->PlayAnimation("left", -1, 1.0f);
 			}
-			else if (cPlayer2D->i32vec2Index.x > i32vec2Index.x)
+			else if (cPlayer2D->vec2WSCoordinate.x > vec2WSCoordinate.x)
 			{
 				dir = 1;
 				animatedSprites->PlayAnimation("right", -1, 1.0f);
@@ -197,14 +198,14 @@ void CEnemy2D::Update(const double dElapsedTime)
 			}
 			sCurrentFSM = RANGEDATTACK;
 		}
-		else if (cPhysics2D.CalculateDistance(i32vec2Index, cPlayer2D->i32vec2Index) >= 5.0f && cPhysics2D.CalculateDistance(i32vec2Index, cPlayer2D->i32vec2Index) < 10.0f)
+		else if (cPhysics2D.CalculateDistance(vec2WSCoordinate, cPlayer2D->vec2WSCoordinate) >= 5.0f && cPhysics2D.CalculateDistance(i32vec2Index, cPlayer2D->i32vec2Index) < 10.0f)
 		{
-			if (cPlayer2D->i32vec2Index.x < i32vec2Index.x)
+			if (cPlayer2D->vec2WSCoordinate.x < vec2WSCoordinate.x)
 			{
 				dir = -1;
 				animatedSprites->PlayAnimation("left", -1, 1.0f);
 			}
-			else if (cPlayer2D->i32vec2Index.x > i32vec2Index.x)
+			else if (cPlayer2D->vec2WSCoordinate.x > vec2WSCoordinate.x)
 			{
 				dir = 1;
 				animatedSprites->PlayAnimation("right", -1, 1.0f);
@@ -215,7 +216,7 @@ void CEnemy2D::Update(const double dElapsedTime)
 			}
 			sCurrentFSM = RUSHATTACK;
 		}
-		else if (cPhysics2D.CalculateDistance(i32vec2Index, cPlayer2D->i32vec2Index) < 5.0f)
+		else if (cPhysics2D.CalculateDistance(vec2WSCoordinate, cPlayer2D->vec2WSCoordinate) < 5.0f)
 		{
 			sCurrentFSM = MELEEATTACK;
 		}
@@ -224,7 +225,7 @@ void CEnemy2D::Update(const double dElapsedTime)
 		if (ammo)
 		{
 			//BULLET CODE HERE
-			cEntityManager->entitylist.push_back(cEntityFactory->ProduceBullets(i32vec2Index, glm::f32vec2(0.5 * dir, 0), glm::vec3(1, 1, 1), 0, E_EBULLET));
+			cEntityManager->entitylist.push_back(cEntityFactory->ProduceBullets(vec2WSCoordinate, glm::f32vec2(0.5 * dir, 0), glm::vec3(1, 1, 1), 0, E_EBULLET));
 			ammo = false;
 		}
 		if (iFSMCounter > iMaxFSMCounter)
@@ -237,18 +238,13 @@ void CEnemy2D::Update(const double dElapsedTime)
 		iFSMCounter++;
 		break;
 	case MELEEATTACK:
-		if (cPhysics2D.CalculateDistance(i32vec2Index, cPlayer2D->i32vec2Index) < 5.0f)
+		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, cPlayer2D->vec2WSCoordinate) < 5.0f)
 		{
 			// Calculate a path to the player
-			//cMap2D->PrintSelf();
-			//cout << "StartPos: " << i32vec2Index.x << ", " << i32vec2Index.y << endl;
-			//cout << "TargetPos: " << cPlayer2D->i32vec2Index.x << ", " 
-			//		<< cPlayer2D->i32vec2Index.y << endl;
 			auto path = cMap2D->PathFind(i32vec2Index,
 				cPlayer2D->i32vec2Index,
 				heuristic::euclidean,
 				10);
-			//cout << "=== Printing out the path ===" << endl;
 
 			// Calculate new destination
 			bool bFirstPosition = true;
@@ -274,13 +270,6 @@ void CEnemy2D::Update(const double dElapsedTime)
 						break;
 				}
 			}
-
-			//cout << "i32vec2Destination : " << i32vec2Destination.x 
-			//		<< ", " << i32vec2Destination.y << endl;
-			//cout << "i32vec2Direction : " << i32vec2Direction.x 
-			//		<< ", " << i32vec2Direction.y << endl;
-			//system("pause");
-
 			// Attack
 			// Update direction to move towards for attack
 			UpdateDirection();
@@ -303,24 +292,22 @@ void CEnemy2D::Update(const double dElapsedTime)
 		{
 			i32vec2OldIndex = i32vec2Index;
 			// Calculate the new position to the left
-			if (i32vec2Index.x >= 0)
+			if (vec2WSCoordinate.x >= 0)
 			{
-				i32vec2NumMicroSteps.x -= 4;
-				if (i32vec2NumMicroSteps.x < 0)
-				{
-					i32vec2NumMicroSteps.x = ((int)cSettings->NUM_STEPS_PER_TILE_XAXIS);
-					i32vec2Index.x--;
-				}
+				vec2WSCoordinate.x -= 4.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
 			}
+			cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
 
 			// Constraint the player's position within the screen boundary
 			Constraint(LEFT);
 
+			vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
+
 			// If the new position is not feasible, then revert to old position
 			if (CheckPosition(LEFT) == false)
 			{
-				i32vec2Index = i32vec2OldIndex;
-				i32vec2NumMicroSteps.x = 0;
+				vec2WSCoordinate.x += 4.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
+				cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
 				sCurrentFSM = DAMAGED;
 			}
 
@@ -340,24 +327,23 @@ void CEnemy2D::Update(const double dElapsedTime)
 		else if (dir == 1)
 		{
 			// Calculate the new position to the right
-			if (i32vec2Index.x < (int)cSettings->NUM_TILES_XAXIS)
+			if (vec2WSCoordinate.x < cSettings->NUM_TILES_XAXIS)
 			{
-				i32vec2NumMicroSteps.x += 4;
-
-				if (i32vec2NumMicroSteps.x >= cSettings->NUM_STEPS_PER_TILE_XAXIS)
-				{
-					i32vec2NumMicroSteps.x = 0;
-					i32vec2Index.x++;
-				}
+				vec2WSCoordinate.x += 4.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
 			}
+
+			cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
 
 			// Constraint the player's position within the screen boundary
 			Constraint(RIGHT);
+
+			vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
 
 			// If the new position is not feasible, then revert to old position
 			if (CheckPosition(RIGHT) == false)
 			{
 				i32vec2NumMicroSteps.x = 0;
+				vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
 				sCurrentFSM = DAMAGED;
 			}
 
@@ -430,8 +416,8 @@ void CEnemy2D::Update(const double dElapsedTime)
 	UpdateJumpFall(dElapsedTime);
 
 	// Update the UV Coordinates
-	vec2UVCoordinate.x = cSettings->ConvertIndexToUVSpace(cSettings->x, i32vec2Index.x, false, i32vec2NumMicroSteps.x*cSettings->MICRO_STEP_XAXIS);
-	vec2UVCoordinate.y = cSettings->ConvertIndexToUVSpace(cSettings->y, i32vec2Index.y, false, i32vec2NumMicroSteps.y*cSettings->MICRO_STEP_YAXIS);
+	vec2UVCoordinate.x = cSettings->ConvertFloatToUVSpace(cSettings->x, vec2WSCoordinate.x, false);
+	vec2UVCoordinate.y = cSettings->ConvertFloatToUVSpace(cSettings->y, vec2WSCoordinate.y, false);
 }
 
 /**
@@ -508,6 +494,8 @@ void CEnemy2D::Seti32vec2Index(const int iIndex_XAxis, const int iIndex_YAxis)
 {
 	this->i32vec2Index.x = iIndex_XAxis;
 	this->i32vec2Index.y = iIndex_YAxis;
+	vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
+	vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
 }
 
 /**
@@ -519,6 +507,8 @@ void CEnemy2D::Seti32vec2NumMicroSteps(const int iNumMicroSteps_XAxis, const int
 {
 	this->i32vec2NumMicroSteps.x = iNumMicroSteps_XAxis;
 	this->i32vec2NumMicroSteps.y = iNumMicroSteps_YAxis;
+	vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
+	vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
 }
 
 /**
@@ -802,7 +792,8 @@ void CEnemy2D::UpdateJumpFall(const double dElapsedTime)
 				break;
 			}
 		}
-
+		vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
+		vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
 		// If the player is still jumping and the initial velocity has reached zero or below zero, 
 		// then it has reach the peak of its jump
 		if ((cPhysics2D.GetStatus() == CPhysics2D::STATUS::JUMP) && (cPhysics2D.GetDeltaDisplacement().y <= 0.0f))
@@ -858,6 +849,8 @@ void CEnemy2D::UpdateJumpFall(const double dElapsedTime)
 				break;
 			}
 		}
+		vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
+		vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
 	}
 }
 
@@ -931,26 +924,23 @@ void CEnemy2D::UpdatePosition(void)
 	if (i32vec2Direction.x < 0)
 	{
 		// Move left
-		const int iOldIndex = i32vec2Index.x;
-		if (i32vec2Index.x >= 0)
+		if (vec2WSCoordinate.x >= 0)
 		{
-			i32vec2NumMicroSteps.x--;
-			if (i32vec2NumMicroSteps.x < 0)
-			{
-				i32vec2NumMicroSteps.x = ((int)cSettings->NUM_STEPS_PER_TILE_XAXIS) - 1;
-				i32vec2Index.x--;
-			}
+			vec2WSCoordinate.x -= 4.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
 		}
+		cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
 
-		// Constraint the enemy2D's position within the screen boundary
+		// Constraint the player's position within the screen boundary
 		Constraint(LEFT);
+
+		vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
 
 		// Find a feasible position for the enemy2D's current position
 		if (CheckPosition(LEFT) == false)
 		{
 			FlipHorizontalDirection();
-			i32vec2Index = i32vec2OldIndex;
-			i32vec2NumMicroSteps.x = 0;
+			vec2WSCoordinate.x += 4.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
+			cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
 		}
 
 		// Check if enemy2D is in mid-air, such as walking off a platform
@@ -964,28 +954,24 @@ void CEnemy2D::UpdatePosition(void)
 	}
 	else if (i32vec2Direction.x > 0)
 	{
-		// Move right
-		const int iOldIndex = i32vec2Index.x;
-		if (i32vec2Index.x < (int)cSettings->NUM_TILES_XAXIS)
+		if (vec2WSCoordinate.x < cSettings->NUM_TILES_XAXIS)
 		{
-			i32vec2NumMicroSteps.x++;
-
-			if (i32vec2NumMicroSteps.x >= cSettings->NUM_STEPS_PER_TILE_XAXIS)
-			{
-				i32vec2NumMicroSteps.x = 0;
-				i32vec2Index.x++;
-			}
+			vec2WSCoordinate.x += 4.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
 		}
 
-		// Constraint the enemy2D's position within the screen boundary
+		cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
+
+		// Constraint the player's position within the screen boundary
 		Constraint(RIGHT);
+
+		vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
 
 		// Find a feasible position for the enemy2D's current position
 		if (CheckPosition(RIGHT) == false)
 		{
 			FlipHorizontalDirection();
-			i32vec2Index = i32vec2OldIndex;
 			i32vec2NumMicroSteps.x = 0;
+			vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
 		}
 
 		// Check if enemy2D is in mid-air, such as walking off a platform

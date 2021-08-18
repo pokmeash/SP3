@@ -32,15 +32,11 @@ using namespace std;
 
 // Include CGameStateManager
 #include "GameStateManagement/GameStateManager.h"
-// Include CIntroState
 #include "GameStateManagement/IntroState.h"
-// Include CMenuState
 #include "GameStateManagement/MenuState.h"
-// Include CPlayGameState
+#include "GameStateManagement/SettingsState.h"
 #include "GameStateManagement/PlayGameState.h"
-// Include CPlayGameState
 #include "GameStateManagement/Music.h"
-// Include CPlayGameState
 #include "GameStateManagement/WinState.h"
 
 /**
@@ -244,6 +240,7 @@ bool Application::Init(void)
 	// Create the Game States
 	CGameStateManager::GetInstance()->AddGameState("IntroState", new CIntroState());
 	CGameStateManager::GetInstance()->AddGameState("MenuState", new CMenuState());
+	CGameStateManager::GetInstance()->AddGameState("SettingsState", new CSettingsState());
 	CGameStateManager::GetInstance()->AddGameState("PlayGameState", new CPlayGameState());
 	CGameStateManager::GetInstance()->AddGameState("Music", new CMusicState());
 	CGameStateManager::GetInstance()->AddGameState("WinState", new CWinState());

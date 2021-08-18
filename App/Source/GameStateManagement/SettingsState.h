@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- CMenuState
+ CSettingsState
  @brief This class is derived from CGameState. It will introduce the game to the player.
  By: Toh Da Jun
  Date: July 2021
@@ -26,13 +26,13 @@
 // Include SoundController
 #include "..\SoundController\SoundController.h"
 
-class CMenuState : public CGameStateBase
+class CSettingsState : public CGameStateBase
 {
 public:
 	// Constructor
-	CMenuState(void);
+	CSettingsState(void);
 	// Destructor
-	~CMenuState(void);
+	~CSettingsState(void);
 
 	// Init this class instance
 	virtual bool Init(void);
@@ -44,11 +44,21 @@ public:
 	virtual void Destroy(void);
 
 protected:
+	enum BUTTONS {
+		VOL_UP,
+		VOL_DOWN,
+		CHANGE_UP,
+		CHANGE_DOWN,
+		CHANGE_LEFT,
+		CHANGE_RIGHT,
+		CHANGE_ACTIVATE,
+		CHANGE_SHOOT,
+		EXIT,
+		TOTAL_BUTTONS,
+	};
 	CBackgroundEntity* background;
-	ButtonData startButtonData;
-	ButtonData exitButtonData;
-	ButtonData volupButtonData;
-	ButtonData voldownButtonData;
+	ButtonData buttonData[TOTAL_BUTTONS];
+	ButtonData* activeKeybindSetButton;
 
 	// Handler to the CSoundController
 	CSoundController* cSoundController;

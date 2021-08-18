@@ -209,7 +209,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 	vec2WSOldCoordinates = vec2WSCoordinate;
 
 	// Get keyboard updates
-	if (cKeyboardController->IsKeyDown(GLFW_KEY_A))
+	if (cKeyboardController->IsKeyDown(cSettings->iKeybinds[CSettings::MOVE_LEFT]))
 	{
 		// Calculate the new position to the left
 		if (vec2WSCoordinate.x >= 0)
@@ -243,7 +243,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 		dirx = -1;
 		diry = 0;
 	}
-	else if (cKeyboardController->IsKeyDown(GLFW_KEY_D))
+	else if (cKeyboardController->IsKeyDown(cSettings->iKeybinds[CSettings::MOVE_RIGHT]))
 	{
 		// Calculate the new position to the right
 		if (vec2WSCoordinate.x < cSettings->NUM_TILES_XAXIS)
@@ -278,7 +278,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 		dirx = 1;
 		diry = 0;
 	}
-	if (cKeyboardController->IsKeyDown(GLFW_KEY_W))
+	if (cKeyboardController->IsKeyDown(cSettings->iKeybinds[CSettings::MOVE_UP]))
 	{
 		// Calculate the new position up
 		if (vec2WSCoordinate.y < cSettings->NUM_TILES_YAXIS)
@@ -304,7 +304,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 		dirx = 0;
 		diry = 1;
 	}
-	else if (cKeyboardController->IsKeyDown(GLFW_KEY_S))
+	else if (cKeyboardController->IsKeyDown(cSettings->iKeybinds[CSettings::MOVE_DOWN]))
 	{
 		// Calculate the new position down
 		if (vec2WSCoordinate.y >= 0)
@@ -331,7 +331,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 	}
 
 	//Swapping
-	if (cKeyboardController->IsKeyPressed(GLFW_KEY_UP) && swap == true)
+	if (cKeyboardController->IsKeyPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP]) && swap == true)
 	{
 		unsigned int InvisRow = -1;
 		unsigned int InvisCol = -1;
@@ -362,7 +362,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 
 
 	}
-	else if (cKeyboardController->IsKeyPressed(GLFW_KEY_UP) && swap == false)
+	else if (cKeyboardController->IsKeyPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP]) && swap == false)
 	{
 		unsigned int InvisRow = -1;
 		unsigned int InvisCol = -1;
@@ -393,7 +393,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 	}
 
 	static float delay = 0.f;
-	if (CMouseController::GetInstance()->IsButtonDown(0) && delay <= 0.f)
+	if (CMouseController::GetInstance()->IsButtonDown(cSettings->iKeybinds[CSettings::TRIGGER_SHOOT]) && delay <= 0.f)
 	{
 		delay = 0.5f;
 		glm::i32vec2 mouse((int)CMouseController::GetInstance()->GetMousePositionX(), (int)CMouseController::GetInstance()->GetMousePositionY());
