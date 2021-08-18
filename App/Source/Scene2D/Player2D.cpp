@@ -33,6 +33,7 @@ CPlayer2D::CPlayer2D(void)
 	, cSoundController(NULL)
 	, cEntityManager(NULL)
 	, cEntityFactory(NULL)
+	, cMouseController(NULL)
 {
 	transform = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
 
@@ -60,6 +61,8 @@ CPlayer2D::~CPlayer2D(void)
 	// We won't delete this since it was created elsewhere
 	cKeyboardController = NULL;
 
+	cMouseController = NULL;
+
 	// We won't delete this since it was created elsewhere
 	cMap2D = NULL;
 
@@ -77,6 +80,7 @@ bool CPlayer2D::Init(void)
 {
 	// Store the keyboard controller singleton instance here
 	cKeyboardController = CKeyboardController::GetInstance();
+	cMouseController = CMouseController::GetInstance();
 	// Reset all keys since we are starting a new game
 	cKeyboardController->Reset();
 
@@ -331,7 +335,8 @@ void CPlayer2D::Update(const double dElapsedTime)
 	}
 
 	//Swapping
-	if (cKeyboardController->IsKeyPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP]) && swap == true)
+	bool activate = cSettings->iKeybinds[CSettings::TRIGGER_POWERUP] <= GLFW_MOUSE_BUTTON_LAST && cMouseController->IsButtonPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP]);
+	if (activate || cKeyboardController->IsKeyPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP]) && swap == true)
 	{
 		unsigned int InvisRow = -1;
 		unsigned int InvisCol = -1;
@@ -362,7 +367,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 
 
 	}
-	else if (cKeyboardController->IsKeyPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP]) && swap == false)
+	else if ((cMouseController->IsButtonPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP]) ||cKeyboardController->IsKeyPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP])) && swap == false)
 	{
 		unsigned int InvisRow = -1;
 		unsigned int InvisCol = -1;
@@ -393,7 +398,8 @@ void CPlayer2D::Update(const double dElapsedTime)
 	}
 
 	static float delay = 0.f;
-	if (CMouseController::GetInstance()->IsButtonDown(cSettings->iKeybinds[CSettings::TRIGGER_SHOOT]) && delay <= 0.f)
+	bool shoot = cSettings->iKeybinds[CSettings::TRIGGER_SHOOT] <= GLFW_MOUSE_BUTTON_LAST && cMouseController->IsButtonDown(cSettings->iKeybinds[CSettings::TRIGGER_SHOOT]);
+	if ((shoot || cKeyboardController->IsKeyDown(cSettings->iKeybinds[CSettings::TRIGGER_SHOOT])) && delay <= 0.f)
 	{
 		delay = 0.5f;
 		glm::i32vec2 mouse((int)CMouseController::GetInstance()->GetMousePositionX(), (int)CMouseController::GetInstance()->GetMousePositionY());
