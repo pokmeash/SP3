@@ -329,7 +329,10 @@ void CPlayer2D::Update(const double dElapsedTime)
 		dirx = 0;
 		diry = -1;
 	}
-
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_DOWN))
+	{
+		CGameManager::GetInstance()->bLevelCompleted = true;
+	}
 	//Swapping
 	if (cKeyboardController->IsKeyPressed(GLFW_KEY_UP) && swap == true)
 	{
@@ -408,11 +411,8 @@ void CPlayer2D::Update(const double dElapsedTime)
 			for (int i = -cInventoryItem->GetCount(); i <= cInventoryItem->GetCount(); i++)
 			{
 				glm::vec2 temp = direction;
-				cout << (Math::RadianToDegree(atan2f(temp.y, temp.x)) * i) << endl;
 				temp.y = sinf(atan2f(temp.y, temp.x) + 0.1 * i);
 				temp.x = cosf(atan2f(temp.y, temp.x) + 0.1 * i);
-				cout << temp.y << endl;
-				cout << temp.x << endl;
 				temp = glm::normalize(temp) * 0.5f;
 				cEntityManager->entitylist.push_back(cEntityFactory->ProduceBullets(vec2WSCoordinate, glm::vec2(temp.x, temp.y), glm::vec3(1, 1, 1), 0, E_BULLET));
 			}
