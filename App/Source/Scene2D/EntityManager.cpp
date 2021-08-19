@@ -66,6 +66,7 @@ void EntityManager::Update(const double dElapsedTime)
 							entity->isactive = false;
 							std::cout << "deactivate " << entity << std::endl;
 							break;
+							
 						}
 						//std::cout << "checking " << entity << std::endl;
 						glm::vec2 vel = entity->EntityVec2Vel;
@@ -85,11 +86,6 @@ void EntityManager::Update(const double dElapsedTime)
 						{
 							entity->EntityVec2Vel.x *= -1;
 						}
-						/*if (entity->EntityVec2Vel.y > 0 ||
-							entity->EntityVec2Vel.y < 0)
-						{
-							entity->EntityVec2Vel.y *= -1;
-						}*/
 						break;
 					}
 				}

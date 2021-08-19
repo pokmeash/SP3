@@ -131,15 +131,18 @@ bool CScene2D::Init(void)
 	enemyVector.clear();
 	while (true)
 	{
+<<<<<<< HEAD
 		CEnemy2D* cEnemy2D = new CEnemy2D();
 		SpaceFly* cEnemy = new SpaceFly();
 		cEnemy->SetShader("2DColorShader");
+=======
+		CEnemy2D* cEnemy2D = new CSpaceGoop();
+>>>>>>> main
 		// Pass shader to cEnemy2D
 		cEnemy2D->SetShader("2DColorShader");
 		// Initialise the instance
 		if (cEnemy2D->Init() == true)
 		{
-			cEnemy2D->SetPlayer2D(cPlayer2D);
 			enemyVector.push_back(cEnemy2D);
 		}
 		else if (cEnemy->Init() == true)
@@ -247,13 +250,12 @@ bool CScene2D::Update(const double dElapsedTime)
 		enemyVector.clear();
 		while (true)
 		{
-			CEnemy2D* cEnemy2D = new CEnemy2D();
+			CEnemy2D* cEnemy2D = new CSpaceGoop();
 			// Pass shader to cEnemy2D
 			cEnemy2D->SetShader("2DColorShader");
 			// Initialise the instance
 			if (cEnemy2D->Init() == true)
 			{
-				cEnemy2D->SetPlayer2D(cPlayer2D);
 				enemyVector.push_back(cEnemy2D);
 			}
 			else

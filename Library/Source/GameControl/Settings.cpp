@@ -1,6 +1,7 @@
 #include "Settings.h"
 
 #include <iostream>
+#include "../Library/Source/System/LoadIni.h"
 using namespace std;
 
 CSettings::CSettings(void)
@@ -15,6 +16,24 @@ CSettings::CSettings(void)
 	, MICRO_STEP_XAXIS(0.00390625f)
 	, MICRO_STEP_YAXIS(0.005208125f)
 {
+	iKeybinds[MOVE_UP] = GLFW_KEY_W;
+	iKeybinds[MOVE_DOWN] = GLFW_KEY_S;
+	iKeybinds[MOVE_LEFT] = GLFW_KEY_A;
+	iKeybinds[MOVE_RIGHT] = GLFW_KEY_D;
+	iKeybinds[TRIGGER_SHOOT] = 0;
+	iKeybinds[TRIGGER_POWERUP] = GLFW_KEY_E;
+	std::map<unsigned, unsigned> keybinds;
+	if (!LoadIni("settings.ini", keybinds)) {
+		for (unsigned i = 0; i < TOTAL_KEYBINDS; ++i) {
+			std::pair<unsigned, unsigned> pair(i, iKeybinds[i]);
+			keybinds.insert(pair);
+		}
+		SaveIni("settings.ini", keybinds);
+	} else {
+		for (auto& pair : keybinds) {
+			iKeybinds[pair.first] = pair.second;
+		}
+	}
 }
 
 
@@ -101,6 +120,16 @@ void CSettings::ConvertMouseToWSSpace(int mouseX, int mouseY, float* posX, float
 	int h = iWindowHeight;
 	*posX = (float)mouseX / w * NUM_TILES_XAXIS;
 	*posY = (float)(h - mouseY) / h * NUM_TILES_YAXIS;
+}
+
+void CSettings::SaveKeybinds()
+{
+	std::map<unsigned, unsigned> keybinds;
+	for (unsigned i = 0; i < TOTAL_KEYBINDS; ++i) {
+		std::pair<unsigned, unsigned> pair(i, iKeybinds[i]);
+		keybinds.insert(pair);
+	}
+	SaveIni("settings.ini", keybinds);
 }
 
 // Update the specifications of the map

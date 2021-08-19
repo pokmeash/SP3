@@ -29,15 +29,6 @@ public:
     bool Init(void);
 
     // Update
-    void Update(const double dElapsedTime);
-
-    // PreRender
-    void PreRender(void);
-
-    // Render
-    void Render(void);
-
-    // PostRender
-    void PostRender(void);
+    virtual void Update(const double dElapsedTime);
 };
 

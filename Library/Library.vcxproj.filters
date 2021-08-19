@@ -220,5 +220,8 @@
     <ClInclude Include="Source\System\MyMath.h">
       <Filter>System</Filter>
     </ClInclude>
+    <ClInclude Include="Source\System\LoadIni.h">
+      <Filter>System</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

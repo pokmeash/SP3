@@ -20,13 +20,14 @@
 #include <includes/gtc/type_ptr.hpp>
 
 // Include CEntity2D
-#include "Primitives/Entity2D.h"
+#include "LivingEntity.h"
 
 // Include the Map2D as we will use it to check the player's movements and actions
 class CMapManager;
 
 // Include Keyboard controller
 #include "Inputs\KeyboardController.h"
+#include "Inputs\MouseController.h"
 
 // Include Physics2D
 #include "Physics2D.h"
@@ -45,7 +46,7 @@ class CMapManager;
 #include "BaseAttribute.h"
 #include "AttributeDecorator.h"
 extern bool wings;
-class CPlayer2D : public CSingletonTemplate<CPlayer2D>, public CEntity2D
+class CPlayer2D : public CSingletonTemplate<CPlayer2D>, public CLivingEntity
 {
 	friend CSingletonTemplate<CPlayer2D>;
 public:
@@ -59,44 +60,15 @@ public:
 	// Update
 	void Update(const double dElapsedTime);
 
-	// PreRender
-	void PreRender(void);
-
-	// Render
-	void Render(void);
-
-	// PostRender
-	void PostRender(void);
+	virtual void Render();
 
 	void PlayerDamaged();
 
 protected:
-	enum DIRECTION
-	{
-		LEFT = 0,
-		RIGHT = 1,
-		UP = 2,
-		DOWN = 3,
-		NUM_DIRECTIONS
-	};
-
-	glm::i32vec2 i32vec2OldIndex;
-
-	glm::vec2 vec2WSOldCoordinates;
-
-	glm::vec2 vec2Vel;
-
-	// Handler to the CMap2D instance
-	CMapManager* cMap2D;
 
 	// Keyboard Controller singleton instance
 	CKeyboardController* cKeyboardController;
-
-	// Physics
-	CPhysics2D cPhysics2D;
-
-	//CS: Animated Sprite
-	CSpriteAnimation* animatedSprites;
+	CMouseController* cMouseController;
 
 	// Current color
 	glm::vec4 currentColor;
@@ -123,23 +95,8 @@ protected:
 	// Destructor
 	virtual ~CPlayer2D(void);
 
-	// Load a texture
-	bool LoadTexture(const char* filename, GLuint& iTextureID);
-
-	// Constraint the player's position within a boundary
-	void Constraint(DIRECTION eDirection = LEFT);
-
-	// Check if a position is possible to move into
-	bool CheckPosition(DIRECTION eDirection);
-
-	// Check if the player is in mid-air
-	bool IsMidAir(void);
-
-	// Update Jump or Fall
-	void UpdateJumpFall(const double dElapsedTime = 0.0166666666666667);
-
 	// Let player interact with the map
-	void InteractWithMap(void);
+	virtual void InteractWithMap(void);
 
 	// Update the health and lives
 	void UpdateHealthLives(void);

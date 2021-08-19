@@ -1,13 +1,23 @@
 #pragma once
-#include"Primitives/Entity2D.h"
-#include"DesignPatterns/SingletonTemplate.h"
+#include "Primitives/Entity2D.h"
+#include "DesignPatterns/SingletonTemplate.h"
 
 
 //Projectile
+<<<<<<< HEAD
 #include"Bullet.h"
 #include"Spike.h"
+=======
+#include "./Projectile/Bullet.h"
+#include "./Projectile/Spike.h"
+
+//Enemy
+#include "./Enemies/Enemy2D.h"
+
+>>>>>>> main
 //Powerup
-#include"DoubleShot.h"
+#include "./PowerUps/DoubleShot.h"
+
 class EntityFactory : public CSingletonTemplate<EntityFactory>
 {
 	friend CSingletonTemplate<EntityFactory>;
