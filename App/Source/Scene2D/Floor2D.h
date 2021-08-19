@@ -128,13 +128,17 @@ public:
 	// Print out details about this class instance in the console window
 	virtual void PrintSelf(void) const;
 
+	void GenerateStandardRoom(int uiLevel);
+
+	void GenerateRandomRoom(int uiLevel);
+
 protected:
 	// The variable containing the rapidcsv::Document
 	// We will load the CSV file's content into this Document
 	rapidcsv::Document doc;
 
 	// A 3-D array which stores the values of the tile map
-	Grid*** arrMapInfo;
+	vector<Grid**> arrMapInfo;
 
 	// The current level
 	unsigned int uiCurRoom;

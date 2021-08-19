@@ -221,7 +221,8 @@ bool CScene2D::Update(const double dElapsedTime)
 	// Check if the game should go to the next level
 	if (cGameManager->bLevelCompleted == true)
 	{
-		cMap2D->SetCurrentLevel(cMap2D->GetCurrentLevel()+1);
+		cMap2D->GenerateRandomRoom(cMap2D->GetCurrentLevel() + 1);
+		//cMap2D->SetCurrentLevel(cMap2D->GetCurrentLevel()+1);
 		cPlayer2D->Reset();
 		cGameManager->bLevelCompleted = false;
 

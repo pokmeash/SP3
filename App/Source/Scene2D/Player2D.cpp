@@ -459,12 +459,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 			unsigned int DoorCol = -1;
 			if (cMap2D->FindValue(100, DoorRow, DoorCol) == false)
 				return;
-			cMap2D->SetMapInfo(DoorRow, DoorCol, 97);
-			unsigned int DoorRow2 = -1;
-			unsigned int DoorCol2 = -1;
-			if (cMap2D->FindValue(101, DoorRow2, DoorCol2) == false)
-				return;
-			cMap2D->SetMapInfo(DoorRow2, DoorCol2, 98);
+			cMap2D->SetMapInfo(DoorRow, DoorCol, 99);
 			cSoundController->PlaySoundByID(6);
 		}
 	}
@@ -539,23 +534,10 @@ void CPlayer2D::InteractWithMap(void)
 		cInventoryItem->Add(1);
 		currentColor = glm::vec4(0.0, 1.0, 0.0, 1.0);
 		break;
-	case 97:
-		//Generate Next Room
-		CGameManager::GetInstance()->bLevelCompleted = true;
-		break;
-	case 98:
-		//Go Prev Room
-		CGameManager::GetInstance()->bLevelCompleted = true;
-		break;
 	case 99:
 		//Next Room
+		
 		CGameManager::GetInstance()->bLevelCompleted = true;
-		break;
-	case 101:
-		//Closed Door
-		break;
-	case 102:
-		//Closed Prev Door
 		break;
 	default:
 		break;

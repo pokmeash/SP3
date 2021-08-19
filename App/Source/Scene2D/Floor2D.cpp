@@ -47,7 +47,7 @@ CFloor2D::~CFloor2D(void)
 		}
 		delete [] arrMapInfo[uiLevel];
 	}
-	delete[] arrMapInfo;
+	arrMapInfo.clear();
 
 	// optional: de-allocate all resources once they've outlived their purpose:
 	glDeleteVertexArrays(1, &VAO);
@@ -67,10 +67,10 @@ bool CFloor2D::Init(	const unsigned int uiNumLevels,
 
 	// Create the arrMapInfo and initialise to 0
 	// Start by initialising the number of levels
-	arrMapInfo = new Grid** [uiNumLevels];
+	arrMapInfo.reserve(uiNumLevels);
 	for (unsigned uiLevel = 0; uiLevel < uiNumLevels; uiLevel++)
 	{
-		arrMapInfo[uiLevel] = new Grid* [uiNumRows];
+		arrMapInfo.push_back(new Grid * [uiNumRows]);
 		for (unsigned uiRow = 0; uiRow < uiNumRows; uiRow++)
 		{
 			arrMapInfo[uiLevel][uiRow] = new Grid[uiNumCols];
@@ -154,9 +154,9 @@ bool CFloor2D::Init(	const unsigned int uiNumLevels,
 		return false;
 	}
 	// Load the ground texture
-	if (LoadTexture("Image/Scene2D_LockedExit.tga", 101) == false)
+	if (LoadTexture("Image/Scene2D_GroundTile.tga", 101) == false)
 	{
-		std::cout << "Failed to load LockedExit tile texture" << std::endl;
+		std::cout << "Failed to load ground tile texture" << std::endl;
 		return false;
 	}
 	if (LoadTexture("Image/Scene2D_GroundTile.tga", 102) == false)
@@ -349,6 +349,8 @@ int CFloor2D::GetMapInfo(const unsigned int uiRow, const int unsigned uiCol, con
  */ 
 bool CFloor2D::LoadMap(string filename, const unsigned int uiCurLevel)
 {
+	GenerateStandardRoom(uiCurLevel);
+	return true;
 	doc = rapidcsv::Document(FileSystem::getPath(filename).c_str());
 
 	// Check if the sizes of CSV data matches the declared arrMapInfo sizes
@@ -678,6 +680,125 @@ void CFloor2D::PrintSelf(void) const
 	cout << "m_closedList: " << m_closedList.size() << endl;
 
 	cout << "===== AStar::PrintSelf() =====" << endl;
+}
+
+void CFloor2D::GenerateStandardRoom(int uiLevel)
+{
+
+	//Grid*** arrMap;
+	
+	//arrMapInfo = new Grid **[1];
+	//arrMapInfo[0] = new Grid*[cSettings->NUM_TILES_YAXIS];
+	for (unsigned int uiRow = 0; uiRow < cSettings->NUM_TILES_YAXIS; uiRow++)
+	{
+		// Load a particular CSV value into the arrMapInfo
+		for (unsigned int uiCol = 0; uiCol < cSettings->NUM_TILES_XAXIS; ++uiCol)
+		{
+			if ((uiRow == cSettings->NUM_TILES_YAXIS - 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2) || (uiRow == 1 && uiCol == cSettings->NUM_TILES_XAXIS / 2) || (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == 1) || (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS - 2))
+			{
+				arrMapInfo[uiLevel][uiRow][uiCol].value = 100;
+			}
+			else if ((uiRow < 2) || (uiCol < 2) || (uiCol > cSettings->NUM_TILES_XAXIS - 3) || (uiRow > cSettings->NUM_TILES_YAXIS - 3))
+			{
+				arrMapInfo[uiLevel][uiRow][uiCol].value = (int)101;
+			}
+			else if (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2)
+			{
+				arrMapInfo[uiLevel][uiRow][uiCol].value = 3;
+			}
+			else if (uiRow == 5 && uiCol == 5)
+			{
+				arrMapInfo[uiLevel][uiRow][uiCol].value = 300;
+			}
+			else
+			{
+				arrMapInfo[uiLevel][uiRow][uiCol].value = 0;
+			}
+		}
+	}
+}
+
+void CFloor2D::GenerateRandomRoom(int uiLevel)
+{
+	//int random = rand() % 100 + 1;
+	if (uiLevel > arrMapInfo.size()) {
+		arrMapInfo.push_back(new Grid * [0]);
+		for (unsigned uiRow = 0; uiRow < CSettings::GetInstance()->NUM_TILES_YAXIS; uiRow++)
+		{
+			arrMapInfo[uiLevel][uiRow] = new Grid[CSettings::GetInstance()->NUM_TILES_XAXIS];
+			for (unsigned uiCol = 0; uiCol < CSettings::GetInstance()->NUM_TILES_XAXIS; uiCol++)
+			{
+				arrMapInfo[uiLevel][uiRow][uiCol].value = 0;
+			}
+		}
+	}
+	int random = 1;
+	switch (random)
+	{
+	case 1:
+	{
+		for (unsigned int uiRow = 0; uiRow < CSettings::GetInstance()->NUM_TILES_YAXIS; uiRow++)
+		{
+			// Load a particular CSV value into the arrMapInfo
+			for (unsigned int uiCol = 0; uiCol < CSettings::GetInstance()->NUM_TILES_XAXIS; ++uiCol)
+			{
+				if ((uiRow == CSettings::GetInstance()->NUM_TILES_YAXIS - 2 && uiCol == CSettings::GetInstance()->NUM_TILES_XAXIS / 2) || (uiRow == 1 && uiCol == cSettings->NUM_TILES_XAXIS / 2) || (uiRow == CSettings::GetInstance()->NUM_TILES_YAXIS / 2 && uiCol == 1) || (uiRow == CSettings::GetInstance()->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS - 2))
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 100;
+				}
+				else if ((uiRow < 2) || (uiCol < 2) || (uiCol > CSettings::GetInstance()->NUM_TILES_XAXIS - 3) || (uiRow > CSettings::GetInstance()->NUM_TILES_YAXIS - 3))
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = (int)101;
+				}
+				else if (uiRow == CSettings::GetInstance()->NUM_TILES_YAXIS / 2 && uiCol == CSettings::GetInstance()->NUM_TILES_XAXIS / 2)
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 3;
+				}
+				else if (uiRow == 10 && uiCol == 10)
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 300;
+				}
+				else
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 0;
+				}
+			}
+		}
+		break;
+	}
+	case 2:
+	{
+		for (unsigned int uiRow = 0; uiRow < cSettings->NUM_TILES_YAXIS; uiRow++)
+		{
+			// Load a particular CSV value into the arrMapInfo
+			for (unsigned int uiCol = 0; uiCol < cSettings->NUM_TILES_XAXIS; ++uiCol)
+			{
+				if ((uiRow == cSettings->NUM_TILES_YAXIS - 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2) || (uiRow == 1 && uiCol == cSettings->NUM_TILES_XAXIS / 2) || (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == 1) || (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS - 2))
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 100;
+				}
+				else if ((uiRow < 2) || (uiCol < 2) || (uiCol > cSettings->NUM_TILES_XAXIS - 3) || (uiRow > cSettings->NUM_TILES_YAXIS - 3))
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = (int)101;
+				}
+				else if (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2)
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 3;
+				}
+				else if (uiRow == 15 && uiCol == 15)
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 300;
+				}
+				else
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 0;
+				}
+			}
+		}
+		break;
+	}
+
+	}
 }
 
 /**
