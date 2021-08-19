@@ -5,6 +5,10 @@ void AttributeDecorator::setHP(int hp)
 	attribute->setHP(hp);
 }
 
+void AttributeDecorator::addHP(int hp)
+{
+}
+
 int AttributeDecorator::getHP()
 {
 	return attribute->getHP();
@@ -13,6 +17,10 @@ int AttributeDecorator::getHP()
 void AttributeDecorator::setDmg(int dmg)
 {
 	attribute->setDmg(dmg);
+}
+
+void AttributeDecorator::addDmg(int dmg)
+{
 }
 
 int AttributeDecorator::getDmg()

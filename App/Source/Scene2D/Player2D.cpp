@@ -22,6 +22,8 @@ using namespace std;
 // Include Game Manager
 #include "GameManager.h"
 
+
+
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
  */
@@ -44,6 +46,8 @@ CPlayer2D::CPlayer2D(void)
 
 	// Initialise vec2UVCoordinate
 	vec2UVCoordinate = glm::vec2(0.0f);
+	Character = new BaseAttribute();
+
 }
 
 /**
@@ -133,7 +137,7 @@ bool CPlayer2D::Init(void)
 	// Get the handler to the CInventoryManager instance
 	cInventoryManager = CInventoryManager::GetInstance();
 	// Add a Lives icon as one of the inventory items
-	cInventoryItem = cInventoryManager->Add("Lives", "Image/Scene2D_Lives.tga", 3, 0);
+	cInventoryItem = cInventoryManager->Add("Lives", "Image/Scene2D_Lives.tga", Character->getHP(), 0);
 	cInventoryItem->vec2Size = glm::vec2(25, 25);
 
 	// Add a Health icon as one of the inventory items
@@ -147,6 +151,8 @@ bool CPlayer2D::Init(void)
 	// Add a Wing icon as one of the inventory items
 	cInventoryItem = cInventoryManager->Add("DoubleShot", "Image/DoubleShot.png", 100, 100);
 	cInventoryItem->vec2Size = glm::vec2(25, 25);
+
+	
 
 	jumpCount = 0;
 
@@ -205,6 +211,7 @@ bool CPlayer2D::Reset()
  */
 void CPlayer2D::Update(const double dElapsedTime)
 {
+	cout << Character->getDmg() << endl;
 	// Store the old position
 	vec2WSOldCoordinates = vec2WSCoordinate;
 
@@ -401,7 +408,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 		cSettings->ConvertMouseToWSSpace(mouse.x, mouse.y, &(wsSpace.x), &(wsSpace.y));
 		glm::vec2 direction = wsSpace - vec2WSCoordinate;
 		direction = glm::normalize(direction);
-		direction *= 0.5f;
+		direction *= 0.5f; 
 		if (cInventoryManager->Check("Tree"))
 		{
 			cInventoryItem = cInventoryManager->GetItem("Tree");
@@ -413,7 +420,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 				temp.x = cosf(atan2f(temp.y, temp.x) + 0.1 * i);
 				cout << temp.y << endl;
 				cout << temp.x << endl;
-				temp = glm::normalize(temp) * 0.5f;
+				temp = glm::normalize(temp) * 0.4f; // projectile speed
 				cEntityManager->entitylist.push_back(cEntityFactory->ProduceBullets(vec2WSCoordinate, glm::vec2(temp.x, temp.y), glm::vec3(1, 1, 1), 0, E_BULLET));
 			}
 		}
@@ -425,7 +432,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 	// Update Jump or Fall
 	//CS: Will cause error when debugging. Set to default elapsed time
 	UpdateJumpFall(dElapsedTime);
-
+	
 	// Interact with the Map
 	InteractWithMap();
 
@@ -869,6 +876,16 @@ void CPlayer2D::InteractWithMap(void)
 		cInventoryItem = cInventoryManager->GetItem("Lives");
 		cInventoryItem->Add(1);
 		// Erase the life from this position
+		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
+		break;
+	case 11:
+		break;
+	case 12:
+		Character->addDmg(1);
+		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
+		break;
+	case 13:
+		Character->addHP(1);
 		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
 		break;
 	case 20:

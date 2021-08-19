@@ -5,6 +5,11 @@ void BaseAttribute::setHP(int hp)
 	HP = hp;
 }
 
+void BaseAttribute::addHP(int hp)
+{
+	HP += hp;
+}
+
 int BaseAttribute::getHP()
 {
 	return HP;
@@ -13,6 +18,11 @@ int BaseAttribute::getHP()
 void BaseAttribute::setDmg(int dmg)
 {
 	Dmg = dmg;
+}
+
+void BaseAttribute::addDmg(int dmg)
+{
+	Dmg += dmg;
 }
 
 int BaseAttribute::getDmg()

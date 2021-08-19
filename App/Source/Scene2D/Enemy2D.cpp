@@ -521,6 +521,11 @@ void CEnemy2D::Seti32vec2NumMicroSteps(const int iNumMicroSteps_XAxis, const int
 	this->i32vec2NumMicroSteps.y = iNumMicroSteps_YAxis;
 }
 
+glm::i32vec2 CEnemy2D::Geti32vec2Index(void) const
+{
+	return i32vec2Index;
+}
+
 /**
  @brief Set the handle to cPlayer to this class instance
  @param cPlayer2D A CPlayer2D* variable which contains the pointer to the CPlayer2D instance

@@ -106,7 +106,7 @@ bool SpaceFly::Init(void)
 	quadMesh = CMeshBuilder::GenerateQuad(glm::vec4(1, 1, 1, 1), cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
 
 	// Load the enemy2D texture
-	if (LoadTexture("Image/scene2d_enemy.png", iTextureID) == false)
+	if (LoadTexture("Image/enemy2.tga", iTextureID) == false)
 	{
 		std::cout << "Failed to load enemy2D tile texture" << std::endl;
 		return false;
@@ -325,10 +325,10 @@ void SpaceFly::Update(const double dElapsedTime)
 			}
 
 			// Check if player is in mid-air, such as walking off a platform
-			if (IsMidAir() == true)
+			/*if (IsMidAir() == true)
 			{
 				cPhysics2D.SetStatus(CPhysics2D::STATUS::FALL);
-			}
+			}*/
 
 			//CS: Play the "left" animation
 			//animatedSprites->PlayAnimation("left", -1, 1.0f);
@@ -362,10 +362,10 @@ void SpaceFly::Update(const double dElapsedTime)
 			}
 
 			// Check if player is in mid-air, such as walking off a platform
-			if (IsMidAir() == true)
+			/*if (IsMidAir() == true)
 			{
 				cPhysics2D.SetStatus(CPhysics2D::STATUS::FALL);
-			}
+			}*/
 
 			//CS: Play the "right" animation
 			//animatedSprites->PlayAnimation("right", -1, 1.0f);
@@ -919,6 +919,11 @@ void SpaceFly::FlipHorizontalDirection(void)
 	i32vec2Direction.x *= -1;
 }
 
+void SpaceFly::FlipVerticalDirection(void)
+{
+	i32vec2Direction.y *= -1;
+}
+
 
 /**
 @brief Update position.
@@ -1002,10 +1007,36 @@ void SpaceFly::UpdatePosition(void)
 	// if the player is above the enemy2D, then jump to attack
 	if (i32vec2Direction.y > 0)
 	{
-		if (cPhysics2D.GetStatus() == CPhysics2D::STATUS::IDLE)
+		// Move left
+		const int iOldIndex = i32vec2Index.y;
+		if (i32vec2Index.y >= 0)
+		{
+			i32vec2NumMicroSteps.y++;
+			if (i32vec2NumMicroSteps.y < 0)
+			{
+				i32vec2NumMicroSteps.y = ((int)cSettings->NUM_STEPS_PER_TILE_YAXIS) + 1;
+				i32vec2Index.y++;
+			}
+		}
+
+		// Constraint the enemy2D's position within the screen boundary
+		Constraint(UP);
+
+		// Find a feasible position for the enemy2D's current position
+		if (CheckPosition(UP) == false)
+		{
+			FlipVerticalDirection();
+			i32vec2Index = i32vec2OldIndex;
+			i32vec2NumMicroSteps.x = 0;
+		}
+
+		// Interact with the Player
+		InteractWithPlayer();
+
+		/*if (cPhysics2D.GetStatus() == CPhysics2D::STATUS::IDLE)
 		{
 			cPhysics2D.SetStatus(CPhysics2D::STATUS::JUMP);
 			cPhysics2D.SetInitialVelocity(glm::vec2(0.0f, 3.5f));
-		}
+		}*/
 	}
 }

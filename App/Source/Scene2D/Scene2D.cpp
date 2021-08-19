@@ -46,6 +46,7 @@ CScene2D::~CScene2D(void)
 	// Destroy the enemies
 	for (int i = 0; i < enemyVector.size(); i++)
 	{
+		
 		delete enemyVector[i];
 		enemyVector[i] = NULL;
 	}
@@ -131,21 +132,21 @@ bool CScene2D::Init(void)
 	while (true)
 	{
 		CEnemy2D* cEnemy2D = new CEnemy2D();
-		//SpaceFly* cEnemy = new SpaceFly();
+		SpaceFly* cEnemy = new SpaceFly();
+		cEnemy->SetShader("2DColorShader");
 		// Pass shader to cEnemy2D
 		cEnemy2D->SetShader("2DColorShader");
-		//cEnemy->SetShader("2DColorShader");
 		// Initialise the instance
 		if (cEnemy2D->Init() == true)
 		{
 			cEnemy2D->SetPlayer2D(cPlayer2D);
 			enemyVector.push_back(cEnemy2D);
 		}
-		/*else if (cEnemy->Init() == true)
+		else if (cEnemy->Init() == true)
 		{
 			cEnemy->SetPlayer2D(cPlayer2D);
 			enemyVector.push_back(cEnemy);
-		}*/
+		}
 		else
 		{
 			// Break out of this loop if the enemy has all been loaded
@@ -247,6 +248,7 @@ bool CScene2D::Update(const double dElapsedTime)
 		while (true)
 		{
 			CEnemy2D* cEnemy2D = new CEnemy2D();
+			cEnemy2D->type = CEntity2D::E_ENEMY;
 			// Pass shader to cEnemy2D
 			cEnemy2D->SetShader("2DColorShader");
 			// Initialise the instance
@@ -262,7 +264,7 @@ bool CScene2D::Update(const double dElapsedTime)
 			}
 		}
 	}
-
+	
 
 	// Check if the game should be ended
 	else if (cGameManager->bPlayerLost == true)

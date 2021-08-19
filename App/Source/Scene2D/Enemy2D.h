@@ -4,6 +4,8 @@
  Date: Mar 2020
  */
 #pragma once
+ // Include Singleton template
+#include "DesignPatterns\SingletonTemplate.h"
 
 // Include shader
 #include "RenderControl\shader.h"
@@ -36,7 +38,7 @@ class CMapManager;
 
 #include "EntityManager.h"
 
-class CEnemy2D : public CEntity2D
+class CEnemy2D : public CSingletonTemplate<CEnemy2D>, public CEntity2D
 {
 public:
 	// Constructor

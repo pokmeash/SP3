@@ -41,7 +41,9 @@ class CMapManager;
 #include "..\SoundController\SoundController.h"
 
 #include "EntityManager.h"
-
+#include "Attribute.h"
+#include "BaseAttribute.h"
+#include "AttributeDecorator.h"
 extern bool wings;
 class CPlayer2D : public CSingletonTemplate<CPlayer2D>, public CEntity2D
 {
@@ -117,6 +119,7 @@ protected:
 	// Constructor
 	CPlayer2D(void);
 
+	Attribute* Character;
 	// Destructor
 	virtual ~CPlayer2D(void);
 

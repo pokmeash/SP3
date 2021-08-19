@@ -6,7 +6,6 @@
 //Projectile
 #include"Bullet.h"
 #include"Spike.h"
-
 //Powerup
 #include"DoubleShot.h"
 class EntityFactory : public CSingletonTemplate<EntityFactory>
@@ -19,7 +18,6 @@ public:
 	// Destructor
 	~EntityFactory(void);
 
-
 	//Projectiles
 	Bullet* ProduceBullets(glm::f32vec2 EntityVec2Index, glm::f32vec2 EntityVec2Vel, glm::vec3 EntityVec3Scale,float rotation,CEntity2D::ENTITY_TYPE type);
 
@@ -27,6 +25,7 @@ public:
 
 	//Powerups
 	DoubleShot* ProduceDoubleShot(glm::f32vec2 EntityVec2Index, glm::f32vec2 EntityVec2Vel, glm::vec3 EntityVec3Scale, float rotation, CEntity2D::ENTITY_TYPE type);
+
 
 };
 

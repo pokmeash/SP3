@@ -135,6 +135,18 @@ bool CMap2D::Init(	const unsigned int uiNumLevels,
 		std::cout << "Failed to load SpeedUp tile texture" << std::endl;
 		return false;
 	}
+	// Load Attack up power up
+	if (LoadTexture("Image/attackup.tga", 12) == false)
+	{
+		std::cout << "Failed to load Attack up tile texture" << std::endl;
+		return false;
+	}
+	// Load Health up power up
+	if (LoadTexture("Image/healthup.tga", 13) == false)
+	{
+		std::cout << "Failed to load Health up tile texture" << std::endl;
+		return false;
+	}
 	// Load the spike texture
 	if (LoadTexture("Image/Scene2D_Lava.tga", 20) == false)
 	{

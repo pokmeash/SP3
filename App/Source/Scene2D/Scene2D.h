@@ -28,7 +28,7 @@
 #include "Player2D.h"
 // Include CEnemy2D
 #include "Enemy2D.h"
-
+#include "../App/Source/Enemy/SpaceFly.h"
 //#include "../App/Source/Enemy/SpaceFly.h"
 // Include vector
 #include <vector>
