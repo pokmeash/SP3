@@ -1,11 +1,179 @@
-﻿  Map2D.cpp
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Map2D.cpp(687,32): warning C4018: '<': signed/unsigned mismatch
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Map2D.cpp(688,26): warning C4018: '<': signed/unsigned mismatch
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Map2D.cpp(749,20): warning C4018: '<': signed/unsigned mismatch
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Map2D.cpp(758,20): warning C4018: '<': signed/unsigned mismatch
-  Scene2D.cpp
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Scene2D.cpp(48,20): warning C4018: '<': signed/unsigned mismatch
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Scene2D.cpp(209,20): warning C4018: '<': signed/unsigned mismatch
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Scene2D.cpp(313,20): warning C4018: '<': signed/unsigned mismatch
+﻿  Application.cpp
+  GameStateManager.cpp
+  IntroState.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\glfw\include\GLFW\glfw3.h(98): message : see previous definition of 'APIENTRY'
+  MenuState.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\glfw\include\GLFW\glfw3.h(98): message : see previous definition of 'APIENTRY'
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\GameStateManagement\MenuState.cpp(134,44): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\GameStateManagement\MenuState.cpp(133,75): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\GameStateManagement\MenuState.cpp(135,95): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\GameStateManagement\MenuState.cpp(135,55): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+  Music.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\glfw\include\GLFW\glfw3.h(98): message : see previous definition of 'APIENTRY'
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\GameStateManagement\Music.cpp(132,44): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\GameStateManagement\Music.cpp(131,75): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\GameStateManagement\Music.cpp(133,95): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\GameStateManagement\Music.cpp(133,55): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+  PlayGameState.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\glfw\include\GLFW\glfw3.h(98): message : see previous definition of 'APIENTRY'
+  SettingsState.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\glfw\include\GLFW\glfw3.h(98): message : see previous definition of 'APIENTRY'
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\GameStateManagement\SettingsState.cpp(144,44): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\GameStateManagement\SettingsState.cpp(143,75): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\GameStateManagement\SettingsState.cpp(145,95): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\GameStateManagement\SettingsState.cpp(145,55): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\GameStateManagement\SettingsState.cpp(166,95): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\GameStateManagement\SettingsState.cpp(166,75): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  WinState.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\glfw\include\GLFW\glfw3.h(98): message : see previous definition of 'APIENTRY'
+  main.cpp
+  BackgroundEntity.cpp
+  Enemy2D.cpp
+  SpaceFly.cpp
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Enemies\SpaceFly.cpp(241,107): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+          with
+          [
+              T=glm::i32
+          ]
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Enemies\SpaceFly.cpp(248,108): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+          with
+          [
+              T=glm::i32
+          ]
+  SpaceGoop.cpp
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Enemies\SpaceGoop.cpp(241,107): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+          with
+          [
+              T=glm::i32
+          ]
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Enemies\SpaceGoop.cpp(248,108): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+          with
+          [
+              T=glm::i32
+          ]
+  EntityFactory.cpp
+  EntityManager.cpp
+  GameManager.cpp
+  GUI_Scene2D.cpp
+  InventoryItem.cpp
+  InventoryManager.cpp
+  LivingEntity.cpp
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\LivingEntity.cpp(88,106): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+          with
+          [
+              T=glm::i32
+          ]
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\LivingEntity.cpp(89,106): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+          with
+          [
+              T=glm::i32
+          ]
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\LivingEntity.cpp(101,106): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+          with
+          [
+              T=glm::i32
+          ]
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\LivingEntity.cpp(102,106): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+          with
+          [
+              T=glm::i32
+          ]
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\LivingEntity.cpp(180,22): warning C4018: '>=': signed/unsigned mismatch
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\LivingEntity.cpp(210,22): warning C4018: '>=': signed/unsigned mismatch
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\LivingEntity.cpp(322,107): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+          with
+          [
+              T=glm::i32
+          ]
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\LivingEntity.cpp(348,107): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+          with
+          [
+              T=glm::i32
+          ]
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\LivingEntity.cpp(355,108): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+          with
+          [
+              T=glm::i32
+          ]
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\LivingEntity.cpp(374,107): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+          with
+          [
+              T=glm::i32
+          ]
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\LivingEntity.cpp(379,108): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+          with
+          [
+              T=glm::i32
+          ]
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\LivingEntity.cpp(392,107): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+          with
+          [
+              T=glm::i32
+          ]
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\LivingEntity.cpp(398,108): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+          with
+          [
+              T=glm::i32
+          ]
   Generating Code...
-  App.vcxproj -> D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Debug\App.exe
+  Compiling...
+  Map2D.cpp
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Map2D.cpp(687,32): warning C4018: '<': signed/unsigned mismatch
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Map2D.cpp(688,26): warning C4018: '<': signed/unsigned mismatch
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Map2D.cpp(749,20): warning C4018: '<': signed/unsigned mismatch
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Map2D.cpp(758,20): warning C4018: '<': signed/unsigned mismatch
+  Physics2D.cpp
+  Player2D.cpp
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Player2D.cpp(261,107): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+          with
+          [
+              T=glm::i32
+          ]
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Player2D.cpp(267,108): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+          with
+          [
+              T=glm::i32
+          ]
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Player2D.cpp(294,107): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+          with
+          [
+              T=glm::i32
+          ]
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Player2D.cpp(299,108): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+          with
+          [
+              T=glm::i32
+          ]
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Player2D.cpp(319,107): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+          with
+          [
+              T=glm::i32
+          ]
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Player2D.cpp(325,108): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+          with
+          [
+              T=glm::i32
+          ]
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Player2D.cpp(422,42): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Player2D.cpp(423,42): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Player2D.cpp(430,24): warning C4244: '-=': conversion from 'const double' to 'float', possible loss of data
+  MapManager.cpp
+  DoubleShot.cpp
+  Bullet.cpp
+  Spike.cpp
+  Scene2D.cpp
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Scene2D.cpp(48,20): warning C4018: '<': signed/unsigned mismatch
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Scene2D.cpp(210,20): warning C4018: '<': signed/unsigned mismatch
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Scene2D.cpp(315,20): warning C4018: '<': signed/unsigned mismatch
+  SoundController.cpp
+  SoundInfo.cpp
+  Generating Code...
+  LINK : program database C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\Debug\App.pdb missing; performing full link
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+  App.vcxproj -> C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\Debug\App.exe
