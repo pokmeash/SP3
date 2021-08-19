@@ -4,17 +4,12 @@
 
 
 //Projectile
-<<<<<<< HEAD
-#include"Bullet.h"
-#include"Spike.h"
-=======
 #include "./Projectile/Bullet.h"
 #include "./Projectile/Spike.h"
 
 //Enemy
 #include "./Enemies/Enemy2D.h"
 
->>>>>>> main
 //Powerup
 #include "./PowerUps/DoubleShot.h"
 

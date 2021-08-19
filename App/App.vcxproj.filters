@@ -21,9 +21,6 @@
     <Filter Include="Entity">
       <UniqueIdentifier>{222dbe78-732b-45ad-b2ba-88d9d05fe027}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Enemy">
-      <UniqueIdentifier>{e8719cc8-9e73-40eb-b2f1-f4f1060e2243}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp">
@@ -106,9 +103,6 @@
     </ClCompile>
     <ClCompile Include="Source\Scene2D\AttributeDecorator.cpp">
       <Filter>Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Enemy\SpaceFly.cpp">
-      <Filter>Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Source\Scene2D\DoubleShot.cpp">
       <Filter>Source Files</Filter>
@@ -198,9 +192,6 @@
     </ClInclude>
     <ClInclude Include="Source\Scene2D\AttributeDecorator.h">
       <Filter>Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Enemy\SpaceFly.h">
-      <Filter>Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scene2D\DoubleShot.h">
       <Filter>Header Files</Filter>
