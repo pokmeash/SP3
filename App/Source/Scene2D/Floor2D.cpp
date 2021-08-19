@@ -685,10 +685,9 @@ void CFloor2D::PrintSelf(void) const
 void CFloor2D::GenerateStandardRoom(int uiLevel)
 {
 
-	//Grid*** arrMap;
-	
-	//arrMapInfo = new Grid **[1];
-	//arrMapInfo[0] = new Grid*[cSettings->NUM_TILES_YAXIS];
+	if (uiLevel > arrMapInfo.size() - 1) {
+		arrMapInfo.push_back(new Grid * [CSettings::GetInstance()->NUM_TILES_YAXIS]);
+	}
 	for (unsigned int uiRow = 0; uiRow < cSettings->NUM_TILES_YAXIS; uiRow++)
 	{
 		// Load a particular CSV value into the arrMapInfo
@@ -720,16 +719,15 @@ void CFloor2D::GenerateStandardRoom(int uiLevel)
 
 void CFloor2D::GenerateRandomRoom(int uiLevel)
 {
+	if (arrMapInfo.size() > uiLevel) return;
 	//int random = rand() % 100 + 1;
-	if (uiLevel > arrMapInfo.size()) {
-		arrMapInfo.push_back(new Grid * [0]);
-		for (unsigned uiRow = 0; uiRow < CSettings::GetInstance()->NUM_TILES_YAXIS; uiRow++)
+	arrMapInfo.push_back(new Grid * [CSettings::GetInstance()->NUM_TILES_YAXIS]);
+	for (unsigned uiRow = 0; uiRow < CSettings::GetInstance()->NUM_TILES_YAXIS; uiRow++)
+	{
+		arrMapInfo.at(arrMapInfo.size() - 1)[uiRow] = new Grid[CSettings::GetInstance()->NUM_TILES_XAXIS];
+		for (unsigned uiCol = 0; uiCol < CSettings::GetInstance()->NUM_TILES_XAXIS; uiCol++)
 		{
-			arrMapInfo[uiLevel][uiRow] = new Grid[CSettings::GetInstance()->NUM_TILES_XAXIS];
-			for (unsigned uiCol = 0; uiCol < CSettings::GetInstance()->NUM_TILES_XAXIS; uiCol++)
-			{
-				arrMapInfo[uiLevel][uiRow][uiCol].value = 0;
-			}
+			arrMapInfo.at(arrMapInfo.size() - 1)[uiRow][uiCol].value = 0;
 		}
 	}
 	int random = 1;
@@ -742,25 +740,26 @@ void CFloor2D::GenerateRandomRoom(int uiLevel)
 			// Load a particular CSV value into the arrMapInfo
 			for (unsigned int uiCol = 0; uiCol < CSettings::GetInstance()->NUM_TILES_XAXIS; ++uiCol)
 			{
-				if ((uiRow == CSettings::GetInstance()->NUM_TILES_YAXIS - 2 && uiCol == CSettings::GetInstance()->NUM_TILES_XAXIS / 2) || (uiRow == 1 && uiCol == cSettings->NUM_TILES_XAXIS / 2) || (uiRow == CSettings::GetInstance()->NUM_TILES_YAXIS / 2 && uiCol == 1) || (uiRow == CSettings::GetInstance()->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS - 2))
+				Grid& grid = arrMapInfo.at(uiLevel - 1)[uiRow][uiCol];
+				if ((uiRow == CSettings::GetInstance()->NUM_TILES_YAXIS - 2 && uiCol == CSettings::GetInstance()->NUM_TILES_XAXIS / 2) || (uiRow == 1 && uiCol == CSettings::GetInstance()->NUM_TILES_XAXIS / 2) || (uiRow == CSettings::GetInstance()->NUM_TILES_YAXIS / 2 && uiCol == 1) || (uiRow == CSettings::GetInstance()->NUM_TILES_YAXIS / 2 && uiCol == CSettings::GetInstance()->NUM_TILES_XAXIS - 2))
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 100;
+					grid.value = 100;
 				}
 				else if ((uiRow < 2) || (uiCol < 2) || (uiCol > CSettings::GetInstance()->NUM_TILES_XAXIS - 3) || (uiRow > CSettings::GetInstance()->NUM_TILES_YAXIS - 3))
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = (int)101;
+					grid.value = 101;
 				}
 				else if (uiRow == CSettings::GetInstance()->NUM_TILES_YAXIS / 2 && uiCol == CSettings::GetInstance()->NUM_TILES_XAXIS / 2)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 3;
+					grid.value = 3;
 				}
 				else if (uiRow == 10 && uiCol == 10)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 300;
+					grid.value = 300;
 				}
 				else
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 0;
+					grid.value = 0;
 				}
 			}
 		}

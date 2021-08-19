@@ -193,10 +193,9 @@ bool CScene2D::Update(const double dElapsedTime)
 			enemyVector[i]->Update(dElapsedTime);
 		}
 		CBossTimeControl::GetInstance()->Update();
-		if (CBossTimeControl::GetInstance()->getCurrentFrame() >= 60) {
+		/*if (CBossTimeControl::GetInstance()->getCurrentFrame() >= 60) {
 			CBossTimeControl::GetInstance()->setListening(false);
-		}
-		std::cout << "CBossTimeControl::Update\n";
+		}*/
 	} else {
 		for (Packet* packet : CBossTimeControl::GetInstance()->getPackets()) {
 			if (packet->getFrame() == CBossTimeControl::GetInstance()->getCurrentFrame()) {
@@ -218,7 +217,6 @@ bool CScene2D::Update(const double dElapsedTime)
 			CBossTimeControl::GetInstance()->Reset();
 			CBossTimeControl::GetInstance()->setListening(true);
 		}
-		std::cout << "CBossTimeControl::UpdateReverse\n";
 	}
 
 	// Call the Map2D's update method

@@ -16,8 +16,8 @@ bool LoadIni(const char* file_path, std::map<unsigned, unsigned>& values) {
 	{
 		char buf[256];
 		fileStream.getline(buf, 256);
-		std::pair<char, unsigned> value;
-		sscanf((buf + 0), "%u=%u", &value.first, &value.second);
+		std::pair<unsigned, unsigned> value;
+		sscanf_s(buf, "%u=%u", &value.first, &value.second);
 		values.insert(value);
 	}
 	return true;
