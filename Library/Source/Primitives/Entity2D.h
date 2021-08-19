@@ -18,6 +18,7 @@
 
 // Include Settings
 #include "..\GameControl\Settings.h"
+#include <iostream>
 #include <string>
 
 //CS: Include Mesh.h to use to draw (include vertex and index buffers)
@@ -38,7 +39,7 @@ public:
 	virtual bool Init(void);
 
 	// Update
-	virtual void Update(const double dElapsedTime) {}
+	virtual void Update(const double dElapsedTime) { std::cout << "CEntity2D::Update\n"; }
 
 	// PreRender
 	virtual void PreRender(void);

@@ -85,20 +85,21 @@ bool CScene2D::Init(void)
 	CShaderManager::GetInstance()->activeShader->setInt("texture1", 0);
 	isPaused = false;
 	// Create and initialise the Map 2D
-	cMap2D = CMapManager::GetInstance();
+	cMap2D = CFloorManager::GetInstance();
 	// Set a shader to this class
 	cMap2D->SetShader("2DShader");
-	// Initialise the instance
-	if (!cMap2D->Init(3, 24, 32))
-	{
-		cout << "Failed to load CMap2D" << endl;
-		return false;
-	}
+	
 
 	// Load the map into an array
 	unsigned amt = FileSystem::getAmountOfSaves("Maps/Preset/1");
 	if (amt == 0) {
 		cout << "No presets were found!\n";
+		return false;
+	}
+	// Initialise the instance
+	if (!cMap2D->Init(amt, 24, 32))
+	{
+		cout << "Failed to load CMap2D" << endl;
 		return false;
 	}
 	vector<std::string> files = FileSystem::getSaves("Maps/Preset/1");
@@ -131,9 +132,9 @@ bool CScene2D::Init(void)
 	enemyVector.clear();
 	while (true)
 	{
-		CEnemy2D* cEnemy2D = new CEnemy2D();
-		SpaceFly* cEnemy = new SpaceFly();
-		cEnemy->SetShader("2DColorShader");
+		//CEnemy2D* cEnemy2D = new CEnemy2D();
+		//SpaceFly* cEnemy = new SpaceFly();
+		//cEnemy->SetShader("2DColorShader");
 		CEnemy2D* cEnemy2D = new CSpaceGoop();
 		// Pass shader to cEnemy2D
 		cEnemy2D->SetShader("2DColorShader");
@@ -141,11 +142,6 @@ bool CScene2D::Init(void)
 		if (cEnemy2D->Init() == true)
 		{
 			enemyVector.push_back(cEnemy2D);
-		}
-		else if (cEnemy->Init() == true)
-		{
-			cEnemy->SetPlayer2D(cPlayer2D);
-			enemyVector.push_back(cEnemy);
 		}
 		else
 		{

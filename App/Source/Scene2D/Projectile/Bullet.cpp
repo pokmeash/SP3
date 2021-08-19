@@ -19,4 +19,5 @@ bool Bullet::Init() {
 void Bullet::Update(const double dElapsedTime)
 {
     vec2WSCoordinate += vec2Velocity;
+    std::cout << "Bullet::Update\n";
 }

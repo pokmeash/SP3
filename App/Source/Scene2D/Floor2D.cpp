@@ -3,7 +3,7 @@
  By: Toh Da Jun
  Date: Mar 2020
  */
-#include "Map2D.h"
+#include "Floor2D.h"
 
 // Include Shader Manager
 #include "RenderControl\ShaderManager.h"
@@ -24,22 +24,22 @@ using namespace std::placeholders;
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
  */
-CMap2D::CMap2D(void)
-	: uiCurLevel(0)
+CFloor2D::CFloor2D(void)
+	: uiCurRoom(0)
 {
 }
 
 /**
  @brief Destructor This destructor has protected access modifier as this class will be a Singleton
  */
-CMap2D::~CMap2D(void)
+CFloor2D::~CFloor2D(void)
 {
 	if (!cSettings) return;
 	// Delete AStar lists
 	DeleteAStarLists();
 
 	// Dynamically deallocate the 3D array used to store the map information
-	for (unsigned int uiLevel = 0; uiLevel < uiNumLevels; uiLevel++)
+	for (unsigned int uiLevel = 0; uiLevel < uiNumRooms; uiLevel++)
 	{
 		for (unsigned int iRow = 0; iRow < cSettings->NUM_TILES_YAXIS; iRow++)
 		{
@@ -58,7 +58,7 @@ CMap2D::~CMap2D(void)
 /**
 @brief Init Initialise this instance
 */ 
-bool CMap2D::Init(	const unsigned int uiNumLevels,
+bool CFloor2D::Init(	const unsigned int uiNumLevels,
 					const unsigned int uiNumRows,
 					const unsigned int uiNumCols)
 {
@@ -82,8 +82,8 @@ bool CMap2D::Init(	const unsigned int uiNumLevels,
 	}
 
 	// Store the map sizes in cSettings
-	uiCurLevel = 0;
-	this->uiNumLevels = uiNumLevels;
+	uiCurRoom = 0;
+	this->uiNumRooms = uiNumLevels;
 	cSettings->NUM_TILES_XAXIS = uiNumCols;
 	cSettings->NUM_TILES_YAXIS = uiNumRows;
 	cSettings->UpdateSpecifications();
@@ -95,22 +95,6 @@ bool CMap2D::Init(	const unsigned int uiNumLevels,
 	quadMesh = CMeshBuilder::GenerateQuad(glm::vec4(1, 1, 1, 1), cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
 
 	// Load and create textures
-	// Load the ground texture
-	if (LoadTexture("Image/Scene2D_GroundTile.tga", 100) == false)
-	{
-		std::cout << "Failed to load ground tile texture" << std::endl;
-		return false;
-	}
-	if (LoadTexture("Image/Scene2D_NonInvisTile.tga", 101) == false)
-	{
-		std::cout << "Failed to load NonInvis tile texture" << std::endl;
-		return false;
-	}
-	if (LoadTexture("Image/Scene2D_NonInvisTile.tga", 102) == false)
-	{
-		std::cout << "Failed to load NonInvis tile texture" << std::endl;
-		return false;
-	}
 	// Load the tree texture
 	if (LoadTexture("Image/Scene2D_StarTile.tga", 2) == false)
 	{
@@ -165,22 +149,47 @@ bool CMap2D::Init(	const unsigned int uiNumLevels,
 		std::cout << "Failed to load Invis tile texture" << std::endl;
 		return false;
 	}
-	// Load the Invis2 texture
-	if (LoadTexture("Image/Scene2D_InvisTile.tga", 97) == false)
+	// Load the Exit texture
+	if (LoadTexture("Image/Scene2D_Exit.tga", 97) == false)
 	{
-		std::cout << "Failed to load Invis tile texture" << std::endl;
+		std::cout << "Failed to load Exit tile texture" << std::endl;
+		return false;
+	}
+	if (LoadTexture("Image/Scene2D_Exit.tga", 98) == false)
+	{
+		std::cout << "Failed to load Exit tile texture" << std::endl;
+		return false;
+	}
+	if (LoadTexture("Image/Scene2D_Exit.tga", 99) == false)
+	{
+		std::cout << "Failed to load Exit tile texture" << std::endl;
 		return false;
 	}
 	// Load the Locked Exit texture
-	if (LoadTexture("Image/Scene2D_LockedExit.tga", 103) == false)
+	if (LoadTexture("Image/Scene2D_LockedExit.tga", 100) == false)
 	{
 		std::cout << "Failed to load LockedExit tile texture" << std::endl;
 		return false;
 	}
-	// Load the Exit texture
-	if (LoadTexture("Image/Scene2D_Exit.tga", 99) == false)
+	// Load the ground texture
+	if (LoadTexture("Image/Scene2D_LockedExit.tga", 101) == false)
 	{
-		std::cout << "Failed to load Exit tile texture" << std::endl;
+		std::cout << "Failed to load LockedExit tile texture" << std::endl;
+		return false;
+	}
+	if (LoadTexture("Image/Scene2D_GroundTile.tga", 102) == false)
+	{
+		std::cout << "Failed to load ground tile texture" << std::endl;
+		return false;
+	}
+	if (LoadTexture("Image/Scene2D_GroundTile.tga", 103) == false)
+	{
+		std::cout << "Failed to load ground tile texture" << std::endl;
+		return false;
+	}
+	if (LoadTexture("Image/Scene2D_GroundTile.tga", 104) == false)
+	{
+		std::cout << "Failed to load ground tile texture" << std::endl;
 		return false;
 	}
 
@@ -207,14 +216,14 @@ bool CMap2D::Init(	const unsigned int uiNumLevels,
 /**
 @brief Update Update this instance
 */
-void CMap2D::Update(const double dElapsedTime)
+void CFloor2D::Update(const double dElapsedTime)
 {
 }
 
 /**
  @brief PreRender Set up the OpenGL display environment before rendering
  */
-void CMap2D::PreRender(void)
+void CFloor2D::PreRender(void)
 {
 	// Activate blending mode
 	glEnable(GL_BLEND);
@@ -230,7 +239,7 @@ void CMap2D::PreRender(void)
 /**
  @brief Render Render this instance
  */
-void CMap2D::Render(void)
+void CFloor2D::Render(void)
 {
 	// get matrix's uniform location and set matrix
 	unsigned int transformLoc = glGetUniformLocation(CShaderManager::GetInstance()->activeShader->ID, "transform");
@@ -259,14 +268,14 @@ void CMap2D::Render(void)
 /**
  @brief PostRender Set up the OpenGL display environment after rendering.
  */
-void CMap2D::PostRender(void)
+void CFloor2D::PostRender(void)
 {
 	// Disable blending
 	glDisable(GL_BLEND);
 }
 
 // Set the specifications of the map
-void CMap2D::SetNumTiles(const CSettings::AXIS sAxis, const unsigned int uiValue)
+void CFloor2D::SetNumTiles(const CSettings::AXIS sAxis, const unsigned int uiValue)
 {
 	// Check if the value is valid
 	if (uiValue <= 0)
@@ -296,7 +305,7 @@ void CMap2D::SetNumTiles(const CSettings::AXIS sAxis, const unsigned int uiValue
 }
 
 // Set the specifications of the map
-void CMap2D::SetNumSteps(const CSettings::AXIS sAxis, const unsigned int uiValue)
+void CFloor2D::SetNumSteps(const CSettings::AXIS sAxis, const unsigned int uiValue)
 {
 	// Check if the value is valid
 	if (uiValue <= 0)
@@ -331,12 +340,12 @@ void CMap2D::SetNumSteps(const CSettings::AXIS sAxis, const unsigned int uiValue
  @param iCol A const int variable containing the column index of the element to set to
  @param iValue A const int variable containing the value to assign to this arrMapInfo
  */
-void CMap2D::SetMapInfo(const unsigned int uiRow, const unsigned int uiCol, const int iValue, const bool bInvert)
+void CFloor2D::SetMapInfo(const unsigned int uiRow, const unsigned int uiCol, const int iValue, const bool bInvert)
 {
 	if (bInvert)
-		arrMapInfo[uiCurLevel][cSettings->NUM_TILES_YAXIS - uiRow - 1][uiCol].value = iValue;
+		arrMapInfo[uiCurRoom][cSettings->NUM_TILES_YAXIS - uiRow - 1][uiCol].value = iValue;
 	else
-		arrMapInfo[uiCurLevel][uiRow][uiCol].value = iValue;
+		arrMapInfo[uiCurRoom][uiRow][uiCol].value = iValue;
 }
 
 /**
@@ -345,18 +354,18 @@ void CMap2D::SetMapInfo(const unsigned int uiRow, const unsigned int uiCol, cons
  @param iCol A const int variable containing the column index of the element to get from
  @param bInvert A const bool variable which indicates if the row information is inverted
  */
-int CMap2D::GetMapInfo(const unsigned int uiRow, const int unsigned uiCol, const bool bInvert) const
+int CFloor2D::GetMapInfo(const unsigned int uiRow, const int unsigned uiCol, const bool bInvert) const
 {
 	if (bInvert)
-		return arrMapInfo[uiCurLevel][cSettings->NUM_TILES_YAXIS - uiRow - 1][uiCol].value;
+		return arrMapInfo[uiCurRoom][cSettings->NUM_TILES_YAXIS - uiRow - 1][uiCol].value;
 	else
-		return arrMapInfo[uiCurLevel][uiRow][uiCol].value;
+		return arrMapInfo[uiCurRoom][uiRow][uiCol].value;
 }
 
 /**
  @brief Load a map
  */ 
-bool CMap2D::LoadMap(string filename, const unsigned int uiCurLevel)
+bool CFloor2D::LoadMap(string filename, const unsigned int uiCurLevel)
 {
 	doc = rapidcsv::Document(FileSystem::getPath(filename).c_str());
 
@@ -388,7 +397,7 @@ bool CMap2D::LoadMap(string filename, const unsigned int uiCurLevel)
  @brief Save the tilemap to a text file
  @param filename A string variable containing the name of the text file to save the map to
  */
-bool CMap2D::SaveMap(string filename, const unsigned int uiCurLevel)
+bool CFloor2D::SaveMap(string filename, const unsigned int uiCurLevel)
 {
 	// Update the rapidcsv::Document from arrMapInfo
 	for (unsigned int uiRow = 0; uiRow < cSettings->NUM_TILES_YAXIS; uiRow++)
@@ -413,13 +422,13 @@ bool CMap2D::SaveMap(string filename, const unsigned int uiCurLevel)
 @param iCol A const int variable containing the column index of the found element
 @param bInvert A const bool variable which indicates if the row information is inverted
 */
-bool CMap2D::FindValue(const int iValue, unsigned int& uirRow, unsigned int& uirCol, const bool bInvert)
+bool CFloor2D::FindValue(const int iValue, unsigned int& uirRow, unsigned int& uirCol, const bool bInvert)
 {
 	for (unsigned int uiRow = 0; uiRow < cSettings->NUM_TILES_YAXIS; uiRow++)
 	{
 		for (unsigned int uiCol = 0; uiCol < cSettings->NUM_TILES_XAXIS; uiCol++)
 		{
-			if (arrMapInfo[uiCurLevel][uiRow][uiCol].value == iValue)
+			if (arrMapInfo[uiCurRoom][uiRow][uiCol].value == iValue)
 			{
 				if (bInvert)
 					uirRow = cSettings->NUM_TILES_YAXIS - uiRow - 1;
@@ -436,19 +445,19 @@ bool CMap2D::FindValue(const int iValue, unsigned int& uirRow, unsigned int& uir
 /**
  @brief Set current level
  */
-void CMap2D::SetCurrentLevel(unsigned int uiCurLevel)
+void CFloor2D::SetCurrentLevel(unsigned int uiCurLevel)
 {
-	if (uiCurLevel < uiNumLevels)
+	if (uiCurLevel < uiNumRooms)
 	{
-		this->uiCurLevel = uiCurLevel;
+		this->uiCurRoom = uiCurLevel;
 	}
 }
 /**
  @brief Get current level
  */
-unsigned int CMap2D::GetCurrentLevel(void) const
+unsigned int CFloor2D::GetCurrentLevel(void) const
 {
-	return uiCurLevel;
+	return uiCurRoom;
 }
 
 
@@ -457,7 +466,7 @@ unsigned int CMap2D::GetCurrentLevel(void) const
  @param filename A const char* variable which contains the file name of the texture
  @param iTextureCode A const int variable which is the texture code.
  */
-bool CMap2D::LoadTexture(const char* filename, const int iTextureCode)
+bool CFloor2D::LoadTexture(const char* filename, const int iTextureCode)
 {
 	// Variables used in loading the texture
 	int width, height, nrChannels;
@@ -504,12 +513,12 @@ bool CMap2D::LoadTexture(const char* filename, const int iTextureCode)
  @param iRow A const int variable containing the row index of the tile
  @param iCol A const int variable containing the column index of the tile
  */
-void CMap2D::RenderTile(const unsigned int uiRow, const unsigned int uiCol)
+void CFloor2D::RenderTile(const unsigned int uiRow, const unsigned int uiCol)
 {
-	if (arrMapInfo[uiCurLevel][uiRow][uiCol].value != 0)
+	if (arrMapInfo[uiCurRoom][uiRow][uiCol].value != 0)
 	{
 		//if (arrMapInfo[uiCurLevel][uiRow][uiCol].value < 3)
-		glBindTexture(GL_TEXTURE_2D, MapOfTextureIDs.at(arrMapInfo[uiCurLevel][uiRow][uiCol].value));
+		glBindTexture(GL_TEXTURE_2D, MapOfTextureIDs.at(arrMapInfo[uiCurRoom][uiRow][uiCol].value));
 
 		glBindVertexArray(VAO);
 		//CS: Render the tile
@@ -522,7 +531,7 @@ void CMap2D::RenderTile(const unsigned int uiRow, const unsigned int uiCol)
 /**
  @brief Find a path
  */
-std::vector<glm::i32vec2> CMap2D::PathFind(	const glm::i32vec2& startPos, 
+std::vector<glm::i32vec2> CFloor2D::PathFind(	const glm::i32vec2& startPos, 
 											const glm::i32vec2& targetPos, 
 											HeuristicFunction heuristicFunc, 
 											const int weight)
@@ -613,7 +622,7 @@ std::vector<glm::i32vec2> CMap2D::PathFind(	const glm::i32vec2& startPos,
 /**
  @brief Build a path
  */
-std::vector<glm::i32vec2> CMap2D::BuildPath() const
+std::vector<glm::i32vec2> CFloor2D::BuildPath() const
 {
 	std::vector<glm::i32vec2> path;
 	auto currentPos = m_targetPos;
@@ -652,7 +661,7 @@ std::vector<glm::i32vec2> CMap2D::BuildPath() const
 /**
  @brief Toggle the checks for diagonal movements
  */
-void CMap2D::SetDiagonalMovement(const bool bEnable)
+void CFloor2D::SetDiagonalMovement(const bool bEnable)
 {
 	m_nrOfDirections = (bEnable) ? 8 : 4;
 }
@@ -660,11 +669,11 @@ void CMap2D::SetDiagonalMovement(const bool bEnable)
 /**
  @brief Print out the details about this class instance in the console
  */
-void CMap2D::PrintSelf(void) const
+void CFloor2D::PrintSelf(void) const
 {
 	cout << endl << "AStar::PrintSelf()" << endl;
 
-	for (unsigned uiLevel = 0; uiLevel < uiNumLevels; uiLevel++)
+	for (unsigned uiLevel = 0; uiLevel < uiNumRooms; uiLevel++)
 	{
 		cout << "Level: " << uiLevel << endl;
 		for (unsigned uiRow = 0; uiRow < cSettings->NUM_TILES_YAXIS; uiRow++)
@@ -692,7 +701,7 @@ void CMap2D::PrintSelf(void) const
 /**
  @brief Check if a position is valid
  */
-bool CMap2D::isValid(const glm::i32vec2& pos) const
+bool CFloor2D::isValid(const glm::i32vec2& pos) const
 {
 	//return (pos.x >= 0) && (pos.x < m_dimensions.x) &&
 	//	(pos.y >= 0) && (pos.y < m_dimensions.y);
@@ -703,20 +712,20 @@ bool CMap2D::isValid(const glm::i32vec2& pos) const
 /**
  @brief Check if a grid is blocked
  */
-bool CMap2D::isBlocked(const unsigned int uiRow, const unsigned int uiCol, const bool bInvert) const
+bool CFloor2D::isBlocked(const unsigned int uiRow, const unsigned int uiCol, const bool bInvert) const
 {
 	if (bInvert == true)
 	{
-		if ((arrMapInfo[uiCurLevel][cSettings->NUM_TILES_YAXIS - uiRow - 1][uiCol].value >= 100) &&
-			(arrMapInfo[uiCurLevel][cSettings->NUM_TILES_YAXIS - uiRow - 1][uiCol].value < 200))
+		if ((arrMapInfo[uiCurRoom][cSettings->NUM_TILES_YAXIS - uiRow - 1][uiCol].value >= 100) &&
+			(arrMapInfo[uiCurRoom][cSettings->NUM_TILES_YAXIS - uiRow - 1][uiCol].value < 200))
 			return true;
 		else
 			return false;
 	}
 	else
 	{
-		if ((arrMapInfo[uiCurLevel][uiRow][uiCol].value >= 100) &&
-			(arrMapInfo[uiCurLevel][uiRow][uiCol].value < 200))
+		if ((arrMapInfo[uiCurRoom][uiRow][uiCol].value >= 100) &&
+			(arrMapInfo[uiCurRoom][uiRow][uiCol].value < 200))
 			return true;
 		else
 			return false;
@@ -726,7 +735,7 @@ bool CMap2D::isBlocked(const unsigned int uiRow, const unsigned int uiCol, const
 /**
  @brief Returns a 1D index based on a 2D coordinate using row-major layout
  */
-int CMap2D::ConvertTo1D(const glm::i32vec2& pos) const
+int CFloor2D::ConvertTo1D(const glm::i32vec2& pos) const
 {
 	//return (pos.y * m_dimensions.x) + pos.x;
 	return (pos.y * cSettings->NUM_TILES_XAXIS) + pos.x;
@@ -735,7 +744,7 @@ int CMap2D::ConvertTo1D(const glm::i32vec2& pos) const
 /**
  @brief Delete AStar lists
  */
-bool CMap2D::DeleteAStarLists(void)
+bool CFloor2D::DeleteAStarLists(void)
 {
 	// Delete m_openList
 	while (m_openList.size() != 0)
@@ -752,7 +761,7 @@ bool CMap2D::DeleteAStarLists(void)
 /**
  @brief Reset AStar lists
  */
-bool CMap2D::ResetAStarLists(void)
+bool CFloor2D::ResetAStarLists(void)
 {
 	// Delete m_openList
 	while (m_openList.size() != 0)

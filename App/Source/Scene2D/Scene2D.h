@@ -23,13 +23,12 @@
 #include "RenderControl\ShaderManager.h"
 
 // Include the Map2D as we will use it to check the player's movements and actions
-#include "MapManager.h"
+#include "FloorManager.h"
 // Include CPlayer2D
 #include "Player2D.h"
 // Include CEnemy2D
 #include "./Enemies/Enemy2D.h"
-#include "../App/Source/Enemy/SpaceFly.h"
-//#include "../App/Source/Enemy/SpaceFly.h"
+
 #include "./Enemies/SpaceGoop.h"
 
 // Include vector
@@ -77,7 +76,7 @@ public:
 
 protected:
 	// The handler containing the instance of the 2D Map
-	CMapManager* cMap2D;
+	CFloorManager* cMap2D;
 	// The handler containing the instance of CPlayer2Ds
 	CPlayer2D* cPlayer2D;
 

@@ -11,7 +11,7 @@ EntityManager::~EntityManager(void)
 
 bool EntityManager::Init(void)
 {
-	cMap2D = CMapManager::GetInstance();
+	cMap2D = CFloorManager::GetInstance();
 	return false;
 }
 
@@ -23,71 +23,54 @@ void EntityManager::Update(const double dElapsedTime)
 		for (std::vector<CEntity2D*>::iterator it = entitylist.begin(); it != entitylist.end(); ++it)
 		{
 			CEntity2D* entity = (CEntity2D*)*it;
-			if (entity->isactive)
+			if (entity->bIsActive)
 			{
 				entity->Update(dElapsedTime);
 				switch (entity->type)
 				{
 					case CEntity2D::E_EBULLET:
 					{
-						glm::i32vec2 temp;
-						temp.x = (int)entity->EntityVec2Index.x;
-						temp.y = (int)entity->EntityVec2Index.y;
-						if (temp == CPlayer2D::GetInstance()->i32vec2Index)
+						if (cPhysics.CalculateDistance(entity->vec2WSCoordinate,CPlayer2D::GetInstance()->vec2WSCoordinate) <= 1)
 						{
 							CPlayer2D::GetInstance()->PlayerDamaged();
-							entity->isactive = false;
-						}
-						break;
-					}
-					case CEntity2D::E_SPIKE:
-					{
-						glm::i32vec2 temp;
-						temp.x = (int)entity->EntityVec2Index.x;
-						temp.y = (int)entity->EntityVec2Index.y;
-						for (CEntity2D* cEnemy2D : CScene2D::GetInstance()->enemyVector)
-						{
-							if (temp.y <= cEnemy2D->i32vec2Index.y)
-							{
-								//pass back into enemy
-								cEnemy2D->spikecollided = true;
-							}
+							entity->bIsActive = false;
 						}
 						break;
 					}
 					case CEntity2D::E_BULLET:
 					{
 						glm::i32vec2 temp;
-						temp.x = (int)entity->EntityVec2Index.x;
-						temp.y = (int)entity->EntityVec2Index.y;
-						if (temp.x < 0 || temp.x >= CSettings::GetInstance()->NUM_TILES_XAXIS ||
-							temp.y < 0 || temp.y >= CSettings::GetInstance()->NUM_TILES_YAXIS)
-						{
-							entity->isactive = false;
-							std::cout << "deactivate " << entity << std::endl;
-							break;
-							
+						temp.x = (int)entity->vec2WSCoordinate.x;
+						temp.y = (int)entity->vec2WSCoordinate.y;
+						if (temp.x < 0 || temp.x > CSettings::GetInstance()->NUM_TILES_XAXIS || 
+							temp.y < 0 || temp.y > CSettings::GetInstance()->NUM_TILES_YAXIS) {
+								entity->bIsActive = false;
+								std::cout << "despawn bullet\n";
+								break;
 						}
-						//std::cout << "checking " << entity << std::endl;
-						glm::vec2 vel = entity->EntityVec2Vel;
+
+						glm::vec2 vel = entity->vec2Velocity;
 						if (cMap2D->GetMapInfo((int)temp.y + 1, (int)temp.x) >= 100 && vel.y > 0)
 						{
-							entity->EntityVec2Vel.y *= -1;
+							entity->vec2Velocity.y *= -1;
 						}
 						if (cMap2D->GetMapInfo((int)temp.y - 1, (int)temp.x) >= 100 && vel.y < 0)
 						{
-							entity->EntityVec2Vel.y *= -1;
+							entity->vec2Velocity.y *= -1;
 						}
 						if (cMap2D->GetMapInfo((int)temp.y, (int)temp.x + 1) >= 100 && vel.x > 0)
 						{
-							entity->EntityVec2Vel.x *= -1;
+							entity->vec2Velocity.x *= -1;
 						}
 						if (cMap2D->GetMapInfo((int)temp.y, (int)temp.x - 1) >= 100 && vel.x < 0)
 						{
-							entity->EntityVec2Vel.x *= -1;
+							entity->vec2Velocity.x *= -1;
 						}
+
 						break;
 					}
+					default:
+						break;
 				}
 			}
 		}
@@ -102,7 +85,7 @@ void EntityManager::Render(void)
 		{
 			CEntity2D* entity = (CEntity2D*)*it;
 
-			if (entity->isactive)
+			if (entity->bIsActive)
 			{
 				entity->PreRender();
 				entity->Render();

@@ -41,11 +41,10 @@ class CMapManager;
 // Include SoundController
 #include "..\SoundController\SoundController.h"
 
-#include "EntityManager.h"
 #include "Attribute.h"
 #include "BaseAttribute.h"
 #include "AttributeDecorator.h"
-extern bool wings;
+
 class CPlayer2D : public CSingletonTemplate<CPlayer2D>, public CLivingEntity
 {
 	friend CSingletonTemplate<CPlayer2D>;
@@ -83,10 +82,6 @@ protected:
 
 	// Handler to the CSoundController
 	CSoundController* cSoundController;
-
-	EntityManager* cEntityManager;
-
-	EntityFactory* cEntityFactory;
 
 	// Constructor
 	CPlayer2D(void);

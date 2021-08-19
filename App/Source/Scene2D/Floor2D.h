@@ -68,14 +68,14 @@ namespace heuristic
 	unsigned int euclidean(const glm::i32vec2& v1, const glm::i32vec2& v2, int weight);
 }
 
-class CMap2D : public CEntity2D
+class CFloor2D : public CEntity2D
 {
 public:
 	// Constructor
-	CMap2D(void);
+	CFloor2D(void);
 
 	// Destructor
-	virtual ~CMap2D(void);
+	virtual ~CFloor2D(void);
 
 	// Init
 	virtual bool Init(	const unsigned int uiNumLevels = 1,
@@ -137,9 +137,9 @@ protected:
 	Grid*** arrMapInfo;
 
 	// The current level
-	unsigned int uiCurLevel;
+	unsigned int uiCurRoom;
 	// The number of levels
-	unsigned int uiNumLevels;
+	unsigned int uiNumRooms;
 
 	// A 1-D array which stores the map sizes for each level
 	MapSize* arrMapSizes;
@@ -187,5 +187,6 @@ protected:
 	std::vector<bool> m_closedList;
 	std::vector<Grid> m_cameFromList;
 	std::vector<glm::i32vec2> m_directions;
+	
 };
 
