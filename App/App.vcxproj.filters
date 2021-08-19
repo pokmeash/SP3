@@ -113,6 +113,12 @@
     <ClCompile Include="Source\Scene2D\PowerUps\DoubleShot.cpp">
       <Filter>Powerups</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Scene2D\LivingEntity.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\Enemies\SpaceGoop.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -195,6 +201,12 @@
     </ClInclude>
     <ClInclude Include="Source\Scene2D\PowerUps\DoubleShot.h">
       <Filter>Powerups</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\LivingEntity.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\Enemies\SpaceGoop.h">
+      <Filter>Enemies</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

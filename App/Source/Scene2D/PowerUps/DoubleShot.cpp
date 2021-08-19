@@ -18,42 +18,4 @@ bool DoubleShot::Init() {
 }
 void DoubleShot::Update(const double dElapsedTime)
 {
-    vec2UVCoordinate.x = cSettings->ConvertFloatToUVSpace(cSettings->x, EntityVec2Index.x, false);
-    vec2UVCoordinate.y = cSettings->ConvertFloatToUVSpace(cSettings->y, EntityVec2Index.y, false);
-}
-
-void DoubleShot::PreRender(void)
-{
-    glActiveTexture(GL_TEXTURE0);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    CShaderManager::GetInstance()->Use("2DShader");
-}
-
-void DoubleShot::Render(void)
-{
-    glBindVertexArray(VAO);
-    unsigned int transformLoc = glGetUniformLocation(CShaderManager::GetInstance()->activeShader->ID, "transform");
-    unsigned int colorLoc = glGetUniformLocation(CShaderManager::GetInstance()->activeShader->ID, "runtime_color");
-    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
-
-    transform = glm::mat4(1.0f);
-    transform = glm::translate(transform, glm::vec3(vec2UVCoordinate.x,
-        vec2UVCoordinate.y,
-        0.0f));
-    transform = glm::rotate(transform, rotation, glm::vec3(0, 0, 1));
-    transform = glm::scale(transform, EntityVec3Scale);
-
-    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
-
-    glBindTexture(GL_TEXTURE_2D, iTextureID);
-
-    mesh->Render();
-
-    glBindVertexArray(0);
-}
-
-void DoubleShot::PostRender(void)
-{
-    glDisable(GL_BLEND);
 }

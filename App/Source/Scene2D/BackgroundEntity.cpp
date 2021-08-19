@@ -16,6 +16,7 @@ CBackgroundEntity::CBackgroundEntity(std::string name)
 {
 	transform = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
 	textureName = name;
+	bIsActive = true;
 }
 
 CBackgroundEntity::~CBackgroundEntity()
