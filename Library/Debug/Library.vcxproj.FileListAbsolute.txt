@@ -1,0 +1,2 @@
+C:\Users\desti\Documents\GitHub\SP3\Debug\Library.pdb
+C:\Users\desti\Documents\GitHub\SP3\Library\Debug\Library.pdb

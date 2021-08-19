@@ -6,6 +6,7 @@ using namespace std;
 #include "RenderControl\ShaderManager.h"
 
 #include "System\filesystem.h"
+#include "Bosses/BossTimeControl.h"
 
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
@@ -173,7 +174,7 @@ bool CScene2D::Init(void)
 	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Button.ogg"), 7, true);
 	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Swap.ogg"), 8, true);
 	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Hurt.ogg"), 9, true);
-
+	CBossTimeControl::GetInstance()->Init();
 	return true;
 }
 
@@ -182,16 +183,42 @@ bool CScene2D::Init(void)
 */
 bool CScene2D::Update(const double dElapsedTime)
 {
-	// Call the cPlayer2D's update method before Map2D as we want to capture the inputs before map2D update
-	cPlayer2D->Update(dElapsedTime);
+	if (CBossTimeControl::GetInstance()->isListening()) {
+		cPlayer2D->Update(dElapsedTime);
 
-	cEntityManager->Update(dElapsedTime);
-
-	// Call all the cEnemy2D's update method before Map2D 
-	// as we want to capture the updates before map2D update
-	for (int i = 0; i < enemyVector.size(); i++)
-	{
-		enemyVector[i]->Update(dElapsedTime);
+		cEntityManager->Update(dElapsedTime);
+		// as we want to capture the updates before map2D update
+		for (int i = 0; i < enemyVector.size(); i++)
+		{
+			enemyVector[i]->Update(dElapsedTime);
+		}
+		CBossTimeControl::GetInstance()->Update();
+		if (CBossTimeControl::GetInstance()->getCurrentFrame() >= 60) {
+			CBossTimeControl::GetInstance()->setListening(false);
+		}
+		std::cout << "CBossTimeControl::Update\n";
+	} else {
+		for (Packet* packet : CBossTimeControl::GetInstance()->getPackets()) {
+			if (packet->getFrame() == CBossTimeControl::GetInstance()->getCurrentFrame()) {
+				if (dynamic_cast<EntityPacket*>(packet)) {
+					EntityPacket* entityPacket = (EntityPacket*)packet;
+					entityPacket->getEntity()->vec2WSCoordinate = entityPacket->getPosition();
+					CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->x, entityPacket->getEntity()->vec2WSCoordinate.x, &entityPacket->getEntity()->i32vec2Index.x, &entityPacket->getEntity()->i32vec2NumMicroSteps.x);
+					CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->y, entityPacket->getEntity()->vec2WSCoordinate.y, &entityPacket->getEntity()->i32vec2Index.y, &entityPacket->getEntity()->i32vec2NumMicroSteps.y);
+					if (entityPacket->isReturnActive() && !entityPacket->getEntity()->bIsActive) {
+						entityPacket->getEntity()->bIsActive = true;
+					} else if (entityPacket->isReturnActive() && entityPacket->getEntity()->bIsActive) {
+						entityPacket->getEntity()->bIsActive = false;
+					}
+				}
+			}
+		}
+		CBossTimeControl::GetInstance()->UpdateReverse();
+		if (CBossTimeControl::GetInstance()->getCurrentFrame() <= 0) {
+			CBossTimeControl::GetInstance()->Reset();
+			CBossTimeControl::GetInstance()->setListening(true);
+		}
+		std::cout << "CBossTimeControl::UpdateReverse\n";
 	}
 
 	// Call the Map2D's update method
@@ -217,6 +244,7 @@ bool CScene2D::Update(const double dElapsedTime)
 
 	// Call the cGUI_Scene2D's update method
 	cGUI_Scene2D->Update(dElapsedTime);
+
 
 	// Check if the game should go to the next level
 	if (cGameManager->bLevelCompleted == true)

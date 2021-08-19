@@ -1,4 +1,5 @@
 #include "EntityFactory.h"
+#include "EventControl/EventHandler.h"
 
 EntityFactory::EntityFactory()
 {}
@@ -17,7 +18,7 @@ Bullet* EntityFactory::ProduceBullets(glm::f32vec2 EntityVec2Index, glm::f32vec2
 	temp->bIsActive = true;
 
 	temp->Init();
-
+	EventHandler::GetInstance()->CallThenDelete(new Entity2DSpawnEvent(temp));
 	return temp;
 }
 
@@ -34,7 +35,7 @@ Spike* EntityFactory::ProduceSpikes(float EntityVec2Indexx,float EntityVec2Index
 	temp->bIsActive = true;
 
 	temp->Init();
-
+	EventHandler::GetInstance()->CallThenDelete(new Entity2DSpawnEvent(temp));
 	return temp;
 }
 
@@ -50,6 +51,6 @@ DoubleShot* EntityFactory::ProduceDoubleShot(glm::f32vec2 EntityVec2Index, glm::
 	temp->bIsActive = true;
 
 	temp->Init();
-
+	EventHandler::GetInstance()->CallThenDelete(new Entity2DSpawnEvent(temp));
 	return temp;
 }

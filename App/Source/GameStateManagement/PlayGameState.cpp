@@ -73,7 +73,6 @@ bool CPlayGameState::Update(const double dElapsedTime)
 		cSoundController->StopAllSound();
 		CGameStateManager::GetInstance()->SetActiveGameState("MenuState");
 		cSoundController->PlaySoundByID(2);
-		wings = false;
 		return true;
 	}
 
