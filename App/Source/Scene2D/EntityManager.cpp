@@ -60,10 +60,36 @@ void EntityManager::Update(const double dElapsedTime)
 						glm::i32vec2 temp;
 						temp.x = (int)entity->EntityVec2Index.x;
 						temp.y = (int)entity->EntityVec2Index.y;
-						if (cMap2D->GetMapInfo(temp.y, temp.x) >= 100)
+						if (temp.x < 0 || temp.x >= CSettings::GetInstance()->NUM_TILES_XAXIS ||
+							temp.y < 0 || temp.y >= CSettings::GetInstance()->NUM_TILES_YAXIS)
 						{
 							entity->isactive = false;
+							std::cout << "deactivate " << entity << std::endl;
+							break;
 						}
+						//std::cout << "checking " << entity << std::endl;
+						glm::vec2 vel = entity->EntityVec2Vel;
+						if (cMap2D->GetMapInfo((int)temp.y + 1, (int)temp.x) >= 100 && vel.y > 0)
+						{
+							entity->EntityVec2Vel.y *= -1;
+						}
+						if (cMap2D->GetMapInfo((int)temp.y - 1, (int)temp.x) >= 100 && vel.y < 0)
+						{
+							entity->EntityVec2Vel.y *= -1;
+						}
+						if (cMap2D->GetMapInfo((int)temp.y, (int)temp.x + 1) >= 100 && vel.x > 0)
+						{
+							entity->EntityVec2Vel.x *= -1;
+						}
+						if (cMap2D->GetMapInfo((int)temp.y, (int)temp.x - 1) >= 100 && vel.x < 0)
+						{
+							entity->EntityVec2Vel.x *= -1;
+						}
+						/*if (entity->EntityVec2Vel.y > 0 ||
+							entity->EntityVec2Vel.y < 0)
+						{
+							entity->EntityVec2Vel.y *= -1;
+						}*/
 						break;
 					}
 				}

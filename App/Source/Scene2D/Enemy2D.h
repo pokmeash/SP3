@@ -38,7 +38,7 @@ class CMapManager;
 
 #include "EntityManager.h"
 
-class CEnemy2D : public CSingletonTemplate<CEnemy2D>, public CEntity2D
+class CEnemy2D : public CEntity2D
 {
 public:
 	// Constructor

@@ -248,7 +248,6 @@ bool CScene2D::Update(const double dElapsedTime)
 		while (true)
 		{
 			CEnemy2D* cEnemy2D = new CEnemy2D();
-			cEnemy2D->type = CEntity2D::E_ENEMY;
 			// Pass shader to cEnemy2D
 			cEnemy2D->SetShader("2DColorShader");
 			// Initialise the instance

@@ -211,7 +211,7 @@ bool CPlayer2D::Reset()
  */
 void CPlayer2D::Update(const double dElapsedTime)
 {
-	cout << Character->getDmg() << endl;
+	//cout << Character->getDmg() << endl;
 	// Store the old position
 	vec2WSOldCoordinates = vec2WSCoordinate;
 
@@ -882,10 +882,6 @@ void CPlayer2D::InteractWithMap(void)
 		break;
 	case 12:
 		Character->addDmg(1);
-		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
-		break;
-	case 13:
-		Character->addHP(1);
 		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
 		break;
 	case 20:
