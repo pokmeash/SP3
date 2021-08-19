@@ -27,7 +27,7 @@
 // Include CPlayer2D
 #include "Player2D.h"
 // Include CEnemy2D
-#include "./Enemies/Enemy2D.h"
+#include "./Enemies/SpaceGoop.h"
 
 // Include vector
 #include <vector>

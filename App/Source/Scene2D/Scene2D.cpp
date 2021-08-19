@@ -130,7 +130,7 @@ bool CScene2D::Init(void)
 	enemyVector.clear();
 	while (true)
 	{
-		CEnemy2D* cEnemy2D = new CEnemy2D();
+		CEnemy2D* cEnemy2D = new CSpaceGoop();
 		// Pass shader to cEnemy2D
 		cEnemy2D->SetShader("2DColorShader");
 		// Initialise the instance
@@ -228,7 +228,7 @@ bool CScene2D::Update(const double dElapsedTime)
 		enemyVector.clear();
 		while (true)
 		{
-			CEnemy2D* cEnemy2D = new CEnemy2D();
+			CEnemy2D* cEnemy2D = new CSpaceGoop();
 			// Pass shader to cEnemy2D
 			cEnemy2D->SetShader("2DColorShader");
 			// Initialise the instance

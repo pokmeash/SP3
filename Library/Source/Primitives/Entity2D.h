@@ -22,6 +22,7 @@
 
 //CS: Include Mesh.h to use to draw (include vertex and index buffers)
 #include "Mesh.h"
+#include "SpriteAnimation.h"
 using namespace std;
 
 class CEntity2D
@@ -36,11 +37,8 @@ public:
 	// Init
 	virtual bool Init(void);
 
-	// Set the name of the shader to be used in this class instance
-	virtual void SetShader(const std::string& _name);
-
 	// Update
-	virtual void Update(const double dElapsedTime);
+	virtual void Update(const double dElapsedTime) {}
 
 	// PreRender
 	virtual void PreRender(void);
@@ -50,6 +48,13 @@ public:
 
 	// PostRender
 	virtual void PostRender(void);
+
+	// Set the name of the shader to be used in this class instance
+	virtual void SetShader(const std::string& _name);
+
+	virtual bool LoadTexture(const char* filename);
+
+	virtual bool LoadTexture(const char* filename, GLuint& iTextureID);
 
 	// The i32vec2 which stores the indices of an Entity2D in the Map2D
 	glm::i32vec2 i32vec2Index;
@@ -61,44 +66,50 @@ public:
 	// The vec2 variable which stores the UV coordinates to render the Entity2D
 	glm::vec2 vec2UVCoordinate;
 
+	glm::vec2 vec2WSOldCoordinates;
+
 	glm::vec2 vec2WSCoordinate;
 
-	//Entity stuff for bullets
-	glm::f32vec2 EntityVec2Index;
+	glm::vec2 vec2Velocity;
 
-	glm::f32vec2 EntityVec2Vel;
-
-	glm::vec3 EntityVec3Scale;
+	glm::vec3 scale;
 
 	glm::vec2 vec2GetCenter();
 
 	float rotation;
 
+	enum DIRECTION
+	{
+		LEFT = 0,
+		RIGHT = 1,
+		UP = 2,
+		DOWN = 3,
+		NUM_DIRECTIONS
+	};
+
 	enum ENTITY_TYPE {
 		E_NULL,
+
 		//Projectile
 		E_BULLET,
 		E_EBULLET,
 		E_SPIKE,
+
 		//Powerup
 		E_DOUBLESHOT,
 		E_ENEMY,
 	};
-
 	ENTITY_TYPE type;
-
-	bool isactive;
-
-	int enemyhealth;
-
-	bool spikecollided;
-
+	bool bIsActive;
+	int iHealth;
 protected:
 	// Name of Shader Program instance
 	std::string sShaderName;
 
 	//CS: The mesh that is used to draw objects
 	CMesh* mesh;
+
+	CSpriteAnimation* animatedSprites;
 
 	// OpenGL objects
 	unsigned int VBO, VAO, EBO;
@@ -109,11 +120,6 @@ protected:
 	// A transformation matrix for controlling where to render the entities
 	glm::mat4 transform;
 
-	// Load a texture
-	virtual bool LoadTexture(const char* filename);
-
 	// Settings
 	CSettings* cSettings;
-
-
 };

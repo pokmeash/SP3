@@ -9,12 +9,12 @@ Bullet* EntityFactory::ProduceBullets(glm::f32vec2 EntityVec2Index, glm::f32vec2
 {
 	Bullet* temp = new Bullet;
 
-	temp->EntityVec2Index = EntityVec2Index;
-	temp->EntityVec2Vel = EntityVec2Vel;
-	temp->EntityVec3Scale = EntityVec3Scale;
+	temp->vec2WSCoordinate = EntityVec2Index;
+	temp->vec2Velocity = EntityVec2Vel;
+	temp->scale = EntityVec3Scale;
 	temp->rotation = rotation;
 	temp->type = type;
-	temp->isactive = true;
+	temp->bIsActive = true;
 
 	temp->Init();
 
@@ -25,13 +25,13 @@ Spike* EntityFactory::ProduceSpikes(float EntityVec2Indexx,float EntityVec2Index
 {
 	Spike* temp = new Spike;
 
-	temp->EntityVec2Index.x = EntityVec2Indexx;
-	temp->EntityVec2Index.y = EntityVec2Indexy;
-	temp->EntityVec2Vel = EntityVec2Vel;
-	temp->EntityVec3Scale = EntityVec3Scale;
+	temp->vec2WSCoordinate.x = EntityVec2Indexx;
+	temp->vec2WSCoordinate.y = EntityVec2Indexy;
+	temp->vec2Velocity = EntityVec2Vel;
+	temp->scale = EntityVec3Scale;
 	temp->rotation = rotation;
 	temp->type = type;
-	temp->isactive = true;
+	temp->bIsActive = true;
 
 	temp->Init();
 
@@ -42,12 +42,12 @@ DoubleShot* EntityFactory::ProduceDoubleShot(glm::f32vec2 EntityVec2Index, glm::
 {
 	DoubleShot* temp = new DoubleShot;
 
-	temp->EntityVec2Index = EntityVec2Index;
-	temp->EntityVec2Vel = EntityVec2Vel;
-	temp->EntityVec3Scale = EntityVec3Scale;
+	temp->vec2WSCoordinate = EntityVec2Index;
+	temp->vec2Velocity = EntityVec2Vel;
+	temp->scale = EntityVec3Scale;
 	temp->rotation = rotation;
 	temp->type = type;
-	temp->isactive = true;
+	temp->bIsActive = true;
 
 	temp->Init();
 
