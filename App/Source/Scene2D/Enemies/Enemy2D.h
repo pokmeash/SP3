@@ -26,15 +26,10 @@ class CMapManager;
 #include "GameControl\Settings.h"
 
 // Include Physics2D
-#include "Physics2D.h"
-
-// Include Player2D
-#include "Player2D.h"
+#include "../Physics2D.h"
 
 // Game Manager
-#include "GameManager.h"
-
-#include "EntityManager.h"
+#include "../GameManager.h"
 
 class CEnemy2D : public CEntity2D
 {
@@ -77,9 +72,6 @@ public:
 
 	// Set the UV coordinates of the enemy2D
 	glm::vec2 Getvec2UVCoordinates(void) const;
-
-	// Set the handle to cPlayer to this class instance
-	void SetPlayer2D(CPlayer2D* cPlayer2D);
 
 	// boolean flag to indicate if this enemy is active
 	bool bIsActive;
@@ -130,6 +122,7 @@ protected:
 
 	// The i32vec2 which stores the indices of the destination for enemy2D in the Map2D
 	glm::i32vec2 i32vec2Destination;
+
 	// The i32vec2 which stores the direction for enemy2D movement in the Map2D
 	glm::i32vec2 i32vec2Direction;
 
@@ -145,15 +138,8 @@ protected:
 	// Current color
 	glm::vec4 currentColor;
 
-	// Handle to the CPlayer2D
-	CPlayer2D* cPlayer2D;
-
 	// Current FSM
 	FSM sCurrentFSM;
-
-	EntityManager* cEntityManager;
-
-	EntityFactory* cEntityFactory;
 
 	// FSM counter - count how many frames it has been in this FSM
 	int iFSMCounter;
@@ -193,7 +179,4 @@ protected:
 	bool ammo;
 
 	int dir;
-
-
 };
-
