@@ -26,10 +26,10 @@ class CMapManager;
 #include "GameControl\Settings.h"
 
 // Include Physics2D
-#include "Physics2D.h"
+#include "../Physics2D.h"
 
 // Game Manager
-#include "GameManager.h"
+#include "../GameManager.h"
 
 class CEnemy2D : public CEntity2D
 {
@@ -74,6 +74,7 @@ public:
 	glm::vec2 Getvec2UVCoordinates(void) const;
 
 	// boolean flag to indicate if this enemy is active
+	bool bIsActive;
 
 protected:
 	enum DIRECTION
@@ -121,6 +122,7 @@ protected:
 
 	// The i32vec2 which stores the indices of the destination for enemy2D in the Map2D
 	glm::i32vec2 i32vec2Destination;
+
 	// The i32vec2 which stores the direction for enemy2D movement in the Map2D
 	glm::i32vec2 i32vec2Direction;
 
@@ -177,7 +179,4 @@ protected:
 	bool ammo;
 
 	int dir;
-
-
 };
-

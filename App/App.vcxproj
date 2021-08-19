@@ -21,9 +21,7 @@
     <ClCompile Include="Source\GameStateManagement\WinState.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Scene2D\BackgroundEntity.cpp" />
-    <ClCompile Include="Source\Scene2D\Bullet.cpp" />
-    <ClCompile Include="Source\Scene2D\DoubleShot.cpp" />
-    <ClCompile Include="Source\Scene2D\Enemy2D.cpp" />
+    <ClCompile Include="Source\Scene2D\Enemies\Enemy2D.cpp" />
     <ClCompile Include="Source\Scene2D\EntityFactory.cpp" />
     <ClCompile Include="Source\Scene2D\EntityManager.cpp" />
     <ClCompile Include="Source\Scene2D\GameManager.cpp" />
@@ -34,8 +32,10 @@
     <ClCompile Include="Source\Scene2D\Physics2D.cpp" />
     <ClCompile Include="Source\Scene2D\Player2D.cpp" />
     <ClCompile Include="Source\Scene2D\MapManager.cpp" />
+    <ClCompile Include="Source\Scene2D\PowerUps\DoubleShot.cpp" />
+    <ClCompile Include="Source\Scene2D\Projectile\Bullet.cpp" />
+    <ClCompile Include="Source\Scene2D\Projectile\Spike.cpp" />
     <ClCompile Include="Source\Scene2D\Scene2D.cpp" />
-    <ClCompile Include="Source\Scene2D\Spike.cpp" />
     <ClCompile Include="Source\SoundController\SoundController.cpp" />
     <ClCompile Include="Source\SoundController\SoundInfo.cpp" />
   </ItemGroup>
@@ -50,9 +50,7 @@
     <ClInclude Include="Source\GameStateManagement\SettingsState.h" />
     <ClInclude Include="Source\GameStateManagement\WinState.h" />
     <ClInclude Include="Source\Scene2D\BackgroundEntity.h" />
-    <ClInclude Include="Source\Scene2D\Bullet.h" />
-    <ClInclude Include="Source\Scene2D\DoubleShot.h" />
-    <ClInclude Include="Source\Scene2D\Enemy2D.h" />
+    <ClInclude Include="Source\Scene2D\Enemies\Enemy2D.h" />
     <ClInclude Include="Source\Scene2D\EntityFactory.h" />
     <ClInclude Include="Source\Scene2D\EntityManager.h" />
     <ClInclude Include="Source\Scene2D\GameManager.h" />
@@ -63,8 +61,10 @@
     <ClInclude Include="Source\Scene2D\Physics2D.h" />
     <ClInclude Include="Source\Scene2D\Player2D.h" />
     <ClInclude Include="Source\Scene2D\MapManager.h" />
+    <ClInclude Include="Source\Scene2D\PowerUps\DoubleShot.h" />
+    <ClInclude Include="Source\Scene2D\Projectile\Bullet.h" />
+    <ClInclude Include="Source\Scene2D\Projectile\Spike.h" />
     <ClInclude Include="Source\Scene2D\Scene2D.h" />
-    <ClInclude Include="Source\Scene2D\Spike.h" />
     <ClInclude Include="Source\SoundController\SoundController.h" />
     <ClInclude Include="Source\SoundController\SoundInfo.h" />
   </ItemGroup>

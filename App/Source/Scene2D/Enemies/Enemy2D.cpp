@@ -20,17 +20,19 @@ using namespace std;
 #include "System\ImageLoader.h"
 
 // Include the Map2D as we will use it to check the player's movements and actions
-#include "MapManager.h"
+#include "../MapManager.h"
 // Include math.h
 #include <math.h>
 
-#include "Player2D.h"
+#include "../Player2D.h"
 
+#include "../EntityManager.h"
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
  */
 CEnemy2D::CEnemy2D(void)
-	: cMap2D(NULL)
+	: bIsActive(false)
+	, cMap2D(NULL)
 	, cSettings(NULL)
 	, sCurrentFSM(FSM::IDLE)
 	, iFSMCounter(0)
@@ -49,7 +51,6 @@ CEnemy2D::CEnemy2D(void)
 
 	i32vec2Destination = glm::i32vec2(0, 0);	// Initialise the iDestination
 	i32vec2Direction = glm::i32vec2(0, 0);		// Initialise the iDirection
-	bIsActive = false;
 }
 
 /**
@@ -111,6 +112,7 @@ bool CEnemy2D::Init(void)
 		return false;
 	}
 
+
 	//CS: Create the animated sprite and setup the animation 
 	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(3, 3, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
 	animatedSprites->AddAnimation("idle", 0, 2);
@@ -122,6 +124,7 @@ bool CEnemy2D::Init(void)
 
 	// Set the Physics to fall status by default
 	cPhysics2D.Init();
+	cPhysics2D.SetStatus(CPhysics2D::STATUS::FALL);
 
 	// If this class is initialised properly, then set the bIsActive to true
 	bIsActive = true;
@@ -171,13 +174,65 @@ void CEnemy2D::Update(const double dElapsedTime)
 		{
 			sCurrentFSM = SEARCH;
 		}
-		else if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 20.0f)
+		else if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) >= 10.0f && cPhysics2D.CalculateDistance(i32vec2Index, CPlayer2D::GetInstance()->i32vec2Index) < 20.0f)
+		{
+			if (CPlayer2D::GetInstance()->vec2WSCoordinate.x < vec2WSCoordinate.x)
+			{
+				dir = -1;
+				animatedSprites->PlayAnimation("left", -1, 1.0f);
+			}
+			else if (CPlayer2D::GetInstance()->vec2WSCoordinate.x > vec2WSCoordinate.x)
+			{
+				dir = 1;
+				animatedSprites->PlayAnimation("right", -1, 1.0f);
+			}
+			else
+			{
+				InteractWithPlayer();
+			}
+			sCurrentFSM = RANGEDATTACK;
+		}
+		else if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) >= 5.0f && cPhysics2D.CalculateDistance(i32vec2Index, CPlayer2D::GetInstance()->i32vec2Index) < 10.0f)
+		{
+			if (CPlayer2D::GetInstance()->vec2WSCoordinate.x < vec2WSCoordinate.x)
+			{
+				dir = -1;
+				animatedSprites->PlayAnimation("left", -1, 1.0f);
+			}
+			else if (CPlayer2D::GetInstance()->vec2WSCoordinate.x > vec2WSCoordinate.x)
+			{
+				dir = 1;
+				animatedSprites->PlayAnimation("right", -1, 1.0f);
+			}
+			else
+			{
+				InteractWithPlayer();
+			}
+			sCurrentFSM = RUSHATTACK;
+		}
+		else if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 5.0f)
 		{
 			sCurrentFSM = MELEEATTACK;
 		}
 		break;
+	case RANGEDATTACK:
+		if (ammo)
+		{
+			//BULLET CODE HERE
+			EntityManager::GetInstance()->entitylist.push_back(EntityFactory::GetInstance()->ProduceBullets(vec2WSCoordinate, glm::f32vec2(0.5 * dir, 0), glm::vec3(1, 1, 1), 0, E_EBULLET));
+			ammo = false;
+		}
+		if (iFSMCounter > iMaxFSMCounter)
+		{
+			//PLAY ANIMATION
+			ammo = true;
+			iFSMCounter = 0;
+			sCurrentFSM = ATTACK;
+		}
+		iFSMCounter++;
+		break;
 	case MELEEATTACK:
-		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 20.0f)
+		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 5.0f)
 		{
 			// Calculate a path to the player
 			auto path = cMap2D->PathFind(i32vec2Index,
@@ -226,12 +281,133 @@ void CEnemy2D::Update(const double dElapsedTime)
 			iFSMCounter++;
 		}
 		break;
+	case RUSHATTACK:
+		if (dir == -1)
+		{
+			i32vec2OldIndex = i32vec2Index;
+			// Calculate the new position to the left
+			if (vec2WSCoordinate.x >= 0)
+			{
+				vec2WSCoordinate.x -= 4.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
+			}
+			cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
+
+			// Constraint the player's position within the screen boundary
+			Constraint(LEFT);
+
+			vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
+
+			// If the new position is not feasible, then revert to old position
+			if (CheckPosition(LEFT) == false)
+			{
+				vec2WSCoordinate.x += 4.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
+				cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
+				sCurrentFSM = DAMAGED;
+			}
+
+			// Check if player is in mid-air, such as walking off a platform
+			if (IsMidAir() == true)
+			{
+				cPhysics2D.SetStatus(CPhysics2D::STATUS::FALL);
+			}
+
+			//CS: Play the "left" animation
+			//animatedSprites->PlayAnimation("left", -1, 1.0f);
+			currentColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
+
+			//dirx = -1;
+			InteractWithPlayer();
+		}
+		else if (dir == 1)
+		{
+			// Calculate the new position to the right
+			if (vec2WSCoordinate.x < cSettings->NUM_TILES_XAXIS)
+			{
+				vec2WSCoordinate.x += 4.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
+			}
+
+			cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
+
+			// Constraint the player's position within the screen boundary
+			Constraint(RIGHT);
+
+			vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
+
+			// If the new position is not feasible, then revert to old position
+			if (CheckPosition(RIGHT) == false)
+			{
+				i32vec2NumMicroSteps.x = 0;
+				vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
+				sCurrentFSM = DAMAGED;
+			}
+
+			// Check if player is in mid-air, such as walking off a platform
+			if (IsMidAir() == true)
+			{
+				cPhysics2D.SetStatus(CPhysics2D::STATUS::FALL);
+			}
+
+			//CS: Play the "right" animation
+			//animatedSprites->PlayAnimation("right", -1, 1.0f);
+			currentColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
+
+			//dirx = 1;
+			InteractWithPlayer();
+		}
+		else
+		{
+			sCurrentFSM = IDLE;
+		}
+		break;
+	case HEALING:
+		if (iFSMCounter > iMaxFSMCounter)
+		{
+			//CHANGE COLOUR TO GREEN
+			currentColor = glm::vec4(0.0, 1.0, 0.0, 1.0);
+			enemyhealth = 4;
+			healedonce = true;
+			iFSMCounter = 0;
+			sCurrentFSM = SEARCH;
+		}
+		iFSMCounter++;
+		animatedSprites->PlayAnimation("idle", -1, 1.0f);
+		break;
+	case DAMAGED:
+		if (ammo)
+		{
+			//BULLET CODE HERE
+			EntityManager::GetInstance() ->entitylist.push_back(EntityFactory::GetInstance()->ProduceSpikes(i32vec2Index.x, i32vec2Index.y + 20, glm::f32vec2(0, -0.5), glm::vec3(1, 1, 1), 0, E_SPIKE));
+			ammo = false;
+		}
+		if (spikecollided && iFSMCounter > iMaxFSMCounter)
+		{
+			//PLAY ANIMATION
+			ammo = true;
+			spikecollided = false;
+
+ 			if (enemyhealth < 3 && healedonce == false)
+			{
+				sCurrentFSM = HEALING;
+			}
+			else if (enemyhealth < 2)
+			{
+				CGameManager::GetInstance()->bPlayerWon = true;
+			}
+			else
+			{
+				enemyhealth--;
+				sCurrentFSM = ATTACK;
+			}
+		}
+		iFSMCounter++;
+		animatedSprites->PlayAnimation("idle", -1, 1.0f);
+		break;
 	default:
 		break;
 	}
 
 	// Update Jump or Fall
-	// UpdateJumpFall(dElapsedTime);
+	UpdateJumpFall(dElapsedTime);
 
 	// Update the UV Coordinates
 	vec2UVCoordinate.x = cSettings->ConvertFloatToUVSpace(cSettings->x, vec2WSCoordinate.x, false);
@@ -328,7 +504,6 @@ void CEnemy2D::Seti32vec2NumMicroSteps(const int iNumMicroSteps_XAxis, const int
 	vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
 	vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
 }
-
 
 /**
 @brief Load a texture, assign it a code and store it in MapOfTextureIDs.
@@ -732,20 +907,29 @@ void CEnemy2D::UpdatePosition(void)
 		// Move left
 		if (vec2WSCoordinate.x >= 0)
 		{
-			vec2WSCoordinate.x -= 1.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
+			vec2WSCoordinate.x -= 4.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
 		}
 		cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
 
 		// Constraint the player's position within the screen boundary
 		Constraint(LEFT);
+
+		vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
+
 		// Find a feasible position for the enemy2D's current position
 		if (CheckPosition(LEFT) == false)
 		{
 			FlipHorizontalDirection();
-			vec2WSCoordinate.x += 1.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;	
+			vec2WSCoordinate.x += 4.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
+			
+		}
+		cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
+		// Check if enemy2D is in mid-air, such as walking off a platform
+		if (IsMidAir() == true)
+		{
+			cPhysics2D.SetStatus(CPhysics2D::STATUS::FALL);
 		}
 
-		vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
 		// Interact with the Player
 		InteractWithPlayer();
 	}
@@ -753,20 +937,30 @@ void CEnemy2D::UpdatePosition(void)
 	{
 		if (vec2WSCoordinate.x < cSettings->NUM_TILES_XAXIS)
 		{
-			vec2WSCoordinate.x += 1.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
+			vec2WSCoordinate.x += 4.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
 		}
 
 		cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
 
 		// Constraint the player's position within the screen boundary
 		Constraint(RIGHT);
+
+		vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
+
 		// Find a feasible position for the enemy2D's current position
 		if (CheckPosition(RIGHT) == false)
 		{
 			FlipHorizontalDirection();
 			i32vec2NumMicroSteps.x = 0;
+			vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
 		}
-		vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
+
+		// Check if enemy2D is in mid-air, such as walking off a platform
+		if (IsMidAir() == true)
+		{
+			cPhysics2D.SetStatus(CPhysics2D::STATUS::FALL);
+		}
+
 		// Interact with the Player
 		InteractWithPlayer();
 	}
@@ -774,39 +968,10 @@ void CEnemy2D::UpdatePosition(void)
 	// if the player is above the enemy2D, then jump to attack
 	if (i32vec2Direction.y > 0)
 	{
-		// Calculate the new position up
-		if (vec2WSCoordinate.y < cSettings->NUM_TILES_YAXIS)
+		if (cPhysics2D.GetStatus() == CPhysics2D::STATUS::IDLE)
 		{
-			vec2WSCoordinate.y += 1.f / cSettings->NUM_STEPS_PER_TILE_YAXIS;
+			cPhysics2D.SetStatus(CPhysics2D::STATUS::JUMP);
+			cPhysics2D.SetInitialVelocity(glm::vec2(0.0f, 3.5f));
 		}
-		cSettings->ConvertFloatToIndexSpace(cSettings->y, vec2WSCoordinate.y, &i32vec2Index.y, &i32vec2NumMicroSteps.y);
-
-		// Constraint the player's position within the screen boundary
-		Constraint(UP);
-		// If the new position is not feasible, then revert to old position
-		if (CheckPosition(UP) == false)
-		{
-			i32vec2NumMicroSteps.y = 0;
-		}
-		vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
-	}
-
-	if (i32vec2Direction.y < 0)
-	{
-		// Calculate the new position down
-		if (vec2WSCoordinate.y >= 0)
-		{
-			vec2WSCoordinate.y -= 1.f / cSettings->NUM_STEPS_PER_TILE_YAXIS;
-		}
-		cSettings->ConvertFloatToIndexSpace(cSettings->y, vec2WSCoordinate.y, &i32vec2Index.y, &i32vec2NumMicroSteps.y);
-		// Constraint the player's position within the screen boundary
-		Constraint(DOWN);
-		// If the new position is not feasible, then revert to old position
-		if (CheckPosition(DOWN) == false)
-		{
-			i32vec2Index.y++;
-			i32vec2NumMicroSteps.y = 0;
-		}
-		vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
 	}
 }
