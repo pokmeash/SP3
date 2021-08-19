@@ -10,7 +10,6 @@ struct Room2D
 	};
 
 	DOOR_TYPE type;
-	
 	int prevRoom;
 	int nextRoom;
 	bool locked;
