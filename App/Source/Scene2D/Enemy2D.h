@@ -92,9 +92,7 @@ protected:
 		ATTACK = 2,
 		RANGEDATTACK = 3,
 		MELEEATTACK = 4,
-		RUSHATTACK = 5,
-		HEALING = 6,
-		DAMAGED = 7,
+		PATROL = 5,
 		NUM_FSM
 	};
 

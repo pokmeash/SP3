@@ -337,7 +337,7 @@ int CMap2D::GetMapInfo(const unsigned int uiRow, const int unsigned uiCol, const
 {
 	if (bInvert)
 		return arrMapInfo[uiCurLevel][cSettings->NUM_TILES_YAXIS - uiRow - 1][uiCol].value;
-	else
+	else 
 		return arrMapInfo[uiCurLevel][uiRow][uiCol].value;
 }
 

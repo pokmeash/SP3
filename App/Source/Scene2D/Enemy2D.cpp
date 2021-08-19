@@ -116,6 +116,8 @@ bool CEnemy2D::Init(void)
 	animatedSprites->AddAnimation("idle", 0, 2);
 	animatedSprites->AddAnimation("right", 3, 5);
 	animatedSprites->AddAnimation("left", 0, 2);
+	animatedSprites->AddAnimation("up", 9, 11);
+	animatedSprites->AddAnimation("down", 6, 8);
 
 	//CS: Init the color to white
 	currentColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
@@ -147,7 +149,7 @@ void CEnemy2D::Update(const double dElapsedTime)
 		//Means that each state changes every 1 second
 		if (iFSMCounter > iMaxFSMCounter)
 		{
-			sCurrentFSM = SEARCH;
+			sCurrentFSM = PATROL;
 			iFSMCounter = 0;
 		}
 		iFSMCounter++;
@@ -231,6 +233,48 @@ void CEnemy2D::Update(const double dElapsedTime)
 				iFSMCounter = 0;
 			}
 			iFSMCounter++;
+		}
+		break;
+	case PATROL:
+
+		//movementLEFT
+		if (vec2WSCoordinate.x >= 0)
+		{
+			vec2WSCoordinate.x -= 4.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
+		}
+		cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
+		
+		//Constraints
+		Constraint(LEFT);
+		if (CheckPosition(LEFT) == false)
+		{
+			vec2WSCoordinate.x += 4.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
+			cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
+		}
+
+		Constraint(RIGHT);
+		if (CheckPosition(RIGHT) == false)
+		{
+			i32vec2NumMicroSteps.x = 0;
+			vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
+
+			vec2WSCoordinate.y += 4.f / cSettings->NUM_STEPS_PER_TILE_YAXIS;
+			cSettings->ConvertFloatToIndexSpace(cSettings->y, vec2WSCoordinate.y, &i32vec2Index.y, &i32vec2NumMicroSteps.y);
+		}
+
+		Constraint(UP);
+		if (CheckPosition(UP) == false)
+		{
+			i32vec2NumMicroSteps.y = 0;
+			vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
+		}
+
+		Constraint(DOWN);
+		if (CheckPosition(DOWN) == false)
+		{
+			i32vec2Index.y++;
+			i32vec2NumMicroSteps.y = 0;
+			vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
 		}
 		break;
 	default:
