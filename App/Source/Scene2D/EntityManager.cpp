@@ -1,5 +1,6 @@
 #include "EntityManager.h"
 #include "Scene2D.h"
+#include "EventControl/EventHandler.h"
 
 EntityManager::EntityManager(void)
 {
@@ -34,6 +35,7 @@ void EntityManager::Update(const double dElapsedTime)
 						{
 							CPlayer2D::GetInstance()->PlayerDamaged();
 							entity->bIsActive = false;
+							EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(entity));
 						}
 						break;
 					}
@@ -46,11 +48,15 @@ void EntityManager::Update(const double dElapsedTime)
 							{
 								enemy->bIsActive = false;
 								entity->bIsActive = false;
+								EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(enemy));
+								EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(entity));
 							}
 						}
+						if (!entity->bIsActive) break;
 						if (cMap2D->GetMapInfo((int)entity->vec2WSCoordinate.y, (int)entity->vec2WSCoordinate.x) >= 100)
 						{
 							entity->bIsActive = false;
+							EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(entity));
 						}
 						break;
 					}

@@ -21,6 +21,7 @@
     <ClCompile Include="Source\GameStateManagement\WinState.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Scene2D\BackgroundEntity.cpp" />
+    <ClCompile Include="Source\Scene2D\Bosses\BossTimeControl.cpp" />
     <ClCompile Include="Source\Scene2D\Enemies\Enemy2D.cpp" />
     <ClCompile Include="Source\Scene2D\Enemies\SpaceGoop.cpp" />
     <ClCompile Include="Source\Scene2D\EntityFactory.cpp" />
@@ -53,6 +54,7 @@
     <ClInclude Include="Source\GameStateManagement\SettingsState.h" />
     <ClInclude Include="Source\GameStateManagement\WinState.h" />
     <ClInclude Include="Source\Scene2D\BackgroundEntity.h" />
+    <ClInclude Include="Source\Scene2D\Bosses\BossTimeControl.h" />
     <ClInclude Include="Source\Scene2D\Enemies\Enemy2D.h" />
     <ClInclude Include="Source\Scene2D\Enemies\SpaceGoop.h" />
     <ClInclude Include="Source\Scene2D\EntityFactory.h" />

@@ -30,6 +30,9 @@
     <Filter Include="Projectiles">
       <UniqueIdentifier>{6498bedd-35a0-414a-bc04-c506d7577c2e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Enemies\Bosses">
+      <UniqueIdentifier>{b911bbf2-0fdd-41ca-afc1-f6d5c1c16a95}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp">
@@ -122,6 +125,9 @@
     <ClCompile Include="Source\Scene2D\Room2D.cpp">
       <Filter>Scene2D</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Scene2D\Bosses\BossTimeControl.cpp">
+      <Filter>Enemies\Bosses</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -213,6 +219,9 @@
     </ClInclude>
     <ClInclude Include="Source\Scene2D\Room2D.h">
       <Filter>Scene2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\Bosses\BossTimeControl.h">
+      <Filter>Enemies\Bosses</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

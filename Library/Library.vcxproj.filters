@@ -122,6 +122,9 @@
     <ClCompile Include="Source\GUI\backends\imgui_impl_opengl3.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Primitives\Packet.cpp">
+      <Filter>Primitives</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\TimeControl\FPSCounter.h">
@@ -222,6 +225,9 @@
     </ClInclude>
     <ClInclude Include="Source\System\LoadIni.h">
       <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Primitives\Packet.h">
+      <Filter>Primitives</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

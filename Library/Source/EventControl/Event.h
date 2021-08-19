@@ -51,31 +51,19 @@ public:
 	}
 };
 
-class Projectile2DLaunchEvent : public Entity2DEvent, public Cancellable {
-protected:
-	CEntity2D* projectile;
-	glm::vec2 direction;
+class Entity2DSpawnEvent : public Entity2DEvent {
 public:
-	Projectile2DLaunchEvent(CEntity2D* projectile, glm::vec2& direction) : Entity2DEvent(projectile) {
-		Event::name = BASE_NAME();
-		this->direction = direction;
+	Entity2DSpawnEvent(CEntity2D* entity) : Entity2DEvent(entity) {}
+	static std::string BASE_NAME() {
+		return "Entity2DSpawnEvent";
 	}
+};
 
-	Projectile2DLaunchEvent(CEntity2D* projectile, glm::i32vec2& direction) : Entity2DEvent(projectile) {
-		Event::name = BASE_NAME();
-		this->direction = direction;
-	}
-
-	CEntity2D* getProjectile() {
-		return projectile;
-	}
-
-	glm::vec2& getDirection() {
-		return direction;
-	}
-
-	static const std::string BASE_NAME() {
-		return "Projectile2DLaunchEvent";
+class Entity2DDespawnEvent : public Entity2DEvent {
+public:
+	Entity2DDespawnEvent(CEntity2D* entity) : Entity2DEvent(entity) {}
+	static std::string BASE_NAME() {
+		return "Entity2DDespawnEvent";
 	}
 };
 
@@ -84,13 +72,13 @@ protected:
 	glm::vec2 toPos;
 	glm::vec2 fromPos;
 public:
-	Entity2DMoveEvent(CEntity2D* entity, glm::vec2& to, glm::vec2& from) : Entity2DEvent(entity) {
+	Entity2DMoveEvent(CEntity2D* entity, glm::vec2 to, glm::vec2 from) : Entity2DEvent(entity) {
 		toPos = to;
 		fromPos = from;
 		Event::name = BASE_NAME();
 	}
 
-	Entity2DMoveEvent(CEntity2D* entity, glm::i32vec2& to, glm::i32vec2& from) : Entity2DEvent(entity) {
+	Entity2DMoveEvent(CEntity2D* entity, glm::i32vec2 to, glm::i32vec2 from) : Entity2DEvent(entity) {
 		toPos = to;
 		fromPos = from;
 		Event::name = BASE_NAME();
@@ -190,13 +178,13 @@ protected:
 	glm::vec2 toPos;
 	glm::vec2 fromPos;
 public:
-	Player2DMoveEvent(CPlayer2D* player, glm::vec2& to, glm::vec2& from) : Player2DEvent(player) {
+	Player2DMoveEvent(CPlayer2D* player, glm::vec2 to, glm::vec2 from) : Player2DEvent(player) {
 		toPos = to;
 		fromPos = from;
 		Event::name = BASE_NAME();
 	}
 
-	Player2DMoveEvent(CPlayer2D* player, glm::i32vec2& to, glm::i32vec2& from) : Player2DEvent(player) {
+	Player2DMoveEvent(CPlayer2D* player, glm::i32vec2 to, glm::i32vec2 from) : Player2DEvent(player) {
 		toPos = to;
 		fromPos = from;
 		Event::name = BASE_NAME();
@@ -271,13 +259,13 @@ protected:
 	glm::vec2 death;
 	glm::vec2 respawn;
 public:
-	Player2DDeathEvent(CPlayer2D* player, glm::vec2& deathLocation, glm::vec2& respawnLocation) : Player2DEvent(player) {
+	Player2DDeathEvent(CPlayer2D* player, glm::vec2 deathLocation, glm::vec2 respawnLocation) : Player2DEvent(player) {
 		this->death = deathLocation;
 		this->respawn = respawnLocation;
 		Event::name = BASE_NAME();
 	}
 
-	Player2DDeathEvent(CPlayer2D* player, glm::i32vec2& deathLocation, glm::i32vec2& respawnLocation) : Player2DEvent(player) {
+	Player2DDeathEvent(CPlayer2D* player, glm::i32vec2 deathLocation, glm::i32vec2 respawnLocation) : Player2DEvent(player) {
 		this->death = deathLocation;
 		this->respawn = respawnLocation;
 		Event::name = BASE_NAME();
@@ -293,6 +281,29 @@ public:
 
 	static const std::string BASE_NAME() {
 		return "Player2DDeathEvent";
+	}
+};
+
+class Block2DChangeEvent : public Event, public Cancellable {
+protected:
+	int prev;
+	int curr;
+	glm::vec2 position;
+public:
+	Block2DChangeEvent(int prev, int next, glm::vec2 pos) : Event(BASE_NAME()), prev(prev), curr(next), position(pos) {
+
+	}
+	int getPreviousTile() {
+		return prev;
+	}
+	int getNextTile() {
+		return curr;
+	}
+	glm::vec2& getPosition() {
+		return position;
+	}
+	static const std::string BASE_NAME() {
+		return "Block2DChangeEvent";
 	}
 };
 

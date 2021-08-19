@@ -21,7 +21,7 @@ using namespace std;
 #include "System/MyMath.h"
 // Include Game Manager
 #include "GameManager.h"
-
+#include "EventControl/EventHandler.h"
 #include "Scene2D.h"
 
 
@@ -463,7 +463,9 @@ void CPlayer2D::Update(const double dElapsedTime)
 			cSoundController->PlaySoundByID(6);
 		}
 	}
-
+	if (vec2WSOldCoordinates != vec2WSCoordinate) {
+		EventHandler::GetInstance()->CallThenDelete(new Player2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates));
+	}
 }
 
 void CPlayer2D::Render(void)
@@ -513,7 +515,6 @@ void CPlayer2D::InteractWithMap(void)
 	case 4:
 		cSoundController->PlaySoundByID(5);
 		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
-		wings = true;
 		break;
 	case 10:
 		// Increase the lives by 1
