@@ -27,6 +27,7 @@ class CMapManager;
 
 // Include Keyboard controller
 #include "Inputs\KeyboardController.h"
+#include "Inputs\MouseController.h"
 
 // Include Physics2D
 #include "Physics2D.h"
@@ -89,6 +90,7 @@ protected:
 
 	// Keyboard Controller singleton instance
 	CKeyboardController* cKeyboardController;
+	CMouseController* cMouseController;
 
 	// Physics
 	CPhysics2D cPhysics2D;

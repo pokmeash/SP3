@@ -87,7 +87,7 @@ bool CMenuState::Init(void)
 	startButtonData.textureID = il->LoadTextureGetID(startButtonData.fileName.c_str(), false);
 	exitButtonData.fileName = "Image\\GUI\\ExitButton.png";
 	exitButtonData.textureID = il->LoadTextureGetID(exitButtonData.fileName.c_str(), false);
-	volupButtonData.fileName = "Image\\GUI\\VolUp.png";
+	volupButtonData.fileName = "Image\\GUI\\Settings.png";
 	volupButtonData.textureID = il->LoadTextureGetID(volupButtonData.fileName.c_str(), false);
 	voldownButtonData.fileName = "Image\\GUI\\VolDown.png";
 	voldownButtonData.textureID = il->LoadTextureGetID(voldownButtonData.fileName.c_str(), false);
