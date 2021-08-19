@@ -10,9 +10,6 @@
 //Enemy
 #include "./Enemies/Enemy2D.h"
 
-//Enemy
-#include"Enemy2D.h"
-
 //Powerup
 #include "./PowerUps/DoubleShot.h"
 

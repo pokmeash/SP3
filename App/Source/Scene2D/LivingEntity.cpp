@@ -312,7 +312,7 @@ void CLivingEntity::UpdatePosition(void)
 		// Move left
 		if (vec2WSCoordinate.x >= 0)
 		{
-			vec2WSCoordinate.x -= 4.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
+			vec2WSCoordinate.x -= 1.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
 		}
 		cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
 
@@ -325,7 +325,7 @@ void CLivingEntity::UpdatePosition(void)
 		if (CheckPosition(LEFT) == false)
 		{
 			FlipHorizontalDirection();
-			vec2WSCoordinate.x += 4.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
+			vec2WSCoordinate.x += 1.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
 			
 		}
 		cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
@@ -337,7 +337,7 @@ void CLivingEntity::UpdatePosition(void)
 	{
 		if (vec2WSCoordinate.x < cSettings->NUM_TILES_XAXIS)
 		{
-			vec2WSCoordinate.x += 4.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
+			vec2WSCoordinate.x += 1.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
 		}
 
 		cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
@@ -360,14 +360,44 @@ void CLivingEntity::UpdatePosition(void)
 		// Interact with the Player
 		InteractWithPlayer();
 	}
-
-	// if the player is above the enemy2D, then jump to attack
 	if (i32vec2Direction.y > 0)
 	{
-		if (cPhysics2D.GetStatus() == CPhysics2D::STATUS::IDLE)
+		// Calculate the new position up
+		if (vec2WSCoordinate.y < cSettings->NUM_TILES_YAXIS)
 		{
-			cPhysics2D.SetStatus(CPhysics2D::STATUS::JUMP);
-			cPhysics2D.SetInitialVelocity(glm::vec2(0.0f, 3.5f));
+			vec2WSCoordinate.y += 1.f / cSettings->NUM_STEPS_PER_TILE_YAXIS;
+		}
+		cSettings->ConvertFloatToIndexSpace(cSettings->y, vec2WSCoordinate.y, &i32vec2Index.y, &i32vec2NumMicroSteps.y);
+
+		// Constraint the player's position within the screen boundary
+		Constraint(UP);
+		vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
+		// If the new position is not feasible, then revert to old position
+		if (CheckPosition(UP) == false)
+		{
+			i32vec2NumMicroSteps.y = 0;
+			vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
 		}
 	}
+	else if (i32vec2Direction.y < 0)
+	{
+		// Calculate the new position down
+		if (vec2WSCoordinate.y >= 0)
+		{
+			vec2WSCoordinate.y -= 1.f / cSettings->NUM_STEPS_PER_TILE_YAXIS;
+		}
+		cSettings->ConvertFloatToIndexSpace(cSettings->y, vec2WSCoordinate.y, &i32vec2Index.y, &i32vec2NumMicroSteps.y);
+		// Constraint the player's position within the screen boundary
+		Constraint(DOWN);
+		vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
+		// If the new position is not feasible, then revert to old position
+		if (CheckPosition(DOWN) == false)
+		{
+			i32vec2Index.y++;
+			i32vec2NumMicroSteps.y = 0;
+			vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
+		}
+	}
+	
+	
 }
