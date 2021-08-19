@@ -84,7 +84,7 @@ bool CScene2D::Init(void)
 	CShaderManager::GetInstance()->activeShader->setInt("texture1", 0);
 
 	// Create and initialise the Map 2D
-	cMap2D = CMapManager::GetInstance();
+	cMap2D = CFloorManager::GetInstance();
 	// Set a shader to this class
 	cMap2D->SetShader("2DShader");
 	

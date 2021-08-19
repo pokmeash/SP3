@@ -41,7 +41,7 @@
     <ClCompile Include="Source\Scene2D\Scene2D.cpp">
       <Filter>Scene2D</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Scene2D\Map2D.cpp">
+    <ClCompile Include="Source\Scene2D\Floor2D.cpp">
       <Filter>Scene2D</Filter>
     </ClCompile>
     <ClCompile Include="Source\Scene2D\Player2D.cpp">
@@ -95,7 +95,7 @@
     <ClCompile Include="Source\GameStateManagement\WinState.cpp">
       <Filter>GameStateManagement</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Scene2D\MapManager.cpp">
+    <ClCompile Include="Source\Scene2D\FloorManager.cpp">
       <Filter>Scene2D</Filter>
     </ClCompile>
     <ClCompile Include="Source\GameStateManagement\SettingsState.cpp">
@@ -119,6 +119,9 @@
     <ClCompile Include="Source\Scene2D\Enemies\SpaceGoop.cpp">
       <Filter>Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Scene2D\Room2D.cpp">
+      <Filter>Scene2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -127,7 +130,7 @@
     <ClInclude Include="Source\Scene2D\Scene2D.h">
       <Filter>Scene2D</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Scene2D\Map2D.h">
+    <ClInclude Include="Source\Scene2D\Floor2D.h">
       <Filter>Scene2D</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scene2D\Player2D.h">
@@ -184,7 +187,7 @@
     <ClInclude Include="Source\GameStateManagement\WinState.h">
       <Filter>GameStateManagement</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Scene2D\MapManager.h">
+    <ClInclude Include="Source\Scene2D\FloorManager.h">
       <Filter>Scene2D</Filter>
     </ClInclude>
     <ClInclude Include="Source\GameStateManagement\SettingsState.h">
@@ -207,6 +210,9 @@
     </ClInclude>
     <ClInclude Include="Source\Scene2D\Enemies\SpaceGoop.h">
       <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\Room2D.h">
+      <Filter>Scene2D</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

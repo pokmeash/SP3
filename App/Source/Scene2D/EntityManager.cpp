@@ -11,7 +11,7 @@ EntityManager::~EntityManager(void)
 
 bool EntityManager::Init(void)
 {
-	cMap2D = CMapManager::GetInstance();
+	cMap2D = CFloorManager::GetInstance();
 	return false;
 }
 
@@ -30,42 +30,32 @@ void EntityManager::Update(const double dElapsedTime)
 				{
 					case CEntity2D::E_EBULLET:
 					{
-						glm::i32vec2 temp;
-						temp.x = (int)entity->vec2WSCoordinate.x;
-						temp.y = (int)entity->vec2WSCoordinate.y;
-						if (temp == CPlayer2D::GetInstance()->i32vec2Index)
+						if (cPhysics.CalculateDistance(entity->vec2WSCoordinate,CPlayer2D::GetInstance()->vec2WSCoordinate) <= 1)
 						{
 							CPlayer2D::GetInstance()->PlayerDamaged();
 							entity->bIsActive = false;
 						}
 						break;
 					}
-					case CEntity2D::E_SPIKE:
-					{
-						glm::i32vec2 temp;
-						temp.x = (int)entity->vec2WSCoordinate.x;
-						temp.y = (int)entity->vec2WSCoordinate.y;
-						for (CEntity2D* cEnemy2D : CScene2D::GetInstance()->enemyVector)
-						{
-							if (temp.y <= cEnemy2D->i32vec2Index.y)
-							{
-								//pass back into enemy
-								cEnemy2D->bIsActive = false;
-							}
-						}
-						break;
-					}
 					case CEntity2D::E_BULLET:
 					{
-						glm::i32vec2 temp;
-						temp.x = (int)entity->vec2WSCoordinate.x;
-						temp.y = (int)entity->vec2WSCoordinate.y;
-						if (cMap2D->GetMapInfo(temp.y, temp.x) >= 100)
+						for (std::vector<CEntity2D*>::iterator it2 = CScene2D::GetInstance()->enemyVector.begin(); it2 != CScene2D::GetInstance()->enemyVector.end(); ++it2)
+						{
+							CEntity2D* enemy = (CEntity2D*)*it2;
+							if (cPhysics.CalculateDistance(entity->vec2WSCoordinate, enemy->vec2WSCoordinate) <= 1)
+							{
+								enemy->bIsActive = false;
+								entity->bIsActive = false;
+							}
+						}
+						if (cMap2D->GetMapInfo((int)entity->vec2WSCoordinate.y, (int)entity->vec2WSCoordinate.x) >= 100)
 						{
 							entity->bIsActive = false;
 						}
 						break;
 					}
+					default:
+						break;
 				}
 			}
 		}
