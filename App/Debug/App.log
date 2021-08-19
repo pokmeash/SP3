@@ -1,1 +1,11 @@
-﻿
+﻿  Map2D.cpp
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Map2D.cpp(687,32): warning C4018: '<': signed/unsigned mismatch
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Map2D.cpp(688,26): warning C4018: '<': signed/unsigned mismatch
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Map2D.cpp(749,20): warning C4018: '<': signed/unsigned mismatch
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Map2D.cpp(758,20): warning C4018: '<': signed/unsigned mismatch
+  Scene2D.cpp
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Scene2D.cpp(48,20): warning C4018: '<': signed/unsigned mismatch
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Scene2D.cpp(209,20): warning C4018: '<': signed/unsigned mismatch
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Scene2D.cpp(313,20): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+  App.vcxproj -> D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Debug\App.exe

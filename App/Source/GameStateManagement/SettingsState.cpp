@@ -121,7 +121,6 @@ bool CSettingsState::Init(void)
  */
 bool CSettingsState::Update(const double dElapsedTime)
 {
-	// Start the Dear ImGui frame
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
@@ -129,7 +128,6 @@ bool CSettingsState::Update(const double dElapsedTime)
 	ImGuiWindowFlags window_flags = 0;
 	window_flags |= ImGuiWindowFlags_NoTitleBar;
 	window_flags |= ImGuiWindowFlags_NoScrollbar;
-	//window_flags |= ImGuiWindowFlags_MenuBar;
 	window_flags |= ImGuiWindowFlags_NoBackground;
 	window_flags |= ImGuiWindowFlags_NoMove;
 	window_flags |= ImGuiWindowFlags_NoCollapse;
@@ -137,7 +135,6 @@ bool CSettingsState::Update(const double dElapsedTime)
 
 	float buttonWidth = 256;
 	float buttonHeight = 128;
-	// 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
 	{
 		static float f = 0.0f;
 		static int counter = 0;
@@ -147,22 +144,14 @@ bool CSettingsState::Update(const double dElapsedTime)
 			CSettings::GetInstance()->iWindowHeight / 12.0));					// Set the top-left of the window at (10,10)
 		ImGui::SetWindowSize(ImVec2(CSettings::GetInstance()->iWindowWidth, CSettings::GetInstance()->iWindowHeight));
 
-		//Added rounding for nicer effect
 		ImGuiStyle& style = ImGui::GetStyle();
 		style.FrameRounding = 200.0f;
-		
-		// Add codes for Start button here
+
 		if (ImGui::ImageButton((ImTextureID)buttonData[EXIT].textureID, 
 			ImVec2(buttonWidth, buttonHeight), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0)))
 		{
-			cSoundController->PlaySoundByID(7);
-			// Reset the CKeyboardController
 			CKeyboardController::GetInstance()->Reset();
-
-			// Load the menu state
-			CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
-			cSoundController->StopAllSound();
-			cSoundController->PlaySoundByID(3);
+			CGameStateManager::GetInstance()->SetActiveGameState("MenuState");
 		}
 
 		for (unsigned i = 0; i < TOTAL_BUTTONS; ++i) {
@@ -212,27 +201,11 @@ bool CSettingsState::Update(const double dElapsedTime)
 
 		ImGui::End();
 	}
-	//For keyboard controls
-	if (CKeyboardController::GetInstance()->IsKeyReleased(GLFW_KEY_SPACE))
+	if (CKeyboardController::GetInstance()->IsKeyReleased(GLFW_KEY_ESCAPE))
 	{
-		cSoundController->PlaySoundByID(7);
-		// Reset the CKeyboardController
 		CKeyboardController::GetInstance()->Reset();
-
-		// Load the menu state
 		CGameStateManager::GetInstance()->SetActiveGameState("MenuState");
-		cSoundController->StopAllSound();
-		cSoundController->PlaySoundByID(3);
 		return true;
-	}
-	else if (CKeyboardController::GetInstance()->IsKeyReleased(GLFW_KEY_ESCAPE))
-	{
-		cSoundController->PlaySoundByID(7);
-		// Reset the CKeyboardController
-		CKeyboardController::GetInstance()->Reset();
-
-		// Load the menu state
-		return false;
 	}
 
 	//BGM

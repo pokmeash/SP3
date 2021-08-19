@@ -6,6 +6,7 @@ using namespace std;
 #include "RenderControl\ShaderManager.h"
 
 #include "System\filesystem.h"
+#include "Enemies/SpaceFly.h"
 
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
@@ -131,7 +132,24 @@ bool CScene2D::Init(void)
 	enemyVector.clear();
 	while (true)
 	{
-		CEnemy2D* cEnemy2D = new CEnemy2D();
+		CEnemy2D* cEnemy2D = new CSpaceGoop();
+		// Pass shader to cEnemy2D
+		cEnemy2D->SetShader("2DColorShader");
+		// Initialise the instance
+		if (cEnemy2D->Init() == true)
+		{
+			enemyVector.push_back(cEnemy2D);
+		}
+		else
+		{
+			// Break out of this loop if the enemy has all been loaded
+			break;
+		}
+	}
+
+	while (true)
+	{
+		CEnemy2D* cEnemy2D = new CSpaceFly();
 		// Pass shader to cEnemy2D
 		cEnemy2D->SetShader("2DColorShader");
 		// Initialise the instance
@@ -229,7 +247,24 @@ bool CScene2D::Update(const double dElapsedTime)
 		enemyVector.clear();
 		while (true)
 		{
-			CEnemy2D* cEnemy2D = new CEnemy2D();
+			CEnemy2D* cEnemy2D = new CSpaceGoop();
+			// Pass shader to cEnemy2D
+			cEnemy2D->SetShader("2DColorShader");
+			// Initialise the instance
+			if (cEnemy2D->Init() == true)
+			{
+				enemyVector.push_back(cEnemy2D);
+			}
+			else
+			{
+				// Break out of this loop if the enemy has all been loaded
+				break;
+			}
+		}
+
+		while (true)
+		{
+			CEnemy2D* cEnemy2D = new CSpaceFly();
 			// Pass shader to cEnemy2D
 			cEnemy2D->SetShader("2DColorShader");
 			// Initialise the instance

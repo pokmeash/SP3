@@ -21,6 +21,15 @@
     <Filter Include="Entity">
       <UniqueIdentifier>{222dbe78-732b-45ad-b2ba-88d9d05fe027}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Powerups">
+      <UniqueIdentifier>{0b516f3b-67f9-4bca-863b-eb593daab0f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enemies">
+      <UniqueIdentifier>{b3287f0b-b76a-45f8-af82-31d686fb4d6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Projectiles">
+      <UniqueIdentifier>{6498bedd-35a0-414a-bc04-c506d7577c2e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp">
@@ -59,9 +68,6 @@
     <ClCompile Include="Source\SoundController\SoundInfo.cpp">
       <Filter>SoundController</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Scene2D\Enemy2D.cpp">
-      <Filter>Scene2D</Filter>
-    </ClCompile>
     <ClCompile Include="Source\GameStateManagement\IntroState.cpp">
       <Filter>GameStateManagement</Filter>
     </ClCompile>
@@ -77,16 +83,10 @@
     <ClCompile Include="Source\Scene2D\BackgroundEntity.cpp">
       <Filter>Scene2D</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Scene2D\Bullet.cpp">
-      <Filter>Entity</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Scene2D\EntityFactory.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
     <ClCompile Include="Source\Scene2D\EntityManager.cpp">
-      <Filter>Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Scene2D\Spike.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
     <ClCompile Include="Source\GameStateManagement\Music.cpp">
@@ -98,11 +98,29 @@
     <ClCompile Include="Source\Scene2D\MapManager.cpp">
       <Filter>Scene2D</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Scene2D\DoubleShot.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\GameStateManagement\SettingsState.cpp">
       <Filter>GameStateManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\Enemies\Enemy2D.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\Projectile\Spike.cpp">
+      <Filter>Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\Projectile\Bullet.cpp">
+      <Filter>Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\PowerUps\DoubleShot.cpp">
+      <Filter>Powerups</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\LivingEntity.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\Enemies\SpaceGoop.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\Enemies\SpaceFly.cpp">
+      <Filter>Enemies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -139,9 +157,6 @@
     <ClInclude Include="Source\SoundController\SoundInfo.h">
       <Filter>SoundController</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Scene2D\Enemy2D.h">
-      <Filter>Scene2D</Filter>
-    </ClInclude>
     <ClInclude Include="Source\GameStateManagement\IntroState.h">
       <Filter>GameStateManagement</Filter>
     </ClInclude>
@@ -160,16 +175,10 @@
     <ClInclude Include="Source\Scene2D\BackgroundEntity.h">
       <Filter>Scene2D</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Scene2D\Bullet.h">
-      <Filter>Entity</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Scene2D\EntityFactory.h">
       <Filter>Entity</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scene2D\EntityManager.h">
-      <Filter>Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Scene2D\Spike.h">
       <Filter>Entity</Filter>
     </ClInclude>
     <ClInclude Include="Source\GameStateManagement\Music.h">
@@ -181,11 +190,29 @@
     <ClInclude Include="Source\Scene2D\MapManager.h">
       <Filter>Scene2D</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Scene2D\DoubleShot.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\GameStateManagement\SettingsState.h">
       <Filter>GameStateManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\Enemies\Enemy2D.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\Projectile\Spike.h">
+      <Filter>Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\Projectile\Bullet.h">
+      <Filter>Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\PowerUps\DoubleShot.h">
+      <Filter>Powerups</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\LivingEntity.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\Enemies\SpaceGoop.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\Enemies\SpaceFly.h">
+      <Filter>Enemies</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
