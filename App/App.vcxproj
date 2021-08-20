@@ -24,6 +24,7 @@
     <ClCompile Include="Source\Scene2D\Enemies\Enemy2D.cpp" />
     <ClCompile Include="Source\Scene2D\Enemies\SpaceFly.cpp" />
     <ClCompile Include="Source\Scene2D\Enemies\SpaceGoop.cpp" />
+    <ClCompile Include="Source\Scene2D\Enemies\SpaceTurret.cpp" />
     <ClCompile Include="Source\Scene2D\EntityFactory.cpp" />
     <ClCompile Include="Source\Scene2D\EntityManager.cpp" />
     <ClCompile Include="Source\Scene2D\GameManager.cpp" />
@@ -56,6 +57,7 @@
     <ClInclude Include="Source\Scene2D\Enemies\Enemy2D.h" />
     <ClInclude Include="Source\Scene2D\Enemies\SpaceFly.h" />
     <ClInclude Include="Source\Scene2D\Enemies\SpaceGoop.h" />
+    <ClInclude Include="Source\Scene2D\Enemies\SpaceTurret.h" />
     <ClInclude Include="Source\Scene2D\EntityFactory.h" />
     <ClInclude Include="Source\Scene2D\EntityManager.h" />
     <ClInclude Include="Source\Scene2D\GameManager.h" />

@@ -73,6 +73,7 @@ protected:
 		DAMAGED = 7,
 		MOVELEFT = 8,
 		MOVERIGHT = 9,
+		SHOOT = 10,
 		NUM_FSM
 	};
 

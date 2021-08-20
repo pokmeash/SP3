@@ -122,6 +122,9 @@
     <ClCompile Include="Source\Scene2D\Enemies\SpaceFly.cpp">
       <Filter>Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Scene2D\Enemies\SpaceTurret.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -212,6 +215,9 @@
       <Filter>Enemies</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scene2D\Enemies\SpaceFly.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\Enemies\SpaceTurret.h">
       <Filter>Enemies</Filter>
     </ClInclude>
   </ItemGroup>

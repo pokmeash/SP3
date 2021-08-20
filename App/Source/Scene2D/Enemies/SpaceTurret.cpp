@@ -1,9 +1,9 @@
 /**
- CSpaceFly
+ CSpaceTurret
  By: Toh Da Jun
  Date: Mar 2020
  */
-#include "SpaceFly.h"
+#include "SpaceTurret.h"
 
 #include <iostream>
 using namespace std;
@@ -30,7 +30,7 @@ using namespace std;
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
  */
-CSpaceFly::CSpaceFly(void)
+CSpaceTurret::CSpaceTurret(void)
 {
 	transform = glm::mat4(1.0f);	// make sure to initialize matrix to identity matrix first
 
@@ -45,12 +45,13 @@ CSpaceFly::CSpaceFly(void)
 
 	i32vec2Destination = glm::i32vec2(0, 0);	// Initialise the iDestination
 	i32vec2Direction = glm::i32vec2(0, 0);		// Initialise the iDirection
+
 }
 
 /**
  @brief Destructor This destructor has protected access modifier as this class will be a Singleton
  */
-CSpaceFly::~CSpaceFly(void)
+CSpaceTurret::~CSpaceTurret(void)
 {
 	// Delete the quadMesh
 	if (mesh)
@@ -76,14 +77,14 @@ CSpaceFly::~CSpaceFly(void)
 /**
   @brief Initialise this instance
   */
-bool CSpaceFly::Init(void)
+bool CSpaceTurret::Init(void)
 {
 	CEnemy2D::Init();
-	std::cout << "Initing spacefly\n";
+	std::cout << "Initing spacegoop\n";
 	// Find the indices for the player in arrMapInfo, and assign it to cPlayer2D
 	unsigned int uiRow = -1;
 	unsigned int uiCol = -1;
-	if (cMap2D->FindValue(1002, uiRow, uiCol) == false)
+	if (cMap2D->FindValue(1003, uiRow, uiCol) == false)
 		return false;	// Unable to find the start position of the player, so quit this game
 
 	// Erase the value of the player in the arrMapInfo
@@ -96,18 +97,17 @@ bool CSpaceFly::Init(void)
 	i32vec2NumMicroSteps = glm::i32vec2(0, 0);
 
 	// Load the enemy2D texture
-	if (LoadTexture("Image/enemy3.png") == false)
+	if (LoadTexture("Image/enemy4.png") == false)
 	{
 		std::cout << "Failed to load enemy2D tile texture" << std::endl;
 		return false;
 	}
 
 	//CS: Create the animated sprite and setup the animation 
-	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(4, 3, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
-	animatedSprites->AddAnimation("idle", 0, 2);
-	animatedSprites->AddAnimation("right", 3, 5);
-	animatedSprites->AddAnimation("up", 9, 11);
-	animatedSprites->AddAnimation("down", 6, 8);
+	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(1, 4, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
+	animatedSprites->AddAnimation("idle", 0, 3);
+
+	bulletTimer = 0;
 
 	iHealth = 4;
 	return true;
@@ -116,7 +116,7 @@ bool CSpaceFly::Init(void)
 /**
  @brief Update this instance
  */
-void CSpaceFly::Update(const double dElapsedTime)
+void CSpaceTurret::Update(const double dElapsedTime)
 {
 	if (!bIsActive)
 		return;
@@ -127,36 +127,14 @@ void CSpaceFly::Update(const double dElapsedTime)
 		//Means that each state changes every 2 seconds
 		if (iFSMCounter > iMaxFSMCounter)
 		{
-			sCurrentFSM = MOVELEFT;
+			sCurrentFSM = SHOOT;
 			iFSMCounter = 0;
 		}
 		iFSMCounter++;
 		animatedSprites->PlayAnimation("idle", -1, 1.0f);
 		break;
-	case SEARCH:
-		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 15.0f)
-		{
-			if (iFSMCounter > iMaxFSMCounter)
-			{
-				sCurrentFSM = ATTACK;
-				iFSMCounter = 0;
-				currentColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
-			}
-			iFSMCounter++;
-		}
-		//animatedSprites->PlayAnimation("idle", -1, 1.0f);
-		break;
-	case ATTACK:
-		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) >= 20.0f)
-		{
-			sCurrentFSM = IDLE;
-		}
-		else if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 20.0f)
-		{
-			sCurrentFSM = MELEEATTACK;
-		}
 	case MELEEATTACK:
-		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 20.0f)
+		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 10.0f)
 		{
 			// Calculate a path to the player
 			auto path = cMap2D->PathFind(i32vec2Index,
@@ -205,49 +183,34 @@ void CSpaceFly::Update(const double dElapsedTime)
 			iFSMCounter++;
 		}
 		break;
-	case MOVELEFT:
-		//movementLEFT
-		if (vec2WSCoordinate.x >= 0)
+
+	case SHOOT:
+		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 10.0f)
 		{
-			vec2WSCoordinate.x -= 3.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
-			animatedSprites->PlayAnimation("idle", -1, 1.0f);
+			bulletTimer += dElapsedTime;
+
+			static float delay = 0.f;
+			delay = 0.5f;
+			glm::i32vec2 mouse((int)CMouseController::GetInstance()->GetMousePositionX(), (int)CMouseController::GetInstance()->GetMousePositionY());
+			glm::vec2 wsSpace(0.f, 0.f);
+			cSettings->ConvertMouseToWSSpace(mouse.x, mouse.y, &(wsSpace.x), &(wsSpace.y));
+			glm::vec2 direction = wsSpace - vec2WSCoordinate;
+			direction = glm::normalize(direction);
+			direction *= 0.5f;
+
+			if (bulletTimer >= 3)
+			{
+				glm::vec2 temp = direction;
+				temp.y = sinf(atan2f(temp.y, temp.x) + 0.1);
+				temp.x = cosf(atan2f(temp.y, temp.x) + 0.1);
+				temp = glm::normalize(temp) * 0.5f;
+				EntityManager::GetInstance()->entitylist.push_back(EntityFactory::GetInstance()->ProduceBullets(vec2WSCoordinate, glm::vec2(temp.x, temp.y), glm::vec3(1, 1, 1), 0, E_BULLET));
+
+				cout << "shoot bullet!";
+				bulletTimer = 0;
+			}
 		}
-		cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
 
-
-		Constraint(LEFT);
-
-		//Constraints
-		if (CheckPosition(LEFT) == false)
-		{
-			vec2WSCoordinate.x += 2.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
-			cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
-			sCurrentFSM = MOVERIGHT;
-		}
-	break;
-
-	case MOVERIGHT:
-		if (vec2WSCoordinate.x < cSettings->NUM_TILES_XAXIS)
-		{
-			vec2WSCoordinate.x += 2.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
-			animatedSprites->PlayAnimation("right", -1, 1.0f);
-		}
-		cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
-		
-
-		// Constraint the player's position within the screen boundary
-		Constraint(RIGHT);
-
-		vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
-
-		// Find a feasible position for the enemy2D's current position
-		if (CheckPosition(RIGHT) == false)
-		{
-			FlipHorizontalDirection();
-			i32vec2NumMicroSteps.x = 0;
-			vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
-			sCurrentFSM = MOVELEFT;
-		}
 		break;
 	default:
 		break;
@@ -261,7 +224,7 @@ void CSpaceFly::Update(const double dElapsedTime)
 /**
  @brief Let enemy2D interact with the player.
  */
-bool CSpaceFly::InteractWithPlayer(void)
+bool CSpaceTurret::InteractWithPlayer(void)
 {
 	glm::i32vec2 i32vec2PlayerPos = CPlayer2D::GetInstance()->i32vec2Index;
 	
