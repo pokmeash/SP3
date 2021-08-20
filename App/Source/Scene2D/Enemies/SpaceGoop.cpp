@@ -156,7 +156,7 @@ void CSpaceGoop::Update(const double dElapsedTime)
 			sCurrentFSM = MELEEATTACK;
 		}
 	case MELEEATTACK:
-		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 20.0f)
+		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 5.0f)
 		{
 			// Calculate a path to the player
 			auto path = cMap2D->PathFind(i32vec2Index,
@@ -195,15 +195,14 @@ void CSpaceGoop::Update(const double dElapsedTime)
 			// Update the Enemy2D's position for attack
 			UpdatePosition();
 		}
+
 		else
 		{
-			if (iFSMCounter > iMaxFSMCounter)
-			{
-				sCurrentFSM = SEARCH;
-				iFSMCounter = 0;
-			}
-			iFSMCounter++;
+			sCurrentFSM = MOVELEFT;
+			iFSMCounter = 0;
+			currentColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
 		}
+		iFSMCounter++;
 		break;
 	case MOVELEFT:
 		//movementLEFT
@@ -223,6 +222,11 @@ void CSpaceGoop::Update(const double dElapsedTime)
 			vec2WSCoordinate.x += 1.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
 			cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
 			sCurrentFSM = MOVERIGHT;
+		}
+
+		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 5.0f)
+		{
+			sCurrentFSM = MELEEATTACK;
 		}
 	break;
 
@@ -247,6 +251,11 @@ void CSpaceGoop::Update(const double dElapsedTime)
 			i32vec2NumMicroSteps.x = 0;
 			vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
 			sCurrentFSM = MOVELEFT;
+		}
+
+		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 5.0f)
+		{
+			sCurrentFSM = MELEEATTACK;
 		}
 		break;
 	default:

@@ -166,11 +166,7 @@ void CSpaceTurret::Update(const double dElapsedTime)
 						break;
 				}
 			}
-			// Attack
-			// Update direction to move towards for attack
 			UpdateDirection();
-
-			// Update the Enemy2D's position for attack
 			UpdatePosition();
 		}
 		else
@@ -188,58 +184,27 @@ void CSpaceTurret::Update(const double dElapsedTime)
 		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 10.0f)
 		{
 			bulletTimer += dElapsedTime;
+			glm::vec2 direction = CPlayer2D::GetInstance()->vec2WSCoordinate - vec2WSCoordinate;
+			direction = glm::normalize(direction);
 
-			// Calculate a path to the player
-			auto path = cMap2D->PathFind(i32vec2Index,
-				CPlayer2D::GetInstance()->i32vec2Index,
-				heuristic::euclidean,
-				10);
-
-			// Calculate new destination
-			bool bFirstPosition = true;
-			for (const auto& coord : path)
-			{
-				//std::cout << coord.x << "," << coord.y << "\n";
-				if (bFirstPosition == true)
-				{
-					// Set a destination
-					i32vec2Destination = coord;
-					// Calculate the direction between enemy2D and this destination
-					i32vec2Direction = i32vec2Destination - i32vec2Index;
-					bFirstPosition = false;
-				}
-				else
-				{
-					if ((coord - i32vec2Destination) == i32vec2Direction)
-					{
-						// Set a destination
-						i32vec2Destination = coord;
-					}
-					else
-						break;
-				}
-			}
+			cout << direction.x << ", " << direction.y << endl;
 
 			if (bulletTimer >= 3)
 			{
-				glm::vec2 temp = i32vec2Direction;
+				glm::vec2 temp = direction;
 				temp.y = sinf(atan2f(temp.y, temp.x) + 0.1);
 				temp.x = cosf(atan2f(temp.y, temp.x) + 0.1);
 				temp = glm::normalize(temp) * 0.5f;
-				EntityManager::GetInstance()->entitylist.push_back(EntityFactory::GetInstance()->ProduceBullets(vec2WSCoordinate, glm::vec2(temp.x, temp.y), glm::vec3(1, 1, 1), 0, E_BULLET));
+				EntityManager::GetInstance()->entitylist.push_back(EntityFactory::GetInstance()->ProduceBullets(vec2WSCoordinate, glm::vec2(temp.x, temp.y), glm::vec3(1, 1, 1), 0, E_EBULLET));
 
 				cout << "shoot bullet!";
 				bulletTimer = 0;
 			}
 		}
-
 		break;
 	default:
 		break;
 	}
-
-	// Update Jump or Fall
-	// UpdateJumpFall(dElapsedTime);
 	animatedSprites->Update(dElapsedTime);
 }
 
