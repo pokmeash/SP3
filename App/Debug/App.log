@@ -1,10 +1,6 @@
 ﻿  SpaceTurret.cpp
-C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Enemies\SpaceTurret.cpp(190,31): warning C4244: '+=': conversion from 'const double' to 'float', possible loss of data
-C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Enemies\SpaceTurret.cpp(204,42): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Enemies\SpaceTurret.cpp(205,42): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-  Scene2D.cpp
-C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Scene2D.cpp(49,20): warning C4018: '<': signed/unsigned mismatch
-C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Scene2D.cpp(228,20): warning C4018: '<': signed/unsigned mismatch
-C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Scene2D.cpp(350,20): warning C4018: '<': signed/unsigned mismatch
-  Generating Code...
-  App.vcxproj -> C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\Debug\App.exe
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceTurret.cpp(190,31): warning C4244: '+=': conversion from 'const double' to 'float', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceTurret.cpp(235,42): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceTurret.cpp(236,42): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+  App.vcxproj -> D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Debug\App.exe

@@ -189,18 +189,40 @@ void CSpaceTurret::Update(const double dElapsedTime)
 		{
 			bulletTimer += dElapsedTime;
 
-			static float delay = 0.f;
-			delay = 0.5f;
-			glm::i32vec2 mouse((int)CMouseController::GetInstance()->GetMousePositionX(), (int)CMouseController::GetInstance()->GetMousePositionY());
-			glm::vec2 wsSpace(0.f, 0.f);
-			cSettings->ConvertMouseToWSSpace(mouse.x, mouse.y, &(wsSpace.x), &(wsSpace.y));
-			glm::vec2 direction = wsSpace - vec2WSCoordinate;
-			direction = glm::normalize(direction);
-			direction *= 0.5f;
+			// Calculate a path to the player
+			auto path = cMap2D->PathFind(i32vec2Index,
+				CPlayer2D::GetInstance()->i32vec2Index,
+				heuristic::euclidean,
+				10);
+
+			// Calculate new destination
+			bool bFirstPosition = true;
+			for (const auto& coord : path)
+			{
+				//std::cout << coord.x << "," << coord.y << "\n";
+				if (bFirstPosition == true)
+				{
+					// Set a destination
+					i32vec2Destination = coord;
+					// Calculate the direction between enemy2D and this destination
+					i32vec2Direction = i32vec2Destination - i32vec2Index;
+					bFirstPosition = false;
+				}
+				else
+				{
+					if ((coord - i32vec2Destination) == i32vec2Direction)
+					{
+						// Set a destination
+						i32vec2Destination = coord;
+					}
+					else
+						break;
+				}
+			}
 
 			if (bulletTimer >= 3)
 			{
-				glm::vec2 temp = direction;
+				glm::vec2 temp = i32vec2Direction;
 				temp.y = sinf(atan2f(temp.y, temp.x) + 0.1);
 				temp.x = cosf(atan2f(temp.y, temp.x) + 0.1);
 				temp = glm::normalize(temp) * 0.5f;

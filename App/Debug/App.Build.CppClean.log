@@ -1,43 +1,42 @@
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\vc142.pdb
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\vc142.idb
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\livingentity.obj
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\inventorymanager.obj
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\inventoryitem.obj
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\gui_scene2d.obj
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\gamemanager.obj
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\entitymanager.obj
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\entityfactory.obj
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\spacegoop.obj
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\spacefly.obj
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\enemy2d.obj
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\backgroundentity.obj
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\main.obj
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\winstate.obj
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\settingsstate.obj
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\playgamestate.obj
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\music.obj
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\menustate.obj
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\introstate.obj
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\gamestatemanager.obj
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\application.obj
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\soundinfo.obj
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\soundcontroller.obj
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\scene2d.obj
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\spike.obj
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\bullet.obj
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\doubleshot.obj
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\mapmanager.obj
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\player2d.obj
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\physics2d.obj
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\map2d.obj
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\spaceturret.obj
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\debug\app.exe
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\app.ilk
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\debug\app.pdb
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\debug\app.ilk
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\app.tlog\cl.command.1.tlog
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\app.tlog\cl.read.1.tlog
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\app.tlog\cl.write.1.tlog
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\app.tlog\link.command.1.tlog
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\app.tlog\link.read.1.tlog
-c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\app\debug\app.tlog\link.write.1.tlog
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\vc142.pdb
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\vc142.idb
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\map2d.obj
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\livingentity.obj
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\inventorymanager.obj
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\inventoryitem.obj
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\gui_scene2d.obj
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\gamemanager.obj
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\entitymanager.obj
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\entityfactory.obj
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\spacegoop.obj
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\enemy2d.obj
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\backgroundentity.obj
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\main.obj
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\winstate.obj
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\settingsstate.obj
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\playgamestate.obj
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\music.obj
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\menustate.obj
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\introstate.obj
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\gamestatemanager.obj
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\application.obj
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\soundinfo.obj
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\soundcontroller.obj
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\scene2d.obj
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\spike.obj
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\bullet.obj
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\doubleshot.obj
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\mapmanager.obj
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\player2d.obj
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\physics2d.obj
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\spacefly.obj
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\spaceturret.obj
+d:\school\year 2 semester 1\1_studioproject3\sp3\debug\app.exe
+d:\school\year 2 semester 1\1_studioproject3\sp3\debug\app.ilk
+d:\school\year 2 semester 1\1_studioproject3\sp3\debug\app.pdb
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\app.tlog\cl.command.1.tlog
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\app.tlog\cl.read.1.tlog
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\app.tlog\cl.write.1.tlog
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\app.tlog\link.command.1.tlog
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\app.tlog\link.read.1.tlog
+d:\school\year 2 semester 1\1_studioproject3\sp3\app\debug\app.tlog\link.write.1.tlog

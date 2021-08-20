@@ -1,13 +1,13 @@
 ﻿  Settings.cpp
-C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\Library\Source\System\LoadIni.h(20,21): warning C4477: 'sscanf' : format string '%u' requires an argument of type 'unsigned int *', but variadic argument 1 has type '_Ty1 *'
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\System\LoadIni.h(20,21): warning C4477: 'sscanf' : format string '%u' requires an argument of type 'unsigned int *', but variadic argument 1 has type '_Ty1 *'
           with
           [
               _Ty1=char
           ]
-C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\Library\Source\System\LoadIni.h(20,21): message : consider using '%hhu' in the format string
-C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\Library\Source\System\LoadIni.h(20,3): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\Library\Source\GameControl\Settings.cpp(103,56): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\Library\Source\GameControl\Settings.cpp(111,56): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\System\LoadIni.h(20,21): message : consider using '%hhu' in the format string
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\System\LoadIni.h(20,3): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\GameControl\Settings.cpp(103,56): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\GameControl\Settings.cpp(111,56): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
   imgui_impl_glfw.cpp
   imgui_impl_opengl3.cpp
   GUI.cpp
@@ -20,12 +20,12 @@ C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\Library\Sourc
   MouseController.cpp
   Collider.cpp
   Entity2D.cpp
-C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\Library\Source\Primitives\Entity2D.cpp(129,26): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\Primitives\Entity2D.cpp(129,26): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
           with
           [
               T=float
           ]
-C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\Library\Source\Primitives\Entity2D.cpp(130,26): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\Primitives\Entity2D.cpp(130,26): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
           with
           [
               T=float
@@ -35,7 +35,7 @@ C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\Library\Sourc
   Mesh.cpp
   MeshBuilder.cpp
   SpriteAnimation.cpp
-C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\Library\Source\Primitives\SpriteAnimation.cpp(75,62): warning C4244: 'argument': conversion from 'double' to 'const unsigned int', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\Primitives\SpriteAnimation.cpp(75,62): warning C4244: 'argument': conversion from 'double' to 'const unsigned int', possible loss of data
   ShaderManager.cpp
   TextRenderer.cpp
   Generating Code...
@@ -48,4 +48,4 @@ C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\Library\Sourc
   FPSCounter.cpp
   StopWatch.cpp
   Generating Code...
-  Library.vcxproj -> C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\Debug\Library.lib
+  Library.vcxproj -> D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Debug\Library.lib
