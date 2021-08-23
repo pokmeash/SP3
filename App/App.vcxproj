@@ -24,6 +24,7 @@
     <ClCompile Include="Source\Scene2D\AttributeDecorator.cpp" />
     <ClCompile Include="Source\Scene2D\BackgroundEntity.cpp" />
     <ClCompile Include="Source\Scene2D\BaseAttribute.cpp" />
+    <ClCompile Include="Source\Scene2D\Bosses\BossTimeControl.cpp" />
     <ClCompile Include="Source\Scene2D\Enemies\Enemy2D.cpp" />
     <ClCompile Include="Source\Scene2D\Enemies\SpaceFly.cpp" />
     <ClCompile Include="Source\Scene2D\Enemies\SpaceGoop.cpp" />

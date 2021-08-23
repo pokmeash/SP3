@@ -581,6 +581,17 @@ float CPlayer2D::RNG(float min, float max)
 	return random;
 }
 
+float CPlayer2D::RNG(float min, float max)
+{
+	float range = max - min;
+	float random = ((float)rand() / (float)RAND_MAX * range) + min;
+	while (random >= -0.5 && random <= 0.5)
+	{
+		random = ((float)rand() / (float)RAND_MAX * range) + min;
+	}
+	return random;
+}
+
 /**
  @brief Let player interact with the map. You can add collectibles such as powerups and health here.
  */

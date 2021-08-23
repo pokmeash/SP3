@@ -68,6 +68,8 @@ public:
 	float iframesDuration = 3;
 	float RNG(float min, float max);
 
+	float RNG(float min, float max);
+
 protected:
 
 	// Keyboard Controller singleton instance

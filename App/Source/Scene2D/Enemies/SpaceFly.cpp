@@ -1,4 +1,4 @@
-/**
+/*
  CSpaceFly
  By: Toh Da Jun
  Date: Mar 2020
@@ -20,6 +20,7 @@ using namespace std;
 #include "System\ImageLoader.h"
 
 // Include the Map2D as we will use it to check the player's movements and actions
+
 #include "../FloorManager.h"
 // Include math.h
 #include <math.h>
@@ -30,13 +31,26 @@ using namespace std;
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
  */
+
+/**
+ @brief Constructor This constructor has protected access modifier as this class will be a Singleton
+ */
 CSpaceFly::CSpaceFly(void)
+	: bIsActive(false)
+	, cMap2D(NULL)
+	, cSettings(NULL)
+	, cPlayer2D(NULL)
+	, sCurrentFSM(FSM::IDLE)
+	, iFSMCounter(0)
+	, quadMesh(NULL)
 {
 	transform = glm::mat4(1.0f);	// make sure to initialize matrix to identity matrix first
 
 	// Initialise vecIndex
 	i32vec2Index = glm::i32vec2(0);
+
 	vec2WSCoordinate = glm::vec2(0);
+
 	// Initialise vecNumMicroSteps
 	i32vec2NumMicroSteps = glm::i32vec2(0);
 
@@ -65,6 +79,20 @@ CSpaceFly::~CSpaceFly(void)
 	}
 
 	// We won't delete this since it was created elsewhere
+
+CSpaceFly::~CSpaceFly(void)
+{
+	// Delete the quadMesh
+	if (quadMesh)
+	{
+		delete quadMesh;
+		quadMesh = NULL;
+	}
+
+	// We won't delete this since it was created elsewhere
+	cPlayer2D = NULL;
+
+
 	cMap2D = NULL;
 
 	// optional: de-allocate all resources once they've outlived their purpose:
@@ -76,6 +104,7 @@ CSpaceFly::~CSpaceFly(void)
 /**
   @brief Initialise this instance
   */
+
 bool CSpaceFly::Init(void)
 {
 	CEnemy2D::Init();
@@ -96,11 +125,7 @@ bool CSpaceFly::Init(void)
 	i32vec2NumMicroSteps = glm::i32vec2(0, 0);
 
 	// Load the enemy2D texture
-	if (LoadTexture("Image/enemy3.png") == false)
-	{
-		std::cout << "Failed to load enemy2D tile texture" << std::endl;
-		return false;
-	}
+	LoadTexture("Image/enemy3.png")
 
 	//CS: Create the animated sprite and setup the animation 
 	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(4, 3, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
@@ -110,12 +135,32 @@ bool CSpaceFly::Init(void)
 	animatedSprites->AddAnimation("down", 6, 8);
 
 	iHealth = 4;
+
+	cEntityFactory = EntityFactory::GetInstance();
+	cEntityManager = EntityManager::GetInstance();
+
+	//CS: Init the color to white
+	currentColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
+
+	// Set the Physics to fall status by default
+	cPhysics2D.Init();
+	cPhysics2D.SetStatus(CPhysics2D::STATUS::FALL);
+
+	// If this class is initialised properly, then set the bIsActive to true
+	bIsActive = true;
+
+	dir = -1;
+
+	enemyhealth = 4;
+	healedonce = false;
+
 	return true;
 }
 
 /**
  @brief Update this instance
  */
+
 void CSpaceFly::Update(const double dElapsedTime)
 {
 	if (!bIsActive)
@@ -128,12 +173,14 @@ void CSpaceFly::Update(const double dElapsedTime)
 		if (iFSMCounter > iMaxFSMCounter)
 		{
 			sCurrentFSM = MOVELEFT;
+
 			iFSMCounter = 0;
 		}
 		iFSMCounter++;
 		animatedSprites->PlayAnimation("idle", -1, 1.0f);
 		break;
 	case SEARCH:
+
 		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 15.0f)
 		{
 			if (iFSMCounter > iMaxFSMCounter)
@@ -144,6 +191,7 @@ void CSpaceFly::Update(const double dElapsedTime)
 			}
 			iFSMCounter++;
 		}
+
 		//animatedSprites->PlayAnimation("idle", -1, 1.0f);
 		break;
 	case ATTACK:
@@ -188,6 +236,7 @@ void CSpaceFly::Update(const double dElapsedTime)
 						break;
 				}
 			}
+
 			// Attack
 			// Update direction to move towards for attack
 			UpdateDirection();
@@ -205,6 +254,7 @@ void CSpaceFly::Update(const double dElapsedTime)
 			iFSMCounter++;
 		}
 		break;
+
 	case MOVELEFT:
 		//movementLEFT
 		if (vec2WSCoordinate.x >= 0)
@@ -256,27 +306,4 @@ void CSpaceFly::Update(const double dElapsedTime)
 	// Update Jump or Fall
 	// UpdateJumpFall(dElapsedTime);
 	animatedSprites->Update(dElapsedTime);
-}
-
-/**
- @brief Let enemy2D interact with the player.
- */
-bool CSpaceFly::InteractWithPlayer(void)
-{
-	glm::i32vec2 i32vec2PlayerPos = CPlayer2D::GetInstance()->i32vec2Index;
-	
-	// Check if the enemy2D is within 1.5 indices of the player2D
-	if (((i32vec2Index.x >= i32vec2PlayerPos.x - 0.5) && 
-		(i32vec2Index.x <= i32vec2PlayerPos.x + 0.5))
-		&& 
-		((i32vec2Index.y >= i32vec2PlayerPos.y - 0.5) &&
-		(i32vec2Index.y <= i32vec2PlayerPos.y + 0.5)))
-	{
-		CPlayer2D::GetInstance()->PlayerDamaged();
-		// Since the player has been caught, then reset the FSM
-		sCurrentFSM = IDLE;
-		iFSMCounter = 0;
-		return true;
-	}
-	return false;
 }

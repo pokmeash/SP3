@@ -17,7 +17,4 @@ public:
 
 	// Update
 	virtual void Update(const double dElapsedTime);
-protected:
-
-	virtual bool InteractWithPlayer(void);
 };
