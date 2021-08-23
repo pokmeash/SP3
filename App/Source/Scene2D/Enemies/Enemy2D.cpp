@@ -124,3 +124,10 @@ bool CEnemy2D::InteractWithPlayer(void)
 	}
 	return false;
 }
+
+bool CEnemy2D::InteractWithEnemy(void)
+{
+	return false;
+}
+
+

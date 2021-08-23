@@ -1,15 +1,1 @@
-﻿  SpaceSkeleton.cpp
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceSkeleton.cpp(173,31): warning C4244: '+=': conversion from 'const double' to 'float', possible loss of data
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceSkeleton.cpp(182,42): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceSkeleton.cpp(183,42): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceSkeleton.cpp(256,107): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
-          with
-          [
-              T=glm::i32
-          ]
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceSkeleton.cpp(263,108): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
-          with
-          [
-              T=glm::i32
-          ]
-  App.vcxproj -> D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Debug\App.exe
+﻿

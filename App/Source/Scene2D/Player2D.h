@@ -62,6 +62,12 @@ public:
 
 	void PlayerDamaged();
 
+	//iFrames
+	bool iFrames = false;
+	bool iframesState = false;
+	float iframesTimer = 0.3;
+	float iframesDuration = 3;
+
 protected:
 
 	// Keyboard Controller singleton instance
