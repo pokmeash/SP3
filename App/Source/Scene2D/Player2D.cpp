@@ -463,6 +463,18 @@ void CPlayer2D::Update(const double dElapsedTime)
 			cSoundController->PlaySoundByID(6);
 		}
 	}
+	if (CScene2D::GetInstance()->enemyVector.size() == 0)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			unsigned int DoorRow = -1;
+			unsigned int DoorCol = -1;
+			if (cMap2D->FindValue(100, DoorRow, DoorCol) == false)
+				return;
+
+			cMap2D->SetMapInfo(DoorRow, DoorCol, 99);
+		}
+	}
 	if (vec2WSOldCoordinates != vec2WSCoordinate) {
 		EventHandler::GetInstance()->CallThenDelete(new Player2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates));
 	}
