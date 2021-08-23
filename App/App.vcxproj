@@ -24,6 +24,7 @@
     <ClCompile Include="Source\Scene2D\AttributeDecorator.cpp" />
     <ClCompile Include="Source\Scene2D\BackgroundEntity.cpp" />
     <ClCompile Include="Source\Scene2D\BaseAttribute.cpp" />
+    <ClCompile Include="Source\Scene2D\Bosses\BossTimeControl.cpp" />
     <ClCompile Include="Source\Scene2D\Enemies\Enemy2D.cpp" />
     <ClCompile Include="Source\Scene2D\Enemies\SpaceGoop.cpp" />
     <ClCompile Include="Source\Scene2D\EntityFactory.cpp" />
@@ -42,7 +43,6 @@
     <ClCompile Include="Source\Scene2D\Projectile\Bullet.cpp" />
     <ClCompile Include="Source\Scene2D\Projectile\Grenade.cpp" />
     <ClCompile Include="Source\Scene2D\Projectile\Spike.cpp" />
-    <ClCompile Include="Source\Scene2D\Room2D.cpp" />
     <ClCompile Include="Source\Scene2D\Scene2D.cpp" />
     <ClCompile Include="Source\SoundController\SoundController.cpp" />
     <ClCompile Include="Source\SoundController\SoundInfo.cpp" />
@@ -61,6 +61,7 @@
     <ClInclude Include="Source\Scene2D\AttributeDecorator.h" />
     <ClInclude Include="Source\Scene2D\BackgroundEntity.h" />
     <ClInclude Include="Source\Scene2D\BaseAttribute.h" />
+    <ClInclude Include="Source\Scene2D\Bosses\BossTimeControl.h" />
     <ClInclude Include="Source\Scene2D\Enemies\Enemy2D.h" />
     <ClInclude Include="Source\Scene2D\Enemies\SpaceGoop.h" />
     <ClInclude Include="Source\Scene2D\EntityFactory.h" />
@@ -79,7 +80,6 @@
     <ClInclude Include="Source\Scene2D\Projectile\Bullet.h" />
     <ClInclude Include="Source\Scene2D\Projectile\Grenade.h" />
     <ClInclude Include="Source\Scene2D\Projectile\Spike.h" />
-    <ClInclude Include="Source\Scene2D\Room2D.h" />
     <ClInclude Include="Source\Scene2D\Scene2D.h" />
     <ClInclude Include="Source\SoundController\SoundController.h" />
     <ClInclude Include="Source\SoundController\SoundInfo.h" />

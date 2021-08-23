@@ -73,6 +73,8 @@ public:
 	vector<CEntity2D*> enemyVector;
 
 	void setPause(bool n);
+	
+	void LevelCompleted(int DoorDir);
 
 protected:
 	// The handler containing the instance of the 2D Map

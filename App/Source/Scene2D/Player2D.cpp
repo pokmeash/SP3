@@ -21,7 +21,7 @@ using namespace std;
 #include "System/MyMath.h"
 // Include Game Manager
 #include "GameManager.h"
-
+#include "EventControl/EventHandler.h"
 #include "Scene2D.h"
 
 #include "EntityFactory.h"
@@ -337,10 +337,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 		dirx = 0;
 		diry = -1;
 	}
-	if (cKeyboardController->IsKeyPressed(GLFW_KEY_DOWN))
-	{
-		CGameManager::GetInstance()->bLevelCompleted = true;
-	}
+	vec2Velocity = vec2WSCoordinate - vec2WSOldCoordinates;
 	//Swapping
 	bool activate = cSettings->iKeybinds[CSettings::TRIGGER_POWERUP] <= GLFW_MOUSE_BUTTON_LAST && cMouseController->IsButtonPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP]);
 	if (activate || cKeyboardController->IsKeyPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP]) && swap == true)
@@ -462,6 +459,11 @@ void CPlayer2D::Update(const double dElapsedTime)
 	// Update the UV Coordinates
 	vec2UVCoordinate.x = cSettings->ConvertFloatToUVSpace(cSettings->x, vec2WSCoordinate.x, false);
 	vec2UVCoordinate.y = cSettings->ConvertFloatToUVSpace(cSettings->y, vec2WSCoordinate.y, false);
+	if (vec2WSOldCoordinates != vec2WSCoordinate) {
+		if (EventHandler::GetInstance()->CallDeleteIsCancelled(new Player2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates))) {
+			vec2WSCoordinate = vec2WSOldCoordinates;
+		}
+	}
 	int counter = 0;
 	for (std::vector<CEntity2D*>::iterator it2 = CScene2D::GetInstance()->enemyVector.begin(); it2 != CScene2D::GetInstance()->enemyVector.end(); ++it2)
 	{
@@ -472,20 +474,33 @@ void CPlayer2D::Update(const double dElapsedTime)
 		}
 		if (CScene2D::GetInstance()->enemyVector.size() == counter)
 		{
+			for (int i = 0; i < 4; i++)
+			{
+				unsigned int DoorRow = -1;
+				unsigned int DoorCol = -1;
+				if (cMap2D->FindValue(100, DoorRow, DoorCol) == false)
+					return;
+
+				cMap2D->SetMapInfo(DoorRow, DoorCol, 99);
+			}
+			cSoundController->PlaySoundByID(6);
+		}
+	}
+	if (CScene2D::GetInstance()->enemyVector.size() == 0)
+	{
+		for (int i = 0; i < 4; i++)
+		{
 			unsigned int DoorRow = -1;
 			unsigned int DoorCol = -1;
 			if (cMap2D->FindValue(100, DoorRow, DoorCol) == false)
 				return;
-			cMap2D->SetMapInfo(DoorRow, DoorCol, 97);
-			unsigned int DoorRow2 = -1;
-			unsigned int DoorCol2 = -1;
-			if (cMap2D->FindValue(101, DoorRow2, DoorCol2) == false)
-				return;
-			cMap2D->SetMapInfo(DoorRow2, DoorCol2, 98);
-			cSoundController->PlaySoundByID(6);
+
+			cMap2D->SetMapInfo(DoorRow, DoorCol, 99);
 		}
 	}
-
+	if (vec2WSOldCoordinates != vec2WSCoordinate) {
+		EventHandler::GetInstance()->CallThenDelete(new Player2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates));
+	}
 }
 
 void CPlayer2D::Render(void)
@@ -541,7 +556,7 @@ void CPlayer2D::InteractWithMap(void)
 		// Increase the Tree by 1
 		cInventoryItem = cInventoryManager->GetItem("Tree");
 		cInventoryItem->Add(1);
-
+		EventHandler::GetInstance()->CallThenDelete(new Item2DPickUpEvent("Tree", cInventoryItem, i32vec2Index));
 		break;
 	case 4:
 		cSoundController->PlaySoundByID(5);
@@ -574,23 +589,28 @@ void CPlayer2D::InteractWithMap(void)
 		cInventoryItem->Add(1);
 		currentColor = glm::vec4(0.0, 1.0, 0.0, 1.0);
 		break;
-	case 97:
-		//Generate Next Room
-		CGameManager::GetInstance()->bLevelCompleted = true;
-		break;
-	case 98:
-		//Go Prev Room
-		CGameManager::GetInstance()->bLevelCompleted = true;
-		break;
 	case 99:
 		//Next Room
-		CGameManager::GetInstance()->bLevelCompleted = true;
-		break;
-	case 101:
-		//Closed Door
-		break;
-	case 102:
-		//Closed Prev Door
+		if (i32vec2Index.x == 16 && i32vec2Index.y == 22)
+		{
+			//Top
+			CScene2D::GetInstance()->LevelCompleted(0);
+		}
+		else if (i32vec2Index.x == 30 && i32vec2Index.y == 11)
+		{
+			//Right
+			CScene2D::GetInstance()->LevelCompleted(1);
+		}
+		else if (i32vec2Index.x == 16 && i32vec2Index.y == 1)
+		{
+			//Bot
+			CScene2D::GetInstance()->LevelCompleted(2);
+		}
+		else if (i32vec2Index.x == 1 && i32vec2Index.y == 11)
+		{
+			//Left
+			CScene2D::GetInstance()->LevelCompleted(3);
+		}
 		break;
 	default:
 		break;

@@ -30,6 +30,9 @@
     <Filter Include="Projectiles">
       <UniqueIdentifier>{6498bedd-35a0-414a-bc04-c506d7577c2e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Enemies\Bosses">
+      <UniqueIdentifier>{b911bbf2-0fdd-41ca-afc1-f6d5c1c16a95}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp">
@@ -119,8 +122,8 @@
     <ClCompile Include="Source\Scene2D\Enemies\SpaceGoop.cpp">
       <Filter>Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Scene2D\Room2D.cpp">
-      <Filter>Scene2D</Filter>
+    <ClCompile Include="Source\Scene2D\Bosses\BossTimeControl.cpp">
+      <Filter>Enemies\Bosses</Filter>
     </ClCompile>
     <ClCompile Include="Source\Scene2D\Attribute.cpp">
       <Filter>Powerups</Filter>
@@ -226,8 +229,8 @@
     <ClInclude Include="Source\Scene2D\Enemies\SpaceGoop.h">
       <Filter>Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Scene2D\Room2D.h">
-      <Filter>Scene2D</Filter>
+    <ClInclude Include="Source\Scene2D\Bosses\BossTimeControl.h">
+      <Filter>Enemies\Bosses</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scene2D\Attribute.h">
       <Filter>Powerups</Filter>

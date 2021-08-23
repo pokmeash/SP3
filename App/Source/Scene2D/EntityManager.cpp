@@ -1,6 +1,8 @@
 #include "EntityManager.h"
 #include "Scene2D.h"
 #include "../Library/Source/System/MyMath.h"
+#include "EventControl/EventHandler.h"
+
 EntityManager::EntityManager(void)
 {
 }
@@ -27,6 +29,9 @@ void EntityManager::Update(const double dElapsedTime)
 			{
 				
 				entity->Update(dElapsedTime);
+				if (entity->vec2WSCoordinate.x >= CSettings::GetInstance()->NUM_TILES_XAXIS || entity->vec2WSCoordinate.x < 0) entity->bIsActive = false;
+				if (entity->vec2WSCoordinate.y >= CSettings::GetInstance()->NUM_TILES_YAXIS || entity->vec2WSCoordinate.y < 0) entity->bIsActive = false;
+				if (!entity->bIsActive) continue;
 				switch (entity->type)
 				{
 				case CEntity2D::E_EBULLET:
@@ -44,7 +49,12 @@ void EntityManager::Update(const double dElapsedTime)
 					if (entity->i32vec2Index.x < 0 || entity->i32vec2Index.x > CSettings::GetInstance()->NUM_TILES_XAXIS ||
 						entity->i32vec2Index.y < 0 || entity->i32vec2Index.y > CSettings::GetInstance()->NUM_TILES_YAXIS) {
 						entity->bIsActive = false;
-						std::cout << "despawn bullet\n";
+						if (cPhysics.CalculateDistance(entity->vec2WSCoordinate,CPlayer2D::GetInstance()->vec2WSCoordinate) <= 1)
+						{
+							CPlayer2D::GetInstance()->PlayerDamaged();
+							entity->bIsActive = false;
+							EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(entity));
+						}
 						break;
 					}
 					// Ricochet power up physics
@@ -80,8 +90,10 @@ void EntityManager::Update(const double dElapsedTime)
 							if (enemy->getHP() <= 0)
 							{
 								enemy->bIsActive = false;
+								EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(enemy));
 							}
 							entity->bIsActive = false;
+							EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(entity));
 						}
 					}
 					if (entity->counter <= 0)
@@ -106,14 +118,14 @@ void EntityManager::Update(const double dElapsedTime)
 					{
 						entity->bIsActive = false;
 					}
+					if (!entity->bIsActive) break;
 					for (std::vector<CEntity2D*>::iterator it2 = CScene2D::GetInstance()->enemyVector.begin(); it2 != CScene2D::GetInstance()->enemyVector.end(); ++it2)
 					{
 						CEntity2D* enemy = (CEntity2D*)*it2;
 						if (!enemy->bIsActive) continue;
 						if (cPhysics.CalculateDistance(entity->vec2WSCoordinate, enemy->vec2WSCoordinate) <= 1)
 						{
-							enemy->bIsActive = false;
-							entity->bIsActive = false;
+							enemy->setHP(enemy->getHP() - 1);
 						}
 					}
 					if (entity->vec2Velocity.x >= 0 && entity->vec2Velocity.x <= 0.12)

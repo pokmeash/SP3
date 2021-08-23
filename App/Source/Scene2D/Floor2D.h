@@ -41,6 +41,7 @@ struct MapSize {
 // It includes data to be used for A* Path Finding
 struct Grid {
 	unsigned int value;
+	int roomid = 0;
 
 	Grid() 
 		: value(0), pos(0, 0), parent(-1, -1), f(0), g(0), h(0) {}
@@ -100,9 +101,12 @@ public:
 
 	// Set the value at certain indices in the arrMapInfo
 	virtual void SetMapInfo(const unsigned int uiRow, const unsigned int uiCol, const int iValue, const bool bInvert = true);
+	virtual void SetDoorInfo(const unsigned int uiRow, const unsigned int uiCol, const int iValue, const bool bInvert = true);
+
 
 	// Get the value at certain indices in the arrMapInfo
 	virtual int GetMapInfo(const unsigned int uiRow, const unsigned int uiCol, const bool bInvert = true) const;
+	virtual int GetDoorInfo(const unsigned int uiRow, const unsigned int uiCol, const bool bInvert = true) const;
 
 	// Load a map
 	virtual bool LoadMap(string filename, const unsigned int uiLevel = 0);
@@ -128,13 +132,15 @@ public:
 	// Print out details about this class instance in the console window
 	virtual void PrintSelf(void) const;
 
+	void GeneratePreset(int uiLevel);
+
 protected:
 	// The variable containing the rapidcsv::Document
 	// We will load the CSV file's content into this Document
 	rapidcsv::Document doc;
 
 	// A 3-D array which stores the values of the tile map
-	Grid*** arrMapInfo;
+	vector<Grid**> arrMapInfo;
 
 	// The current level
 	unsigned int uiCurRoom;

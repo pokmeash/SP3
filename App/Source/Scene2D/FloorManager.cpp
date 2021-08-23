@@ -1,4 +1,5 @@
 #include "FloorManager.h"
+#include "EventControl/EventHandler.h"
 
 CFloorManager::CFloorManager() : currentFloor(NULL), currentRoom(0) {
 	currentFloor = new CFloor2D();
@@ -69,12 +70,24 @@ void CFloorManager::SetNumSteps(const CSettings::AXIS sAxis, const unsigned int 
 
 void CFloorManager::SetMapInfo(const unsigned int uiRow, const unsigned int uiCol, const int iValue, const bool bInvert)
 {
+	int prev = currentFloor->GetMapInfo(uiRow, uiCol, bInvert);
+	EventHandler::GetInstance()->CallThenDelete(new Block2DChangeEvent(prev, iValue, glm::i32vec2(uiCol, uiRow)));
 	currentFloor->SetMapInfo(uiRow, uiCol, iValue, bInvert);
+}
+
+void CFloorManager::SetDoorInfo(const unsigned int uiRow, const unsigned int uiCol, const int iValue, const bool bInvert)
+{
+	currentFloor->SetDoorInfo(uiRow, uiCol, iValue, bInvert);
 }
 
 int CFloorManager::GetMapInfo(const unsigned int uiRow, const unsigned int uiCol, const bool bInvert) const
 {
 	return currentFloor->GetMapInfo(uiRow, uiCol, bInvert);
+}
+
+int CFloorManager::GetDoorInfo(const unsigned int uiRow, const unsigned int uiCol, const bool bInvert) const
+{
+	return currentFloor->GetDoorInfo(uiRow, uiCol, bInvert);
 }
 
 bool CFloorManager::LoadMap(string filename, const unsigned int uiLevel)
@@ -100,6 +113,10 @@ void CFloorManager::SetCurrentLevel(unsigned int uiCurLevel)
 unsigned int CFloorManager::GetCurrentLevel(void) const
 {
 	return currentFloor->GetCurrentLevel();
+}
+
+CFloor2D* CFloorManager::GetCurrentFloor() const {
+	return currentFloor;
 }
 
 std::vector<glm::i32vec2> CFloorManager::PathFind(const glm::i32vec2& startPos, const glm::i32vec2& targetPos, HeuristicFunction heuristicFunc, const int weight)
