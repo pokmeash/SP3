@@ -306,9 +306,8 @@ void CScene2D::PostRender(void)
 
 void CScene2D::LevelCompleted(int DoorDir)
 {
-	const int random2 = 0;
-	const int random = 1;
-	int temp= 0;
+	const int random = 3;
+	int temp = 0;
 	switch (DoorDir)
 	{
 		case 0://Top
@@ -354,9 +353,9 @@ void CScene2D::LevelCompleted(int DoorDir)
 			}
 			else
 			{
-				cMap2D->SetDoorInfo(1, 16, random2);
+				cMap2D->SetDoorInfo(1, 16, random);
 				temp = cMap2D->GetCurrentLevel();
-				cMap2D->SetCurrentLevel(random2);
+				cMap2D->SetCurrentLevel(random);
 				cMap2D->SetDoorInfo(22, 16, temp);
 			}
 			cPlayer2D->vec2WSCoordinate.x = 16.5;
@@ -372,9 +371,9 @@ void CScene2D::LevelCompleted(int DoorDir)
 			}
 			else
 			{
-				cMap2D->SetDoorInfo(11, 1, random2);
+				cMap2D->SetDoorInfo(11, 1, random);
 				temp = cMap2D->GetCurrentLevel();
-				cMap2D->SetCurrentLevel(random2);
+				cMap2D->SetCurrentLevel(random);
 				cMap2D->SetDoorInfo(11, 30, temp);
 			}
 			cPlayer2D->vec2WSCoordinate.x = 28;

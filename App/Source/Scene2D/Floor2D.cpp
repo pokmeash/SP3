@@ -515,7 +515,7 @@ bool CFloor2D::LoadTexture(const char* filename, const int iTextureCode)
  */
 void CFloor2D::RenderTile(const unsigned int uiRow, const unsigned int uiCol)
 {
-	if (arrMapInfo[uiCurRoom][uiRow][uiCol].value != 0)
+	if (arrMapInfo[uiCurRoom][uiRow][uiCol].value > 1)
 	{
 		//if (arrMapInfo[uiCurLevel][uiRow][uiCol].value < 3)
 		glBindTexture(GL_TEXTURE_2D, MapOfTextureIDs.at(arrMapInfo[uiCurRoom][uiRow][uiCol].value));
@@ -695,106 +695,248 @@ void CFloor2D::GeneratePreset(int uiLevel)
 	int random;
 	switch (uiLevel)
 	{
-		case 0:
+	case 0:
+	{
+		for (unsigned int uiRow = 0; uiRow < cSettings->NUM_TILES_YAXIS; uiRow++)
 		{
-			for (unsigned int uiRow = 0; uiRow < cSettings->NUM_TILES_YAXIS; uiRow++)
+			// Load a particular CSV value into the arrMapInfo
+			for (unsigned int uiCol = 0; uiCol < cSettings->NUM_TILES_XAXIS; ++uiCol)
 			{
-				// Load a particular CSV value into the arrMapInfo
-				for (unsigned int uiCol = 0; uiCol < cSettings->NUM_TILES_XAXIS; ++uiCol)
+				arrMapInfo[uiLevel][uiRow][uiCol].roomid = -1;
+				if ((uiRow == cSettings->NUM_TILES_YAXIS - 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2) || (uiRow == 1 && uiCol == cSettings->NUM_TILES_XAXIS / 2) || (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == 1) || (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS - 2))
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].roomid = -1;
-					if ((uiRow == cSettings->NUM_TILES_YAXIS - 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2) || (uiRow == 1 && uiCol == cSettings->NUM_TILES_XAXIS / 2) || (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == 1) || (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS - 2))
-					{
-						arrMapInfo[uiLevel][uiRow][uiCol].value = 100;
-					}
-					else if ((uiRow < 2) || (uiCol < 2) || (uiCol > cSettings->NUM_TILES_XAXIS - 3) || (uiRow > cSettings->NUM_TILES_YAXIS - 3))
-					{
-						arrMapInfo[uiLevel][uiRow][uiCol].value = 2;
-					}
-					else if (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2)
-					{
-						arrMapInfo[uiLevel][uiRow][uiCol].value = 3;
-					}
-					else if (uiRow == 5 && uiCol == 5)
-					{
-						arrMapInfo[uiLevel][uiRow][uiCol].value = 300;
-					}
-					else
-					{
-						arrMapInfo[uiLevel][uiRow][uiCol].value = 0;
-					}
-					
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 100;
 				}
-			}
-			break;
-		}
-		case 1:
-		{
-			for (unsigned int uiRow = 0; uiRow < cSettings->NUM_TILES_YAXIS; uiRow++)
-			{
-				// Load a particular CSV value into the arrMapInfo
-				for (unsigned int uiCol = 0; uiCol < cSettings->NUM_TILES_XAXIS; ++uiCol)
+				else if ((uiRow < 2) || (uiCol < 2) || (uiCol > cSettings->NUM_TILES_XAXIS - 3) || (uiRow > cSettings->NUM_TILES_YAXIS - 3))
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].roomid = -1;
-					if ((uiRow == cSettings->NUM_TILES_YAXIS - 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2) || (uiRow == 1 && uiCol == cSettings->NUM_TILES_XAXIS / 2) || (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == 1) || (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS - 2))
-					{
-						arrMapInfo[uiLevel][uiRow][uiCol].value = 100;
-					}
-					else if ((uiRow < 2) || (uiCol < 2) || (uiCol > cSettings->NUM_TILES_XAXIS - 3) || (uiRow > cSettings->NUM_TILES_YAXIS - 3))
-					{
-						arrMapInfo[uiLevel][uiRow][uiCol].value = 102;
-					}
-					else if (uiRow == 10 && uiCol == 10)
-					{
-						arrMapInfo[uiLevel][uiRow][uiCol].value = 300;
-					}
-					else
-					{
-						arrMapInfo[uiLevel][uiRow][uiCol].value = 0;
-					}
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 101;
 				}
-			}
-			break;
-		}
-		case 2:
-		{
-			for (unsigned int uiRow = 0; uiRow < cSettings->NUM_TILES_YAXIS; uiRow++)
-			{
-				// Load a particular CSV value into the arrMapInfo
-				for (unsigned int uiCol = 0; uiCol < cSettings->NUM_TILES_XAXIS; ++uiCol)
+				else if (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].roomid = -1;
-					if ((uiRow == cSettings->NUM_TILES_YAXIS - 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2) || (uiRow == 1 && uiCol == cSettings->NUM_TILES_XAXIS / 2) || (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == 1) || (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS - 2))
-					{
-						arrMapInfo[uiLevel][uiRow][uiCol].value = 100;
-					}
-					else if ((uiRow < 2) || (uiCol < 2) || (uiCol > cSettings->NUM_TILES_XAXIS - 3) || (uiRow > cSettings->NUM_TILES_YAXIS - 3))
-					{
-						arrMapInfo[uiLevel][uiRow][uiCol].value = 100;
-					}
-					else if (uiRow == 5 && uiCol == 5)
-					{
-						arrMapInfo[uiLevel][uiRow][uiCol].value = 300;
-					}
-					else
-					{
-						arrMapInfo[uiLevel][uiRow][uiCol].value = 0;
-					}
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 3;
 				}
+				else
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 0;
+				}
+
 			}
-			break;
 		}
-		default:
-			break;
+		break;
 	}
-	
+	case 1:
+	{
+		for (unsigned int uiRow = 0; uiRow < cSettings->NUM_TILES_YAXIS; uiRow++)
+		{
+			// Load a particular CSV value into the arrMapInfo
+			for (unsigned int uiCol = 0; uiCol < cSettings->NUM_TILES_XAXIS; ++uiCol)
+			{
+				arrMapInfo[uiLevel][uiRow][uiCol].roomid = -1;
+				if ((uiRow == cSettings->NUM_TILES_YAXIS - 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2) || (uiRow == 1 && uiCol == cSettings->NUM_TILES_XAXIS / 2) || (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == 1) || (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS - 2))
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 100;
+				}
+				else if ((uiRow < 2) || (uiCol < 2) || (uiCol > cSettings->NUM_TILES_XAXIS - 3) || (uiRow > cSettings->NUM_TILES_YAXIS - 3))
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 101;
+				}
+				else if (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2)
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 102;
+				}
+				else if (uiRow == cSettings->NUM_TILES_YAXIS - 5 && uiCol == cSettings->NUM_TILES_XAXIS - 5 || uiRow == 5 && uiCol == 5)
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 300;
+				}
+				else
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 0;
+				}
+			}
+		}
+		break;
+	}
+	case 2:
+	{
+		for (unsigned int uiRow = 0; uiRow < cSettings->NUM_TILES_YAXIS; uiRow++)
+		{
+			// Load a particular CSV value into the arrMapInfo
+			for (unsigned int uiCol = 0; uiCol < cSettings->NUM_TILES_XAXIS; ++uiCol)
+			{
+				arrMapInfo[uiLevel][uiRow][uiCol].roomid = -1;
+				if ((uiRow == cSettings->NUM_TILES_YAXIS - 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2) || (uiRow == 1 && uiCol == cSettings->NUM_TILES_XAXIS / 2) || (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == 1) || (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS - 2))
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 100;
+				}
+				else if ((uiRow < 2) || (uiCol < 2) || (uiCol > cSettings->NUM_TILES_XAXIS - 3) || (uiRow > cSettings->NUM_TILES_YAXIS - 3))
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 101;
+				}
+				else if (uiRow <= cSettings->NUM_TILES_YAXIS / 2 + 5 && uiRow >= cSettings->NUM_TILES_YAXIS / 2 - 5 && uiCol == cSettings->NUM_TILES_XAXIS / 2 || uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol <= cSettings->NUM_TILES_XAXIS / 2 + 5 && uiCol >= cSettings->NUM_TILES_XAXIS / 2 - 5)
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 102;
+				}
+				else if (uiRow == cSettings->NUM_TILES_YAXIS - 5 && uiCol == cSettings->NUM_TILES_XAXIS - 5 || uiRow == 5 && uiCol == 5)
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 300;
+				}
+				else if (uiRow == cSettings->NUM_TILES_YAXIS - 5 && uiCol == 5 || uiRow == 5 && uiCol == cSettings->NUM_TILES_XAXIS - 5)
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 300;
+				}
+				else
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 0;
+				}
+			}
+		}
+		break;
+	}
+	case 3:
+	{
+		for (unsigned int uiRow = 0; uiRow < cSettings->NUM_TILES_YAXIS; uiRow++)
+		{
+			// Load a particular CSV value into the arrMapInfo
+			for (unsigned int uiCol = 0; uiCol < cSettings->NUM_TILES_XAXIS; ++uiCol)
+			{
+				arrMapInfo[uiLevel][uiRow][uiCol].roomid = -1;
+				if ((uiRow == cSettings->NUM_TILES_YAXIS - 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2) || (uiRow == 1 && uiCol == cSettings->NUM_TILES_XAXIS / 2) || (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == 1) || (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS - 2))
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 100;
+				}
+				else if ((uiRow < 2) || (uiCol < 2) || (uiCol > cSettings->NUM_TILES_XAXIS - 3) || (uiRow > cSettings->NUM_TILES_YAXIS - 3))
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 101;
+				}
+				else if (uiRow <= cSettings->NUM_TILES_YAXIS / 2 + 5 && uiRow >= cSettings->NUM_TILES_YAXIS / 2 - 5 && uiCol == cSettings->NUM_TILES_XAXIS / 2 || uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol <= cSettings->NUM_TILES_XAXIS / 2 + 5 && uiCol >= cSettings->NUM_TILES_XAXIS / 2 - 5)
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 102;
+				}
+				else if (uiRow == cSettings->NUM_TILES_YAXIS - 5 && uiCol == cSettings->NUM_TILES_XAXIS - 5 || uiRow == 5 && uiCol == 5)
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 300;
+				}
+				else if (uiRow == cSettings->NUM_TILES_YAXIS - 5 && uiCol == 5 || uiRow == 5 && uiCol == cSettings->NUM_TILES_XAXIS - 5)
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 300;
+				}
+				else
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 0;
+				}
+			}
+		}
+		break;
+	case 4:
+	{
+		for (unsigned int uiRow = 0; uiRow < cSettings->NUM_TILES_YAXIS; uiRow++)
+		{
+			// Load a particular CSV value into the arrMapInfo
+			for (unsigned int uiCol = 0; uiCol < cSettings->NUM_TILES_XAXIS; ++uiCol)
+			{
+				arrMapInfo[uiLevel][uiRow][uiCol].roomid = -1;
+				if ((uiRow == cSettings->NUM_TILES_YAXIS - 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2) || (uiRow == 1 && uiCol == cSettings->NUM_TILES_XAXIS / 2) || (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == 1) || (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS - 2))
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 100;
+				}
+				else if ((uiRow < 2) || (uiCol < 2) || (uiCol > cSettings->NUM_TILES_XAXIS - 3) || (uiRow > cSettings->NUM_TILES_YAXIS - 3))
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 101;
+				}
+				else if (uiRow == cSettings->NUM_TILES_YAXIS / 2 - 5 && uiCol <= cSettings->NUM_TILES_XAXIS / 2 + 5 && uiCol >= cSettings->NUM_TILES_XAXIS / 2 - 5|| uiRow == cSettings->NUM_TILES_YAXIS / 2 + 5 && uiCol <= cSettings->NUM_TILES_XAXIS / 2 + 5 && uiCol >= cSettings->NUM_TILES_XAXIS / 2 - 5)
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 102;
+				}
+				else if (uiRow == cSettings->NUM_TILES_YAXIS/2  && uiCol == cSettings->NUM_TILES_XAXIS/2 - 2 || uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2 + 2)
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 300;
+				}
+				else
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 0;
+				}
+			}
+		}
+		break;
+	}
+	case 5:
+	{
+		for (unsigned int uiRow = 0; uiRow < cSettings->NUM_TILES_YAXIS; uiRow++)
+		{
+			// Load a particular CSV value into the arrMapInfo
+			for (unsigned int uiCol = 0; uiCol < cSettings->NUM_TILES_XAXIS; ++uiCol)
+			{
+				arrMapInfo[uiLevel][uiRow][uiCol].roomid = -1;
+				if ((uiRow == cSettings->NUM_TILES_YAXIS - 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2) || (uiRow == 1 && uiCol == cSettings->NUM_TILES_XAXIS / 2) || (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == 1) || (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS - 2))
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 100;
+				}
+				else if ((uiRow < 2) || (uiCol < 2) || (uiCol > cSettings->NUM_TILES_XAXIS - 3) || (uiRow > cSettings->NUM_TILES_YAXIS - 3))
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 101;
+				}
+				else if (uiRow >= cSettings->NUM_TILES_YAXIS / 2 - 5 && uiRow <= cSettings->NUM_TILES_YAXIS / 2 + 5 && uiCol == cSettings->NUM_TILES_XAXIS / 2 - 5 || uiRow >= cSettings->NUM_TILES_YAXIS / 2 - 5 && uiRow <= cSettings->NUM_TILES_YAXIS / 2 + 5 && uiCol == cSettings->NUM_TILES_XAXIS / 2 + 5)
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 102;
+				}
+				else if (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2 - 2 || uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2 + 2)
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 300;
+				}
+				else
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 0;
+				}
+			}
+		}
+		break;
+	}
+	case 6:
+	{
+		for (unsigned int uiRow = 0; uiRow < cSettings->NUM_TILES_YAXIS; uiRow++)
+		{
+			// Load a particular CSV value into the arrMapInfo
+			for (unsigned int uiCol = 0; uiCol < cSettings->NUM_TILES_XAXIS; ++uiCol)
+			{
+				arrMapInfo[uiLevel][uiRow][uiCol].roomid = -1;
+				if ((uiRow == cSettings->NUM_TILES_YAXIS - 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2) || (uiRow == 1 && uiCol == cSettings->NUM_TILES_XAXIS / 2) || (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == 1) || (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS - 2))
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 100;
+				}
+				else if ((uiRow < 2) || (uiCol < 2) || (uiCol > cSettings->NUM_TILES_XAXIS - 3) || (uiRow > cSettings->NUM_TILES_YAXIS - 3))
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 101;
+				}
+				else if (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2 - 5 || uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2 + 5 || uiRow == cSettings->NUM_TILES_YAXIS / 2 - 5 && uiCol == cSettings->NUM_TILES_XAXIS / 2 || uiRow == cSettings->NUM_TILES_YAXIS / 2 + 5 && uiCol == cSettings->NUM_TILES_XAXIS / 2)
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 0;
+				}
+				else if (uiRow >= cSettings->NUM_TILES_YAXIS / 2 - 5 && uiRow <= cSettings->NUM_TILES_YAXIS / 2 + 5 && uiCol == cSettings->NUM_TILES_XAXIS / 2 - 5 || uiRow >= cSettings->NUM_TILES_YAXIS / 2 - 5 && uiRow <= cSettings->NUM_TILES_YAXIS / 2 + 5 && uiCol == cSettings->NUM_TILES_XAXIS / 2 + 5 || uiRow == cSettings->NUM_TILES_YAXIS / 2 - 5 && uiCol <= cSettings->NUM_TILES_XAXIS / 2 + 5 && uiCol >= cSettings->NUM_TILES_XAXIS / 2 - 5 || uiRow == cSettings->NUM_TILES_YAXIS / 2 + 5 && uiCol <= cSettings->NUM_TILES_XAXIS / 2 + 5 && uiCol >= cSettings->NUM_TILES_XAXIS / 2 - 5)
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 102;
+				}
+				else if (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2 - 2 || uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2 + 2 || uiRow == cSettings->NUM_TILES_YAXIS / 2 - 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2 || uiRow == cSettings->NUM_TILES_YAXIS / 2 + 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2)
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 300;
+				}
+				else
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 0;
+				}
+			}
+		}
+		break;
+	}
+	default:
+		break;
+	}
+	}
 }
 
 /**
  @brief Check if a position is valid
  */
-bool CFloor2D::isValid(const glm::i32vec2& pos) const
-{
+bool CFloor2D::isValid(const glm::i32vec2& pos) const {
 	//return (pos.x >= 0) && (pos.x < m_dimensions.x) &&
 	//	(pos.y >= 0) && (pos.y < m_dimensions.y);
 	return (pos.x >= 0) && (pos.x < cSettings->NUM_TILES_XAXIS) &&
