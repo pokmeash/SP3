@@ -47,6 +47,10 @@ CSpaceGoop::CSpaceGoop(void)
 
 	i32vec2Destination = glm::i32vec2(0, 0);	// Initialise the iDestination
 	i32vec2Direction = glm::i32vec2(0, 0);		// Initialise the iDirection
+	setHP(3);
+	setDmg(1);
+	setProjSpeed(1);
+	//							hp,dmg,projspeed
 }
 
 /**
@@ -80,6 +84,7 @@ CSpaceGoop::~CSpaceGoop(void)
   */
 bool CSpaceGoop::Init(void)
 {
+	
 	CEnemy2D::Init();
 	std::cout << "Initing spacegoop\n";
 	// Find the indices for the player in arrMapInfo, and assign it to cPlayer2D
@@ -216,27 +221,4 @@ void CSpaceGoop::Update(const double dElapsedTime)
 	}
 	// Update Jump or Fall
 	// UpdateJumpFall(dElapsedTime);
-}
-
-/**
- @brief Let enemy2D interact with the player.
- */
-bool CSpaceGoop::InteractWithPlayer(void)
-{
-	glm::i32vec2 i32vec2PlayerPos = CPlayer2D::GetInstance()->i32vec2Index;
-	
-	// Check if the enemy2D is within 1.5 indices of the player2D
-	if (((i32vec2Index.x >= i32vec2PlayerPos.x - 0.5) && 
-		(i32vec2Index.x <= i32vec2PlayerPos.x + 0.5))
-		&& 
-		((i32vec2Index.y >= i32vec2PlayerPos.y - 0.5) &&
-		(i32vec2Index.y <= i32vec2PlayerPos.y + 0.5)))
-	{
-		CPlayer2D::GetInstance()->PlayerDamaged();
-		// Since the player has been caught, then reset the FSM
-		sCurrentFSM = IDLE;
-		iFSMCounter = 0;
-		return true;
-	}
-	return false;
 }

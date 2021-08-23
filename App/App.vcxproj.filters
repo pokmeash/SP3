@@ -125,6 +125,21 @@
     <ClCompile Include="Source\Scene2D\Bosses\BossTimeControl.cpp">
       <Filter>Enemies\Bosses</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Scene2D\Attribute.cpp">
+      <Filter>Powerups</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\AttributeDecorator.cpp">
+      <Filter>Powerups</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\BaseAttribute.cpp">
+      <Filter>Powerups</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\Projectile\Grenade.cpp">
+      <Filter>Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\GoopAttribute.cpp">
+      <Filter>Powerups</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -216,6 +231,21 @@
     </ClInclude>
     <ClInclude Include="Source\Scene2D\Bosses\BossTimeControl.h">
       <Filter>Enemies\Bosses</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\Attribute.h">
+      <Filter>Powerups</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\AttributeDecorator.h">
+      <Filter>Powerups</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\BaseAttribute.h">
+      <Filter>Powerups</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\Projectile\Grenade.h">
+      <Filter>Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\GoopAttribute.h">
+      <Filter>Powerups</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

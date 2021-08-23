@@ -30,7 +30,16 @@ public:
 
     // Render
     void Render(void);
-
+    
     std::vector<CEntity2D*> entitylist;
+
+    bool getExplode();
+    void setExplode();
+
+    glm::vec2 getPos();
+private:
+    //int hitcount = 3;
+    bool explode = false;
+    glm::vec2 tempPos;
 };
 

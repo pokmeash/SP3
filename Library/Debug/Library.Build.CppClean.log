@@ -1,37 +1,37 @@
-c:\users\desti\documents\github\sp3\library\debug\library.pdb
-c:\users\desti\documents\github\sp3\library\debug\library.idb
-c:\users\desti\documents\github\sp3\library\debug\shadermanager.obj
-c:\users\desti\documents\github\sp3\library\debug\spriteanimation.obj
-c:\users\desti\documents\github\sp3\library\debug\packet.obj
-c:\users\desti\documents\github\sp3\library\debug\meshbuilder.obj
-c:\users\desti\documents\github\sp3\library\debug\mesh.obj
-c:\users\desti\documents\github\sp3\library\debug\levelofdetails.obj
-c:\users\desti\documents\github\sp3\library\debug\entity3d.obj
-c:\users\desti\documents\github\sp3\library\debug\entity2d.obj
-c:\users\desti\documents\github\sp3\library\debug\collider.obj
-c:\users\desti\documents\github\sp3\library\debug\mousecontroller.obj
-c:\users\desti\documents\github\sp3\library\debug\keyboardcontroller.obj
-c:\users\desti\documents\github\sp3\library\debug\imgui_widgets.obj
-c:\users\desti\documents\github\sp3\library\debug\imgui_tables.obj
-c:\users\desti\documents\github\sp3\library\debug\imgui_draw.obj
-c:\users\desti\documents\github\sp3\library\debug\imgui_demo.obj
-c:\users\desti\documents\github\sp3\library\debug\imgui.obj
-c:\users\desti\documents\github\sp3\library\debug\gui.obj
-c:\users\desti\documents\github\sp3\library\debug\imgui_impl_opengl3.obj
-c:\users\desti\documents\github\sp3\library\debug\imgui_impl_glfw.obj
-c:\users\desti\documents\github\sp3\library\debug\settings.obj
-c:\users\desti\documents\github\sp3\library\debug\stopwatch.obj
-c:\users\desti\documents\github\sp3\library\debug\fpscounter.obj
-c:\users\desti\documents\github\sp3\library\debug\loadobj.obj
-c:\users\desti\documents\github\sp3\library\debug\imageloader.obj
-c:\users\desti\documents\github\sp3\library\debug\csvwriter.obj
-c:\users\desti\documents\github\sp3\library\debug\csvreader.obj
-c:\users\desti\documents\github\sp3\library\debug\scriptmanager.obj
-c:\users\desti\documents\github\sp3\library\debug\textrenderer.obj
-c:\users\desti\documents\github\sp3\debug\library.lib
-c:\users\desti\documents\github\sp3\library\debug\library.tlog\cl.command.1.tlog
-c:\users\desti\documents\github\sp3\library\debug\library.tlog\cl.read.1.tlog
-c:\users\desti\documents\github\sp3\library\debug\library.tlog\cl.write.1.tlog
-c:\users\desti\documents\github\sp3\library\debug\library.tlog\lib-link.read.1.tlog
-c:\users\desti\documents\github\sp3\library\debug\library.tlog\lib-link.write.1.tlog
-c:\users\desti\documents\github\sp3\library\debug\library.tlog\lib.command.1.tlog
+d:\year 2 sem 1\sp3\sp3\debug\library.pdb
+d:\year 2 sem 1\sp3\sp3\debug\library.idb
+d:\year 2 sem 1\sp3\sp3\library\debug\shadermanager.obj
+d:\year 2 sem 1\sp3\sp3\library\debug\spriteanimation.obj
+d:\year 2 sem 1\sp3\sp3\library\debug\packet.obj
+d:\year 2 sem 1\sp3\sp3\library\debug\meshbuilder.obj
+d:\year 2 sem 1\sp3\sp3\library\debug\mesh.obj
+d:\year 2 sem 1\sp3\sp3\library\debug\levelofdetails.obj
+d:\year 2 sem 1\sp3\sp3\library\debug\entity3d.obj
+d:\year 2 sem 1\sp3\sp3\library\debug\entity2d.obj
+d:\year 2 sem 1\sp3\sp3\library\debug\collider.obj
+d:\year 2 sem 1\sp3\sp3\library\debug\mousecontroller.obj
+d:\year 2 sem 1\sp3\sp3\library\debug\keyboardcontroller.obj
+d:\year 2 sem 1\sp3\sp3\library\debug\imgui_widgets.obj
+d:\year 2 sem 1\sp3\sp3\library\debug\imgui_tables.obj
+d:\year 2 sem 1\sp3\sp3\library\debug\imgui_draw.obj
+d:\year 2 sem 1\sp3\sp3\library\debug\imgui_demo.obj
+d:\year 2 sem 1\sp3\sp3\library\debug\imgui.obj
+d:\year 2 sem 1\sp3\sp3\library\debug\gui.obj
+d:\year 2 sem 1\sp3\sp3\library\debug\imgui_impl_opengl3.obj
+d:\year 2 sem 1\sp3\sp3\library\debug\imgui_impl_glfw.obj
+d:\year 2 sem 1\sp3\sp3\library\debug\settings.obj
+d:\year 2 sem 1\sp3\sp3\library\debug\stopwatch.obj
+d:\year 2 sem 1\sp3\sp3\library\debug\fpscounter.obj
+d:\year 2 sem 1\sp3\sp3\library\debug\loadobj.obj
+d:\year 2 sem 1\sp3\sp3\library\debug\imageloader.obj
+d:\year 2 sem 1\sp3\sp3\library\debug\csvwriter.obj
+d:\year 2 sem 1\sp3\sp3\library\debug\csvreader.obj
+d:\year 2 sem 1\sp3\sp3\library\debug\scriptmanager.obj
+d:\year 2 sem 1\sp3\sp3\library\debug\textrenderer.obj
+d:\year 2 sem 1\sp3\sp3\debug\library.lib
+d:\year 2 sem 1\sp3\sp3\library\debug\library.tlog\cl.command.1.tlog
+d:\year 2 sem 1\sp3\sp3\library\debug\library.tlog\cl.read.1.tlog
+d:\year 2 sem 1\sp3\sp3\library\debug\library.tlog\cl.write.1.tlog
+d:\year 2 sem 1\sp3\sp3\library\debug\library.tlog\lib-link.read.1.tlog
+d:\year 2 sem 1\sp3\sp3\library\debug\library.tlog\lib-link.write.1.tlog
+d:\year 2 sem 1\sp3\sp3\library\debug\library.tlog\lib.command.1.tlog

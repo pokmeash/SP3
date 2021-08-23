@@ -47,6 +47,7 @@ CScene2D::~CScene2D(void)
 	// Destroy the enemies
 	for (int i = 0; i < enemyVector.size(); i++)
 	{
+		
 		delete enemyVector[i];
 		enemyVector[i] = NULL;
 	}
@@ -83,7 +84,7 @@ bool CScene2D::Init(void)
 	//CShaderManager::GetInstance()->Add("2DShader", "Shader//Scene2D.vs", "Shader//Scene2D.fs");
 	CShaderManager::GetInstance()->Use("2DShader");
 	CShaderManager::GetInstance()->activeShader->setInt("texture1", 0);
-
+	isPaused = false;
 	// Create and initialise the Map 2D
 	cMap2D = CFloorManager::GetInstance();
 	// Set a shader to this class
@@ -132,6 +133,9 @@ bool CScene2D::Init(void)
 	enemyVector.clear();
 	while (true)
 	{
+		//CEnemy2D* cEnemy2D = new CEnemy2D();
+		//SpaceFly* cEnemy = new SpaceFly();
+		//cEnemy->SetShader("2DColorShader");
 		CEnemy2D* cEnemy2D = new CSpaceGoop();
 		// Pass shader to cEnemy2D
 		cEnemy2D->SetShader("2DColorShader");
@@ -183,6 +187,17 @@ bool CScene2D::Init(void)
 */
 bool CScene2D::Update(const double dElapsedTime)
 {
+	if (cKeyboardController->IsKeyPressed(GLFW_KEY_ESCAPE))
+	{
+		isPaused = !isPaused;
+	}
+
+	if (isPaused)
+	{
+		cGUI_Scene2D->updatePause(dElapsedTime);
+		return true;
+	}
+	
 	if (!CBossTimeControl::GetInstance()->UpdateReverse()) {
 		cPlayer2D->Update(dElapsedTime);
 		cEntityManager->Update(dElapsedTime);
@@ -231,7 +246,6 @@ bool CScene2D::Update(const double dElapsedTime)
 
 	// Call the cGUI_Scene2D's update method
 	cGUI_Scene2D->Update(dElapsedTime);
-
 	if (cGameManager->bPlayerLost == true)
 	{
 		//cSoundController->PlaySoundByID(2);
@@ -302,6 +316,12 @@ void CScene2D::Render(void)
  */
 void CScene2D::PostRender(void)
 {
+}
+
+
+void CScene2D::setPause(bool n)
+{
+	isPaused = n;
 }
 
 void CScene2D::LevelCompleted(int DoorDir)

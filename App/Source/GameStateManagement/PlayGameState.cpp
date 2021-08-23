@@ -64,17 +64,17 @@ bool CPlayGameState::Init(void)
  */
 bool CPlayGameState::Update(const double dElapsedTime)
 {
-	if (CKeyboardController::GetInstance()->IsKeyReleased(GLFW_KEY_ESCAPE))
+	/*if (CKeyboardController::GetInstance()->IsKeyReleased(GLFW_KEY_ESCAPE))
 	{
-		// Reset the CKeyboardController
+		 Reset the CKeyboardController
 		CKeyboardController::GetInstance()->Reset();
 
-		// Load the menu state
+		 Load the menu state
 		cSoundController->StopAllSound();
 		CGameStateManager::GetInstance()->SetActiveGameState("MenuState");
 		cSoundController->PlaySoundByID(2);
 		return true;
-	}
+	}*/
 
 	// Call the cScene2D's Update method
 	cScene2D->Update(dElapsedTime);

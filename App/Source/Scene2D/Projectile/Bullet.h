@@ -27,8 +27,9 @@ public:
 
     // Init
     bool Init(void);
-
     // Update
     virtual void Update(const double dElapsedTime);
+private:
+    int hitcount;
 };
 

@@ -27,6 +27,8 @@
 // Include CPlayer2D
 #include "Player2D.h"
 // Include CEnemy2D
+#include "./Enemies/Enemy2D.h"
+
 #include "./Enemies/SpaceGoop.h"
 
 // Include vector
@@ -36,7 +38,7 @@
 #include "Inputs\KeyboardController.h"
 
 // GUI
-//#include "GUI/GUI.h"
+#include "GUI/GUI.h"
 // GUI_Scene2D
 #include "GUI_Scene2D.h"
 
@@ -70,6 +72,8 @@ public:
 	// A vector containing the instance of CEnemy2Ds
 	vector<CEntity2D*> enemyVector;
 
+	void setPause(bool n);
+	
 	void LevelCompleted(int DoorDir);
 
 protected:
@@ -100,5 +104,7 @@ protected:
 	CScene2D(void);
 	// Destructor
 	virtual ~CScene2D(void);
+
+	bool isPaused;
 };
 

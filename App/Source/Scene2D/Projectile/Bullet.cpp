@@ -10,6 +10,8 @@ Bullet::Bullet()
 Bullet::~Bullet()
 {}
 
+
+
 bool Bullet::Init() {
     cSettings = CSettings::GetInstance();
     glGenVertexArrays(1, &VAO);
@@ -21,6 +23,8 @@ void Bullet::Update(const double dElapsedTime)
 {
     vec2WSOldCoordinates = vec2WSCoordinate;
     vec2WSCoordinate += vec2Velocity;
+    CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
+    CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->y, vec2WSCoordinate.y, &i32vec2Index.y, &i32vec2NumMicroSteps.y);
     if (vec2WSOldCoordinates != vec2WSCoordinate) {
         if (EventHandler::GetInstance()->CallDeleteIsCancelled(new Entity2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates))) {
             vec2WSCoordinate = vec2WSOldCoordinates;
