@@ -24,7 +24,9 @@ public:
 	void SetNumTiles(const CSettings::AXIS sAxis, const unsigned int uiValue);
 	void SetNumSteps(const CSettings::AXIS sAxis, const unsigned int uiValue);
 	void SetMapInfo(const unsigned int uiRow, const unsigned int uiCol, const int iValue, const bool bInvert = true);
+	void SetDoorInfo(const unsigned int uiRow, const unsigned int uiCol, const int iValue, const bool bInvert = true);
 	int GetMapInfo(const unsigned int uiRow, const unsigned int uiCol, const bool bInvert = true) const;
+	int GetDoorInfo(const unsigned int uiRow, const unsigned int uiCol, const bool bInvert = true) const;
 	bool LoadMap(string filename, const unsigned int uiLevel = 0);
 	bool SaveMap(string filename, const unsigned int uiLevel = 0);
 	bool FindValue(const int iValue, unsigned int& uirRow, unsigned int& uirCol, const bool bInvert = true);

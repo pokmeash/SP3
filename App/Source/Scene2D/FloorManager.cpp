@@ -72,9 +72,19 @@ void CFloorManager::SetMapInfo(const unsigned int uiRow, const unsigned int uiCo
 	currentFloor->SetMapInfo(uiRow, uiCol, iValue, bInvert);
 }
 
+void CFloorManager::SetDoorInfo(const unsigned int uiRow, const unsigned int uiCol, const int iValue, const bool bInvert)
+{
+	currentFloor->SetDoorInfo(uiRow, uiCol, iValue, bInvert);
+}
+
 int CFloorManager::GetMapInfo(const unsigned int uiRow, const unsigned int uiCol, const bool bInvert) const
 {
 	return currentFloor->GetMapInfo(uiRow, uiCol, bInvert);
+}
+
+int CFloorManager::GetDoorInfo(const unsigned int uiRow, const unsigned int uiCol, const bool bInvert) const
+{
+	return currentFloor->GetDoorInfo(uiRow, uiCol, bInvert);
 }
 
 bool CFloorManager::LoadMap(string filename, const unsigned int uiLevel)

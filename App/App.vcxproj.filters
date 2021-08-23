@@ -122,9 +122,6 @@
     <ClCompile Include="Source\Scene2D\Enemies\SpaceGoop.cpp">
       <Filter>Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Scene2D\Room2D.cpp">
-      <Filter>Scene2D</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Scene2D\Bosses\BossTimeControl.cpp">
       <Filter>Enemies\Bosses</Filter>
     </ClCompile>
@@ -216,9 +213,6 @@
     </ClInclude>
     <ClInclude Include="Source\Scene2D\Enemies\SpaceGoop.h">
       <Filter>Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Scene2D\Room2D.h">
-      <Filter>Scene2D</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scene2D\Bosses\BossTimeControl.h">
       <Filter>Enemies\Bosses</Filter>

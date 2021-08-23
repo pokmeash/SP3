@@ -334,10 +334,6 @@ void CPlayer2D::Update(const double dElapsedTime)
 		dirx = 0;
 		diry = -1;
 	}
-	if (cKeyboardController->IsKeyPressed(GLFW_KEY_DOWN))
-	{
-		CGameManager::GetInstance()->bLevelCompleted = true;
-	}
 	//Swapping
 	bool activate = cSettings->iKeybinds[CSettings::TRIGGER_POWERUP] <= GLFW_MOUSE_BUTTON_LAST && cMouseController->IsButtonPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP]);
 	if (activate || cKeyboardController->IsKeyPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP]) && swap == true)
@@ -455,11 +451,15 @@ void CPlayer2D::Update(const double dElapsedTime)
 		}
 		if (CScene2D::GetInstance()->enemyVector.size() == counter)
 		{
-			unsigned int DoorRow = -1;
-			unsigned int DoorCol = -1;
-			if (cMap2D->FindValue(100, DoorRow, DoorCol) == false)
-				return;
-			cMap2D->SetMapInfo(DoorRow, DoorCol, 99);
+			for (int i = 0; i < 4; i++)
+			{
+				unsigned int DoorRow = -1;
+				unsigned int DoorCol = -1;
+				if (cMap2D->FindValue(100, DoorRow, DoorCol) == false)
+					return;
+
+				cMap2D->SetMapInfo(DoorRow, DoorCol, 99);
+			}
 			cSoundController->PlaySoundByID(6);
 		}
 	}
@@ -537,8 +537,26 @@ void CPlayer2D::InteractWithMap(void)
 		break;
 	case 99:
 		//Next Room
-		
-		CGameManager::GetInstance()->bLevelCompleted = true;
+		if (i32vec2Index.x == 16 && i32vec2Index.y == 22)
+		{
+			//Top
+			CScene2D::GetInstance()->LevelCompleted(0);
+		}
+		else if (i32vec2Index.x == 30 && i32vec2Index.y == 11)
+		{
+			//Right
+			CScene2D::GetInstance()->LevelCompleted(1);
+		}
+		else if (i32vec2Index.x == 16 && i32vec2Index.y == 1)
+		{
+			//Bot
+			CScene2D::GetInstance()->LevelCompleted(2);
+		}
+		else if (i32vec2Index.x == 1 && i32vec2Index.y == 11)
+		{
+			//Left
+			CScene2D::GetInstance()->LevelCompleted(3);
+		}
 		break;
 	default:
 		break;

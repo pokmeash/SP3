@@ -70,6 +70,8 @@ public:
 	// A vector containing the instance of CEnemy2Ds
 	vector<CEntity2D*> enemyVector;
 
+	void LevelCompleted(int DoorDir);
+
 protected:
 	// The handler containing the instance of the 2D Map
 	CFloorManager* cMap2D;

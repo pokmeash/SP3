@@ -32,7 +32,6 @@ public:
 	// Boolean flag to indicate if the game is be restarted
 	bool bGameToRestart;
 
-
 protected:
 	// Constructor
 	CGameManager(void);
