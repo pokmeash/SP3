@@ -33,7 +33,9 @@ class CFloorManager;
 // Game Manager
 #include "GameManager.h"
 
-class CLivingEntity : public CEntity2D
+#include "BaseAttribute.h"
+
+class CLivingEntity : public CEntity2D, public BaseAttribute
 {
 public:
 	// Constructor

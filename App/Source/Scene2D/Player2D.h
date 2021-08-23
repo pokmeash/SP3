@@ -41,9 +41,8 @@ class CMapManager;
 // Include SoundController
 #include "..\SoundController\SoundController.h"
 
-#include "Attribute.h"
 #include "BaseAttribute.h"
-#include "AttributeDecorator.h"
+
 
 class CPlayer2D : public CSingletonTemplate<CPlayer2D>, public CLivingEntity
 {
@@ -62,6 +61,8 @@ public:
 	virtual void Render();
 
 	void PlayerDamaged();
+
+	float RNG(float min, float max);
 
 protected:
 
@@ -86,7 +87,6 @@ protected:
 	// Constructor
 	CPlayer2D(void);
 
-	Attribute* Character;
 	// Destructor
 	virtual ~CPlayer2D(void);
 

@@ -8,7 +8,23 @@ EntityFactory::~EntityFactory()
 Bullet* EntityFactory::ProduceBullets(glm::f32vec2 EntityVec2Index, glm::f32vec2 EntityVec2Vel, glm::vec3 EntityVec3Scale, float rotation, CEntity2D::ENTITY_TYPE type)
 {
 	Bullet* temp = new Bullet;
+	temp->counter = 3;
+	temp->vec2WSCoordinate = EntityVec2Index;
+	temp->vec2Velocity = EntityVec2Vel;
+	temp->scale = EntityVec3Scale;
+	temp->rotation = rotation;
+	temp->type = type;
+	temp->bIsActive = true;
+	
+	temp->Init();
 
+	return temp;
+}
+
+Grenade* EntityFactory::ProduceGrenade(glm::f32vec2 EntityVec2Index, glm::f32vec2 EntityVec2Vel, glm::vec3 EntityVec3Scale, float rotation, CEntity2D::ENTITY_TYPE type)
+{
+	Grenade* temp = new Grenade;
+	temp->timer = 2;
 	temp->vec2WSCoordinate = EntityVec2Index;
 	temp->vec2Velocity = EntityVec2Vel;
 	temp->scale = EntityVec3Scale;

@@ -2,22 +2,17 @@
 #include <iostream>
 #include "Attribute.h"
 using namespace std;
-
+// Player
 class BaseAttribute : public Attribute
 {
-private:
-	int HP = 3;
-	int Dmg = 1;
-	float projectileSpeed = 0.5;
 public:
-	void setHP(int hp);
-	void addHP(int hp);
-	int getHP();
-	void setDmg(int dmg);
-	void addDmg(int dmg);
-	int getDmg();
-	void addProjSpeed(float speed);
-	float getProjSpeed();
+	BaseAttribute(int hp, int dmg, float projspeed)
+	{
+		setHP(hp);
+		setDmg(dmg);
+		setProjSpeed(projspeed);
+	}
+
 
 	
 };

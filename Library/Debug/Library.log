@@ -1,15 +1,1 @@
-﻿  GUI.cpp
-  Entity2D.cpp
-D:\Year 2 Sem 1\SP3\SP3\Library\Source\Primitives\Entity2D.cpp(129,26): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-D:\Year 2 Sem 1\SP3\SP3\Library\Source\Primitives\Entity2D.cpp(130,26): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-  TextRenderer.cpp
-  Generating Code...
-  Library.vcxproj -> D:\Year 2 Sem 1\SP3\SP3\Debug\Library.lib
+﻿

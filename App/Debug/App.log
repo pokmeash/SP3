@@ -1,4 +1,1 @@
-﻿  EntityManager.cpp
-D:\Year 2 Sem 1\SP3\SP3\App\Source\Scene2D\EntityManager.cpp(45,32): warning C4018: '>': signed/unsigned mismatch
-D:\Year 2 Sem 1\SP3\SP3\App\Source\Scene2D\EntityManager.cpp(46,29): warning C4018: '>': signed/unsigned mismatch
-  App.vcxproj -> D:\Year 2 Sem 1\SP3\SP3\Debug\App.exe
+﻿

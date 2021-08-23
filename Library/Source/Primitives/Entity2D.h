@@ -24,6 +24,8 @@
 //CS: Include Mesh.h to use to draw (include vertex and index buffers)
 #include "Mesh.h"
 #include "SpriteAnimation.h"
+
+
 using namespace std;
 
 class CEntity2D
@@ -75,6 +77,10 @@ public:
 
 	glm::vec3 scale;
 
+	int counter;
+
+	float timer;
+
 	glm::vec2 vec2GetCenter();
 
 	float rotation;
@@ -95,10 +101,12 @@ public:
 		E_BULLET,
 		E_EBULLET,
 		E_SPIKE,
+		E_FRAGMENT,
 
 		//Powerup
 		E_DOUBLESHOT,
 		E_ENEMY,
+		E_GRENADE,
 	};
 	ENTITY_TYPE type;
 	bool bIsActive;

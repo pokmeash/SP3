@@ -47,7 +47,8 @@ CPlayer2D::CPlayer2D(void)
 
 	// Initialise vec2UVCoordinate
 	vec2UVCoordinate = glm::vec2(0.0f);
-	Character = new BaseAttribute();
+	setHP(3);
+	setProjSpeed(0.5);
 
 }
 
@@ -79,12 +80,13 @@ CPlayer2D::~CPlayer2D(void)
   */
 bool CPlayer2D::Init(void)
 {
+	
 	// Store the keyboard controller singleton instance here
 	cKeyboardController = CKeyboardController::GetInstance();
 	cMouseController = CMouseController::GetInstance();
 	// Reset all keys since we are starting a new game
 	cKeyboardController->Reset();
-
+	srand(static_cast <unsigned> (time(0)));
 	// Get the handler to the CSettings instance
 	cSettings = CSettings::GetInstance();
 	// Get the handler to the CMap2D instance
@@ -137,7 +139,7 @@ bool CPlayer2D::Init(void)
 	// Get the handler to the CInventoryManager instance
 	cInventoryManager = CInventoryManager::GetInstance();
 	// Add a Lives icon as one of the inventory items
-	cInventoryItem = cInventoryManager->Add("Lives", "Image/Scene2D_Lives.tga", Character->getHP(), 0);
+	cInventoryItem = cInventoryManager->Add("Lives", "Image/Scene2D_Lives.tga", getHP(), 0);
 	cInventoryItem->vec2Size = glm::vec2(25, 25);
 
 	// Add a Health icon as one of the inventory items
@@ -212,7 +214,7 @@ bool CPlayer2D::Reset()
  */
 void CPlayer2D::Update(const double dElapsedTime)
 {
-	//cout << Character->getDmg() << endl;
+	cout << getHP() << endl;
 	// Store the old position
 	vec2WSOldCoordinates = vec2WSCoordinate;
 
@@ -416,7 +418,6 @@ void CPlayer2D::Update(const double dElapsedTime)
 		cSettings->ConvertMouseToWSSpace(mouse.x, mouse.y, &(wsSpace.x), &(wsSpace.y));
 		glm::vec2 direction = wsSpace - vec2WSCoordinate;
 		direction = glm::normalize(direction);
-		direction *= 0.5f; 
 		if (cInventoryManager->Check("Tree"))
 		{
 			cInventoryItem = cInventoryManager->GetItem("Tree");
@@ -425,13 +426,28 @@ void CPlayer2D::Update(const double dElapsedTime)
 				glm::vec2 temp = direction;
 				temp.y = sinf(atan2f(temp.y, temp.x) + 0.1 * i);
 				temp.x = cosf(atan2f(temp.y, temp.x) + 0.1 * i);
-				temp = glm::normalize(temp) * 0.5f;
+				temp = glm::normalize(temp) * getProjSpeed();  // projectile speed
 				EntityManager::GetInstance()->entitylist.push_back(EntityFactory::GetInstance()->ProduceBullets(vec2WSCoordinate, glm::vec2(temp.x, temp.y), glm::vec3(1, 1, 1), 0, E_BULLET));
 			}
 		}
 	}
+	if (cKeyboardController->IsKeyDown(GLFW_KEY_G) && delay <= 0.f) // Throwing of grenade
+	{
+		delay = 0.5f;
+		
+		EntityManager::GetInstance()->entitylist.push_back(EntityFactory::GetInstance()->ProduceGrenade(vec2WSCoordinate, glm::vec2(1,1), glm::vec3(1, 1, 1), 0, E_GRENADE));
+	}
 	if (delay > 0) {
 		delay -= dElapsedTime;
+	}
+
+	if (EntityManager::GetInstance()->getExplode() == true) // Grenade projectiles after exploding
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			EntityManager::GetInstance()->entitylist.push_back(EntityFactory::GetInstance()->ProduceBullets(EntityManager::GetInstance()->getPos(), glm::vec2(RNG(-2,2), RNG(-2,2)), glm::vec3(1, 1, 1), 0, E_FRAGMENT));
+		}
+		EntityManager::GetInstance()->setExplode();
 	}
 
 	// Interact with the Map
@@ -500,6 +516,17 @@ void CPlayer2D::PlayerDamaged()
 	currentColor = glm::vec4(1.0, 0.0, 0.0, 1.0);
 }
 
+float CPlayer2D::RNG(float min, float max)
+{
+	float range = max - min;
+	float random = ((float)rand() / (float)RAND_MAX * range) + min;
+	while (random >= -0.5 && random <= 0.5)
+	{
+		random = ((float)rand() / (float)RAND_MAX * range) + min;
+	}
+	return random;
+}
+
 /**
  @brief Let player interact with the map. You can add collectibles such as powerups and health here.
  */
@@ -528,9 +555,11 @@ void CPlayer2D::InteractWithMap(void)
 		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
 		break;
 	case 11:
+		addProjSpeed(0.5);
+		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
 		break;
 	case 12:
-		Character->addDmg(1);
+		addDmg(1);
 		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
 		break;
 	case 20:

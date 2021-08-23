@@ -29,6 +29,7 @@
     <ClCompile Include="Source\Scene2D\EntityFactory.cpp" />
     <ClCompile Include="Source\Scene2D\EntityManager.cpp" />
     <ClCompile Include="Source\Scene2D\GameManager.cpp" />
+    <ClCompile Include="Source\Scene2D\GoopAttribute.cpp" />
     <ClCompile Include="Source\Scene2D\GUI_Scene2D.cpp" />
     <ClCompile Include="Source\Scene2D\InventoryItem.cpp" />
     <ClCompile Include="Source\Scene2D\InventoryManager.cpp" />
@@ -39,6 +40,7 @@
     <ClCompile Include="Source\Scene2D\FloorManager.cpp" />
     <ClCompile Include="Source\Scene2D\PowerUps\DoubleShot.cpp" />
     <ClCompile Include="Source\Scene2D\Projectile\Bullet.cpp" />
+    <ClCompile Include="Source\Scene2D\Projectile\Grenade.cpp" />
     <ClCompile Include="Source\Scene2D\Projectile\Spike.cpp" />
     <ClCompile Include="Source\Scene2D\Room2D.cpp" />
     <ClCompile Include="Source\Scene2D\Scene2D.cpp" />
@@ -64,6 +66,7 @@
     <ClInclude Include="Source\Scene2D\EntityFactory.h" />
     <ClInclude Include="Source\Scene2D\EntityManager.h" />
     <ClInclude Include="Source\Scene2D\GameManager.h" />
+    <ClInclude Include="Source\Scene2D\GoopAttribute.h" />
     <ClInclude Include="Source\Scene2D\GUI_Scene2D.h" />
     <ClInclude Include="Source\Scene2D\InventoryItem.h" />
     <ClInclude Include="Source\Scene2D\InventoryManager.h" />
@@ -74,6 +77,7 @@
     <ClInclude Include="Source\Scene2D\FloorManager.h" />
     <ClInclude Include="Source\Scene2D\PowerUps\DoubleShot.h" />
     <ClInclude Include="Source\Scene2D\Projectile\Bullet.h" />
+    <ClInclude Include="Source\Scene2D\Projectile\Grenade.h" />
     <ClInclude Include="Source\Scene2D\Projectile\Spike.h" />
     <ClInclude Include="Source\Scene2D\Room2D.h" />
     <ClInclude Include="Source\Scene2D\Scene2D.h" />

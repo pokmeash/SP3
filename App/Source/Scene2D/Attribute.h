@@ -4,17 +4,45 @@ using namespace std;
 
 class Attribute
 {
-private:
+protected:
 	int HP;
 	int Dmg;
 	float projectileSpeed;
 public:
-	virtual void setHP(int hp) = 0;
-	virtual void addHP(int hp) = 0;
-	virtual int getHP() = 0;
-	virtual void setDmg(int dmg) = 0;
-	virtual void addDmg(int dmg) = 0;
-	virtual int getDmg() = 0;
-	virtual void addProjSpeed(float speed) = 0;
-	virtual float getProjSpeed() = 0;
+	virtual int getHP() {
+		return HP;
+	}
+	virtual int getDmg()
+	{
+		return Dmg;
+	}
+	virtual float getProjSpeed()
+	{
+		return projectileSpeed;
+	}
+	virtual void setHP(int hp)
+	{
+		HP = hp;
+	}
+	virtual void setDmg(int dmg)
+	{
+		Dmg = dmg;
+	}
+	virtual void setProjSpeed(float speed)
+	{
+		projectileSpeed = speed;
+	}
+	virtual void addHP(int hp)
+	{
+		HP += hp;
+	}
+	virtual void addDmg(int dmg)
+	{
+		Dmg += dmg;
+	}
+	virtual void addProjSpeed(float speed)
+	{
+		projectileSpeed += speed;
+	}
+
 };
