@@ -25,8 +25,8 @@ Bullet* EntityFactory::ProduceBullets(glm::f32vec2 EntityVec2Index, glm::f32vec2
 Grenade* EntityFactory::ProduceGrenade(glm::f32vec2 EntityVec2Index, glm::f32vec2 EntityVec2Vel, glm::vec3 EntityVec3Scale, float rotation, CEntity2D::ENTITY_TYPE type)
 {
 	Grenade* temp = new Grenade;
-	temp->timer = 2;
 	temp->Init();
+	temp->timer = 2;
 	temp->vec2WSCoordinate = EntityVec2Index;
 	temp->vec2Velocity = EntityVec2Vel;
 	temp->scale = EntityVec3Scale;

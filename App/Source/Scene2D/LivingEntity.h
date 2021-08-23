@@ -75,6 +75,11 @@ protected:
 		RUSHATTACK = 5,
 		HEALING = 6,
 		DAMAGED = 7,
+		MOVELEFT = 8,
+		MOVERIGHT = 9,
+		MOVEUP = 10,
+		MOVEDOWN = 11,
+		SHOOT = 10,
 		NUM_FSM
 	};
 

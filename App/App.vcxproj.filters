@@ -44,9 +44,6 @@
     <ClCompile Include="Source\Scene2D\Scene2D.cpp">
       <Filter>Scene2D</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Scene2D\Floor2D.cpp">
-      <Filter>Scene2D</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Scene2D\Player2D.cpp">
       <Filter>Scene2D</Filter>
     </ClCompile>
@@ -86,9 +83,6 @@
     <ClCompile Include="Source\Scene2D\BackgroundEntity.cpp">
       <Filter>Scene2D</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Scene2D\EntityFactory.cpp">
-      <Filter>Entity</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Scene2D\EntityManager.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
@@ -97,9 +91,6 @@
     </ClCompile>
     <ClCompile Include="Source\GameStateManagement\WinState.cpp">
       <Filter>GameStateManagement</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Scene2D\FloorManager.cpp">
-      <Filter>Scene2D</Filter>
     </ClCompile>
     <ClCompile Include="Source\GameStateManagement\SettingsState.cpp">
       <Filter>GameStateManagement</Filter>
@@ -122,8 +113,38 @@
     <ClCompile Include="Source\Scene2D\Enemies\SpaceGoop.cpp">
       <Filter>Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Scene2D\Bosses\BossTimeControl.cpp">
-      <Filter>Enemies\Bosses</Filter>
+    <ClCompile Include="Source\Scene2D\Enemies\SpaceFly.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\Enemies\SpaceTurret.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\Enemies\SpaceSkeleton.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\Floor2D.cpp">
+      <Filter>Scene2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\FloorManager.cpp">
+      <Filter>Scene2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\Attribute.cpp">
+      <Filter>Scene2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\AttributeDecorator.cpp">
+      <Filter>Scene2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\BaseAttribute.cpp">
+      <Filter>Scene2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\GoopAttribute.cpp">
+      <Filter>Scene2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\EntityFactory.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\Projectile\Grenade.cpp">
+      <Filter>Projectiles</Filter>
     </ClCompile>
     <ClCompile Include="Source\Scene2D\Attribute.cpp">
       <Filter>Powerups</Filter>
@@ -146,9 +167,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scene2D\Scene2D.h">
-      <Filter>Scene2D</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Scene2D\Floor2D.h">
       <Filter>Scene2D</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scene2D\Player2D.h">
@@ -193,9 +211,6 @@
     <ClInclude Include="Source\Scene2D\BackgroundEntity.h">
       <Filter>Scene2D</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Scene2D\EntityFactory.h">
-      <Filter>Entity</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Scene2D\EntityManager.h">
       <Filter>Entity</Filter>
     </ClInclude>
@@ -204,9 +219,6 @@
     </ClInclude>
     <ClInclude Include="Source\GameStateManagement\WinState.h">
       <Filter>GameStateManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Scene2D\FloorManager.h">
-      <Filter>Scene2D</Filter>
     </ClInclude>
     <ClInclude Include="Source\GameStateManagement\SettingsState.h">
       <Filter>GameStateManagement</Filter>
@@ -229,8 +241,38 @@
     <ClInclude Include="Source\Scene2D\Enemies\SpaceGoop.h">
       <Filter>Enemies</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Scene2D\Enemies\SpaceFly.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\Enemies\SpaceTurret.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\Enemies\SpaceSkeleton.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Scene2D\Bosses\BossTimeControl.h">
       <Filter>Enemies\Bosses</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\Floor2D.h">
+      <Filter>Scene2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\FloorManager.h">
+      <Filter>Scene2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\Attribute.h">
+      <Filter>Scene2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\AttributeDecorator.h">
+      <Filter>Scene2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\BaseAttribute.h">
+      <Filter>Scene2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\GoopAttribute.h">
+      <Filter>Scene2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\EntityFactory.h">
+      <Filter>Entity</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scene2D\Attribute.h">
       <Filter>Powerups</Filter>

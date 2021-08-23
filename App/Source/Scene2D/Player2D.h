@@ -61,6 +61,12 @@ public:
 	virtual void Render();
 
 	void PlayerDamaged();
+	//iFrames
+	bool iFrames = false;
+	bool iframesState = false;
+	float iframesTimer = 0.3;
+	float iframesDuration = 3;
+	float RNG(float min, float max);
 
 	float RNG(float min, float max);
 

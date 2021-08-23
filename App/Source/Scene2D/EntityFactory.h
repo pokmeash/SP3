@@ -34,9 +34,5 @@ public:
 
 	//Powerups
 	DoubleShot* ProduceDoubleShot(glm::f32vec2 EntityVec2Index, glm::f32vec2 EntityVec2Vel, glm::vec3 EntityVec3Scale, float rotation, CEntity2D::ENTITY_TYPE type);
-
-
-
-
 };
 

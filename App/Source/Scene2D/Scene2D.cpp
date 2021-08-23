@@ -6,6 +6,9 @@ using namespace std;
 #include "RenderControl\ShaderManager.h"
 
 #include "System\filesystem.h"
+#include "Enemies/SpaceFly.h"
+#include "Enemies/SpaceTurret.h"
+#include "Enemies/SpaceSkeleton.h"
 #include "Bosses/BossTimeControl.h"
 
 /**
@@ -137,6 +140,57 @@ bool CScene2D::Init(void)
 		//SpaceFly* cEnemy = new SpaceFly();
 		//cEnemy->SetShader("2DColorShader");
 		CEnemy2D* cEnemy2D = new CSpaceGoop();
+		// Pass shader to cEnemy2D
+		cEnemy2D->SetShader("2DColorShader");
+		// Initialise the instance
+		if (cEnemy2D->Init() == true)
+		{
+			enemyVector.push_back(cEnemy2D);
+		}
+		else
+		{
+			// Break out of this loop if the enemy has all been loaded
+			break;
+		}
+	}
+
+	while (true)
+	{
+		CEnemy2D* cEnemy2D = new CSpaceFly();
+		// Pass shader to cEnemy2D
+		cEnemy2D->SetShader("2DColorShader");
+		// Initialise the instance
+		if (cEnemy2D->Init() == true)
+		{
+			enemyVector.push_back(cEnemy2D);
+		}
+		else
+		{
+			// Break out of this loop if the enemy has all been loaded
+			break;
+		}
+	}
+
+	while (true)
+	{
+		CEnemy2D* cEnemy2D = new CSpaceTurret();
+		// Pass shader to cEnemy2D
+		cEnemy2D->SetShader("2DColorShader");
+		// Initialise the instance
+		if (cEnemy2D->Init() == true)
+		{
+			enemyVector.push_back(cEnemy2D);
+		}
+		else
+		{
+			// Break out of this loop if the enemy has all been loaded
+			break;
+		}
+	}
+
+	while (true)
+	{
+		CEnemy2D* cEnemy2D = new CSpaceSkeleton();
 		// Pass shader to cEnemy2D
 		cEnemy2D->SetShader("2DColorShader");
 		// Initialise the instance

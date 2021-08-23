@@ -3,18 +3,24 @@
 // Include CEntity2D
 #include "Enemy2D.h"
 
-class CSpaceFly : public CEnemy2D
+class CSpaceTurret : public CEnemy2D
 {
 public:
 	// Constructor
-	CSpaceFly(void);
+	CSpaceTurret(void);
 
 	// Destructor
-	virtual ~CSpaceFly(void);
+	virtual ~CSpaceTurret(void);
 
 	// Init
 	virtual bool Init(void);
 
 	// Update
 	virtual void Update(const double dElapsedTime);
+protected:
+
+	virtual bool InteractWithPlayer(void);
+
+
+	float bulletTimer;
 };

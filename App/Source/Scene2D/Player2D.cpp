@@ -498,6 +498,30 @@ void CPlayer2D::Update(const double dElapsedTime)
 			cMap2D->SetMapInfo(DoorRow, DoorCol, 99);
 		}
 	}
+	if (iframesState == true)
+	{
+		iframesDuration -= dElapsedTime;
+		iframesTimer -= dElapsedTime;
+
+		if (iframesTimer < 0.1 && iFrames == false)
+		{
+			iFrames = true;
+		}
+
+		else if (iframesTimer <= 0 && iFrames == true)
+		{
+			iFrames = false;
+			iframesTimer = 0.2;
+		}
+
+		if (iframesDuration <= 0)
+		{
+			iframesState = false;
+			iFrames = false; 
+			iframesDuration = 3;
+		}
+
+	}
 	if (vec2WSOldCoordinates != vec2WSCoordinate) {
 		EventHandler::GetInstance()->CallThenDelete(new Player2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates));
 	}
@@ -505,30 +529,56 @@ void CPlayer2D::Update(const double dElapsedTime)
 
 void CPlayer2D::Render(void)
 {
-	glBindVertexArray(VAO);
-	// get matrix's uniform location and set matrix
-	unsigned int transformLoc = glGetUniformLocation(CShaderManager::GetInstance()->activeShader->ID, "transform");
-	unsigned int colorLoc = glGetUniformLocation(CShaderManager::GetInstance()->activeShader->ID, "runtime_color");
-	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
-	transform = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-	transform = glm::translate(transform, glm::vec3(vec2UVCoordinate.x,
-		vec2UVCoordinate.y,
-		0.0f));
-	// Update the shaders with the latest transform
-	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
-	glUniform4fv(colorLoc, 1, glm::value_ptr(currentColor));
-	// Get the texture to be rendered
-	glBindTexture(GL_TEXTURE_2D, iTextureID);
-	//CS: Render the animated sprite
-	animatedSprites->Render();
-	glBindVertexArray(0);
+	if (iFrames == false)
+	{
+		glBindVertexArray(VAO);
+		// get matrix's uniform location and set matrix
+		unsigned int transformLoc = glGetUniformLocation(CShaderManager::GetInstance()->activeShader->ID, "transform");
+		unsigned int colorLoc = glGetUniformLocation(CShaderManager::GetInstance()->activeShader->ID, "runtime_color");
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
+		transform = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
+		transform = glm::translate(transform, glm::vec3(vec2UVCoordinate.x,
+			vec2UVCoordinate.y,
+			0.0f));
+		// Update the shaders with the latest transform
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
+		glUniform4fv(colorLoc, 1, glm::value_ptr(currentColor));
+		// Get the texture to be rendered
+		glBindTexture(GL_TEXTURE_2D, iTextureID);
+		//CS: Render the animated sprite
+		animatedSprites->Render();
+		glBindVertexArray(0);
+	}
 }
 
 void CPlayer2D::PlayerDamaged()
 {
-	cInventoryItem = cInventoryManager->GetItem("Health");
-	cInventoryItem->Remove(20);
-	currentColor = glm::vec4(1.0, 0.0, 0.0, 1.0);
+	if (iframesState == false)
+	{
+		cInventoryItem = cInventoryManager->GetItem("Health");
+		cInventoryItem->Remove(20);
+		currentColor = glm::vec4(1.0, 0.0, 0.0, 1.0);
+		iframesState = true;
+	}
+
+	else if (iframesState == true)
+	{
+		cInventoryItem = cInventoryManager->GetItem("Health");
+		cInventoryItem->Remove(0);
+		currentColor = glm::vec4(1.0, 0.0, 0.0, 1.0);
+	}
+
+}
+
+float CPlayer2D::RNG(float min, float max)
+{
+	float range = max - min;
+	float random = ((float)rand() / (float)RAND_MAX * range) + min;
+	while (random >= -0.5 && random <= 0.5)
+	{
+		random = ((float)rand() / (float)RAND_MAX * range) + min;
+	}
+	return random;
 }
 
 float CPlayer2D::RNG(float min, float max)
