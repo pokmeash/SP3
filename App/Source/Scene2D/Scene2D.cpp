@@ -8,6 +8,7 @@ using namespace std;
 #include "System\filesystem.h"
 #include "Enemies/SpaceFly.h"
 #include "Enemies/SpaceTurret.h"
+#include "Enemies/SpaceSkeleton.h"
 
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
@@ -182,6 +183,23 @@ bool CScene2D::Init(void)
 		}
 	}
 
+	while (true)
+	{
+		CEnemy2D* cEnemy2D = new CSpaceSkeleton();
+		// Pass shader to cEnemy2D
+		cEnemy2D->SetShader("2DColorShader");
+		// Initialise the instance
+		if (cEnemy2D->Init() == true)
+		{
+			enemyVector.push_back(cEnemy2D);
+		}
+		else
+		{
+			// Break out of this loop if the enemy has all been loaded
+			break;
+		}
+	}
+
 	// Setup the shaders
 	CShaderManager::GetInstance()->Add("textShader", "Shader//text.vs", "Shader//text.fs");
 	CShaderManager::GetInstance()->Use("textShader");
@@ -312,6 +330,24 @@ bool CScene2D::Update(const double dElapsedTime)
 					break;
 				}
 			}
+
+			while (true)
+			{
+				CEnemy2D* cEnemy2D = new CSpaceSkeleton();
+				// Pass shader to cEnemy2D
+				cEnemy2D->SetShader("2DColorShader");
+				// Initialise the instance
+				if (cEnemy2D->Init() == true)
+				{
+					enemyVector.push_back(cEnemy2D);
+				}
+				else
+				{
+					// Break out of this loop if the enemy has all been loaded
+					break;
+				}
+			}
+
 		}
 	}
 

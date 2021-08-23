@@ -209,7 +209,7 @@ void CSpaceFly::Update(const double dElapsedTime)
 		//movementLEFT
 		if (vec2WSCoordinate.x >= 0)
 		{
-			vec2WSCoordinate.x -= 3.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
+			vec2WSCoordinate.x -= 2.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
 			animatedSprites->PlayAnimation("idle", -1, 1.0f);
 		}
 		cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
