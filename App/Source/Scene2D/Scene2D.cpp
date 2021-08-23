@@ -186,7 +186,7 @@ bool CScene2D::Init(void)
 @brief Update Update this instance
 */
 bool CScene2D::Update(const double dElapsedTime)
-
+{
 	if (cKeyboardController->IsKeyPressed(GLFW_KEY_ESCAPE))
 	{
 		isPaused = !isPaused;

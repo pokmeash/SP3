@@ -121,7 +121,7 @@ void EntityManager::Update(const double dElapsedTime)
 					if (!entity->bIsActive) break;
 					for (std::vector<CEntity2D*>::iterator it2 = CScene2D::GetInstance()->enemyVector.begin(); it2 != CScene2D::GetInstance()->enemyVector.end(); ++it2)
 					{
-						CEntity2D* enemy = (CEntity2D*)*it2;
+						CLivingEntity* enemy = (CLivingEntity*)*it2;
 						if (!enemy->bIsActive) continue;
 						if (cPhysics.CalculateDistance(entity->vec2WSCoordinate, enemy->vec2WSCoordinate) <= 1)
 						{
