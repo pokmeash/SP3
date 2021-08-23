@@ -44,9 +44,6 @@
     <ClCompile Include="Source\Scene2D\Scene2D.cpp">
       <Filter>Scene2D</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Scene2D\Floor2D.cpp">
-      <Filter>Scene2D</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Scene2D\Player2D.cpp">
       <Filter>Scene2D</Filter>
     </ClCompile>
@@ -98,9 +95,6 @@
     <ClCompile Include="Source\GameStateManagement\WinState.cpp">
       <Filter>GameStateManagement</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Scene2D\FloorManager.cpp">
-      <Filter>Scene2D</Filter>
-    </ClCompile>
     <ClCompile Include="Source\GameStateManagement\SettingsState.cpp">
       <Filter>GameStateManagement</Filter>
     </ClCompile>
@@ -130,9 +124,12 @@
     </ClCompile>
     <ClCompile Include="Source\Scene2D\Enemies\SpaceSkeleton.cpp">
       <Filter>Enemies</Filter>
-	</ClCompile>
-    <ClCompile Include="Source\Scene2D\Bosses\BossTimeControl.cpp">
-      <Filter>Enemies\Bosses</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\Floor2D.cpp">
+      <Filter>Scene2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\FloorManager.cpp">
+      <Filter>Scene2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -140,9 +137,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scene2D\Scene2D.h">
-      <Filter>Scene2D</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Scene2D\Floor2D.h">
       <Filter>Scene2D</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scene2D\Player2D.h">
@@ -199,9 +193,6 @@
     <ClInclude Include="Source\GameStateManagement\WinState.h">
       <Filter>GameStateManagement</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Scene2D\FloorManager.h">
-      <Filter>Scene2D</Filter>
-    </ClInclude>
     <ClInclude Include="Source\GameStateManagement\SettingsState.h">
       <Filter>GameStateManagement</Filter>
     </ClInclude>
@@ -231,9 +222,15 @@
     </ClInclude>
     <ClInclude Include="Source\Scene2D\Enemies\SpaceSkeleton.h">
       <Filter>Enemies</Filter>
-	</ClInclud>
+    </ClInclude>
     <ClInclude Include="Source\Scene2D\Bosses\BossTimeControl.h">
       <Filter>Enemies\Bosses</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\Floor2D.h">
+      <Filter>Scene2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\FloorManager.h">
+      <Filter>Scene2D</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

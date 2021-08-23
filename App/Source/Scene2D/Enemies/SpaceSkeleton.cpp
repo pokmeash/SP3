@@ -20,7 +20,7 @@ using namespace std;
 #include "System\ImageLoader.h"
 
 // Include the Map2D as we will use it to check the player's movements and actions
-#include "../MapManager.h"
+#include "../FloorManager.h"
 // Include math.h
 #include <math.h>
 
