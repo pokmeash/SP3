@@ -43,7 +43,6 @@ class CMapManager;
 
 #include "EntityManager.h"
 
-extern bool wings;
 class CPlayer2D : public CSingletonTemplate<CPlayer2D>, public CLivingEntity
 {
 	friend CSingletonTemplate<CPlayer2D>;

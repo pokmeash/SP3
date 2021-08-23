@@ -15,12 +15,15 @@ using namespace std;
 #include "System\ImageLoader.h"
 
 // Include the Map2D as we will use it to check the player's movements and actions
-#include "MapManager.h"
+#include "FloorManager.h"
 #include "Primitives/MeshBuilder.h"
 #include "Inputs/MouseController.h"
 #include "System/MyMath.h"
 // Include Game Manager
 #include "GameManager.h"
+#include "EventControl/EventHandler.h"
+#include "Scene2D.h"
+
 
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
@@ -87,7 +90,7 @@ bool CPlayer2D::Init(void)
 	cSettings = CSettings::GetInstance();
 	cEntityManager = EntityManager::GetInstance();
 	// Get the handler to the CMap2D instance
-	cMap2D = CMapManager::GetInstance();
+	cMap2D = CFloorManager::GetInstance();
 	// Find the indices for the player in arrMapInfo, and assign it to cPlayer2D
 	unsigned int uiRow = -1;
 	unsigned int uiCol = -1;
@@ -331,10 +334,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 		dirx = 0;
 		diry = -1;
 	}
-	if (cKeyboardController->IsKeyPressed(GLFW_KEY_DOWN))
-	{
-		CGameManager::GetInstance()->bLevelCompleted = true;
-	}
+	vec2Velocity = vec2WSCoordinate - vec2WSOldCoordinates;
 	//Swapping
 	bool activate = cSettings->iKeybinds[CSettings::TRIGGER_POWERUP] <= GLFW_MOUSE_BUTTON_LAST && cMouseController->IsButtonPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP]);
 	if (activate || cKeyboardController->IsKeyPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP]) && swap == true)
@@ -442,22 +442,45 @@ void CPlayer2D::Update(const double dElapsedTime)
 	// Update the UV Coordinates
 	vec2UVCoordinate.x = cSettings->ConvertFloatToUVSpace(cSettings->x, vec2WSCoordinate.x, false);
 	vec2UVCoordinate.y = cSettings->ConvertFloatToUVSpace(cSettings->y, vec2WSCoordinate.y, false);
-	
-	//Update Door
-	if (cInventoryManager->Check("Tree"))
+	if (vec2WSOldCoordinates != vec2WSCoordinate) {
+		if (EventHandler::GetInstance()->CallDeleteIsCancelled(new Player2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates))) {
+			vec2WSCoordinate = vec2WSOldCoordinates;
+		}
+	}
+	int counter = 0;
+	for (std::vector<CEntity2D*>::iterator it2 = CScene2D::GetInstance()->enemyVector.begin(); it2 != CScene2D::GetInstance()->enemyVector.end(); ++it2)
 	{
-		cInventoryItem = cInventoryManager->GetItem("Tree");
-		if (cInventoryItem->GetCount() >= 5)
+		CEntity2D* enemy = (CEntity2D*)*it2;
+		if (enemy->bIsActive == false)
 		{
-			unsigned int DoorRow = -1;
-			unsigned int DoorCol = -1;
-			if (cMap2D->FindValue(103, DoorRow, DoorCol) == false)
-				return;
-			cMap2D->SetMapInfo(DoorRow, DoorCol, 99);
+			counter++;
+		}
+		if (CScene2D::GetInstance()->enemyVector.size() == counter)
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				unsigned int DoorRow = -1;
+				unsigned int DoorCol = -1;
+				if (cMap2D->FindValue(100, DoorRow, DoorCol) == false)
+					return;
+
+				cMap2D->SetMapInfo(DoorRow, DoorCol, 99);
+			}
 			cSoundController->PlaySoundByID(6);
 		}
 	}
+	if (CScene2D::GetInstance()->enemyVector.size() == 0)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			unsigned int DoorRow = -1;
+			unsigned int DoorCol = -1;
+			if (cMap2D->FindValue(100, DoorRow, DoorCol) == false)
+				return;
 
+			cMap2D->SetMapInfo(DoorRow, DoorCol, 99);
+		}
+	}
 	if (iframesState == true)
 	{
 		iframesDuration -= dElapsedTime;
@@ -482,7 +505,9 @@ void CPlayer2D::Update(const double dElapsedTime)
 		}
 
 	}
-
+	if (vec2WSOldCoordinates != vec2WSCoordinate) {
+		EventHandler::GetInstance()->CallThenDelete(new Player2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates));
+	}
 }
 
 void CPlayer2D::Render(void)
@@ -542,12 +567,11 @@ void CPlayer2D::InteractWithMap(void)
 		// Increase the Tree by 1
 		cInventoryItem = cInventoryManager->GetItem("Tree");
 		cInventoryItem->Add(1);
-
+		EventHandler::GetInstance()->CallThenDelete(new Item2DPickUpEvent("Tree", cInventoryItem, i32vec2Index));
 		break;
 	case 4:
 		cSoundController->PlaySoundByID(5);
 		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
-		wings = true;
 		break;
 	case 10:
 		// Increase the lives by 1
@@ -569,67 +593,26 @@ void CPlayer2D::InteractWithMap(void)
 		currentColor = glm::vec4(0.0, 1.0, 0.0, 1.0);
 		break;
 	case 99:
-		// Level has been completed
-		if (cInventoryManager->Check("Tree"))
+		//Next Room
+		if (i32vec2Index.x == 16 && i32vec2Index.y == 22)
 		{
-			cInventoryItem = cInventoryManager->GetItem("Tree");
-			if (cInventoryItem->GetCount() >= 5)
-			{
-
-				CGameManager::GetInstance()->bLevelCompleted = true;
-				swap = true;
-				cInventoryItem->Remove(5);
-			}
+			//Top
+			CScene2D::GetInstance()->LevelCompleted(0);
 		}
-		break;
-	case 101:
-		if (CheckPosition(LEFT) == false)
+		else if (i32vec2Index.x == 30 && i32vec2Index.y == 11)
 		{
-			i32vec2Index.x--;
-			i32vec2NumMicroSteps.x = 0;
+			//Right
+			CScene2D::GetInstance()->LevelCompleted(1);
 		}
-		// If the new position is not feasible, then revert to old position
-		if (CheckPosition(RIGHT) == false)
+		else if (i32vec2Index.x == 16 && i32vec2Index.y == 1)
 		{
-			i32vec2Index.x++;
-			i32vec2NumMicroSteps.x = 0;
+			//Bot
+			CScene2D::GetInstance()->LevelCompleted(2);
 		}
-		// If the new position is not feasible, then revert to old position
-		if (CheckPosition(UP) == false)
+		else if (i32vec2Index.x == 1 && i32vec2Index.y == 11)
 		{
-			i32vec2Index.y--;
-			i32vec2NumMicroSteps.y = 0;
-		}
-		// If the new position is not feasible, then revert to old position
-		if (CheckPosition(DOWN) == false)
-		{
-			i32vec2Index.y++;
-			i32vec2NumMicroSteps.y = 0;
-		}
-		break;
-	case 102:
-		if (CheckPosition(LEFT) == false)
-		{
-			i32vec2Index.x--;
-			i32vec2NumMicroSteps.x = 0;
-		}
-		// If the new position is not feasible, then revert to old position
-		if (CheckPosition(RIGHT) == false)
-		{
-			i32vec2Index.x++;
-			i32vec2NumMicroSteps.x = 0;
-		}
-		// If the new position is not feasible, then revert to old position
-		if (CheckPosition(UP) == false)
-		{
-			i32vec2Index.y--;
-			i32vec2NumMicroSteps.y = 0;
-		}
-		// If the new position is not feasible, then revert to old position
-		if (CheckPosition(DOWN) == false)
-		{
-			i32vec2Index.y++;
-			i32vec2NumMicroSteps.y = 0;
+			//Left
+			CScene2D::GetInstance()->LevelCompleted(3);
 		}
 		break;
 	default:

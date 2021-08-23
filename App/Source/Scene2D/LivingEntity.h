@@ -20,7 +20,7 @@
 #include "Primitives/Entity2D.h"
 
 // Include the Map2D as we will use it to check the player's movements and actions
-class CMapManager;
+class CFloorManager;
 
 // Include Settings
 #include "GameControl\Settings.h"
@@ -85,7 +85,7 @@ protected:
 	// The i32vec2 which stores the direction for enemy2D movement in the Map2D
 	glm::i32vec2 i32vec2Direction;
 
-	CMapManager* cMap2D;
+	CFloorManager* cMap2D;
 
 	// Physics
 	CPhysics2D cPhysics2D;

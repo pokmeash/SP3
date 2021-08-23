@@ -9,6 +9,7 @@ using namespace std;
 #include "Enemies/SpaceFly.h"
 #include "Enemies/SpaceTurret.h"
 #include "Enemies/SpaceSkeleton.h"
+#include "Bosses/BossTimeControl.h"
 
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
@@ -87,7 +88,7 @@ bool CScene2D::Init(void)
 	CShaderManager::GetInstance()->activeShader->setInt("texture1", 0);
 
 	// Create and initialise the Map 2D
-	cMap2D = CMapManager::GetInstance();
+	cMap2D = CFloorManager::GetInstance();
 	// Set a shader to this class
 	cMap2D->SetShader("2DShader");
 	
@@ -227,7 +228,7 @@ bool CScene2D::Init(void)
 	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Button.ogg"), 7, true);
 	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Swap.ogg"), 8, true);
 	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Hurt.ogg"), 9, true);
-
+	CBossTimeControl::GetInstance()->Init();
 	return true;
 }
 
@@ -236,20 +237,33 @@ bool CScene2D::Init(void)
 */
 bool CScene2D::Update(const double dElapsedTime)
 {
-	// Call the cPlayer2D's update method before Map2D as we want to capture the inputs before map2D update
-	cPlayer2D->Update(dElapsedTime);
-
-	cEntityManager->Update(dElapsedTime);
-
-	// Call all the cEnemy2D's update method before Map2D 
-	// as we want to capture the updates before map2D update
-	for (int i = 0; i < enemyVector.size(); i++)
-	{
-		enemyVector[i]->Update(dElapsedTime);
+	if (!CBossTimeControl::GetInstance()->UpdateReverse()) {
+		cPlayer2D->Update(dElapsedTime);
+		cEntityManager->Update(dElapsedTime);
+		for (unsigned int i = 0; i < enemyVector.size(); i++) enemyVector[i]->Update(dElapsedTime);
+		if (CBossTimeControl::GetInstance()->isListening()) {
+			std::cout << "Listening\n";
+			CBossTimeControl::GetInstance()->Update();
+			if (CBossTimeControl::GetInstance()->getCurrentFrame() >= 60) {
+				CBossTimeControl::GetInstance()->setListening(false);
+			}
+		}
+	} else {
+		std::cout << "Reversing\n";
+		if (CBossTimeControl::GetInstance()->getCurrentFrame() <= 0) {
+			CBossTimeControl::GetInstance()->Reset();
+			CBossTimeControl::GetInstance()->setListening(false);
+		}
 	}
 
 	// Call the Map2D's update method
 	cMap2D->Update(dElapsedTime);
+
+	if (cKeyboardController->IsKeyDown(GLFW_KEY_H)) {
+		if (!CBossTimeControl::GetInstance()->isListening() && CBossTimeControl::GetInstance()->getPackets().size() == 0) {
+			CBossTimeControl::GetInstance()->setListening(true);
+		}
+	}
 
 	// Get keyboard updates
 	if (cKeyboardController->IsKeyDown(GLFW_KEY_F6))
@@ -271,89 +285,7 @@ bool CScene2D::Update(const double dElapsedTime)
 
 	// Call the cGUI_Scene2D's update method
 	cGUI_Scene2D->Update(dElapsedTime);
-
-	// Check if the game should go to the next level
-	if (cGameManager->bLevelCompleted == true)
-	{
-		cMap2D->SetCurrentLevel(cMap2D->GetCurrentLevel()+1);
-		cPlayer2D->Reset();
-		cGameManager->bLevelCompleted = false;
-
-		// Create and initialise the CEnemy2D
-		enemyVector.clear();
-		while (true)
-		{
-			CEnemy2D* cEnemy2D = new CSpaceGoop();
-			// Pass shader to cEnemy2D
-			cEnemy2D->SetShader("2DColorShader");
-			// Initialise the instance
-			if (cEnemy2D->Init() == true)
-			{
-				enemyVector.push_back(cEnemy2D);
-			}
-			else
-			{
-				// Break out of this loop if the enemy has all been loaded
-				break;
-			}
-		}
-
-		while (true)
-		{
-			CEnemy2D* cEnemy2D = new CSpaceFly();
-			// Pass shader to cEnemy2D
-			cEnemy2D->SetShader("2DColorShader");
-			// Initialise the instance
-			if (cEnemy2D->Init() == true)
-			{
-				enemyVector.push_back(cEnemy2D);
-			}
-			else
-			{
-				// Break out of this loop if the enemy has all been loaded
-				break;
-			}
-
-			while (true)
-			{
-				CEnemy2D* cEnemy2D = new CSpaceTurret();
-				// Pass shader to cEnemy2D
-				cEnemy2D->SetShader("2DColorShader");
-				// Initialise the instance
-				if (cEnemy2D->Init() == true)
-				{
-					enemyVector.push_back(cEnemy2D);
-				}
-				else
-				{
-					// Break out of this loop if the enemy has all been loaded
-					break;
-				}
-			}
-
-			while (true)
-			{
-				CEnemy2D* cEnemy2D = new CSpaceSkeleton();
-				// Pass shader to cEnemy2D
-				cEnemy2D->SetShader("2DColorShader");
-				// Initialise the instance
-				if (cEnemy2D->Init() == true)
-				{
-					enemyVector.push_back(cEnemy2D);
-				}
-				else
-				{
-					// Break out of this loop if the enemy has all been loaded
-					break;
-				}
-			}
-
-		}
-	}
-
-
-	// Check if the game should be ended
-	else if (cGameManager->bPlayerLost == true)
+	if (cGameManager->bPlayerLost == true)
 	{
 		//cSoundController->PlaySoundByID(2);
 		return false;
@@ -423,4 +355,112 @@ void CScene2D::Render(void)
  */
 void CScene2D::PostRender(void)
 {
+}
+
+void CScene2D::LevelCompleted(int DoorDir)
+{
+	const int random = 3;
+	int temp = 0;
+	switch (DoorDir)
+	{
+		case 0://Top
+		{
+			if (cMap2D->GetDoorInfo(22,16) != -1)
+			{
+				cMap2D->SetCurrentLevel(cMap2D->GetDoorInfo(22, 16));
+			}
+			else
+			{
+				cMap2D->SetDoorInfo(22, 16, random);
+				temp = cMap2D->GetCurrentLevel();
+				cMap2D->SetCurrentLevel(random);
+				cMap2D->SetDoorInfo(1, 16, temp);
+			}
+			cPlayer2D->vec2WSCoordinate.x = 16.5;
+			cPlayer2D->vec2WSCoordinate.y = 3;
+			break;
+		}
+		case 1://Right
+		{
+			if (cMap2D->GetDoorInfo(11, 30) != -1)
+			{
+				cMap2D->SetCurrentLevel(cMap2D->GetDoorInfo(11, 30));
+
+			}
+			else
+			{
+				cMap2D->SetDoorInfo(11, 30, random);
+				temp = cMap2D->GetCurrentLevel();
+				cMap2D->SetCurrentLevel(random);
+				cMap2D->SetDoorInfo(11, 1, temp);
+			}
+			cPlayer2D->vec2WSCoordinate.x = 3;
+			cPlayer2D->vec2WSCoordinate.y = 11;
+			break;
+		}
+		case 2://Bot
+		{
+			if (cMap2D->GetDoorInfo(1, 16) != -1)
+			{
+				cMap2D->SetCurrentLevel(cMap2D->GetDoorInfo(1, 16));
+			}
+			else
+			{
+				cMap2D->SetDoorInfo(1, 16, random);
+				temp = cMap2D->GetCurrentLevel();
+				cMap2D->SetCurrentLevel(random);
+				cMap2D->SetDoorInfo(22, 16, temp);
+			}
+			cPlayer2D->vec2WSCoordinate.x = 16.5;
+			cPlayer2D->vec2WSCoordinate.y = 21;
+			break;
+		}
+		case 3://Left
+		{
+			if (cMap2D->GetDoorInfo(11, 1) != -1)
+			{
+				cMap2D->SetCurrentLevel(cMap2D->GetDoorInfo(11, 1));
+
+			}
+			else
+			{
+				cMap2D->SetDoorInfo(11, 1, random);
+				temp = cMap2D->GetCurrentLevel();
+				cMap2D->SetCurrentLevel(random);
+				cMap2D->SetDoorInfo(11, 30, temp);
+			}
+			cPlayer2D->vec2WSCoordinate.x = 28;
+			cPlayer2D->vec2WSCoordinate.y = 11;
+			break;
+		}
+		default:
+		{
+			cMap2D->SetCurrentLevel(cMap2D->GetCurrentLevel());
+			break;
+		}
+	}
+
+		
+	
+
+	cPlayer2D->Reset();
+
+	// Create and initialise the CEnemy2D
+	enemyVector.clear();
+	while (true)
+	{
+		CEnemy2D* cEnemy2D = new CSpaceGoop();
+		// Pass shader to cEnemy2D
+		cEnemy2D->SetShader("2DColorShader");
+		// Initialise the instance
+		if (cEnemy2D->Init() == true)
+		{
+			enemyVector.push_back(cEnemy2D);
+		}
+		else
+		{
+			// Break out of this loop if the enemy has all been loaded
+			break;
+		}
+	}
 }

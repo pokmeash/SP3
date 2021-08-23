@@ -20,7 +20,7 @@ using namespace std;
 #include "System\ImageLoader.h"
 
 // Include the Map2D as we will use it to check the player's movements and actions
-#include "../MapManager.h"
+#include "../FloorManager.h"
 // Include math.h
 #include <math.h>
 
@@ -82,7 +82,7 @@ bool CEnemy2D::Init(void)
 	cSettings = CSettings::GetInstance();
 
 	// Get the handler to the CMap2D instance
-	cMap2D = CMapManager::GetInstance();
+	cMap2D = CFloorManager::GetInstance();
 
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);

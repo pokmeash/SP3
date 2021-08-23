@@ -1,6 +1,5 @@
 #include "InventoryItem.h"
 #include <stdexcept>      // std::invalid_argument
-
 #include <iostream>
 
 /**
