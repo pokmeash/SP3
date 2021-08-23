@@ -1,9 +1,10 @@
 #pragma once
 
 #include "EntityFactory.h"
-#include "MapManager.h"
+#include "FloorManager.h"
 #include "DesignPatterns/SingletonTemplate.h"
 #include "GameControl/Settings.h"
+
 #include <vector>
 
 class EntityManager : public CSingletonTemplate<EntityManager>
@@ -12,7 +13,8 @@ class EntityManager : public CSingletonTemplate<EntityManager>
 public:
 
     // Handler to the CMap2D instance
-    CMap2D* cMap2D;
+    CFloor2D* cMap2D;
+    CPhysics2D cPhysics;
 
     // Constructor
     EntityManager(void);

@@ -20,13 +20,15 @@ using namespace std;
 #include "System\ImageLoader.h"
 
 // Include the Map2D as we will use it to check the player's movements and actions
-#include "MapManager.h"
+#include "FloorManager.h"
 // Include math.h
 #include <math.h>
 
 #include "Player2D.h"
 
 #include "EntityManager.h"
+
+#include "EventControl/EventHandler.h"
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
  */
@@ -259,115 +261,110 @@ bool CLivingEntity::CheckPosition(DIRECTION eDirection)
 	{
 		cout << "CLivingEntity::CheckPosition: Unknown direction." << endl;
 	}
-
 	return true;
 }
 
-/**
- @brief Update the enemy's direction.
- */
 void CLivingEntity::UpdateDirection(void)
 {
-	// Set the destination to the player
 	i32vec2Destination = CPlayer2D::GetInstance()->i32vec2Index;
-
-	// Calculate the direction between enemy2D and player2D
 	i32vec2Direction = i32vec2Destination - i32vec2Index;
-
-	// Calculate the distance between enemy2D and player2D
 	float fDistance = cPhysics2D.CalculateDistance(i32vec2Index, i32vec2Destination);
 	if (fDistance >= 0.01f)
 	{
-		// Calculate direction vector.
-		// We need to round the numbers as it is easier to work with whole numbers for movements
 		i32vec2Direction.x = (int)round(i32vec2Direction.x / fDistance);
 		i32vec2Direction.y = (int)round(i32vec2Direction.y / fDistance);
 	}
 	else
 	{
-		// Since we are not going anywhere, set this to 0.
 		i32vec2Direction = glm::i32vec2(0);
 	}
 }
 
-/**
- @brief Flip horizontal direction. For patrol use only
- */
 void CLivingEntity::FlipHorizontalDirection(void)
 {
 	i32vec2Direction.x *= -1;
 }
 
-/**
-@brief Update position.
-*/
 void CLivingEntity::UpdatePosition(void)
 {
-	// Store the old position
 	vec2WSOldCoordinates = vec2WSCoordinate;
-
-	// if the player is to the left or right of the enemy2D, then jump to attack
 	if (i32vec2Direction.x < 0)
 	{
-		// Move left
 		if (vec2WSCoordinate.x >= 0)
 		{
-			vec2WSCoordinate.x -= 4.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
+			vec2WSCoordinate.x -= 1.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
 		}
 		cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
-
-		// Constraint the player's position within the screen boundary
 		Constraint(LEFT);
-
 		vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
-
-		// Find a feasible position for the enemy2D's current position
 		if (CheckPosition(LEFT) == false)
 		{
 			FlipHorizontalDirection();
-			vec2WSCoordinate.x += 4.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
-			
+			vec2WSCoordinate.x += 1.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
 		}
 		cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
-
-		// Interact with the Player
 		InteractWithPlayer();
 	}
 	else if (i32vec2Direction.x > 0)
 	{
 		if (vec2WSCoordinate.x < cSettings->NUM_TILES_XAXIS)
 		{
-			vec2WSCoordinate.x += 4.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
+			vec2WSCoordinate.x += 1.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
 		}
-
 		cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
-
-		// Constraint the player's position within the screen boundary
 		Constraint(RIGHT);
-
 		vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
-
-		// Find a feasible position for the enemy2D's current position
 		if (CheckPosition(RIGHT) == false)
 		{
 			FlipHorizontalDirection();
 			i32vec2NumMicroSteps.x = 0;
 			vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
 		}
-
-		// Check if enemy2D is in mid-air, such as walking off a platform
-
-		// Interact with the Player
 		InteractWithPlayer();
 	}
-
-	// if the player is above the enemy2D, then jump to attack
 	if (i32vec2Direction.y > 0)
 	{
-		if (cPhysics2D.GetStatus() == CPhysics2D::STATUS::IDLE)
+		// Calculate the new position up
+		if (vec2WSCoordinate.y < cSettings->NUM_TILES_YAXIS)
 		{
-			cPhysics2D.SetStatus(CPhysics2D::STATUS::JUMP);
-			cPhysics2D.SetInitialVelocity(glm::vec2(0.0f, 3.5f));
+			vec2WSCoordinate.y += 1.f / cSettings->NUM_STEPS_PER_TILE_YAXIS;
+		}
+		cSettings->ConvertFloatToIndexSpace(cSettings->y, vec2WSCoordinate.y, &i32vec2Index.y, &i32vec2NumMicroSteps.y);
+
+		// Constraint the player's position within the screen boundary
+		Constraint(UP);
+		vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
+		// If the new position is not feasible, then revert to old position
+		if (CheckPosition(UP) == false)
+		{
+			i32vec2NumMicroSteps.y = 0;
+			vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
 		}
 	}
+	else if (i32vec2Direction.y < 0)
+	{
+		// Calculate the new position down
+		if (vec2WSCoordinate.y >= 0)
+		{
+			vec2WSCoordinate.y -= 1.f / cSettings->NUM_STEPS_PER_TILE_YAXIS;
+		}
+		cSettings->ConvertFloatToIndexSpace(cSettings->y, vec2WSCoordinate.y, &i32vec2Index.y, &i32vec2NumMicroSteps.y);
+		// Constraint the player's position within the screen boundary
+		Constraint(DOWN);
+		vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
+		// If the new position is not feasible, then revert to old position
+		if (CheckPosition(DOWN) == false)
+		{
+			i32vec2Index.y++;
+			i32vec2NumMicroSteps.y = 0;
+			vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
+		}
+	}
+	if (vec2WSCoordinate != vec2WSOldCoordinates) {
+		if (EventHandler::GetInstance()->CallDeleteIsCancelled(new Entity2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates))) {
+			vec2WSCoordinate = vec2WSOldCoordinates;
+		}
+	}
+	
+	
 }

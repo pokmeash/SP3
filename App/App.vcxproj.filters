@@ -30,6 +30,9 @@
     <Filter Include="Projectiles">
       <UniqueIdentifier>{6498bedd-35a0-414a-bc04-c506d7577c2e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Enemies\Bosses">
+      <UniqueIdentifier>{b911bbf2-0fdd-41ca-afc1-f6d5c1c16a95}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp">
@@ -41,7 +44,7 @@
     <ClCompile Include="Source\Scene2D\Scene2D.cpp">
       <Filter>Scene2D</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Scene2D\Map2D.cpp">
+    <ClCompile Include="Source\Scene2D\Floor2D.cpp">
       <Filter>Scene2D</Filter>
     </ClCompile>
     <ClCompile Include="Source\Scene2D\Player2D.cpp">
@@ -95,7 +98,7 @@
     <ClCompile Include="Source\GameStateManagement\WinState.cpp">
       <Filter>GameStateManagement</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Scene2D\MapManager.cpp">
+    <ClCompile Include="Source\Scene2D\FloorManager.cpp">
       <Filter>Scene2D</Filter>
     </ClCompile>
     <ClCompile Include="Source\GameStateManagement\SettingsState.cpp">
@@ -119,6 +122,9 @@
     <ClCompile Include="Source\Scene2D\Enemies\SpaceGoop.cpp">
       <Filter>Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Scene2D\Bosses\BossTimeControl.cpp">
+      <Filter>Enemies\Bosses</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -127,7 +133,7 @@
     <ClInclude Include="Source\Scene2D\Scene2D.h">
       <Filter>Scene2D</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Scene2D\Map2D.h">
+    <ClInclude Include="Source\Scene2D\Floor2D.h">
       <Filter>Scene2D</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scene2D\Player2D.h">
@@ -184,7 +190,7 @@
     <ClInclude Include="Source\GameStateManagement\WinState.h">
       <Filter>GameStateManagement</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Scene2D\MapManager.h">
+    <ClInclude Include="Source\Scene2D\FloorManager.h">
       <Filter>Scene2D</Filter>
     </ClInclude>
     <ClInclude Include="Source\GameStateManagement\SettingsState.h">
@@ -207,6 +213,9 @@
     </ClInclude>
     <ClInclude Include="Source\Scene2D\Enemies\SpaceGoop.h">
       <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\Bosses\BossTimeControl.h">
+      <Filter>Enemies\Bosses</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

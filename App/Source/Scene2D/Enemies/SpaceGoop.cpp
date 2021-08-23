@@ -20,13 +20,15 @@ using namespace std;
 #include "System\ImageLoader.h"
 
 // Include the Map2D as we will use it to check the player's movements and actions
-#include "../MapManager.h"
+#include "../FloorManager.h"
 // Include math.h
 #include <math.h>
 
 #include "../Player2D.h"
 
 #include "../EntityManager.h"
+
+#include "EventControl/EventHandler.h"
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
  */
@@ -119,7 +121,7 @@ void CSpaceGoop::Update(const double dElapsedTime)
 {
 	if (!bIsActive)
 		return;
-
+	vec2WSOldCoordinates = vec2WSCoordinate;
 	switch (sCurrentFSM)
 	{
 	case IDLE:
@@ -150,58 +152,12 @@ void CSpaceGoop::Update(const double dElapsedTime)
 		{
 			sCurrentFSM = SEARCH;
 		}
-		else if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) >= 10.0f && cPhysics2D.CalculateDistance(i32vec2Index, CPlayer2D::GetInstance()->i32vec2Index) < 20.0f)
-		{
-			if (CPlayer2D::GetInstance()->vec2WSCoordinate.x < vec2WSCoordinate.x)
-			{
-				animatedSprites->PlayAnimation("left", -1, 1.0f);
-			}
-			else if (CPlayer2D::GetInstance()->vec2WSCoordinate.x > vec2WSCoordinate.x)
-			{
-				animatedSprites->PlayAnimation("right", -1, 1.0f);
-			}
-			else
-			{
-				InteractWithPlayer();
-			}
-			sCurrentFSM = RANGEDATTACK;
-		}
-		else if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) >= 5.0f && cPhysics2D.CalculateDistance(i32vec2Index, CPlayer2D::GetInstance()->i32vec2Index) < 10.0f)
-		{
-			if (CPlayer2D::GetInstance()->vec2WSCoordinate.x < vec2WSCoordinate.x)
-			{
-				animatedSprites->PlayAnimation("left", -1, 1.0f);
-			}
-			else if (CPlayer2D::GetInstance()->vec2WSCoordinate.x > vec2WSCoordinate.x)
-			{
-				animatedSprites->PlayAnimation("right", -1, 1.0f);
-			}
-			else
-			{
-				InteractWithPlayer();
-			}
-			sCurrentFSM = RUSHATTACK;
-		}
-		else if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 5.0f)
+		else if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 20.0f)
 		{
 			sCurrentFSM = MELEEATTACK;
 		}
-		break;
-	case RANGEDATTACK:
-		if (iFSMCounter == 0)
-		{
-			//BULLET CODE HERE
-			EntityManager::GetInstance()->entitylist.push_back(EntityFactory::GetInstance()->ProduceBullets(vec2WSCoordinate, glm::f32vec2(0.5, 0), glm::vec3(1, 1, 1), 0, E_EBULLET));
-		}
-		if (iFSMCounter > iMaxFSMCounter)
-		{
-			iFSMCounter = 0;
-			sCurrentFSM = ATTACK;
-		}
-		iFSMCounter++;
-		break;
 	case MELEEATTACK:
-		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 5.0f)
+		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 20.0f)
 		{
 			// Calculate a path to the player
 			auto path = cMap2D->PathFind(i32vec2Index,
@@ -253,7 +209,11 @@ void CSpaceGoop::Update(const double dElapsedTime)
 	default:
 		break;
 	}
-
+	if (vec2WSOldCoordinates != vec2WSCoordinate) {
+		if (EventHandler::GetInstance()->CallDeleteIsCancelled(new Entity2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates))) {
+			vec2WSCoordinate = vec2WSOldCoordinates;
+		}
+	}
 	// Update Jump or Fall
 	// UpdateJumpFall(dElapsedTime);
 }

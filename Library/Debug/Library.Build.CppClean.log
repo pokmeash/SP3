@@ -1,8 +1,8 @@
 c:\users\desti\documents\github\sp3\library\debug\library.pdb
 c:\users\desti\documents\github\sp3\library\debug\library.idb
-c:\users\desti\documents\github\sp3\library\debug\textrenderer.obj
 c:\users\desti\documents\github\sp3\library\debug\shadermanager.obj
 c:\users\desti\documents\github\sp3\library\debug\spriteanimation.obj
+c:\users\desti\documents\github\sp3\library\debug\packet.obj
 c:\users\desti\documents\github\sp3\library\debug\meshbuilder.obj
 c:\users\desti\documents\github\sp3\library\debug\mesh.obj
 c:\users\desti\documents\github\sp3\library\debug\levelofdetails.obj
@@ -27,6 +27,7 @@ c:\users\desti\documents\github\sp3\library\debug\imageloader.obj
 c:\users\desti\documents\github\sp3\library\debug\csvwriter.obj
 c:\users\desti\documents\github\sp3\library\debug\csvreader.obj
 c:\users\desti\documents\github\sp3\library\debug\scriptmanager.obj
+c:\users\desti\documents\github\sp3\library\debug\textrenderer.obj
 c:\users\desti\documents\github\sp3\debug\library.lib
 c:\users\desti\documents\github\sp3\library\debug\library.tlog\cl.command.1.tlog
 c:\users\desti\documents\github\sp3\library\debug\library.tlog\cl.read.1.tlog

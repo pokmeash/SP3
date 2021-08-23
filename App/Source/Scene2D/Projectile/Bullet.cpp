@@ -1,8 +1,9 @@
 #include "Bullet.h"
 
-#include"RenderControl/ShaderManager.h"
-#include"System/ImageLoader.h"
-#include"Primitives/MeshBuilder.h"
+#include "RenderControl/ShaderManager.h"
+#include "System/ImageLoader.h"
+#include "Primitives/MeshBuilder.h"
+#include "EventControl/EventHandler.h"
 
 Bullet::Bullet()
 {}
@@ -18,5 +19,11 @@ bool Bullet::Init() {
 }
 void Bullet::Update(const double dElapsedTime)
 {
+    vec2WSOldCoordinates = vec2WSCoordinate;
     vec2WSCoordinate += vec2Velocity;
+    if (vec2WSOldCoordinates != vec2WSCoordinate) {
+        if (EventHandler::GetInstance()->CallDeleteIsCancelled(new Entity2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates))) {
+            vec2WSCoordinate = vec2WSOldCoordinates;
+        }
+    }
 }
