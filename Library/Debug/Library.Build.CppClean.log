@@ -1,8 +1,8 @@
 d:\school\year 2 semester 1\1_studioproject3\sp3\library\debug\library.pdb
 d:\school\year 2 semester 1\1_studioproject3\sp3\library\debug\library.idb
-d:\school\year 2 semester 1\1_studioproject3\sp3\library\debug\textrenderer.obj
 d:\school\year 2 semester 1\1_studioproject3\sp3\library\debug\shadermanager.obj
 d:\school\year 2 semester 1\1_studioproject3\sp3\library\debug\spriteanimation.obj
+d:\school\year 2 semester 1\1_studioproject3\sp3\library\debug\packet.obj
 d:\school\year 2 semester 1\1_studioproject3\sp3\library\debug\meshbuilder.obj
 d:\school\year 2 semester 1\1_studioproject3\sp3\library\debug\mesh.obj
 d:\school\year 2 semester 1\1_studioproject3\sp3\library\debug\levelofdetails.obj
@@ -27,6 +27,7 @@ d:\school\year 2 semester 1\1_studioproject3\sp3\library\debug\imageloader.obj
 d:\school\year 2 semester 1\1_studioproject3\sp3\library\debug\csvwriter.obj
 d:\school\year 2 semester 1\1_studioproject3\sp3\library\debug\csvreader.obj
 d:\school\year 2 semester 1\1_studioproject3\sp3\library\debug\scriptmanager.obj
+d:\school\year 2 semester 1\1_studioproject3\sp3\library\debug\textrenderer.obj
 d:\school\year 2 semester 1\1_studioproject3\sp3\debug\library.lib
 d:\school\year 2 semester 1\1_studioproject3\sp3\library\debug\library.tlog\cl.command.1.tlog
 d:\school\year 2 semester 1\1_studioproject3\sp3\library\debug\library.tlog\cl.read.1.tlog

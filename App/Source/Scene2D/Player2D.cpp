@@ -24,6 +24,8 @@ using namespace std;
 #include "EventControl/EventHandler.h"
 #include "Scene2D.h"
 
+#include "EntityFactory.h"
+#include "EntityManager.h"
 
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
@@ -33,8 +35,6 @@ CPlayer2D::CPlayer2D(void)
 	, cInventoryManager(NULL)
 	, cInventoryItem(NULL)
 	, cSoundController(NULL)
-	, cEntityManager(NULL)
-	, cEntityFactory(NULL)
 	, cMouseController(NULL)
 {
 	transform = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
@@ -47,6 +47,9 @@ CPlayer2D::CPlayer2D(void)
 
 	// Initialise vec2UVCoordinate
 	vec2UVCoordinate = glm::vec2(0.0f);
+	setHP(3);
+	setProjSpeed(0.5);
+
 }
 
 /**
@@ -68,9 +71,6 @@ CPlayer2D::~CPlayer2D(void)
 	// We won't delete this since it was created elsewhere
 	cMap2D = NULL;
 
-	cEntityManager = NULL;
-	cEntityFactory = NULL;
-
 	// optional: de-allocate all resources once they've outlived their purpose:
 	glDeleteVertexArrays(1, &VAO);
 }
@@ -80,15 +80,15 @@ CPlayer2D::~CPlayer2D(void)
   */
 bool CPlayer2D::Init(void)
 {
+	
 	// Store the keyboard controller singleton instance here
 	cKeyboardController = CKeyboardController::GetInstance();
 	cMouseController = CMouseController::GetInstance();
 	// Reset all keys since we are starting a new game
 	cKeyboardController->Reset();
-
+	srand(static_cast <unsigned> (time(0)));
 	// Get the handler to the CSettings instance
 	cSettings = CSettings::GetInstance();
-	cEntityManager = EntityManager::GetInstance();
 	// Get the handler to the CMap2D instance
 	cMap2D = CFloorManager::GetInstance();
 	// Find the indices for the player in arrMapInfo, and assign it to cPlayer2D
@@ -139,7 +139,7 @@ bool CPlayer2D::Init(void)
 	// Get the handler to the CInventoryManager instance
 	cInventoryManager = CInventoryManager::GetInstance();
 	// Add a Lives icon as one of the inventory items
-	cInventoryItem = cInventoryManager->Add("Lives", "Image/Scene2D_Lives.tga", 3, 0);
+	cInventoryItem = cInventoryManager->Add("Lives", "Image/Scene2D_Lives.tga", getHP(), 0);
 	cInventoryItem->vec2Size = glm::vec2(25, 25);
 
 	// Add a Health icon as one of the inventory items
@@ -153,6 +153,8 @@ bool CPlayer2D::Init(void)
 	// Add a Wing icon as one of the inventory items
 	cInventoryItem = cInventoryManager->Add("DoubleShot", "Image/DoubleShot.png", 100, 100);
 	cInventoryItem->vec2Size = glm::vec2(25, 25);
+
+	
 
 	jumpCount = 0;
 
@@ -212,6 +214,7 @@ bool CPlayer2D::Reset()
  */
 void CPlayer2D::Update(const double dElapsedTime)
 {
+	cout << getHP() << endl;
 	// Store the old position
 	vec2WSOldCoordinates = vec2WSCoordinate;
 
@@ -412,7 +415,6 @@ void CPlayer2D::Update(const double dElapsedTime)
 		cSettings->ConvertMouseToWSSpace(mouse.x, mouse.y, &(wsSpace.x), &(wsSpace.y));
 		glm::vec2 direction = wsSpace - vec2WSCoordinate;
 		direction = glm::normalize(direction);
-		direction *= 0.5f;
 		if (cInventoryManager->Check("Tree"))
 		{
 			cInventoryItem = cInventoryManager->GetItem("Tree");
@@ -421,13 +423,28 @@ void CPlayer2D::Update(const double dElapsedTime)
 				glm::vec2 temp = direction;
 				temp.y = sinf(atan2f(temp.y, temp.x) + 0.1 * i);
 				temp.x = cosf(atan2f(temp.y, temp.x) + 0.1 * i);
-				temp = glm::normalize(temp) * 0.5f;
-				cEntityManager->entitylist.push_back(cEntityFactory->ProduceBullets(vec2WSCoordinate, glm::vec2(temp.x, temp.y), glm::vec3(1, 1, 1), 0, E_BULLET));
+				temp = glm::normalize(temp) * getProjSpeed();  // projectile speed
+				EntityManager::GetInstance()->entitylist.push_back(EntityFactory::GetInstance()->ProduceBullets(vec2WSCoordinate, glm::vec2(temp.x, temp.y), glm::vec3(1, 1, 1), 0, E_BULLET));
 			}
 		}
 	}
+	if (cKeyboardController->IsKeyDown(GLFW_KEY_G) && delay <= 0.f) // Throwing of grenade
+	{
+		delay = 0.5f;
+		
+		EntityManager::GetInstance()->entitylist.push_back(EntityFactory::GetInstance()->ProduceGrenade(vec2WSCoordinate, glm::vec2(1,1), glm::vec3(1, 1, 1), 0, E_GRENADE));
+	}
 	if (delay > 0) {
 		delay -= dElapsedTime;
+	}
+
+	if (EntityManager::GetInstance()->getExplode() == true) // Grenade projectiles after exploding
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			EntityManager::GetInstance()->entitylist.push_back(EntityFactory::GetInstance()->ProduceBullets(EntityManager::GetInstance()->getPos(), glm::vec2(RNG(-2,2), RNG(-2,2)), glm::vec3(1, 1, 1), 0, E_FRAGMENT));
+		}
+		EntityManager::GetInstance()->setExplode();
 	}
 
 	// Interact with the Map
@@ -553,6 +570,17 @@ void CPlayer2D::PlayerDamaged()
 
 }
 
+float CPlayer2D::RNG(float min, float max)
+{
+	float range = max - min;
+	float random = ((float)rand() / (float)RAND_MAX * range) + min;
+	while (random >= -0.5 && random <= 0.5)
+	{
+		random = ((float)rand() / (float)RAND_MAX * range) + min;
+	}
+	return random;
+}
+
 /**
  @brief Let player interact with the map. You can add collectibles such as powerups and health here.
  */
@@ -578,6 +606,14 @@ void CPlayer2D::InteractWithMap(void)
 		cInventoryItem = cInventoryManager->GetItem("Lives");
 		cInventoryItem->Add(1);
 		// Erase the life from this position
+		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
+		break;
+	case 11:
+		addProjSpeed(0.5);
+		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
+		break;
+	case 12:
+		addDmg(1);
 		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
 		break;
 	case 20:

@@ -9,13 +9,15 @@
 #include "DesignPatterns/SingletonTemplate.h"
 
 // Include CEntity2D
-#include "Primitives/Entity2D.h"
+//#include "Primitives/Entity2D.h"
 
 // FPS Counter
 #include "TimeControl\FPSCounter.h"
 
 // Include CInventoryManager
 #include "InventoryManager.h"
+
+#include "../GameStateManagement/GameStateManager.h"
 
 // Include GLEW
 #ifndef GLEW_STATIC
@@ -39,6 +41,8 @@
 
 #include "GameControl/Settings.h"
 
+#include "System/ImageLoader.h"
+
 #include <string>
 using namespace std;
 
@@ -61,6 +65,8 @@ public:
 	// PostRender
 	void PostRender(void);
 
+	void updatePause(float dElapsedTime);
+
 protected:
 	// Constructor
 	CGUI_Scene2D(void);
@@ -77,6 +83,7 @@ protected:
 
 	CSettings* cSettings;
 
+	ImTextureID Resume, Exit;
 	// The handler containing the instance of CInventoryManager
 	CInventoryManager* cInventoryManager;
 	// The handler containing the instance of CInventoryItem

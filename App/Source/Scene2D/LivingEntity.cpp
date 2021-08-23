@@ -36,6 +36,7 @@ CLivingEntity::CLivingEntity(void)
 	: cMap2D(NULL)
 	, sCurrentFSM(FSM::IDLE)
 	, iFSMCounter(0)
+	, BaseAttribute(1,1,1)
 {
 	transform = glm::mat4(1.0f);	// make sure to initialize matrix to identity matrix first
 

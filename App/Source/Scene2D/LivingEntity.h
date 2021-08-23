@@ -4,6 +4,8 @@
  Date: Mar 2020
  */
 #pragma once
+ // Include Singleton template
+#include "DesignPatterns\SingletonTemplate.h"
 
 // Include shader
 #include "RenderControl\shader.h"
@@ -31,7 +33,9 @@ class CFloorManager;
 // Game Manager
 #include "GameManager.h"
 
-class CLivingEntity : public CEntity2D
+#include "BaseAttribute.h"
+
+class CLivingEntity : public CEntity2D, public BaseAttribute
 {
 public:
 	// Constructor

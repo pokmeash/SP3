@@ -83,9 +83,6 @@
     <ClCompile Include="Source\Scene2D\BackgroundEntity.cpp">
       <Filter>Scene2D</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Scene2D\EntityFactory.cpp">
-      <Filter>Entity</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Scene2D\EntityManager.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
@@ -130,6 +127,24 @@
     </ClCompile>
     <ClCompile Include="Source\Scene2D\FloorManager.cpp">
       <Filter>Scene2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\Attribute.cpp">
+      <Filter>Scene2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\AttributeDecorator.cpp">
+      <Filter>Scene2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\BaseAttribute.cpp">
+      <Filter>Scene2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\GoopAttribute.cpp">
+      <Filter>Scene2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\EntityFactory.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\Projectile\Grenade.cpp">
+      <Filter>Projectiles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -181,9 +196,6 @@
     <ClInclude Include="Source\Scene2D\BackgroundEntity.h">
       <Filter>Scene2D</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Scene2D\EntityFactory.h">
-      <Filter>Entity</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Scene2D\EntityManager.h">
       <Filter>Entity</Filter>
     </ClInclude>
@@ -231,6 +243,24 @@
     </ClInclude>
     <ClInclude Include="Source\Scene2D\FloorManager.h">
       <Filter>Scene2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\Attribute.h">
+      <Filter>Scene2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\AttributeDecorator.h">
+      <Filter>Scene2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\BaseAttribute.h">
+      <Filter>Scene2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\GoopAttribute.h">
+      <Filter>Scene2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\EntityFactory.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\Projectile\Grenade.h">
+      <Filter>Projectiles</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

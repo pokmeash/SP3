@@ -21,6 +21,7 @@ CSettings::CSettings(void)
 	iKeybinds[MOVE_LEFT] = GLFW_KEY_A;
 	iKeybinds[MOVE_RIGHT] = GLFW_KEY_D;
 	iKeybinds[TRIGGER_SHOOT] = 0;
+	iKeybinds[TRIGGER_THROW] = GLFW_KEY_G;
 	iKeybinds[TRIGGER_POWERUP] = GLFW_KEY_E;
 	std::map<unsigned, unsigned> keybinds;
 	if (!LoadIni("settings.ini", keybinds)) {

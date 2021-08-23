@@ -41,7 +41,8 @@ class CMapManager;
 // Include SoundController
 #include "..\SoundController\SoundController.h"
 
-#include "EntityManager.h"
+#include "BaseAttribute.h"
+
 
 class CPlayer2D : public CSingletonTemplate<CPlayer2D>, public CLivingEntity
 {
@@ -60,12 +61,12 @@ public:
 	virtual void Render();
 
 	void PlayerDamaged();
-
 	//iFrames
 	bool iFrames = false;
 	bool iframesState = false;
 	float iframesTimer = 0.3;
 	float iframesDuration = 3;
+	float RNG(float min, float max);
 
 protected:
 
@@ -86,10 +87,6 @@ protected:
 
 	// Handler to the CSoundController
 	CSoundController* cSoundController;
-
-	EntityManager* cEntityManager;
-
-	EntityFactory* cEntityFactory;
 
 	// Constructor
 	CPlayer2D(void);

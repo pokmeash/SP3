@@ -16,20 +16,20 @@
 // Include Settings
 #include "GameControl\Settings.h"
 
-class Bullet : public CEntity2D
+class Grenade : public CEntity2D
 {
 public:
     // Constructor
-    Bullet(void);
+    Grenade(void);
 
     // Destructor
-    ~Bullet(void);
+    ~Grenade(void);
 
     // Init
     bool Init(void);
     // Update
     virtual void Update(const double dElapsedTime);
-private:
-    int hitcount;
+
+
 };
 
