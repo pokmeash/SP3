@@ -210,7 +210,9 @@ void CSpaceGoop::Update(const double dElapsedTime)
 		break;
 	}
 	if (vec2WSOldCoordinates != vec2WSCoordinate) {
-		EventHandler::GetInstance()->CallThenDelete(new Entity2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates));
+		if (EventHandler::GetInstance()->CallDeleteIsCancelled(new Entity2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates))) {
+			vec2WSCoordinate = vec2WSOldCoordinates;
+		}
 	}
 	// Update Jump or Fall
 	// UpdateJumpFall(dElapsedTime);

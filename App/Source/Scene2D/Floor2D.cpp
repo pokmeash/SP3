@@ -638,19 +638,8 @@ std::vector<glm::i32vec2> CFloor2D::BuildPath() const
 	// If the path has only 1 entry, then it is the the target position
 	if (path.size() == 1)
 	{
-		// if m_startPos is next to m_targetPos, then having 1 path point is OK
-		if (m_nrOfDirections == 4)
-		{
-			if (abs(m_targetPos.y - m_startPos.y) + abs(m_targetPos.x - m_startPos.x) > 1)
-				path.clear();
-		}
-		else
-		{
-			if (abs(m_targetPos.y - m_startPos.y) + abs(m_targetPos.x - m_startPos.x) > 2)
-				path.clear();
-			else if (abs(m_targetPos.y - m_startPos.y) + abs(m_targetPos.x - m_startPos.x) > 1)
-				path.clear();
-		}
+		if (abs(m_targetPos.y - m_startPos.y) + abs(m_targetPos.x - m_startPos.x) > 1)
+			path.clear();
 	}
 	else
 		std::reverse(path.begin(), path.end());

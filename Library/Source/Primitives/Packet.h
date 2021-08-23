@@ -43,7 +43,7 @@ protected:
 
 class BlockPacket : public Packet {
 public:
-	BlockPacket(long frame, glm::vec2 pos, int tile) : position(pos), tile(tile) {
+	BlockPacket(long frame, glm::vec2 pos, int tile, CFloor2D* floor, int roomID) : position(pos), tile(tile), floor(floor), roomID(roomID) {
 		this->frame = frame;
 	}
 	virtual ~BlockPacket() {}
@@ -53,7 +53,15 @@ public:
 	int getTile() {
 		return tile;
 	}
+	CFloor2D* getFloor() {
+		return floor;
+	}
+	int getRoomID() {
+		return roomID;
+	}
 protected:
 	glm::vec2 position;
 	int tile;
+	CFloor2D* floor;
+	int roomID;
 };

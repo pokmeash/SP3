@@ -245,7 +245,7 @@ bool Application::Init(void)
 	CGameStateManager::GetInstance()->AddGameState("Music", new CMusicState());
 	CGameStateManager::GetInstance()->AddGameState("WinState", new CWinState());
 	// Set the active scene
-	CGameStateManager::GetInstance()->SetActiveGameState("IntroState");
+	CGameStateManager::GetInstance()->SetActiveGameState("MenuState");
 
 	return true;
 }

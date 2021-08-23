@@ -34,6 +34,38 @@ public:
 	}
 };
 
+class Item2DEvent : public Event {
+protected:
+	CInventoryItem* item;
+	const char* itemName;
+public:
+	Item2DEvent(const char* itemName, CInventoryItem* item) : itemName(itemName), item(item), Event(BASE_NAME()) {}
+	CInventoryItem* getItem() {
+		return item;
+	}
+	const char* getItemName() {
+		return itemName;
+	}
+	static const std::string BASE_NAME() {
+		return "Item2DEvent";
+	}
+};
+
+class Item2DPickUpEvent : public Item2DEvent, public Cancellable {
+protected:
+	glm::vec2 pos;
+public:
+	Item2DPickUpEvent(const char* itemName, CInventoryItem* item, glm::vec2 pos) : Item2DEvent(itemName, item) , pos(pos) {
+		name = BASE_NAME();
+	}
+	glm::vec2& getPosition() {
+		return pos;
+	}
+	static const std::string BASE_NAME() {
+		return "Item2DPickUpEvent";
+	}
+};
+
 class Entity2DEvent : public Event {
 protected:
 	CEntity2D* entity;
@@ -53,7 +85,9 @@ public:
 
 class Entity2DSpawnEvent : public Entity2DEvent {
 public:
-	Entity2DSpawnEvent(CEntity2D* entity) : Entity2DEvent(entity) {}
+	Entity2DSpawnEvent(CEntity2D* entity) : Entity2DEvent(entity) {
+		name = BASE_NAME();
+	}
 	static std::string BASE_NAME() {
 		return "Entity2DSpawnEvent";
 	}
@@ -61,7 +95,9 @@ public:
 
 class Entity2DDespawnEvent : public Entity2DEvent {
 public:
-	Entity2DDespawnEvent(CEntity2D* entity) : Entity2DEvent(entity) {}
+	Entity2DDespawnEvent(CEntity2D* entity) : Entity2DEvent(entity) {
+		name = BASE_NAME();
+	}
 	static std::string BASE_NAME() {
 		return "Entity2DDespawnEvent";
 	}
@@ -152,24 +188,6 @@ public:
 
 	static const std::string BASE_NAME() {
 		return "Player2DEvent";
-	}
-};
-
-class Player2DPickUpEvent : public Player2DEvent, public Cancellable {
-protected:
-	CInventoryItem* item;
-public:
-	Player2DPickUpEvent(CPlayer2D* player, CInventoryItem* item) : Player2DEvent(player) {
-		this->item = item;
-		Event::name = BASE_NAME();
-	}
-
-	CInventoryItem* getItem() {
-		return item;
-	}
-
-	static const std::string BASE_NAME() {
-		return "Player2DPickUpEvent";
 	}
 };
 
@@ -291,7 +309,7 @@ protected:
 	glm::vec2 position;
 public:
 	Block2DChangeEvent(int prev, int next, glm::vec2 pos) : Event(BASE_NAME()), prev(prev), curr(next), position(pos) {
-
+		name = BASE_NAME();
 	}
 	int getPreviousTile() {
 		return prev;

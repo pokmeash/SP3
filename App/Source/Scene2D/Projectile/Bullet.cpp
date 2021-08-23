@@ -21,5 +21,9 @@ void Bullet::Update(const double dElapsedTime)
 {
     vec2WSOldCoordinates = vec2WSCoordinate;
     vec2WSCoordinate += vec2Velocity;
-    EventHandler::GetInstance()->CallThenDelete(new Entity2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates));
+    if (vec2WSOldCoordinates != vec2WSCoordinate) {
+        if (EventHandler::GetInstance()->CallDeleteIsCancelled(new Entity2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates))) {
+            vec2WSCoordinate = vec2WSOldCoordinates;
+        }
+    }
 }

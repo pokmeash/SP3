@@ -334,6 +334,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 		dirx = 0;
 		diry = -1;
 	}
+	vec2Velocity = vec2WSCoordinate - vec2WSOldCoordinates;
 	//Swapping
 	bool activate = cSettings->iKeybinds[CSettings::TRIGGER_POWERUP] <= GLFW_MOUSE_BUTTON_LAST && cMouseController->IsButtonPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP]);
 	if (activate || cKeyboardController->IsKeyPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP]) && swap == true)
@@ -441,6 +442,11 @@ void CPlayer2D::Update(const double dElapsedTime)
 	// Update the UV Coordinates
 	vec2UVCoordinate.x = cSettings->ConvertFloatToUVSpace(cSettings->x, vec2WSCoordinate.x, false);
 	vec2UVCoordinate.y = cSettings->ConvertFloatToUVSpace(cSettings->y, vec2WSCoordinate.y, false);
+	if (vec2WSOldCoordinates != vec2WSCoordinate) {
+		if (EventHandler::GetInstance()->CallDeleteIsCancelled(new Player2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates))) {
+			vec2WSCoordinate = vec2WSOldCoordinates;
+		}
+	}
 	int counter = 0;
 	for (std::vector<CEntity2D*>::iterator it2 = CScene2D::GetInstance()->enemyVector.begin(); it2 != CScene2D::GetInstance()->enemyVector.end(); ++it2)
 	{
@@ -462,9 +468,6 @@ void CPlayer2D::Update(const double dElapsedTime)
 			}
 			cSoundController->PlaySoundByID(6);
 		}
-	}
-	if (vec2WSOldCoordinates != vec2WSCoordinate) {
-		EventHandler::GetInstance()->CallThenDelete(new Player2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates));
 	}
 }
 
@@ -510,7 +513,7 @@ void CPlayer2D::InteractWithMap(void)
 		// Increase the Tree by 1
 		cInventoryItem = cInventoryManager->GetItem("Tree");
 		cInventoryItem->Add(1);
-
+		EventHandler::GetInstance()->CallThenDelete(new Item2DPickUpEvent("Tree", cInventoryItem, i32vec2Index));
 		break;
 	case 4:
 		cSoundController->PlaySoundByID(5);

@@ -34,6 +34,7 @@ public:
 	unsigned int GetCurrentLevel(void) const;
 	std::vector<glm::i32vec2> PathFind(const glm::i32vec2& startPos, const glm::i32vec2& targetPos, HeuristicFunction heuristicFunc, const int weight = 1);
 	void SetDiagonalMovement(const bool bEnable);
+	CFloor2D* GetCurrentFloor() const;
 	CFloor2D* ProduceMap(unsigned int level) {
 		CFloor2D* map = new CFloor2D();
 		map->SetShader(sShaderName);

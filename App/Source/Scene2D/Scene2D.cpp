@@ -183,45 +183,33 @@ bool CScene2D::Init(void)
 */
 bool CScene2D::Update(const double dElapsedTime)
 {
-	if (CBossTimeControl::GetInstance()->isListening()) {
+	if (!CBossTimeControl::GetInstance()->UpdateReverse()) {
 		cPlayer2D->Update(dElapsedTime);
-
 		cEntityManager->Update(dElapsedTime);
-		// as we want to capture the updates before map2D update
-		for (int i = 0; i < enemyVector.size(); i++)
-		{
-			enemyVector[i]->Update(dElapsedTime);
-		}
-		CBossTimeControl::GetInstance()->Update();
-		/*if (CBossTimeControl::GetInstance()->getCurrentFrame() >= 60) {
-			CBossTimeControl::GetInstance()->setListening(false);
-		}*/
-	} else {
-		for (Packet* packet : CBossTimeControl::GetInstance()->getPackets()) {
-			if (packet->getFrame() == CBossTimeControl::GetInstance()->getCurrentFrame()) {
-				if (dynamic_cast<EntityPacket*>(packet)) {
-					EntityPacket* entityPacket = (EntityPacket*)packet;
-					entityPacket->getEntity()->vec2WSCoordinate = entityPacket->getPosition();
-					CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->x, entityPacket->getEntity()->vec2WSCoordinate.x, &entityPacket->getEntity()->i32vec2Index.x, &entityPacket->getEntity()->i32vec2NumMicroSteps.x);
-					CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->y, entityPacket->getEntity()->vec2WSCoordinate.y, &entityPacket->getEntity()->i32vec2Index.y, &entityPacket->getEntity()->i32vec2NumMicroSteps.y);
-					if (entityPacket->isReturnActive() && !entityPacket->getEntity()->bIsActive) {
-						entityPacket->getEntity()->bIsActive = true;
-					} else if (entityPacket->isReturnActive() && entityPacket->getEntity()->bIsActive) {
-						entityPacket->getEntity()->bIsActive = false;
-					}
-				}
+		for (unsigned int i = 0; i < enemyVector.size(); i++) enemyVector[i]->Update(dElapsedTime);
+		if (CBossTimeControl::GetInstance()->isListening()) {
+			std::cout << "Listening\n";
+			CBossTimeControl::GetInstance()->Update();
+			if (CBossTimeControl::GetInstance()->getCurrentFrame() >= 60) {
+				CBossTimeControl::GetInstance()->setListening(false);
 			}
 		}
-		CBossTimeControl::GetInstance()->UpdateReverse();
+	} else {
+		std::cout << "Reversing\n";
 		if (CBossTimeControl::GetInstance()->getCurrentFrame() <= 0) {
 			CBossTimeControl::GetInstance()->Reset();
-			CBossTimeControl::GetInstance()->setListening(true);
+			CBossTimeControl::GetInstance()->setListening(false);
 		}
 	}
 
-
 	// Call the Map2D's update method
 	cMap2D->Update(dElapsedTime);
+
+	if (cKeyboardController->IsKeyDown(GLFW_KEY_H)) {
+		if (!CBossTimeControl::GetInstance()->isListening() && CBossTimeControl::GetInstance()->getPackets().size() == 0) {
+			CBossTimeControl::GetInstance()->setListening(true);
+		}
+	}
 
 	// Get keyboard updates
 	if (cKeyboardController->IsKeyDown(GLFW_KEY_F6))

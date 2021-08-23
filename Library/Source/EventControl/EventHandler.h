@@ -3,6 +3,7 @@
 
 #include <functional>
 #include <vector>
+#include <iostream>
 #include "Event.h"
 
 #include "../DesignPatterns/SingletonTemplate.h"
@@ -43,15 +44,14 @@ public:
 
     virtual void Call(Event* e) {
         if (!e) return;
+        Cancellable* ca = dynamic_cast<Cancellable*>(e);
         for (unsigned i = 0; i < listeners.size(); ++i) {
             Listener* c = listeners[i];
-            if (c->ic) {
-                c->cb(e);
+            if (ca && ca->isCancelled()) {
+                if (c->ic) c->cb(e);
                 continue;
             }
-
-            Cancellable* ca = dynamic_cast<Cancellable*>(e);
-            if (ca && !ca->isCancelled()) c->cb(e);
+            c->cb(e);
         }
     }
 

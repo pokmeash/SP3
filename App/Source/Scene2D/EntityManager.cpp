@@ -27,6 +27,9 @@ void EntityManager::Update(const double dElapsedTime)
 			if (entity->bIsActive)
 			{
 				entity->Update(dElapsedTime);
+				if (entity->vec2WSCoordinate.x >= CSettings::GetInstance()->NUM_TILES_XAXIS || entity->vec2WSCoordinate.x < 0) entity->bIsActive = false;
+				if (entity->vec2WSCoordinate.y >= CSettings::GetInstance()->NUM_TILES_YAXIS || entity->vec2WSCoordinate.y < 0) entity->bIsActive = false;
+				if (!entity->bIsActive) continue;
 				switch (entity->type)
 				{
 					case CEntity2D::E_EBULLET:
@@ -44,6 +47,7 @@ void EntityManager::Update(const double dElapsedTime)
 						for (std::vector<CEntity2D*>::iterator it2 = CScene2D::GetInstance()->enemyVector.begin(); it2 != CScene2D::GetInstance()->enemyVector.end(); ++it2)
 						{
 							CEntity2D* enemy = (CEntity2D*)*it2;
+							if (!enemy->bIsActive) continue;
 							if (cPhysics.CalculateDistance(entity->vec2WSCoordinate, enemy->vec2WSCoordinate) <= 1)
 							{
 								enemy->bIsActive = false;

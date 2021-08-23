@@ -13,16 +13,15 @@ public:
 		packet->setActiveState(respawn);
 		packets.push_back(packet);
 	}
-	void saveBlockPacket(int tile, glm::vec2 position) {
-		BlockPacket* packet = new BlockPacket(currentFrame, position, tile);
+	void saveBlockPacket(int tile, glm::vec2 position, CFloor2D* floor) {
+		BlockPacket* packet = new BlockPacket(currentFrame, position, tile, floor, floor->GetCurrentLevel());
 		packets.push_back(packet);
 	}
 
 	void Init(void) {
 		Reset();
-		listening = true;
-		EventHandler::GetInstance()->On([&](Event* e) {
-			std::cout << e->getName() << std::endl;
+		listening = false;
+		EventHandler::GetInstance()->IgnoreCancelOn([&](Event* e) {
 			if (!listening) return;
 			if (e->getName() == Entity2DMoveEvent::BASE_NAME()) {
 				saveEntityPacket(((Entity2DMoveEvent*)e)->getEntity());
@@ -31,11 +30,13 @@ public:
 				saveEntityPacket(((Player2DMoveEvent*)e)->getEntity());
 			}
 			if (e->getName() == Entity2DDespawnEvent::BASE_NAME() || e->getName() == Entity2DSpawnEvent::BASE_NAME()) {
+
 				saveEntityPacket(((Entity2DDespawnEvent*)e)->getEntity(), true);
 			}
 			if (e->getName() == Block2DChangeEvent::BASE_NAME()) {
 				Block2DChangeEvent* ev = (Block2DChangeEvent*)e;
-				saveBlockPacket(ev->getNextTile(), ev->getPosition());
+				std::cout << e->getName() << std::endl;
+				saveBlockPacket(ev->getPreviousTile(), ev->getPosition(), CFloorManager::GetInstance()->GetCurrentFloor());
 			}
 		});
 	}
@@ -44,12 +45,39 @@ public:
 		currentFrame++;
 	}
 
-	void UpdateReverse() {
+	bool UpdateReverse() {
+		if (packets.size() == 0 || listening) {
+			return false;
+		}
+		for (Packet* packet : packets) {
+			if (packet->getFrame() == currentFrame) {
+				if (dynamic_cast<EntityPacket*>(packet)) {
+					EntityPacket* entityPacket = (EntityPacket*)packet;
+					entityPacket->getEntity()->vec2WSCoordinate = entityPacket->getPosition();
+					CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->x, entityPacket->getEntity()->vec2WSCoordinate.x, &entityPacket->getEntity()->i32vec2Index.x, &entityPacket->getEntity()->i32vec2NumMicroSteps.x);
+					CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->y, entityPacket->getEntity()->vec2WSCoordinate.y, &entityPacket->getEntity()->i32vec2Index.y, &entityPacket->getEntity()->i32vec2NumMicroSteps.y);
+					if (entityPacket->isReturnActive() && !entityPacket->getEntity()->bIsActive) {
+						entityPacket->getEntity()->bIsActive = true;
+					} else if (entityPacket->isReturnActive() && entityPacket->getEntity()->bIsActive) {
+						entityPacket->getEntity()->bIsActive = false;
+					}
+					continue;
+				}
+				if (dynamic_cast<BlockPacket*>(packet)) {
+					BlockPacket* blockPacket = (BlockPacket*)packet;
+					int temp = blockPacket->getFloor()->GetCurrentLevel();
+					blockPacket->getFloor()->SetCurrentLevel(blockPacket->getRoomID());
+					blockPacket->getFloor()->SetMapInfo(blockPacket->getPosition().y, blockPacket->getPosition().x, blockPacket->getTile());
+					blockPacket->getFloor()->SetCurrentLevel(temp);
+				}
+			}
+		}
 		currentFrame--;
+		return true;
 	}
 	
 	void Reset(void) {
-		for (auto packet : packets) {
+		for (Packet* packet : packets) {
 			if (packet)
 			delete packet;
 		}
