@@ -26,7 +26,7 @@ void Beam::Update(const double dElapsedTime)
 {
     rotation = atan2f(vec2Velocity.y, vec2Velocity.x);
     timer -= dElapsedTime;
-    if (timer <= 0.f) bIsActive = true;
+    if (timer <= 0.f) bIsActive = false;
     CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
     CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->y, vec2WSCoordinate.y, &i32vec2Index.y, &i32vec2NumMicroSteps.y);
 }

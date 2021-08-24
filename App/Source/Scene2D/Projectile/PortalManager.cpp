@@ -8,20 +8,24 @@ PortalManager::PortalManager() : bluePortal(NULL), orangePortal(NULL), initalize
 
 PortalManager::~PortalManager()
 {
-	if (bluePortal) {
-		delete bluePortal;
+	if (bluePortal->getDestination()) {
+		bluePortal->getDestination()->setDestination(NULL);
 	}
+	bluePortal->setDestination(NULL);
+	delete bluePortal;
 	bluePortal = NULL;
-	if (orangePortal) {
-		delete orangePortal;
+	if (orangePortal->getDestination()) {
+		orangePortal->getDestination()->setDestination(NULL);
 	}
+	orangePortal->setDestination(NULL);
+	delete orangePortal;
 	orangePortal = NULL;
 }
 
 Portal* PortalManager::getPortal(glm::vec2 pos)
 {
-	if (glm::length(bluePortal->vec2WSCoordinate - pos) <= 1.f) return bluePortal;
-	if (glm::length(orangePortal->vec2WSCoordinate - pos) <= 1.f) return orangePortal;
+	if (bluePortal && glm::length(bluePortal->vec2WSCoordinate - pos) <= 1.f) return bluePortal;
+	if (orangePortal && glm::length(orangePortal->vec2WSCoordinate - pos) <= 1.f) return orangePortal;
 	return NULL;
 }
 
@@ -63,22 +67,22 @@ bool PortalManager::Init(void)
 {
 	if (initalized) return true;
 	EventHandler::GetInstance()->On([&](Event* e) {
-		if (e->getName() == NextRoomEvent::BASE_NAME()) {
-			if (bluePortal->getDestination()) {
-				bluePortal->getDestination()->setDestination(NULL);
-			}
-			bluePortal->setDestination(NULL);
-			delete bluePortal;
-			bluePortal = NULL;
-			if (orangePortal->getDestination()) {
-				orangePortal->getDestination()->setDestination(NULL);
-			}
-			orangePortal->setDestination(NULL);
-			delete orangePortal;
-			orangePortal = NULL;
-			return;
-		}
 		if (bluePortal && orangePortal) {
+			if (e->getName() == NextRoomEvent::BASE_NAME()) {
+				if (bluePortal->getDestination()) {
+					bluePortal->getDestination()->setDestination(NULL);
+				}
+				bluePortal->setDestination(NULL);
+				delete bluePortal;
+				bluePortal = NULL;
+				if (orangePortal->getDestination()) {
+					orangePortal->getDestination()->setDestination(NULL);
+				}
+				orangePortal->setDestination(NULL);
+				delete orangePortal;
+				orangePortal = NULL;
+				return;
+			}
 			if (e->getName() == Player2DMoveEvent::BASE_NAME()) {
 				Player2DMoveEvent* ev = (Player2DMoveEvent*)e;
 				if (cPhysics.CalculateDistance(bluePortal->vec2WSCoordinate, ev->getTo()) <= 1.f) {

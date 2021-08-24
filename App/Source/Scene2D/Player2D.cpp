@@ -437,7 +437,8 @@ void CPlayer2D::Update(const double dElapsedTime)
 		cSettings->ConvertMouseToWSSpace(mouse.x, mouse.y, &(wsSpace.x), &(wsSpace.y));
 		glm::vec2 direction = wsSpace - vec2WSCoordinate;
 		direction = glm::normalize(direction);
-		EntityFactory::GetInstance()->ProduceGrenade(vec2WSCoordinate, direction, glm::vec3(1, 1, 1), E_GRENADE);
+		//EntityFactory::GetInstance()->ProduceGrenade(vec2WSCoordinate, direction, glm::vec3(1, 1, 1), E_GRENADE);
+		EntityFactory::GetInstance()->ProduceBeam(vec2WSCoordinate, direction, E_BEAM);
 	}
 	if (delay > 0) {
 		delay -= dElapsedTime;

@@ -2,6 +2,7 @@
 #include "EventControl/EventHandler.h"
 #include "EntityManager.h"
 #include "Projectile/PortalManager.h"
+#include "Scene2D.h"
 
 EntityFactory::EntityFactory()
 {}
@@ -71,6 +72,12 @@ std::vector<Beam*> EntityFactory::ProduceBeam(glm::vec2 pos, glm::vec2 dir, CEnt
 		beams.push_back((Beam*)entity);
 		break;
 	}
+	while (beams.size() < 10) {
+		Beam* temp = new Beam();
+		temp->Init();
+		EntityManager::GetInstance()->entitylist.push_back(temp);
+		beams.push_back(temp);
+	}
 	for (unsigned i = 0; i < beams.size(); ++i) {
 		Beam* beam = beams[i];
 		beam->vec2WSCoordinate = pos;
@@ -78,26 +85,26 @@ std::vector<Beam*> EntityFactory::ProduceBeam(glm::vec2 pos, glm::vec2 dir, CEnt
 		beam->type = type;
 		beam->timer = 0.1f;
 		beam->bIsActive = true;
-		pos += dir;
+		pos += dir * 0.8f;
 		EventHandler::GetInstance()->CallThenDelete(new Entity2DSpawnEvent(beam));
 		if (PortalManager::GetInstance()->getPortal(pos) && PortalManager::GetInstance()->getPortal(pos)->getDestination()) {
 			Portal* portal = PortalManager::GetInstance()->getPortal(pos)->getDestination();
-			pos = portal->vec2WSCoordinate + dir;
-			while (glm::length(pos - portal->vec2WSCoordinate) <= 1.f) {
-				pos += dir;
+			pos = portal->vec2WSCoordinate + dir * 0.8f;
+			while (glm::length(pos - portal->vec2WSCoordinate) <= .5f) {
+				pos += dir * 0.8f;
 			}
 		}
-	}
-	while (beams.size() < 10) {
-		Beam* temp = new Beam();
-		temp->Init();
-		EntityManager::GetInstance()->entitylist.push_back(temp);
-		temp->vec2WSCoordinate = pos;
-		temp->vec2Velocity = dir;
-		temp->type = type;
-		temp->bIsActive = true;
-		beams.push_back(temp);
-		EventHandler::GetInstance()->CallThenDelete(new Entity2DSpawnEvent(temp));
+		for (unsigned j = 0; j < CScene2D::GetInstance()->enemyVector.size(); ++j) {
+			CLivingEntity* enemy = (CLivingEntity*)CScene2D::GetInstance()->enemyVector[j];
+			if (!enemy->bIsActive) continue;
+			if (glm::length(enemy->vec2WSCoordinate - pos) <= .5f) {
+				enemy->addHP(-1);
+				if (enemy->getHP() <= 0) {
+					enemy->bIsActive = false;
+					EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(enemy));
+				}
+			}
+		}
 	}
 	return beams;
 }
