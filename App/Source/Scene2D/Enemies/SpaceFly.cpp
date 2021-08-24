@@ -28,6 +28,7 @@ using namespace std;
 #include "../Player2D.h"
 
 #include "../EntityManager.h"
+
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
  */
@@ -106,7 +107,8 @@ bool CSpaceFly::Init(void)
 	animatedSprites->AddAnimation("up", 9, 11);
 	animatedSprites->AddAnimation("down", 6, 8);
 
-	iHealth = 4;
+	setHP(10);
+	setDmg(1);
 
 	//CS: Init the color to white
 	currentColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
@@ -137,88 +139,11 @@ void CSpaceFly::Update(const double dElapsedTime)
 		if (iFSMCounter > iMaxFSMCounter)
 		{
 			sCurrentFSM = MOVELEFT;
-
 			iFSMCounter = 0;
 		}
 		iFSMCounter++;
 		animatedSprites->PlayAnimation("idle", -1, 1.0f);
 		break;
-	case SEARCH:
-
-		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 15.0f)
-		{
-			if (iFSMCounter > iMaxFSMCounter)
-			{
-				sCurrentFSM = ATTACK;
-				iFSMCounter = 0;
-				currentColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
-			}
-			iFSMCounter++;
-		}
-
-		//animatedSprites->PlayAnimation("idle", -1, 1.0f);
-		break;
-	case ATTACK:
-		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) >= 20.0f)
-		{
-			sCurrentFSM = IDLE;
-		}
-		else if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 20.0f)
-		{
-			sCurrentFSM = MELEEATTACK;
-		}
-	case MELEEATTACK:
-		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 20.0f)
-		{
-			// Calculate a path to the player
-			auto path = cMap2D->PathFind(i32vec2Index,
-				CPlayer2D::GetInstance()->i32vec2Index,
-				heuristic::euclidean,
-				10);
-
-			// Calculate new destination
-			bool bFirstPosition = true;
-			for (const auto& coord : path)
-			{
-				//std::cout << coord.x << "," << coord.y << "\n";
-				if (bFirstPosition == true)
-				{
-					// Set a destination
-					i32vec2Destination = coord;
-					// Calculate the direction between enemy2D and this destination
-					i32vec2Direction = i32vec2Destination - i32vec2Index;
-					bFirstPosition = false;
-				}
-				else
-				{
-					if ((coord - i32vec2Destination) == i32vec2Direction)
-					{
-						// Set a destination
-						i32vec2Destination = coord;
-					}
-					else
-						break;
-				}
-			}
-
-			// Attack
-			// Update direction to move towards for attack
-			UpdateDirection();
-
-			// Update the Enemy2D's position for attack
-			UpdatePosition();
-		}
-		else
-		{
-			if (iFSMCounter > iMaxFSMCounter)
-			{
-				sCurrentFSM = SEARCH;
-				iFSMCounter = 0;
-			}
-			iFSMCounter++;
-		}
-		break;
-
 	case MOVELEFT:
 		//movementLEFT
 		if (vec2WSCoordinate.x >= 0)
@@ -271,3 +196,4 @@ void CSpaceFly::Update(const double dElapsedTime)
 	// UpdateJumpFall(dElapsedTime);
 	animatedSprites->Update(dElapsedTime);
 }
+

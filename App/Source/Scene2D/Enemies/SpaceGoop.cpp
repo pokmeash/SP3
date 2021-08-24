@@ -29,6 +29,7 @@ using namespace std;
 #include "../EntityManager.h"
 
 #include "EventControl/EventHandler.h"
+
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
  */
@@ -268,6 +269,7 @@ void CSpaceGoop::Update(const double dElapsedTime)
 	default:
 		break;
 	}
+
 	if (vec2WSOldCoordinates != vec2WSCoordinate) {
 		if (EventHandler::GetInstance()->CallDeleteIsCancelled(new Entity2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates))) {
 			vec2WSCoordinate = vec2WSOldCoordinates;

@@ -47,7 +47,8 @@ public:
 	virtual void Update(const double dElapsedTime) = 0;
 
 
-protected:
+protected:\
+	float bulletTimer;
 	virtual bool InteractWithPlayer(void);
 	virtual bool InteractWithEnemy(void);
 };

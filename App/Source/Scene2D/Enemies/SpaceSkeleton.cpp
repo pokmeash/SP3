@@ -111,7 +111,8 @@ bool CSpaceSkeleton::Init(void)
 
 	bulletTimer = 0;
 
-	iHealth = 4;
+	setHP(10);
+
 	return true;
 }
 
@@ -276,27 +277,4 @@ void CSpaceSkeleton::Update(const double dElapsedTime)
 	// Update Jump or Fall
 	// UpdateJumpFall(dElapsedTime);
 	animatedSprites->Update(dElapsedTime);
-}
-
-/**
- @brief Let enemy2D interact with the player.
- */
-bool CSpaceSkeleton::InteractWithPlayer(void)
-{
-	glm::i32vec2 i32vec2PlayerPos = CPlayer2D::GetInstance()->i32vec2Index;
-	
-	// Check if the enemy2D is within 1.5 indices of the player2D
-	if (((i32vec2Index.x >= i32vec2PlayerPos.x - 0.5) && 
-		(i32vec2Index.x <= i32vec2PlayerPos.x + 0.5))
-		&& 
-		((i32vec2Index.y >= i32vec2PlayerPos.y - 0.5) &&
-		(i32vec2Index.y <= i32vec2PlayerPos.y + 0.5)))
-	{
-		CPlayer2D::GetInstance()->PlayerDamaged();
-		// Since the player has been caught, then reset the FSM
-		sCurrentFSM = IDLE;
-		iFSMCounter = 0;
-		return true;
-	}
-	return false;
 }

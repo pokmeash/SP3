@@ -27,6 +27,9 @@ using namespace std;
 #include "../Player2D.h"
 
 #include "../EntityManager.h"
+
+#include "EventControl/EventHandler.h"
+
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
  */
@@ -206,27 +209,4 @@ void CSpaceTurret::Update(const double dElapsedTime)
 		break;
 	}
 	animatedSprites->Update(dElapsedTime);
-}
-
-/**
- @brief Let enemy2D interact with the player.
- */
-bool CSpaceTurret::InteractWithPlayer(void)
-{
-	glm::i32vec2 i32vec2PlayerPos = CPlayer2D::GetInstance()->i32vec2Index;
-	
-	// Check if the enemy2D is within 1.5 indices of the player2D
-	if (((i32vec2Index.x >= i32vec2PlayerPos.x - 0.5) && 
-		(i32vec2Index.x <= i32vec2PlayerPos.x + 0.5))
-		&& 
-		((i32vec2Index.y >= i32vec2PlayerPos.y - 0.5) &&
-		(i32vec2Index.y <= i32vec2PlayerPos.y + 0.5)))
-	{
-		CPlayer2D::GetInstance()->PlayerDamaged();
-		// Since the player has been caught, then reset the FSM
-		sCurrentFSM = IDLE;
-		iFSMCounter = 0;
-		return true;
-	}
-	return false;
 }

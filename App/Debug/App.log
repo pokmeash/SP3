@@ -1,1 +1,30 @@
-﻿
+﻿  SpaceFly.cpp
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Player2D.h(67,21): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Enemies\SpaceFly.cpp(180,107): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+          with
+          [
+              T=glm::i32
+          ]
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Enemies\SpaceFly.cpp(187,108): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+          with
+          [
+              T=glm::i32
+          ]
+  SpaceSkeleton.cpp
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Player2D.h(67,21): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Enemies\SpaceSkeleton.cpp(174,31): warning C4244: '+=': conversion from 'const double' to 'float', possible loss of data
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Enemies\SpaceSkeleton.cpp(183,42): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Enemies\SpaceSkeleton.cpp(184,42): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Enemies\SpaceSkeleton.cpp(257,107): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+          with
+          [
+              T=glm::i32
+          ]
+C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\App\Source\Scene2D\Enemies\SpaceSkeleton.cpp(264,108): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+          with
+          [
+              T=glm::i32
+          ]
+  Generating Code...
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+  App.vcxproj -> C:\Mark Stuff DONT TOUCH\Year 2\1_STUDIOPROJECT3\SP3 WORKSPACE\SP3\Debug\App.exe
