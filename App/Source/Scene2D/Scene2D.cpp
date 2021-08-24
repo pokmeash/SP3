@@ -233,6 +233,12 @@ bool CScene2D::Init(void)
 	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Swap.ogg"), 8, true);
 	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Hurt.ogg"), 9, true);
 	CBossTimeControl::GetInstance()->Init();
+
+	for (int i = 1; i < 11; ++i)
+	{
+		randomvect.push_back(i);
+	}
+	temp = 0;
 	return true;
 }
 
@@ -379,8 +385,9 @@ void CScene2D::setPause(bool n)
 
 void CScene2D::LevelCompleted(int DoorDir)
 {
-	const int random = 3;
-	int temp = 0;
+	srand(time(NULL));
+	int random = 0;
+
 	switch (DoorDir)
 	{
 		case 0://Top
@@ -391,10 +398,17 @@ void CScene2D::LevelCompleted(int DoorDir)
 			}
 			else
 			{
+				if (randomvect.size() - 1 > 0)
+				{
+					std::random_shuffle(randomvect.begin(), randomvect.end()); // 1 to 8 with random order.
+					random = (randomvect[randomvect.size() - 1]); // Use the outcome in whatever way.
+					randomvect.pop_back();
+				}
 				cMap2D->SetDoorInfo(22, 16, random);
 				temp = cMap2D->GetCurrentLevel();
 				cMap2D->SetCurrentLevel(random);
 				cMap2D->SetDoorInfo(1, 16, temp);
+
 			}
 			cPlayer2D->vec2WSCoordinate.x = 16.5;
 			cPlayer2D->vec2WSCoordinate.y = 3;
@@ -409,6 +423,12 @@ void CScene2D::LevelCompleted(int DoorDir)
 			}
 			else
 			{
+				if (randomvect.size() - 1 > 0)
+				{
+					std::random_shuffle(randomvect.begin(), randomvect.end()); // 1 to 8 with random order.
+					random = (randomvect[randomvect.size() - 1]); // Use the outcome in whatever way.
+					randomvect.pop_back();
+				}
 				cMap2D->SetDoorInfo(11, 30, random);
 				temp = cMap2D->GetCurrentLevel();
 				cMap2D->SetCurrentLevel(random);
@@ -426,6 +446,12 @@ void CScene2D::LevelCompleted(int DoorDir)
 			}
 			else
 			{
+				if (randomvect.size() - 1 > 0)
+				{
+					std::random_shuffle(randomvect.begin(), randomvect.end()); // 1 to 8 with random order.
+					random = (randomvect[randomvect.size() - 1]); // Use the outcome in whatever way.
+					randomvect.pop_back();
+				}
 				cMap2D->SetDoorInfo(1, 16, random);
 				temp = cMap2D->GetCurrentLevel();
 				cMap2D->SetCurrentLevel(random);
@@ -444,6 +470,12 @@ void CScene2D::LevelCompleted(int DoorDir)
 			}
 			else
 			{
+				if (randomvect.size() - 1 > 0)
+				{
+					std::random_shuffle(randomvect.begin(), randomvect.end()); // 1 to 8 with random order.
+					random = (randomvect[randomvect.size() - 1]); // Use the outcome in whatever way.
+					randomvect.pop_back();
+				}
 				cMap2D->SetDoorInfo(11, 1, random);
 				temp = cMap2D->GetCurrentLevel();
 				cMap2D->SetCurrentLevel(random);
@@ -459,11 +491,11 @@ void CScene2D::LevelCompleted(int DoorDir)
 			break;
 		}
 	}
-
 		
 	
 
 	cPlayer2D->Reset();
+	cMap2D->once = false;
 
 	// Create and initialise the CEnemy2D
 	enemyVector.clear();
