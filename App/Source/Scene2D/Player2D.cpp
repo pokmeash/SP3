@@ -214,7 +214,6 @@ bool CPlayer2D::Reset()
  */
 void CPlayer2D::Update(const double dElapsedTime)
 {
-	cout << getHP() << endl;
 	// Store the old position
 	vec2WSOldCoordinates = vec2WSCoordinate;
 
@@ -464,15 +463,32 @@ void CPlayer2D::Update(const double dElapsedTime)
 			vec2WSCoordinate = vec2WSOldCoordinates;
 		}
 	}
-	int counter = 0;
-	for (std::vector<CEntity2D*>::iterator it2 = CScene2D::GetInstance()->enemyVector.begin(); it2 != CScene2D::GetInstance()->enemyVector.end(); ++it2)
+	if (cMap2D->GetMapInfo(22,16) == 100 && cMap2D->once == false)
 	{
-		CEntity2D* enemy = (CEntity2D*)*it2;
-		if (enemy->bIsActive == false)
+		int counter = 0;
+		for (std::vector<CEntity2D*>::iterator it2 = CScene2D::GetInstance()->enemyVector.begin(); it2 != CScene2D::GetInstance()->enemyVector.end(); ++it2)
 		{
-			counter++;
+			CEntity2D* enemy = (CEntity2D*)*it2;
+			if (enemy->bIsActive == false)
+			{
+				counter++;
+			}
+			if (CScene2D::GetInstance()->enemyVector.size() == counter)
+			{
+				for (int i = 0; i < 4; i++)
+				{
+					unsigned int DoorRow = -1;
+					unsigned int DoorCol = -1;
+					if (cMap2D->FindValue(100, DoorRow, DoorCol) == false)
+						return;
+
+					cMap2D->SetMapInfo(DoorRow, DoorCol, 99);
+				}
+				cSoundController->PlaySoundByID(6);
+				cMap2D->once = true;
+			}
 		}
-		if (CScene2D::GetInstance()->enemyVector.size() == counter)
+		if (CScene2D::GetInstance()->enemyVector.size() == 0)
 		{
 			for (int i = 0; i < 4; i++)
 			{
@@ -482,22 +498,31 @@ void CPlayer2D::Update(const double dElapsedTime)
 					return;
 
 				cMap2D->SetMapInfo(DoorRow, DoorCol, 99);
+				cMap2D->once = true;
 			}
-			cSoundController->PlaySoundByID(6);
 		}
 	}
-	if (CScene2D::GetInstance()->enemyVector.size() == 0)
+	else if (cMap2D->GetMapInfo(22, 16) == 101 && cMap2D->once == false)
 	{
-		for (int i = 0; i < 4; i++)
+		int counter = 0;
+		for (std::vector<CEntity2D*>::iterator it2 = CScene2D::GetInstance()->enemyVector.begin(); it2 != CScene2D::GetInstance()->enemyVector.end(); ++it2)
 		{
-			unsigned int DoorRow = -1;
-			unsigned int DoorCol = -1;
-			if (cMap2D->FindValue(100, DoorRow, DoorCol) == false)
-				return;
-
-			cMap2D->SetMapInfo(DoorRow, DoorCol, 99);
+			CEntity2D* enemy = (CEntity2D*)*it2;
+			if (enemy->bIsActive == false)
+			{
+				counter++;
+			}
+			if (CScene2D::GetInstance()->enemyVector.size() == counter)
+			{
+				cMap2D->SetMapInfo(12,16, 98);// next floor
+				cMap2D->SetMapInfo(8, 16, 2); // powerup
+				cSoundController->PlaySoundByID(6);
+				cMap2D->once = true;
+			}
 		}
 	}
+
+	
 	if (iframesState == true)
 	{
 		iframesDuration -= dElapsedTime;

@@ -134,6 +134,8 @@ public:
 
 	void GeneratePreset(int uiLevel);
 
+	bool once = false;
+
 protected:
 	// The variable containing the rapidcsv::Document
 	// We will load the CSV file's content into this Document
