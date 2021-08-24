@@ -9,6 +9,7 @@ Beam::Beam()
 {
     rotation = 0.f;
     scale = glm::vec3(1, 1, 1);
+    timer = 0.1f;
 }
 Beam::~Beam()
 {}
@@ -23,14 +24,9 @@ bool Beam::Init() {
 
 void Beam::Update(const double dElapsedTime)
 {
-    vec2WSOldCoordinates = vec2WSCoordinate;
-    vec2WSCoordinate += vec2Velocity;
-    if (vec2WSOldCoordinates != vec2WSCoordinate) {
-        if (EventHandler::GetInstance()->CallDeleteIsCancelled(new Entity2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates))) {
-            vec2WSCoordinate = vec2WSOldCoordinates;
-        }
-    }
     rotation = atan2f(vec2Velocity.y, vec2Velocity.x);
+    timer -= dElapsedTime;
+    if (timer <= 0.f) bIsActive = true;
     CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
     CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->y, vec2WSCoordinate.y, &i32vec2Index.y, &i32vec2NumMicroSteps.y);
 }

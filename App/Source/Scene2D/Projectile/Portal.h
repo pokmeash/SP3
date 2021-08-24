@@ -11,6 +11,9 @@ public:
 	virtual ~Portal();
 	virtual bool Init(void);
 	virtual void Update(const double dt);
+	Portal* getDestination();
+	void setDestination(Portal* portal);
 protected:
 	Portal::TYPE type;
+	Portal* destination;
 };

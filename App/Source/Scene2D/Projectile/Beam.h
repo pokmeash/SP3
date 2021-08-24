@@ -29,8 +29,9 @@ public:
     bool Init(void);
     // Update
     virtual void Update(const double dElapsedTime);
-protected:
-    std::vector<CLivingEntity*> hitEntities;
+
     float timer;
+
+    std::vector<CLivingEntity*> hitEntities;
 };
 

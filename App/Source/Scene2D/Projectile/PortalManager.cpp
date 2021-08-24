@@ -18,19 +18,38 @@ PortalManager::~PortalManager()
 	orangePortal = NULL;
 }
 
+Portal* PortalManager::getPortal(glm::vec2 pos)
+{
+	if (glm::length(bluePortal->vec2WSCoordinate - pos) <= 1.f) return bluePortal;
+	if (glm::length(orangePortal->vec2WSCoordinate - pos) <= 1.f) return orangePortal;
+	return NULL;
+}
+
 void PortalManager::placePortal(glm::vec2 pos)
 {
 	if (bluePortal && !orangePortal) {
 		orangePortal = new Portal(pos, Portal::TYPE::ORANGE);
 		orangePortal->Init();
+		bluePortal->setDestination(orangePortal);
+		orangePortal->setDestination(bluePortal);
 	}
 	else if (orangePortal && !bluePortal) {
 		bluePortal = new Portal(pos, Portal::TYPE::BLUE);
 		bluePortal->Init();
+		bluePortal->setDestination(orangePortal);
+		orangePortal->setDestination(bluePortal);
 	}
 	else if (bluePortal && orangePortal) {
+		if (bluePortal->getDestination()) {
+			bluePortal->getDestination()->setDestination(NULL);
+		}
+		bluePortal->setDestination(NULL);
 		delete bluePortal;
 		bluePortal = NULL;
+		if (orangePortal->getDestination()) {
+			orangePortal->getDestination()->setDestination(NULL);
+		}
+		orangePortal->setDestination(NULL);
 		delete orangePortal;
 		orangePortal = NULL;
 	}
@@ -45,8 +64,16 @@ bool PortalManager::Init(void)
 	if (initalized) return true;
 	EventHandler::GetInstance()->On([&](Event* e) {
 		if (e->getName() == NextRoomEvent::BASE_NAME()) {
+			if (bluePortal->getDestination()) {
+				bluePortal->getDestination()->setDestination(NULL);
+			}
+			bluePortal->setDestination(NULL);
 			delete bluePortal;
 			bluePortal = NULL;
+			if (orangePortal->getDestination()) {
+				orangePortal->getDestination()->setDestination(NULL);
+			}
+			orangePortal->setDestination(NULL);
 			delete orangePortal;
 			orangePortal = NULL;
 			return;

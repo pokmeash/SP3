@@ -12,8 +12,10 @@ protected:
 	bool initalized;
 	PortalManager();
 	virtual ~PortalManager();
+
 public:
 	void placePortal(glm::vec2 pos);
+	Portal* getPortal(glm::vec2 pos);
 	bool Init(void);
 	bool Update(const double dt);
 	void Render();

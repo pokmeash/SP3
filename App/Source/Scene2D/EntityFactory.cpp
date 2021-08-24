@@ -1,6 +1,7 @@
 #include "EntityFactory.h"
 #include "EventControl/EventHandler.h"
 #include "EntityManager.h"
+#include "Projectile/PortalManager.h"
 
 EntityFactory::EntityFactory()
 {}
@@ -60,25 +61,43 @@ Grenade* EntityFactory::ProduceGrenade(glm::f32vec2 EntityVec2Index, glm::f32vec
 	return temp;
 }
 
-Beam* EntityFactory::ProduceBeam(glm::vec2 pos, glm::vec2 dir, CEntity2D::ENTITY_TYPE type)
+std::vector<Beam*> EntityFactory::ProduceBeam(glm::vec2 pos, glm::vec2 dir, CEntity2D::ENTITY_TYPE type)
 {
-	Beam* temp = nullptr;
+	std::vector<Beam*> beams;
 	for (unsigned i = 0; i < EntityManager::GetInstance()->entitylist.size(); ++i) {
 		CEntity2D* entity = EntityManager::GetInstance()->entitylist[i];
 		if (entity->bIsActive) continue;
 		if (!dynamic_cast<Beam*>(entity)) continue;
-		temp = (Beam*)entity;
+		beams.push_back((Beam*)entity);
 		break;
 	}
-	if (!temp) {
-		temp = new Beam();
+	for (unsigned i = 0; i < beams.size(); ++i) {
+		Beam* beam = beams[i];
+		beam->vec2WSCoordinate = pos;
+		beam->vec2Velocity = dir;
+		beam->type = type;
+		beam->timer = 0.1f;
+		beam->bIsActive = true;
+		pos += dir;
+		EventHandler::GetInstance()->CallThenDelete(new Entity2DSpawnEvent(beam));
+		if (PortalManager::GetInstance()->getPortal(pos) && PortalManager::GetInstance()->getPortal(pos)->getDestination()) {
+			Portal* portal = PortalManager::GetInstance()->getPortal(pos)->getDestination();
+			pos = portal->vec2WSCoordinate + dir;
+			while (glm::length(pos - portal->vec2WSCoordinate) <= 1.f) {
+				pos += dir;
+			}
+		}
+	}
+	while (beams.size() < 10) {
+		Beam* temp = new Beam();
 		temp->Init();
 		EntityManager::GetInstance()->entitylist.push_back(temp);
+		temp->vec2WSCoordinate = pos;
+		temp->vec2Velocity = dir;
+		temp->type = type;
+		temp->bIsActive = true;
+		beams.push_back(temp);
+		EventHandler::GetInstance()->CallThenDelete(new Entity2DSpawnEvent(temp));
 	}
-	temp->vec2WSCoordinate = pos;
-	temp->vec2Velocity = dir;
-	temp->type = type;
-	temp->bIsActive = true;
-	EventHandler::GetInstance()->CallThenDelete(new Entity2DSpawnEvent(temp));
-	return temp;
+	return beams;
 }

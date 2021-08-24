@@ -1,7 +1,7 @@
 #include "Portal.h"
 #include "Primitives/MeshBuilder.h"
 
-Portal::Portal(glm::vec2& pos, TYPE type) : type(type)
+Portal::Portal(glm::vec2& pos, TYPE type) : type(type), destination(NULL)
 {
 	vec2WSCoordinate = pos;
     rotation = 0.f;
@@ -28,4 +28,14 @@ bool Portal::Init(void)
 void Portal::Update(const double dt)
 {
     animatedSprites->Update(dt);
+}
+
+Portal* Portal::getDestination()
+{
+    return destination;
+}
+
+void Portal::setDestination(Portal* portal)
+{
+    destination = portal;
 }
