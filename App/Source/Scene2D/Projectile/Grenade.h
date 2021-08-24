@@ -16,8 +16,13 @@
 // Include Settings
 #include "GameControl\Settings.h"
 
+class CFloor2D;
+
 class Grenade : public CEntity2D
 {
+protected:
+    bool explode;
+    CFloor2D* cMap2D;
 public:
     // Constructor
     Grenade(void);
@@ -29,7 +34,13 @@ public:
     bool Init(void);
     // Update
     virtual void Update(const double dElapsedTime);
-
-
+    void setExplode()
+    {
+        explode = !explode;
+    }
+    bool getExplode()
+    {
+        return explode;
+    }
 };
 

@@ -256,6 +256,7 @@ void CFloor2D::Render(void)
 															cSettings->ConvertIndexToUVSpace(cSettings->y, uiRow, true, 0),
 															0.0f));
 			//transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
+			//transform = glm::scale(transform, glm::vec3(1.5, 1, 1));
 
 			// Update the shaders with the latest transform
 			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));

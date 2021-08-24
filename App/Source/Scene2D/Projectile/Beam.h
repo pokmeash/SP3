@@ -8,8 +8,7 @@
 #include <includes/gtc/type_ptr.hpp>
 
 // Include CEntity2D
-#include "Primitives/Entity2D.h"
-class CFloor2D;
+#include "../LivingEntity.h"
 
 // Include Keyboard controller
 #include "Inputs\KeyboardController.h"
@@ -17,21 +16,21 @@ class CFloor2D;
 // Include Settings
 #include "GameControl\Settings.h"
 
-class Bullet : public CEntity2D
+class Beam : public CEntity2D
 {
 public:
     // Constructor
-    Bullet(void);
+    Beam(void);
 
     // Destructor
-    ~Bullet(void);
+    ~Beam(void);
 
     // Init
     bool Init(void);
     // Update
     virtual void Update(const double dElapsedTime);
-private:
-    int hitcount;
-    CFloor2D* cMap2D;
+protected:
+    std::vector<CLivingEntity*> hitEntities;
+    float timer;
 };
 

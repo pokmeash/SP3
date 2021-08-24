@@ -29,6 +29,8 @@ CEntity2D::CEntity2D(void)
 	, bIsActive(false)
 {
 	transform = glm::mat4(1.0f);	// make sure to initialize matrix to identity matrix first
+	rotation = 0.f;
+	scale = glm::vec3(1, 1, 1);
 	i32vec2Index = glm::i32vec2(0);
 	i32vec2NumMicroSteps = glm::i32vec2(0);
 	vec2UVCoordinate = glm::vec2(0.0f);
@@ -95,9 +97,9 @@ void CEntity2D::Render(void)
 	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
 
 	transform = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-	transform = glm::translate(transform, glm::vec3(vec2UVCoordinate.x,
-													vec2UVCoordinate.y,
-													0.0f));
+	transform = glm::translate(transform, glm::vec3(vec2UVCoordinate.x, vec2UVCoordinate.y, 0.0f));
+	transform = glm::rotate(transform, rotation, glm::vec3(0, 0, 1));
+	transform = glm::scale(transform, scale);
 	// Update the shaders with the latest transform
 	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
 
@@ -209,3 +211,4 @@ bool CEntity2D::LoadTexture(const char* filename, GLuint& iTextureID)
 
 	return true;
 }
+

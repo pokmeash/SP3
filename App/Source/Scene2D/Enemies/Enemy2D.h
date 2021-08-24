@@ -50,4 +50,5 @@ public:
 protected:
 	virtual bool InteractWithPlayer(void);
 	virtual bool InteractWithEnemy(void);
+	float bulletTimer;
 };
