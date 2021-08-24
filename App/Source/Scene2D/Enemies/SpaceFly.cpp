@@ -36,13 +36,6 @@ using namespace std;
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
  */
 CSpaceFly::CSpaceFly(void)
-	: bIsActive(false)
-	, cMap2D(NULL)
-	, cSettings(NULL)
-	, cPlayer2D(NULL)
-	, sCurrentFSM(FSM::IDLE)
-	, iFSMCounter(0)
-	, quadMesh(NULL)
 {
 	transform = glm::mat4(1.0f);	// make sure to initialize matrix to identity matrix first
 
@@ -61,12 +54,9 @@ CSpaceFly::CSpaceFly(void)
 	i32vec2Direction = glm::i32vec2(0, 0);		// Initialise the iDirection
 }
 
-/**
- @brief Destructor This destructor has protected access modifier as this class will be a Singleton
- */
 CSpaceFly::~CSpaceFly(void)
 {
-	// Delete the quadMesh
+	cMap2D = NULL;
 	if (mesh)
 	{
 		delete mesh;
@@ -77,24 +67,6 @@ CSpaceFly::~CSpaceFly(void)
 		delete animatedSprites;
 		animatedSprites = NULL;
 	}
-
-	// We won't delete this since it was created elsewhere
-
-CSpaceFly::~CSpaceFly(void)
-{
-	// Delete the quadMesh
-	if (quadMesh)
-	{
-		delete quadMesh;
-		quadMesh = NULL;
-	}
-
-	// We won't delete this since it was created elsewhere
-	cPlayer2D = NULL;
-
-
-	cMap2D = NULL;
-
 	// optional: de-allocate all resources once they've outlived their purpose:
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
@@ -125,7 +97,7 @@ bool CSpaceFly::Init(void)
 	i32vec2NumMicroSteps = glm::i32vec2(0, 0);
 
 	// Load the enemy2D texture
-	LoadTexture("Image/enemy3.png")
+	LoadTexture("Image/enemy3.png");
 
 	//CS: Create the animated sprite and setup the animation 
 	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(4, 3, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
@@ -136,9 +108,6 @@ bool CSpaceFly::Init(void)
 
 	iHealth = 4;
 
-	cEntityFactory = EntityFactory::GetInstance();
-	cEntityManager = EntityManager::GetInstance();
-
 	//CS: Init the color to white
 	currentColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
 
@@ -148,11 +117,6 @@ bool CSpaceFly::Init(void)
 
 	// If this class is initialised properly, then set the bIsActive to true
 	bIsActive = true;
-
-	dir = -1;
-
-	enemyhealth = 4;
-	healedonce = false;
 
 	return true;
 }
