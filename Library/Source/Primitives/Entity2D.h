@@ -25,7 +25,6 @@
 #include "Mesh.h"
 #include "SpriteAnimation.h"
 
-
 using namespace std;
 
 class CEntity2D
@@ -75,7 +74,7 @@ public:
 
 	glm::vec2 vec2Velocity;
 
-	glm::vec3 scale;
+	glm::vec3 scale = glm::vec3(1.f, 1.f, 1.f);
 
 	int counter;
 
@@ -83,7 +82,7 @@ public:
 
 	glm::vec2 vec2GetCenter();
 
-	float rotation;
+	float rotation = 0.f;
 
 	enum DIRECTION
 	{
@@ -102,6 +101,7 @@ public:
 		E_EBULLET,
 		E_SPIKE,
 		E_FRAGMENT,
+		E_BEAM,
 
 		//Powerup
 		E_DOUBLESHOT,

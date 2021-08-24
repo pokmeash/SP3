@@ -257,7 +257,6 @@ bool CScene2D::Update(const double dElapsedTime)
 		cEntityManager->Update(dElapsedTime);
 		for (unsigned int i = 0; i < enemyVector.size(); i++) enemyVector[i]->Update(dElapsedTime);
 		if (CBossTimeControl::GetInstance()->isListening()) {
-			std::cout << "Listening\n";
 			CBossTimeControl::GetInstance()->Update();
 			if (CBossTimeControl::GetInstance()->getCurrentFrame() >= 60) {
 				CBossTimeControl::GetInstance()->setListening(false);

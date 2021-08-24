@@ -23,6 +23,7 @@ CSettings::CSettings(void)
 	iKeybinds[TRIGGER_SHOOT] = 0;
 	iKeybinds[TRIGGER_THROW] = GLFW_KEY_G;
 	iKeybinds[TRIGGER_POWERUP] = GLFW_KEY_E;
+	iKeybinds[TRIGGER_PORTAL] = 1;
 	std::map<unsigned, unsigned> keybinds;
 	if (!LoadIni("settings.ini", keybinds)) {
 		for (unsigned i = 0; i < TOTAL_KEYBINDS; ++i) {
@@ -120,7 +121,24 @@ void CSettings::ConvertMouseToWSSpace(int mouseX, int mouseY, float* posX, float
 	int w = iWindowWidth;
 	int h = iWindowHeight;
 	*posX = (float)mouseX / w * NUM_TILES_XAXIS;
-	*posY = (float)(h - mouseY) / h * NUM_TILES_YAXIS;
+	*posY = (float)(h - mouseY) / h * NUM_TILES_YAXIS - 0.5;
+}
+
+void CSettings::ConvertMouseToIndexSpace(int mouseX, int mouseY, int* posX, int* posY)
+{
+	int w = iWindowWidth;
+	int h = iWindowHeight;
+	float wsX = (float)mouseX / w * NUM_TILES_XAXIS;
+	float wsY = (float)(h - mouseY) / h * NUM_TILES_YAXIS - 0.5;
+	int microX, microY;
+	ConvertFloatToIndexSpace(x, wsX, posX, &microX);
+	ConvertFloatToIndexSpace(y, wsY, posY, &microY);
+	if (microX > NUM_STEPS_PER_TILE_XAXIS * 0.5f) {
+		(*posX)++;
+	}
+	if (microY > NUM_STEPS_PER_TILE_YAXIS * 0.5f) {
+		(*posY)++;
+	}
 }
 
 void CSettings::SaveKeybinds()
@@ -131,6 +149,17 @@ void CSettings::SaveKeybinds()
 		keybinds.insert(pair);
 	}
 	SaveIni("settings.ini", keybinds);
+}
+
+float CSettings::Random(float min, float max)
+{
+	float range = max - min;
+	float random = ((float)rand() / (float)RAND_MAX * range) + min;
+	while (random >= -0.5 && random <= 0.5)
+	{
+		random = ((float)rand() / (float)RAND_MAX * range) + min;
+	}
+	return random;
 }
 
 // Update the specifications of the map
