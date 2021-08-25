@@ -73,6 +73,8 @@ CPlayer2D::~CPlayer2D(void)
 	// We won't delete this since it was created elsewhere
 	cMap2D = NULL;
 
+	PortalManager::GetInstance()->Reset();
+
 	// optional: de-allocate all resources once they've outlived their purpose:
 	glDeleteVertexArrays(1, &VAO);
 }
@@ -504,12 +506,20 @@ void CPlayer2D::Update(const double dElapsedTime)
 			{
 				for (int i = 0; i < 4; i++)
 				{
-					unsigned int DoorRow = -1;
-					unsigned int DoorCol = -1;
+					unsigned int DoorRow = cSettings->NUM_TILES_YAXIS;
+					unsigned int DoorCol = cSettings->NUM_TILES_XAXIS;
 					if (cMap2D->FindValue(100, DoorRow, DoorCol) == false)
 						return;
 
-					cMap2D->SetMapInfo(DoorRow, DoorCol, 99);
+					if (cMap2D->GetDoorInfo(DoorRow, DoorCol) != -1)
+					{
+						cMap2D->SetMapInfo(DoorRow, DoorCol, 97);
+					}
+					else
+					{
+						cMap2D->SetMapInfo(DoorRow, DoorCol, 99);
+					}
+
 				}
 				cSoundController->PlaySoundByID(6);
 				cMap2D->once = true;
@@ -519,12 +529,19 @@ void CPlayer2D::Update(const double dElapsedTime)
 		{
 			for (int i = 0; i < 4; i++)
 			{
-				unsigned int DoorRow = -1;
-				unsigned int DoorCol = -1;
+				unsigned int DoorRow = cSettings->NUM_TILES_YAXIS;
+				unsigned int DoorCol = cSettings->NUM_TILES_XAXIS;
 				if (cMap2D->FindValue(100, DoorRow, DoorCol) == false)
 					return;
-
-				cMap2D->SetMapInfo(DoorRow, DoorCol, 99);
+				if (cMap2D->GetDoorInfo(DoorRow, DoorCol) != -1)
+				{
+					cMap2D->SetMapInfo(DoorRow, DoorCol, 97);
+				}
+				else
+				{
+					cMap2D->SetMapInfo(DoorRow, DoorCol, 99);
+				}
+			
 				cMap2D->once = true;
 			}
 		}
@@ -548,6 +565,8 @@ void CPlayer2D::Update(const double dElapsedTime)
 			}
 		}
 	}
+
+
 }
 
 void CPlayer2D::Render(void)
@@ -646,6 +665,36 @@ void CPlayer2D::InteractWithMap(void)
 		cInventoryItem = cInventoryManager->GetItem("Health");
 		cInventoryItem->Add(1);
 		currentColor = glm::vec4(0.0, 1.0, 0.0, 1.0);
+		break;
+	case 97:
+		//Next Room
+		EventHandler::GetInstance()->CallThenDelete(new NextRoomEvent());
+		if (i32vec2Index.x == 16 && i32vec2Index.y == 22)
+		{
+			//Top
+			CScene2D::GetInstance()->LevelCompleted(0);
+		}
+		else if (i32vec2Index.x == 30 && i32vec2Index.y == 11)
+		{
+			//Right
+			CScene2D::GetInstance()->LevelCompleted(1);
+		}
+		else if (i32vec2Index.x == 16 && i32vec2Index.y == 1)
+		{
+			//Bot
+			CScene2D::GetInstance()->LevelCompleted(2);
+		}
+		else if (i32vec2Index.x == 1 && i32vec2Index.y == 11)
+		{
+			//Left
+			CScene2D::GetInstance()->LevelCompleted(3);
+		}
+		break;
+	case 98:
+		//Next Room
+		//next level
+		EventHandler::GetInstance()->CallThenDelete(new NextRoomEvent());
+		CScene2D::GetInstance()->LevelCompleted(4);
 		break;
 	case 99:
 		//Next Room

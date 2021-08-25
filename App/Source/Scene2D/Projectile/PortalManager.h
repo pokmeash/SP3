@@ -19,4 +19,5 @@ public:
 	bool Init(void);
 	bool Update(const double dt);
 	void Render();
+	void Reset();
 };

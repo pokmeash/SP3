@@ -74,6 +74,7 @@ CScene2D::~CScene2D(void)
 		cEntityManager = NULL;
 	}
 
+
 	// Clear out all the shaders
 	//CShaderManager::GetInstance()->Destroy();
 }
@@ -94,25 +95,8 @@ bool CScene2D::Init(void)
 	cMap2D->SetShader("2DShader");
 	
 
-	// Load the map into an array
-	unsigned amt = FileSystem::getAmountOfSaves("Maps/Preset/1");
-	if (amt == 0) {
-		cout << "No presets were found!\n";
-		return false;
-	}
-	// Initialise the instance
-	if (!cMap2D->Init(amt, 24, 32))
-	{
-		cout << "Failed to load CMap2D" << endl;
-		return false;
-	}
-	vector<std::string> files = FileSystem::getSaves("Maps/Preset/1");
-	for (unsigned i = 0; i < amt; ++i) {
-		if (!cMap2D->LoadMap(files[i], i)) {
-			std::cout << "Map " << files[i] << " could not load!\n";
-			return false;
-		}
-	}
+
+	cMap2D->GenerateNewLevel(11,24,32);
 
 	// Activate diagonal movement
 	cMap2D->SetDiagonalMovement(false);
@@ -484,6 +468,18 @@ void CScene2D::LevelCompleted(int DoorDir)
 			cPlayer2D->vec2WSCoordinate.x = 28;
 			cPlayer2D->vec2WSCoordinate.y = 11;
 			break;
+		}
+		case 4://next floor
+		{
+			randomvect.clear();
+			for (int i = 1; i < 11; ++i)
+			{
+				randomvect.push_back(i);
+			}
+			cPlayer2D->vec2WSCoordinate.x = 16;
+			cPlayer2D->vec2WSCoordinate.y = 12;
+
+			cMap2D->GenerateNewLevel(11, 24, 32);
 		}
 		default:
 		{
