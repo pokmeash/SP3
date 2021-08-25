@@ -774,7 +774,7 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS - 5 && uiCol == cSettings->NUM_TILES_XAXIS - 5 || uiRow == 5 && uiCol == 5)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1001;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1002;
 				}
 				else
 				{
@@ -806,11 +806,11 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS - 5 && uiCol == cSettings->NUM_TILES_XAXIS - 5 || uiRow == 5 && uiCol == 5)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1001;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1002;
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS - 5 && uiCol == 5 || uiRow == 5 && uiCol == cSettings->NUM_TILES_XAXIS - 5)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1001;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1002;
 				}
 				else
 				{
@@ -842,11 +842,11 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS / 2 + 5 && uiCol == cSettings->NUM_TILES_XAXIS / 2 - 5 || uiRow == cSettings->NUM_TILES_YAXIS / 2 - 5 && uiCol == cSettings->NUM_TILES_XAXIS / 2 + 5)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1001;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1002;
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS/2 - 5 && uiCol == cSettings->NUM_TILES_XAXIS/2 - 5 || uiRow == cSettings->NUM_TILES_YAXIS / 2 + 5 && uiCol == cSettings->NUM_TILES_XAXIS / 2 + 5)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1001;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1002;
 				}
 				else
 				{
@@ -877,7 +877,7 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2 - 2 || uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2 + 2)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1001;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1002;
 				}
 				else
 				{
@@ -909,7 +909,7 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2 - 2 || uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2 + 2)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1001;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1002;
 				}
 				else
 				{
@@ -945,7 +945,7 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2 - 2 || uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2 + 2 || uiRow == cSettings->NUM_TILES_YAXIS / 2 - 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2 || uiRow == cSettings->NUM_TILES_YAXIS / 2 + 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1001;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1002;
 				}
 				else
 				{
@@ -977,7 +977,7 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS - 3 && uiCol == cSettings->NUM_TILES_XAXIS - 4 || uiRow == 2 && uiCol == 3)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1001;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1002;
 				}
 				else
 				{
@@ -1009,7 +1009,7 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS - 3 && uiCol == cSettings->NUM_TILES_XAXIS - 3 || uiRow == 2 && uiCol == 2 )
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1001;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1002;
 				}
 				else
 				{
@@ -1037,7 +1037,7 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1101;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1002;
 				}
 				else
 				{
@@ -1061,7 +1061,7 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1101;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1002;
 				}
 				else
 				{

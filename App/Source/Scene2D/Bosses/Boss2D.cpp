@@ -92,15 +92,17 @@ bool CBoss2D::Init(void)
 	i32vec2NumMicroSteps = glm::i32vec2(0, 0);
 
 	// Load the enemy2D texture
-	LoadTexture("Image/enemy3.png");
+	LoadTexture("Image/worm.png");
 
 	//CS: Create the animated sprite and setup the animation 
-	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(4, 3, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
+	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(6, 8, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
 	scale = glm::vec3(2, 2, 2);
-	animatedSprites->AddAnimation("idle", 0, 2);
-	animatedSprites->AddAnimation("right", 3, 5);
-	animatedSprites->AddAnimation("up", 9, 11);
-	animatedSprites->AddAnimation("down", 6, 8);
+	animatedSprites->AddAnimation("idle", 0, 7);
+	animatedSprites->AddAnimation("right", 8, 15);
+	animatedSprites->AddAnimation("left", 16, 31);
+	animatedSprites->AddAnimation("up", 32, 37);
+	animatedSprites->AddAnimation("down", 42, 47);
+	animatedSprites->AddAnimation("hole", 50, 52);
 
 	//CS: Init the color to white
 	currentColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
@@ -136,7 +138,7 @@ void CBoss2D::Update(const double dElapsedTime)
 			iFSMCounter = 0;
 		}
 		iFSMCounter++;
-		animatedSprites->PlayAnimation("idle", -1, 1.0f);
+		animatedSprites->PlayAnimation("left", -1, 1.0f);
 		break;
 	case SEARCH:
 
@@ -185,7 +187,7 @@ void CBoss2D::Update(const double dElapsedTime)
 		if (vec2WSCoordinate.x >= 0)
 		{
 			vec2WSCoordinate.x -= 2.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
-			animatedSprites->PlayAnimation("idle", -1, 1.0f);
+			animatedSprites->PlayAnimation("left", -1, 1.0f);
 		}
 		cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
 
