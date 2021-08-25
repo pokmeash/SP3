@@ -22,8 +22,9 @@ PortalManager::~PortalManager()
 		}
 		orangePortal->setDestination(NULL);
 		delete orangePortal;
-		orangePortal = NULL;
 	}
+	orangePortal = NULL;
+	EventHandler::GetInstance()->Remove(listener);
 }
 
 Portal* PortalManager::getPortal(glm::vec2 pos)
@@ -70,7 +71,7 @@ void PortalManager::placePortal(glm::vec2 pos)
 bool PortalManager::Init(void)
 {
 	if (initalized) return true;
-	EventHandler::GetInstance()->On([&](Event* e) {
+	listener = EventHandler::GetInstance()->On([&](Event* e) {
 		if (bluePortal && orangePortal) {
 			if (e->getName() == NextRoomEvent::BASE_NAME()) {
 				if (bluePortal->getDestination()) {

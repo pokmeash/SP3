@@ -14,6 +14,17 @@ EntityManager::~EntityManager(void)
 bool EntityManager::Init(void)
 {
 	cMap2D = CFloorManager::GetInstance();
+	EventHandler::GetInstance()->On([&](Event* e) {
+		if (e->getName() == NextRoomEvent::BASE_NAME()) {
+			for (unsigned i = 0; i < entitylist.size(); ++i) {
+				CEntity2D* entity = entitylist[i];
+				if (entity) {
+					delete entity;
+				}
+			}
+			entitylist.clear();
+		}
+	});
 	return false;
 }
 
