@@ -47,10 +47,11 @@ CSpaceGoop::CSpaceGoop(void)
 
 	i32vec2Destination = glm::i32vec2(0, 0);	// Initialise the iDestination
 	i32vec2Direction = glm::i32vec2(0, 0);		// Initialise the iDirection
+	//Attributes
 	setHP(3);
-	setDmg(1);
+	setDmg(2);
 	setProjSpeed(1);
-	//							hp,dmg,projspeed
+	
 }
 
 /**

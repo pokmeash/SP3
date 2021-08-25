@@ -60,7 +60,7 @@ public:
 
 	virtual void Render();
 
-	void PlayerDamaged();
+	void PlayerDamaged(int amtOfDmg);
 	//iFrames
 	bool iFrames = false;
 	bool iframesState = false;
@@ -84,6 +84,7 @@ protected:
 
 	// Count the number of jumps
 	int jumpCount;
+
 
 	// Handler to the CSoundController
 	CSoundController* cSoundController;

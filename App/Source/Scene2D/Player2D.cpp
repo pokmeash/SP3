@@ -47,9 +47,11 @@ CPlayer2D::CPlayer2D(void)
 
 	// Initialise vec2UVCoordinate
 	vec2UVCoordinate = glm::vec2(0.0f);
-	setHP(3);
-	setProjSpeed(0.5);
+	//Attributes
 
+	setHP(3);
+	setProjSpeed(1.2);
+	setDmg(1);
 }
 
 /**
@@ -57,6 +59,7 @@ CPlayer2D::CPlayer2D(void)
  */
 CPlayer2D::~CPlayer2D(void)
 {
+	
 	// We won't delete this since it was created elsewhere
 	cSoundController = NULL;
 
@@ -214,7 +217,7 @@ bool CPlayer2D::Reset()
  */
 void CPlayer2D::Update(const double dElapsedTime)
 {
-	cout << getHP() << endl;
+	//cout << getHP() << endl;
 	// Store the old position
 	vec2WSOldCoordinates = vec2WSCoordinate;
 
@@ -551,20 +554,17 @@ void CPlayer2D::Render(void)
 	}
 }
 
-void CPlayer2D::PlayerDamaged()
+void CPlayer2D::PlayerDamaged(int amtOfDmg)
 {
 	if (iframesState == false)
 	{
-		cInventoryItem = cInventoryManager->GetItem("Health");
-		cInventoryItem->Remove(20);
+		minusHP(amtOfDmg);
 		currentColor = glm::vec4(1.0, 0.0, 0.0, 1.0);
 		iframesState = true;
 	}
 
 	else if (iframesState == true)
 	{
-		cInventoryItem = cInventoryManager->GetItem("Health");
-		cInventoryItem->Remove(0);
 		currentColor = glm::vec4(1.0, 0.0, 0.0, 1.0);
 	}
 
@@ -609,7 +609,7 @@ void CPlayer2D::InteractWithMap(void)
 		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
 		break;
 	case 11:
-		addProjSpeed(0.5);
+		addProjSpeed(0.1);
 		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
 		break;
 	case 12:

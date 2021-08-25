@@ -133,7 +133,6 @@ bool CMenuState::Update(const double dElapsedTime)
 		ImGui::SetWindowPos(ImVec2(CSettings::GetInstance()->iWindowWidth / 2.0 - buttonWidth / 2.0,
 			CSettings::GetInstance()->iWindowHeight / 12.0));					// Set the top-left of the window at (10,10)
 		ImGui::SetWindowSize(ImVec2(CSettings::GetInstance()->iWindowWidth, CSettings::GetInstance()->iWindowHeight));
-
 		//Added rounding for nicer effect
 		ImGuiStyle& style = ImGui::GetStyle();
 		style.FrameRounding = 200.0f;

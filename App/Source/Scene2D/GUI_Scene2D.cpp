@@ -162,7 +162,7 @@ void CGUI_Scene2D::Update(const double dElapsedTime)
 		ImGuiWindowFlags_NoCollapse |
 		ImGuiWindowFlags_NoScrollbar;
 	ImGui::Begin("Lives", NULL, livesWindowFlags);
-	ImGui::SetWindowPos(ImVec2(700.0f, 25.0f));
+	ImGui::SetWindowPos(ImVec2(CSettings::GetInstance()->iWindowWidth - (800.f - 700.f), 25.f));
 	ImGui::SetWindowSize(ImVec2(100.0f, 25.0f));
 	cInventoryItem = cInventoryManager->GetItem("Lives");
 	ImGui::Image((void*)(intptr_t)cInventoryItem->GetTextureID(),
@@ -170,8 +170,8 @@ void CGUI_Scene2D::Update(const double dElapsedTime)
 		ImVec2(0, 1), ImVec2(1, 0));
 	ImGui::SameLine();
 	ImGui::SetWindowFontScale(1.5f);
-	ImGui::TextColored(ImVec4(0, 0, 1, 1), "%d",
-		cInventoryItem->GetCount());
+	ImGui::TextColored(ImVec4(1.0, 1.0, 1.0, 1), "%d",
+		CPlayer2D::GetInstance()->getHP());
 	ImGui::End();
 
 	if (wings == true)
@@ -238,7 +238,6 @@ void CGUI_Scene2D::updatePause(float dElapsedTime)
 
 	float buttonWidth = 180;
 	float buttonHeight = 80;
-
 	// 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
 	{
 		static float f = 0.0f;
@@ -278,6 +277,7 @@ void CGUI_Scene2D::updatePause(float dElapsedTime)
 		ImGui::End();
 	}
 }
+
 
 
 /**

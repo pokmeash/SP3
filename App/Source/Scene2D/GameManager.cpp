@@ -1,5 +1,20 @@
 #include "GameManager.h"
 
+void CGameManager::setFinalDmg(int dmg)
+{
+	FinalDmg = dmg;
+}
+
+int CGameManager::getFinalDmg()
+{
+	return FinalDmg;
+}
+
+void CGameManager::addFinalDmg(int Finaldmg)
+{
+	FinalDmg += Finaldmg;
+}
+
 /**
 @brief Constructor
 */

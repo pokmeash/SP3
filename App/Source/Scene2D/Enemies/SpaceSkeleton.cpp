@@ -292,7 +292,7 @@ bool CSpaceSkeleton::InteractWithPlayer(void)
 		((i32vec2Index.y >= i32vec2PlayerPos.y - 0.5) &&
 		(i32vec2Index.y <= i32vec2PlayerPos.y + 0.5)))
 	{
-		CPlayer2D::GetInstance()->PlayerDamaged();
+		CPlayer2D::GetInstance()->PlayerDamaged(getDmg());
 		// Since the player has been caught, then reset the FSM
 		sCurrentFSM = IDLE;
 		iFSMCounter = 0;

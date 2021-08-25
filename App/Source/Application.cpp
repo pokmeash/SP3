@@ -38,7 +38,7 @@ using namespace std;
 #include "GameStateManagement/PlayGameState.h"
 #include "GameStateManagement/Music.h"
 #include "GameStateManagement/WinState.h"
-
+#include "GameStateManagement/GameOverState.h"
 /**
  @brief Define an error callback
  @param error The error code
@@ -244,6 +244,7 @@ bool Application::Init(void)
 	CGameStateManager::GetInstance()->AddGameState("PlayGameState", new CPlayGameState());
 	CGameStateManager::GetInstance()->AddGameState("Music", new CMusicState());
 	CGameStateManager::GetInstance()->AddGameState("WinState", new CWinState());
+	CGameStateManager::GetInstance()->AddGameState("GameOverState", new CGameOverState());
 	// Set the active scene
 	CGameStateManager::GetInstance()->SetActiveGameState("MenuState");
 

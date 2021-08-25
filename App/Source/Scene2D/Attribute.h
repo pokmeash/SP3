@@ -44,5 +44,9 @@ public:
 	{
 		projectileSpeed += speed;
 	}
+	virtual void minusHP(int amtOfHP)
+	{
+		HP -= amtOfHP;
+	}
 
 };

@@ -38,7 +38,12 @@ void EntityManager::Update(const double dElapsedTime)
 				{
 					if (cPhysics.CalculateDistance(entity->vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) <= 1)
 					{
-						CPlayer2D::GetInstance()->PlayerDamaged();
+						for (std::vector<CEntity2D*>::iterator it2 = CScene2D::GetInstance()->enemyVector.begin(); it2 != CScene2D::GetInstance()->enemyVector.end(); ++it2)
+						{
+							CLivingEntity* enemy = (CLivingEntity*)*it2;
+							CPlayer2D::GetInstance()->PlayerDamaged(enemy->getDmg());
+						}
+						
 						entity->bIsActive = false;
 					}
 					break;
@@ -46,35 +51,38 @@ void EntityManager::Update(const double dElapsedTime)
 				case CEntity2D::E_BULLET:
 				{
 					
-					if (entity->i32vec2Index.x < 0 || entity->i32vec2Index.x > CSettings::GetInstance()->NUM_TILES_XAXIS ||
-						entity->i32vec2Index.y < 0 || entity->i32vec2Index.y > CSettings::GetInstance()->NUM_TILES_YAXIS) {
+					if ((entity->i32vec2Index.x <= 0 && entity->vec2Velocity.x < 0) || (entity->i32vec2Index.x >= CSettings::GetInstance()->NUM_TILES_XAXIS && entity->vec2Velocity.x > 0) ||
+						(entity->i32vec2Index.y <= 0 && entity->vec2Velocity.y < 0) || (entity->i32vec2Index.y >= CSettings::GetInstance()->NUM_TILES_YAXIS && entity->vec2Velocity.y > 0)) {
 						entity->bIsActive = false;
 						if (cPhysics.CalculateDistance(entity->vec2WSCoordinate,CPlayer2D::GetInstance()->vec2WSCoordinate) <= 1)
 						{
-							CPlayer2D::GetInstance()->PlayerDamaged();
 							entity->bIsActive = false;
 							EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(entity));
 						}
 						break;
 					}
+					if (entity->bIsActive == false)
+					{
+						break;
+					}
 					// Ricochet power up physics
 					glm::vec2 vel = entity->vec2Velocity;
-					if (cMap2D->GetMapInfo(entity->i32vec2Index.y + 1, entity->i32vec2Index.x) >= 100 && vel.y > 0)
+					if (cMap2D->GetMapInfo(entity->i32vec2Index.y + 1, entity->i32vec2Index.x) >= 99 && vel.y > 0)
 					{
 						entity->vec2Velocity.y *= -1;
 						entity->counter--;
 					}
-					else if (cMap2D->GetMapInfo(entity->i32vec2Index.y - 1, entity->i32vec2Index.x) >= 100 && vel.y < 0 && entity->i32vec2NumMicroSteps.y <= CSettings::GetInstance()->NUM_STEPS_PER_TILE_YAXIS * 0.5f)
+					else if (cMap2D->GetMapInfo(entity->i32vec2Index.y - 1, entity->i32vec2Index.x) >= 99 && vel.y < 0 && entity->i32vec2NumMicroSteps.y <= CSettings::GetInstance()->NUM_STEPS_PER_TILE_YAXIS * 0.5f)
 					{
 						entity->vec2Velocity.y *= -1;
 						entity->counter--;
 					}
-					if (cMap2D->GetMapInfo(entity->i32vec2Index.y, entity->i32vec2Index.x + 1) >= 100 && vel.x > 0)
+					if (cMap2D->GetMapInfo(entity->i32vec2Index.y, entity->i32vec2Index.x + 1) >= 99 && vel.x > 0)
 					{
 						entity->vec2Velocity.x *= -1;
 						entity->counter--;
 					}
-					else if (cMap2D->GetMapInfo(entity->i32vec2Index.y, entity->i32vec2Index.x - 1) >= 100 && vel.x < 0 && entity->i32vec2NumMicroSteps.x <= CSettings::GetInstance()->NUM_STEPS_PER_TILE_XAXIS * 0.5f)
+					else if (cMap2D->GetMapInfo(entity->i32vec2Index.y, entity->i32vec2Index.x - 1) >= 99 && vel.x < 0 && entity->i32vec2NumMicroSteps.x <= CSettings::GetInstance()->NUM_STEPS_PER_TILE_XAXIS * 0.5f)
 					{
 						entity->vec2Velocity.x *= -1;
 						entity->counter--;
@@ -86,7 +94,8 @@ void EntityManager::Update(const double dElapsedTime)
 						if (!enemy->bIsActive) continue;
 						if (cPhysics.CalculateDistance(entity->vec2WSCoordinate, enemy->vec2WSCoordinate) <= 1)
 						{
-							enemy->setHP(enemy->getHP() - CPlayer2D::GetInstance()->getDmg());
+							enemy->minusHP(CPlayer2D::GetInstance()->getDmg());
+
 							if (enemy->getHP() <= 0)
 							{
 								enemy->bIsActive = false;
@@ -125,7 +134,7 @@ void EntityManager::Update(const double dElapsedTime)
 						if (!enemy->bIsActive) continue;
 						if (cPhysics.CalculateDistance(entity->vec2WSCoordinate, enemy->vec2WSCoordinate) <= 1)
 						{
-							enemy->setHP(enemy->getHP() - 1);
+							enemy->minusHP(CPlayer2D::GetInstance()->getDmg());
 						}
 					}
 					if (entity->vec2Velocity.x >= 0 && entity->vec2Velocity.x <= 0.12)
