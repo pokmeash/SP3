@@ -229,5 +229,11 @@
     <ClInclude Include="Source\Primitives\Packet.h">
       <Filter>Primitives</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Primitives\AbstractMetadata.h">
+      <Filter>Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Primitives\DynamicMetadata.h">
+      <Filter>Primitives</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

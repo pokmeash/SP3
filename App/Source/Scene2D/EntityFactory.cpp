@@ -89,7 +89,8 @@ std::vector<Beam*> EntityFactory::ProduceBeam(glm::vec2 pos, glm::vec2 dir, CEnt
 		EventHandler::GetInstance()->CallThenDelete(new Entity2DSpawnEvent(beam));
 		if (PortalManager::GetInstance()->getPortal(pos) && PortalManager::GetInstance()->getPortal(pos)->getDestination()) {
 			Portal* portal = PortalManager::GetInstance()->getPortal(pos)->getDestination();
-			pos = portal->vec2WSCoordinate + dir * 0.8f;
+			glm::vec2 dist = pos - PortalManager::GetInstance()->getPortal(pos)->vec2WSCoordinate;
+			pos = dist + portal->vec2WSCoordinate + dir * 0.8f;
 			while (glm::length(pos - portal->vec2WSCoordinate) <= .5f) {
 				pos += dir * 0.8f;
 			}
@@ -98,7 +99,7 @@ std::vector<Beam*> EntityFactory::ProduceBeam(glm::vec2 pos, glm::vec2 dir, CEnt
 			CLivingEntity* enemy = (CLivingEntity*)CScene2D::GetInstance()->enemyVector[j];
 			if (!enemy->bIsActive) continue;
 			if (glm::length(enemy->vec2WSCoordinate - pos) <= .5f) {
-				enemy->addHP(-1);
+				enemy->addHP(-5);
 				if (enemy->getHP() <= 0) {
 					enemy->bIsActive = false;
 					EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(enemy));

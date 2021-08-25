@@ -24,8 +24,8 @@ PortalManager::~PortalManager()
 
 Portal* PortalManager::getPortal(glm::vec2 pos)
 {
-	if (bluePortal && glm::length(bluePortal->vec2WSCoordinate - pos) <= 1.f) return bluePortal;
-	if (orangePortal && glm::length(orangePortal->vec2WSCoordinate - pos) <= 1.f) return orangePortal;
+	if (bluePortal && glm::length(bluePortal->vec2WSCoordinate - pos) <= .5f) return bluePortal;
+	if (orangePortal && glm::length(orangePortal->vec2WSCoordinate - pos) <= .5f) return orangePortal;
 	return NULL;
 }
 
@@ -85,14 +85,16 @@ bool PortalManager::Init(void)
 			}
 			if (e->getName() == Player2DMoveEvent::BASE_NAME()) {
 				Player2DMoveEvent* ev = (Player2DMoveEvent*)e;
-				if (cPhysics.CalculateDistance(bluePortal->vec2WSCoordinate, ev->getTo()) <= 1.f) {
-					CPlayer2D::GetInstance()->vec2WSCoordinate = orangePortal->vec2WSCoordinate + CPlayer2D::GetInstance()->vec2Velocity;
-					while (cPhysics.CalculateDistance(orangePortal->vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) <= 1.f) {
+				if (cPhysics.CalculateDistance(bluePortal->vec2WSCoordinate, ev->getTo()) <= .5f) {
+					glm::vec2 dist = ev->getTo() - bluePortal->vec2WSCoordinate;
+					CPlayer2D::GetInstance()->vec2WSCoordinate = dist + orangePortal->vec2WSCoordinate + CPlayer2D::GetInstance()->vec2Velocity;
+					while (cPhysics.CalculateDistance(orangePortal->vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) <= .5f) {
 						CPlayer2D::GetInstance()->vec2WSCoordinate += CPlayer2D::GetInstance()->vec2Velocity;
 					}
-				} else if (cPhysics.CalculateDistance(orangePortal->vec2WSCoordinate, ev->getTo()) <= 1.f) {
-					CPlayer2D::GetInstance()->vec2WSCoordinate = bluePortal->vec2WSCoordinate + CPlayer2D::GetInstance()->vec2Velocity;
-					while (cPhysics.CalculateDistance(bluePortal->vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) <= 1.f) {
+				} else if (cPhysics.CalculateDistance(orangePortal->vec2WSCoordinate, ev->getTo()) <= .5f) {
+					glm::vec2 dist = ev->getTo() - orangePortal->vec2WSCoordinate;
+					CPlayer2D::GetInstance()->vec2WSCoordinate = dist + bluePortal->vec2WSCoordinate + CPlayer2D::GetInstance()->vec2Velocity;
+					while (cPhysics.CalculateDistance(bluePortal->vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) <= .5f) {
 						CPlayer2D::GetInstance()->vec2WSCoordinate += CPlayer2D::GetInstance()->vec2Velocity;
 					}
 				}
@@ -100,14 +102,16 @@ bool PortalManager::Init(void)
 			}
 			if (e->getName() == Entity2DMoveEvent::BASE_NAME()) {
 				Entity2DMoveEvent* ev = (Entity2DMoveEvent*)e;
-				if (cPhysics.CalculateDistance(bluePortal->vec2WSCoordinate, ev->getTo()) <= 1.f) {
-					ev->getEntity()->vec2WSCoordinate = orangePortal->vec2WSCoordinate + ev->getEntity()->vec2Velocity;
-					while (cPhysics.CalculateDistance(orangePortal->vec2WSCoordinate, ev->getEntity()->vec2WSCoordinate) <= 1.f) {
+				if (cPhysics.CalculateDistance(bluePortal->vec2WSCoordinate, ev->getTo()) <= .5f) {
+					glm::vec2 dist = ev->getTo() - bluePortal->vec2WSCoordinate;
+					ev->getEntity()->vec2WSCoordinate = dist + orangePortal->vec2WSCoordinate + ev->getEntity()->vec2Velocity;
+					while (cPhysics.CalculateDistance(orangePortal->vec2WSCoordinate, ev->getEntity()->vec2WSCoordinate) <= .5f) {
 						ev->getEntity()->vec2WSCoordinate += ev->getEntity()->vec2Velocity;
 					}
-				} else if (cPhysics.CalculateDistance(orangePortal->vec2WSCoordinate, ev->getTo()) <= 1.f) {
-					ev->getEntity()->vec2WSCoordinate = bluePortal->vec2WSCoordinate + ev->getEntity()->vec2Velocity;
-					while (cPhysics.CalculateDistance(bluePortal->vec2WSCoordinate, ev->getEntity()->vec2WSCoordinate) <= 1.f) {
+				} else if (cPhysics.CalculateDistance(orangePortal->vec2WSCoordinate, ev->getTo()) <= .5f) {
+					glm::vec2 dist = ev->getTo() - orangePortal->vec2WSCoordinate;
+					ev->getEntity()->vec2WSCoordinate = dist + bluePortal->vec2WSCoordinate + ev->getEntity()->vec2Velocity;
+					while (cPhysics.CalculateDistance(bluePortal->vec2WSCoordinate, ev->getEntity()->vec2WSCoordinate) <= .5f) {
 						ev->getEntity()->vec2WSCoordinate += ev->getEntity()->vec2Velocity;
 					}
 				}

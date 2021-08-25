@@ -43,6 +43,13 @@ CEntity2D::~CEntity2D(void)
 {
 	if (mesh)
 		delete mesh;
+
+	for (auto& pair : metaData) {
+		if (pair.second) {
+			delete pair.second;
+		}
+	}
+	metaData.clear();
 }
 
 /**
