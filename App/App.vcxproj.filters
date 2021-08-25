@@ -161,6 +161,12 @@
     <ClCompile Include="Source\Scene2D\GoopAttribute.cpp">
       <Filter>Powerups</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Scene2D\Bosses\BossTimeControl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\Enemies\SpaceCannon.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -288,6 +294,9 @@
     </ClInclude>
     <ClInclude Include="Source\Scene2D\GoopAttribute.h">
       <Filter>Powerups</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\Enemies\SpaceCannon.h">
+      <Filter>Enemies</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

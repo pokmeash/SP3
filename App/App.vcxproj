@@ -26,6 +26,7 @@
     <ClCompile Include="Source\Scene2D\BaseAttribute.cpp" />
     <ClCompile Include="Source\Scene2D\Bosses\BossTimeControl.cpp" />
     <ClCompile Include="Source\Scene2D\Enemies\Enemy2D.cpp" />
+    <ClCompile Include="Source\Scene2D\Enemies\SpaceCannon.cpp" />
     <ClCompile Include="Source\Scene2D\Enemies\SpaceFly.cpp" />
     <ClCompile Include="Source\Scene2D\Enemies\SpaceGoop.cpp" />
     <ClCompile Include="Source\Scene2D\Enemies\SpaceSkeleton.cpp" />
@@ -66,6 +67,7 @@
     <ClInclude Include="Source\Scene2D\BaseAttribute.h" />
     <ClInclude Include="Source\Scene2D\Bosses\BossTimeControl.h" />
     <ClInclude Include="Source\Scene2D\Enemies\Enemy2D.h" />
+    <ClInclude Include="Source\Scene2D\Enemies\SpaceCannon.h" />
     <ClInclude Include="Source\Scene2D\Enemies\SpaceFly.h" />
     <ClInclude Include="Source\Scene2D\Enemies\SpaceGoop.h" />
     <ClInclude Include="Source\Scene2D\Enemies\SpaceSkeleton.h" />
