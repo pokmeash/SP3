@@ -5,6 +5,7 @@
 #include"Primitives/MeshBuilder.h"
 #include "../EntityFactory.h"
 #include "../FloorManager.h"
+#include "../Particles/ParticleManager.h"
 
 Grenade::Grenade()
 {
@@ -57,6 +58,7 @@ void Grenade::Update(const double dElapsedTime)
 		timer = dElapsedTime;
 		bIsActive = false;
 		explode = true;
+        ParticleManager::GetInstance()->SpawnParticle(Particle::PARTICLE_TYPE::EXPLOSION, vec2WSCoordinate, 4);
         EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(this));
 	}
     if (vec2WSOldCoordinates != vec2WSCoordinate) {

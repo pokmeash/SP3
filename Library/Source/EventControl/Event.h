@@ -6,6 +6,7 @@
 #include "../Primitives/Entity3D.h"
 #include "../App/Source/Scene2D/Player2D.h"
 #include "../App/Source/Scene2D/InventoryItem.h"
+#include "../App/Source/Scene2D/Particles/Particle.h"
 
 class Event {
 protected:
@@ -88,6 +89,50 @@ public:
 
 	static const std::string BASE_NAME() {
 		return "Entity2DEvent";
+	}
+};
+
+class Particle2DDespawnEvent : public Entity2DEvent {
+public:
+	Particle2DDespawnEvent(Particle* particle) : Entity2DEvent(particle) {
+		name = BASE_NAME();
+	}
+	static const std::string BASE_NAME() {
+		return "Particle2DDespawnEvent";
+	}
+	Particle* getParticle() {
+		return (Particle*)entity;
+	}
+};
+
+class Particle2DSpawnEvent : public Entity2DEvent {
+public:
+	Particle2DSpawnEvent(Particle* particle) : Entity2DEvent(particle) {
+		name = BASE_NAME();
+	}
+	static const std::string BASE_NAME() {
+		return "Particle2DSpawnEvent";
+	}
+	Particle* getParticle() {
+		return (Particle*)entity;
+	}
+};
+
+class Particle2DFrameChangeEvent : public Entity2DEvent {
+protected:
+	int frame;
+public:
+	Particle2DFrameChangeEvent(Particle* particle, int frame) : Entity2DEvent(particle), frame(frame) {
+		name = BASE_NAME();
+	}
+	static const std::string BASE_NAME() {
+		return "Particle2DFrameChangeEvent";
+	}
+	Particle* getParticle() {
+		return (Particle*)entity;
+	}
+	int getFrame() {
+		return frame;
 	}
 };
 

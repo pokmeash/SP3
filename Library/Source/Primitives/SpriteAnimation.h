@@ -70,6 +70,7 @@ public:
 
 	//Update the animated sprite
 	void Update(double dt);
+	void UpdateReverse(double dt);
 	virtual void Render();
 
 	void AddAnimation(std::string name, int start, int end);

@@ -80,20 +80,13 @@ std::vector<Beam*> EntityFactory::ProduceBeam(glm::vec2 pos, glm::vec2 dir, CEnt
 	}
 	for (unsigned i = 0; i < beams.size(); ++i) {
 		Beam* beam = beams[i];
-		beam->vec2WSCoordinate = pos;
-		beam->vec2Velocity = dir;
-		beam->type = type;
-		beam->timer = 0.1f;
-		beam->bIsActive = true;
 		EventHandler::GetInstance()->CallThenDelete(new Entity2DSpawnEvent(beam));
 		if (PortalManager::GetInstance()->getPortal(pos) && PortalManager::GetInstance()->getPortal(pos)->getDestination()) {
 			Portal* portal = PortalManager::GetInstance()->getPortal(pos)->getDestination();
 			glm::vec2 dist = pos - PortalManager::GetInstance()->getPortal(pos)->vec2WSCoordinate;
 			pos = dist + portal->vec2WSCoordinate + dir * 0.8f;
-			while (glm::length(pos - portal->vec2WSCoordinate) <= .5f) {
-				pos += dir * 0.8f;
-			}
 		}
+		pos += dir * 0.7f;
 		glm::i32vec2 index, micro;
 		CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::x, pos.x, &index.x, &micro.x);
 		CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::y, pos.y, &index.y, &micro.y);
@@ -114,12 +107,17 @@ std::vector<Beam*> EntityFactory::ProduceBeam(glm::vec2 pos, glm::vec2 dir, CEnt
 				dir.x *= -1;
 			}
 		}
-		pos += dir * 0.8f;
+		beam->vec2WSCoordinate = pos;
+		beam->vec2Velocity = dir;
+		beam->type = type;
+		beam->timer = 0.1f;
+		beam->bIsActive = true;
 		for (unsigned j = 0; j < CScene2D::GetInstance()->enemyVector.size(); ++j) {
 			CLivingEntity* enemy = (CLivingEntity*)CScene2D::GetInstance()->enemyVector[j];
 			if (!enemy->bIsActive) continue;
 			if (glm::length(enemy->vec2WSCoordinate - pos) <= .5f) {
 				enemy->addHP(-1);
+				beam->hitEntities.push_back(enemy);
 				if (enemy->getHP() <= 0) {
 					enemy->bIsActive = false;
 					EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(enemy));

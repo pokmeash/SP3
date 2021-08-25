@@ -10,6 +10,7 @@ using namespace std;
 #include "Enemies/SpaceTurret.h"
 #include "Enemies/SpaceSkeleton.h"
 #include "Bosses/BossTimeControl.h"
+#include "Particles/ParticleManager.h"
 
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
@@ -262,6 +263,7 @@ bool CScene2D::Update(const double dElapsedTime)
 
 	// Call the Map2D's update method
 	cMap2D->Update(dElapsedTime);
+	ParticleManager::GetInstance()->Update(dElapsedTime);
 
 	if (cKeyboardController->IsKeyDown(GLFW_KEY_H)) {
 		if (!CBossTimeControl::GetInstance()->isListening() && CBossTimeControl::GetInstance()->getPackets().size() == 0) {
@@ -344,6 +346,8 @@ void CScene2D::Render(void)
 	cMap2D->Render();
 	// Call the Map2D's PostRender()
 	cMap2D->PostRender();
+
+	ParticleManager::GetInstance()->Render();
 
 	// Call the cGUI_Scene2D's PreRender()
 	cGUI_Scene2D->PreRender();

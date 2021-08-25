@@ -103,6 +103,49 @@ void CSpriteAnimation::Update(double dt)
 	}
 }
 
+void CSpriteAnimation::UpdateReverse(double dt)
+{
+	if (animationList[currentAnimation]->animActive)
+	{
+		//Add the delta time
+		currentTime -= static_cast<float>(dt);
+
+		//Get the number of frame to get the frame per second
+		int numFrame = animationList[currentAnimation]->frames.size();
+		float frameTime = animationList[currentAnimation]->animTime / numFrame;
+
+		//Set the current frame based on the current time
+		currentFrame = animationList[currentAnimation]->frames[fmin((int)animationList[currentAnimation]->frames.size() - 1, static_cast<int>(currentTime / frameTime))];
+
+		//check if the current time is more than the total animated time
+		if (currentTime < animationList[currentAnimation]->animTime)
+		{
+			//if it is less than the repeat count, increase the count and repeat
+			if (playCount <= animationList[currentAnimation]->repeatCount)
+			{
+				++playCount;
+				currentTime = 0;
+				currentFrame = animationList[currentAnimation]->frames[0];
+			}
+			//if we repeat count is 0 or we have reach same number of play count
+			else
+			{
+				animationList[currentAnimation]->animActive = false;
+				animationList[currentAnimation]->ended = true;
+			}
+
+			//If the animaton is infinite
+			if (animationList[currentAnimation]->repeatCount == -1)
+			{
+				currentTime = 0.f;
+				currentFrame = animationList[currentAnimation]->frames[0];
+				animationList[currentAnimation]->animActive = true;
+				animationList[currentAnimation]->ended = false;
+			}
+		}
+	}
+}
+
 /******************************************************************************/
 /*!
 \brief
