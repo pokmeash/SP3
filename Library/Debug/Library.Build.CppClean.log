@@ -7,7 +7,6 @@ d:\sp3\sp3\library\debug\meshbuilder.obj
 d:\sp3\sp3\library\debug\mesh.obj
 d:\sp3\sp3\library\debug\levelofdetails.obj
 d:\sp3\sp3\library\debug\entity3d.obj
-d:\sp3\sp3\library\debug\entity2d.obj
 d:\sp3\sp3\library\debug\collider.obj
 d:\sp3\sp3\library\debug\mousecontroller.obj
 d:\sp3\sp3\library\debug\keyboardcontroller.obj
@@ -28,6 +27,7 @@ d:\sp3\sp3\library\debug\csvwriter.obj
 d:\sp3\sp3\library\debug\csvreader.obj
 d:\sp3\sp3\library\debug\scriptmanager.obj
 d:\sp3\sp3\library\debug\textrenderer.obj
+d:\sp3\sp3\library\debug\entity2d.obj
 d:\sp3\sp3\debug\library.lib
 d:\sp3\sp3\library\debug\library.tlog\cl.command.1.tlog
 d:\sp3\sp3\library\debug\library.tlog\cl.read.1.tlog

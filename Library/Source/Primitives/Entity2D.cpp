@@ -65,7 +65,6 @@ bool CEntity2D::Init(void)
 
 	//Draw a quad for a default entity2D
 	mesh = CMeshBuilder::GenerateQuad(glm::vec4(1, 1, 1, 1), cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
-	iHealth = 4;
 	return true;
 }
 

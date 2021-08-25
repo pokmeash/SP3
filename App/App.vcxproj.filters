@@ -107,9 +107,6 @@
     <ClCompile Include="Source\Scene2D\Projectile\Bullet.cpp">
       <Filter>Projectiles</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Scene2D\PowerUps\DoubleShot.cpp">
-      <Filter>Powerups</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Scene2D\LivingEntity.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
@@ -178,6 +175,9 @@
     </ClCompile>
     <ClCompile Include="Source\Scene2D\Particles\ParticleManager.cpp">
       <Filter>Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\Bosses\Boss2D.cpp">
+      <Filter>Enemies\Bosses</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -250,9 +250,6 @@
     <ClInclude Include="Source\Scene2D\Projectile\Bullet.h">
       <Filter>Projectiles</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Scene2D\PowerUps\DoubleShot.h">
-      <Filter>Powerups</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Scene2D\LivingEntity.h">
       <Filter>Entity</Filter>
     </ClInclude>
@@ -321,6 +318,9 @@
     </ClInclude>
     <ClInclude Include="Source\Scene2D\Particles\ParticleManager.h">
       <Filter>Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\Bosses\Boss2D.h">
+      <Filter>Enemies\Bosses</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
