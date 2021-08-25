@@ -36,7 +36,8 @@ using namespace std;
 CSpaceTurret::CSpaceTurret(void)
 {
 	transform = glm::mat4(1.0f);	// make sure to initialize matrix to identity matrix first
-
+	rotation = 0.f;
+	scale = glm::vec3(1, 1, 1);
 	// Initialise vecIndex
 	i32vec2Index = glm::i32vec2(0);
 	vec2WSCoordinate = glm::vec2(0);
@@ -110,9 +111,6 @@ bool CSpaceTurret::Init(void)
 	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(1, 4, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
 	animatedSprites->AddAnimation("idle", 0, 3);
 
-	bulletTimer = 0;
-
-	iHealth = 4;
 	return true;
 }
 
@@ -123,7 +121,7 @@ void CSpaceTurret::Update(const double dElapsedTime)
 {
 	if (!bIsActive)
 		return;
-
+	vec2WSOldCoordinates = vec2WSCoordinate;
 	switch (sCurrentFSM)
 	{
 	case IDLE:
@@ -139,36 +137,7 @@ void CSpaceTurret::Update(const double dElapsedTime)
 	case MELEEATTACK:
 		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 10.0f)
 		{
-			// Calculate a path to the player
-			auto path = cMap2D->PathFind(i32vec2Index,
-				CPlayer2D::GetInstance()->i32vec2Index,
-				heuristic::euclidean,
-				10);
-
-			// Calculate new destination
-			bool bFirstPosition = true;
-			for (const auto& coord : path)
-			{
-				//std::cout << coord.x << "," << coord.y << "\n";
-				if (bFirstPosition == true)
-				{
-					// Set a destination
-					i32vec2Destination = coord;
-					// Calculate the direction between enemy2D and this destination
-					i32vec2Direction = i32vec2Destination - i32vec2Index;
-					bFirstPosition = false;
-				}
-				else
-				{
-					if ((coord - i32vec2Destination) == i32vec2Direction)
-					{
-						// Set a destination
-						i32vec2Destination = coord;
-					}
-					else
-						break;
-				}
-			}
+			PathFinding();
 			UpdateDirection();
 			UpdatePosition();
 		}
@@ -198,9 +167,7 @@ void CSpaceTurret::Update(const double dElapsedTime)
 				temp.y = sinf(atan2f(temp.y, temp.x) + 0.1);
 				temp.x = cosf(atan2f(temp.y, temp.x) + 0.1);
 				temp = glm::normalize(temp) * 0.5f;
-				EntityManager::GetInstance()->entitylist.push_back(EntityFactory::GetInstance()->ProduceBullets(vec2WSCoordinate, glm::vec2(temp.x, temp.y), glm::vec3(1, 1, 1), 0, E_EBULLET));
-
-				cout << "shoot bullet!";
+				EntityFactory::GetInstance()->ProduceBullets(vec2WSCoordinate, glm::vec2(temp.x, temp.y), glm::vec3(1, 1, 1), E_EBULLET);
 				bulletTimer = 0;
 			}
 		}

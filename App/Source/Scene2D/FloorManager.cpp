@@ -1,4 +1,6 @@
 #include "FloorManager.h"
+#include "Inputs/KeyboardController.h"
+#include "Inputs/MouseController.h"
 #include "EventControl/EventHandler.h"
 
 CFloorManager::CFloorManager() : currentFloor(NULL), currentRoom(0) {
@@ -33,6 +35,14 @@ bool CFloorManager::Init(const unsigned int uiNumLevels, const unsigned int uiNu
 void CFloorManager::Update(const double dt)
 {
 	if (currentFloor) {
+		if (CMouseController::GetInstance()->IsButtonPressed(4) || CMouseController::GetInstance()->IsButtonPressed(3)) {
+			glm::i32vec2 m(0, 0);
+			CSettings::GetInstance()->ConvertMouseToIndexSpace(CMouseController::GetInstance()->GetMousePositionX(), CMouseController::GetInstance()->GetMousePositionY(), &m.x, &m.y);
+			if (m.x >= 0 && m.x < CSettings::GetInstance()->NUM_TILES_XAXIS &&
+				m.y >= 0 && m.y < CSettings::GetInstance()->NUM_TILES_YAXIS) {
+				SetMapInfo(m.y, m.x, CMouseController::GetInstance()->IsButtonPressed(4) ? 101 : 0);
+			}
+		}
 		currentFloor->Update(dt);
 	}
 }

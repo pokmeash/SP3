@@ -7,27 +7,21 @@
 
 #include <iostream>
 using namespace std;
-
 // Include Shader Manager
 #include "RenderControl\ShaderManager.h"
 // Include Mesh Builder
 #include "Primitives/MeshBuilder.h"
-
 // Include GLEW
 #include <GL/glew.h>
-
 // Include ImageLoader
 #include "System\ImageLoader.h"
-
 // Include the Map2D as we will use it to check the player's movements and actions
-
 #include "../FloorManager.h"
 // Include math.h
 #include <math.h>
-
 #include "../Player2D.h"
-
 #include "../EntityManager.h"
+#include "EventControl/EventHandler.h"
 
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
@@ -39,7 +33,8 @@ using namespace std;
 CSpaceFly::CSpaceFly(void)
 {
 	transform = glm::mat4(1.0f);	// make sure to initialize matrix to identity matrix first
-
+	rotation = 0.f;
+	scale = glm::vec3(1, 1, 1);
 	// Initialise vecIndex
 	i32vec2Index = glm::i32vec2(0);
 
@@ -109,7 +104,6 @@ bool CSpaceFly::Init(void)
 
 	setHP(10);
 	setDmg(1);
-
 	//CS: Init the color to white
 	currentColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
 
@@ -132,6 +126,7 @@ void CSpaceFly::Update(const double dElapsedTime)
 	if (!bIsActive)
 		return;
 
+	vec2WSOldCoordinates = vec2WSCoordinate;
 	switch (sCurrentFSM)
 	{
 	case IDLE:
@@ -143,6 +138,47 @@ void CSpaceFly::Update(const double dElapsedTime)
 		}
 		iFSMCounter++;
 		animatedSprites->PlayAnimation("idle", -1, 1.0f);
+		break;
+	case SEARCH:
+
+		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 15.0f)
+		{
+			if (iFSMCounter > iMaxFSMCounter)
+			{
+				sCurrentFSM = ATTACK;
+				iFSMCounter = 0;
+				currentColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
+			}
+			iFSMCounter++;
+		}
+
+		//animatedSprites->PlayAnimation("idle", -1, 1.0f);
+		break;
+	case ATTACK:
+		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) >= 20.0f)
+		{
+			sCurrentFSM = IDLE;
+		}
+		else if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 20.0f)
+		{
+			sCurrentFSM = MELEEATTACK;
+		}
+	case MELEEATTACK:
+		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 20.0f)
+		{
+			PathFinding();
+			UpdateDirection();
+			UpdatePosition();
+		}
+		else
+		{
+			if (iFSMCounter > iMaxFSMCounter)
+			{
+				sCurrentFSM = SEARCH;
+				iFSMCounter = 0;
+			}
+			iFSMCounter++;
+		}
 		break;
 	case MOVELEFT:
 		//movementLEFT
@@ -162,6 +198,14 @@ void CSpaceFly::Update(const double dElapsedTime)
 			vec2WSCoordinate.x += 2.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
 			cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
 			sCurrentFSM = MOVERIGHT;
+		}
+		vec2Velocity = vec2WSCoordinate - vec2WSOldCoordinates;
+		if (vec2WSOldCoordinates != vec2WSCoordinate) {
+			if (EventHandler::GetInstance()->CallDeleteIsCancelled(new Entity2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates))) {
+				vec2WSCoordinate = vec2WSOldCoordinates;
+				CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
+				CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->y, vec2WSCoordinate.y, &i32vec2Index.y, &i32vec2NumMicroSteps.y);
+			}
 		}
 	break;
 
@@ -187,11 +231,19 @@ void CSpaceFly::Update(const double dElapsedTime)
 			vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
 			sCurrentFSM = MOVELEFT;
 		}
+		vec2Velocity = vec2WSCoordinate - vec2WSOldCoordinates;
+		if (vec2WSOldCoordinates != vec2WSCoordinate) {
+			if (EventHandler::GetInstance()->CallDeleteIsCancelled(new Entity2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates))) {
+				vec2WSCoordinate = vec2WSOldCoordinates;
+				CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
+				CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->y, vec2WSCoordinate.y, &i32vec2Index.y, &i32vec2NumMicroSteps.y);
+			}
+		}
 		break;
 	default:
 		break;
 	}
-
+	
 	// Update Jump or Fall
 	// UpdateJumpFall(dElapsedTime);
 	animatedSprites->Update(dElapsedTime);

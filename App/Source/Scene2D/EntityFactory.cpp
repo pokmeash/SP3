@@ -1,67 +1,111 @@
 #include "EntityFactory.h"
 #include "EventControl/EventHandler.h"
+#include "EntityManager.h"
+#include "Projectile/PortalManager.h"
+#include "Scene2D.h"
 
 EntityFactory::EntityFactory()
 {}
 EntityFactory::~EntityFactory()
 {}
 
-Bullet* EntityFactory::ProduceBullets(glm::f32vec2 EntityVec2Index, glm::f32vec2 EntityVec2Vel, glm::vec3 EntityVec3Scale, float rotation, CEntity2D::ENTITY_TYPE type)
+Bullet* EntityFactory::ProduceBullets(glm::f32vec2 EntityVec2Index, glm::f32vec2 EntityVec2Vel, glm::vec3 EntityVec3Scale, CEntity2D::ENTITY_TYPE type)
 {
-	Bullet* temp = new Bullet;
+	Bullet* temp = nullptr;
+	for (unsigned i = 0; i < EntityManager::GetInstance()->entitylist.size(); ++i) {
+		CEntity2D* entity = EntityManager::GetInstance()->entitylist[i];
+		if (entity->bIsActive) continue;
+		if (!dynamic_cast<Bullet*>(entity)) continue;
+		temp = (Bullet*)entity;
+		break;
+	}
+	if (!temp) {
+		temp = new Bullet();
+		temp->Init();
+		EntityManager::GetInstance()->entitylist.push_back(temp);
+	}
 	temp->counter = 3;
 	temp->vec2WSCoordinate = EntityVec2Index;
 	temp->vec2Velocity = EntityVec2Vel;
 	temp->scale = EntityVec3Scale;
-	temp->rotation = rotation;
+	temp->rotation = atan2f(EntityVec2Vel.y, EntityVec2Vel.x);
 	temp->type = type;
 	temp->bIsActive = true;
 	
-	temp->Init();
 	EventHandler::GetInstance()->CallThenDelete(new Entity2DSpawnEvent(temp));
 	return temp;
 }
 
-Grenade* EntityFactory::ProduceGrenade(glm::f32vec2 EntityVec2Index, glm::f32vec2 EntityVec2Vel, glm::vec3 EntityVec3Scale, float rotation, CEntity2D::ENTITY_TYPE type)
+Grenade* EntityFactory::ProduceGrenade(glm::f32vec2 EntityVec2Index, glm::f32vec2 EntityVec2Vel, glm::vec3 EntityVec3Scale, CEntity2D::ENTITY_TYPE type)
 {
-	Grenade* temp = new Grenade;
-	temp->Init();
+	Grenade* temp = nullptr;
+	for (unsigned i = 0; i < EntityManager::GetInstance()->entitylist.size(); ++i) {
+		CEntity2D* entity = EntityManager::GetInstance()->entitylist[i];
+		if (entity->bIsActive) continue;
+		if (!dynamic_cast<Grenade*>(entity)) continue;
+		temp = (Grenade*)entity;
+		break;
+	}
+	if (!temp) {
+		temp = new Grenade();
+		temp->Init();
+		EntityManager::GetInstance()->entitylist.push_back(temp);
+	}
 	temp->timer = 2;
 	temp->vec2WSCoordinate = EntityVec2Index;
 	temp->vec2Velocity = EntityVec2Vel;
 	temp->scale = EntityVec3Scale;
-	temp->rotation = rotation;
+	temp->rotation = 0;
 	temp->type = type;
 	temp->bIsActive = true;
 	EventHandler::GetInstance()->CallThenDelete(new Entity2DSpawnEvent(temp));
 	return temp;
 }
 
-Spike* EntityFactory::ProduceSpikes(float EntityVec2Indexx,float EntityVec2Indexy, glm::f32vec2 EntityVec2Vel, glm::vec3 EntityVec3Scale, float rotation, CEntity2D::ENTITY_TYPE type)
+std::vector<Beam*> EntityFactory::ProduceBeam(glm::vec2 pos, glm::vec2 dir, CEntity2D::ENTITY_TYPE type)
 {
-	Spike* temp = new Spike;
-	temp->Init();
-	temp->vec2WSCoordinate.x = EntityVec2Indexx;
-	temp->vec2WSCoordinate.y = EntityVec2Indexy;
-	temp->vec2Velocity = EntityVec2Vel;
-	temp->scale = EntityVec3Scale;
-	temp->rotation = rotation;
-	temp->type = type;
-	temp->bIsActive = true;
-	EventHandler::GetInstance()->CallThenDelete(new Entity2DSpawnEvent(temp));
-	return temp;
-}
-
-DoubleShot* EntityFactory::ProduceDoubleShot(glm::f32vec2 EntityVec2Index, glm::f32vec2 EntityVec2Vel, glm::vec3 EntityVec3Scale, float rotation, CEntity2D::ENTITY_TYPE type)
-{
-	DoubleShot* temp = new DoubleShot;
-	temp->Init();
-	temp->vec2WSCoordinate = EntityVec2Index;
-	temp->vec2Velocity = EntityVec2Vel;
-	temp->scale = EntityVec3Scale;
-	temp->rotation = rotation;
-	temp->type = type;
-	temp->bIsActive = true;
-	EventHandler::GetInstance()->CallThenDelete(new Entity2DSpawnEvent(temp));
-	return temp;
+	std::vector<Beam*> beams;
+	for (unsigned i = 0; i < EntityManager::GetInstance()->entitylist.size(); ++i) {
+		CEntity2D* entity = EntityManager::GetInstance()->entitylist[i];
+		if (entity->bIsActive) continue;
+		if (!dynamic_cast<Beam*>(entity)) continue;
+		beams.push_back((Beam*)entity);
+		break;
+	}
+	while (beams.size() < 10) {
+		Beam* temp = new Beam();
+		temp->Init();
+		EntityManager::GetInstance()->entitylist.push_back(temp);
+		beams.push_back(temp);
+	}
+	for (unsigned i = 0; i < beams.size(); ++i) {
+		Beam* beam = beams[i];
+		beam->vec2WSCoordinate = pos;
+		beam->vec2Velocity = dir;
+		beam->type = type;
+		beam->timer = 0.1f;
+		beam->bIsActive = true;
+		pos += dir * 0.8f;
+		EventHandler::GetInstance()->CallThenDelete(new Entity2DSpawnEvent(beam));
+		if (PortalManager::GetInstance()->getPortal(pos) && PortalManager::GetInstance()->getPortal(pos)->getDestination()) {
+			Portal* portal = PortalManager::GetInstance()->getPortal(pos)->getDestination();
+			glm::vec2 dist = pos - PortalManager::GetInstance()->getPortal(pos)->vec2WSCoordinate;
+			pos = dist + portal->vec2WSCoordinate + dir * 0.8f;
+			while (glm::length(pos - portal->vec2WSCoordinate) <= .5f) {
+				pos += dir * 0.8f;
+			}
+		}
+		for (unsigned j = 0; j < CScene2D::GetInstance()->enemyVector.size(); ++j) {
+			CLivingEntity* enemy = (CLivingEntity*)CScene2D::GetInstance()->enemyVector[j];
+			if (!enemy->bIsActive) continue;
+			if (glm::length(enemy->vec2WSCoordinate - pos) <= .5f) {
+				enemy->addHP(-5);
+				if (enemy->getHP() <= 0) {
+					enemy->bIsActive = false;
+					EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(enemy));
+				}
+			}
+		}
+	}
+	return beams;
 }

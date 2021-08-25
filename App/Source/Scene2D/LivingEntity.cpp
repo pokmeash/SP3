@@ -39,7 +39,8 @@ CLivingEntity::CLivingEntity(void)
 	, BaseAttribute(1,1,1)
 {
 	transform = glm::mat4(1.0f);	// make sure to initialize matrix to identity matrix first
-
+	rotation = 0.f;
+	scale = glm::vec3(1, 1, 1);
 	// Initialise vecIndex
 	i32vec2Index = glm::i32vec2(0);
 	vec2WSCoordinate = glm::vec2(0);
@@ -361,11 +362,39 @@ void CLivingEntity::UpdatePosition(void)
 			vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
 		}
 	}
+	vec2Velocity = vec2WSCoordinate - vec2WSOldCoordinates;
 	if (vec2WSCoordinate != vec2WSOldCoordinates) {
 		if (EventHandler::GetInstance()->CallDeleteIsCancelled(new Entity2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates))) {
 			vec2WSCoordinate = vec2WSOldCoordinates;
 		}
 	}
-	
-	
+	CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
+	CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->y, vec2WSCoordinate.y, &i32vec2Index.y, &i32vec2NumMicroSteps.y);
+}
+
+void CLivingEntity::PathFinding(void)
+{
+	auto path = cMap2D->PathFind(i32vec2Index,
+		CPlayer2D::GetInstance()->i32vec2Index,
+		heuristic::euclidean,
+		10);
+	bool bFirstPosition = true;
+	for (const auto& coord : path)
+	{
+		if (bFirstPosition == true)
+		{
+			// Set a destination
+			i32vec2Destination = coord;
+			// Calculate the direction between enemy2D and this destination
+			i32vec2Direction = i32vec2Destination - i32vec2Index;
+			bFirstPosition = false;
+		} else
+		{
+			if ((coord - i32vec2Destination) == i32vec2Direction)
+			{
+				i32vec2Destination = coord;
+			} else
+				break;
+		}
+	}
 }

@@ -161,11 +161,17 @@
     <ClCompile Include="Source\Scene2D\GoopAttribute.cpp">
       <Filter>Powerups</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Scene2D\Bosses\BossTimeControl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Scene2D\Enemies\SpaceCannon.cpp">
       <Filter>Enemies</Filter>
+	</ClCompile>
+    <ClCompile Include="Source\Scene2D\Projectile\Portal.cpp">
+      <Filter>Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\Projectile\PortalManager.cpp">
+      <Filter>Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\Projectile\Beam.cpp">
+      <Filter>Projectiles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -297,6 +303,15 @@
     </ClInclude>
     <ClInclude Include="Source\Scene2D\Enemies\SpaceCannon.h">
       <Filter>Enemies</Filter>
+	</ClInclude>
+    <ClInclude Include="Source\Scene2D\Projectile\Portal.h">
+      <Filter>Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\Projectile\PortalManager.h">
+      <Filter>Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\Projectile\Beam.h">
+      <Filter>Projectiles</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

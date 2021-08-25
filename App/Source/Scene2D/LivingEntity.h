@@ -23,6 +23,7 @@
 
 // Include the Map2D as we will use it to check the player's movements and actions
 class CFloorManager;
+class CFloor2D;
 
 // Include Settings
 #include "GameControl\Settings.h"
@@ -52,18 +53,6 @@ public:
 
 	// Set the number of microsteps of the enemy2D
 	void Seti32vec2NumMicroSteps(const int iNumMicroSteps_XAxis, const int iNumMicroSteps_YAxis);
-
-	// Set the UV coordinates of the enemy2D
-	void Setvec2UVCoordinates(const float fUVCoordinate_XAxis, const float fUVCoordinate_YAxis);
-
-	// Get the indices of the enemy2D
-	glm::i32vec2 Geti32vec2Index(void) const;
-
-	// Get the number of microsteps of the enemy2D
-	glm::i32vec2 Geti32vec2NumMicroSteps(void) const;
-
-	// Set the UV coordinates of the enemy2D
-	glm::vec2 Getvec2UVCoordinates(void) const;
 protected:
 	enum FSM
 	{
@@ -120,6 +109,8 @@ protected:
 
 	// Update position
 	void UpdatePosition(void);
+
+	void PathFinding(void);
 
 	virtual bool InteractWithPlayer(void) { return false; }
 	virtual void InteractWithMap(void) {}

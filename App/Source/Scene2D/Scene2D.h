@@ -106,5 +106,9 @@ protected:
 	virtual ~CScene2D(void);
 
 	bool isPaused;
+
+	vector<int> randomvect;
+
+	int temp;
 };
 

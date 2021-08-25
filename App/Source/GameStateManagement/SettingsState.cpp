@@ -98,6 +98,10 @@ bool CSettingsState::Init(void)
 	buttonData[CHANGE_RIGHT].keybindType = "Right";
 	buttonData[CHANGE_SHOOT].keybindID = CSettings::TRIGGER_SHOOT;
 	buttonData[CHANGE_SHOOT].keybindType = "Shoot";
+	buttonData[CHANGE_PORTAL].keybindID = CSettings::TRIGGER_PORTAL;
+	buttonData[CHANGE_PORTAL].keybindType = "Portal";
+	buttonData[CHANGE_GRENADE].keybindID = CSettings::TRIGGER_THROW;
+	buttonData[CHANGE_GRENADE].keybindType = "Grenade";
 	buttonData[CHANGE_ACTIVATE].keybindID = CSettings::TRIGGER_POWERUP;
 	buttonData[CHANGE_ACTIVATE].keybindType = "Activate";
 	
