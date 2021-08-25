@@ -13,7 +13,7 @@
 // Include ImageLoader
 #include "System\ImageLoader.h"
 #include "Primitives/MeshBuilder.h"
-
+#include "System\MyMath.h"
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -27,6 +27,7 @@ using namespace std::placeholders;
 CFloor2D::CFloor2D(void)
 	: uiCurRoom(0)
 {
+	
 }
 
 /**
@@ -64,7 +65,6 @@ bool CFloor2D::Init(	const unsigned int uiNumLevels,
 {
 	// Get the handler to the CSettings instance
 	cSettings = CSettings::GetInstance();
-
 	// Create the arrMapInfo and initialise to 0
 	// Start by initialising the number of levels
 	arrMapInfo.reserve(uiNumLevels);
@@ -81,14 +81,6 @@ bool CFloor2D::Init(	const unsigned int uiNumLevels,
 			}
 		}
 	}
-
-	// Store the map sizes in cSettings
-	uiCurRoom = 0;
-	this->uiNumRooms = uiNumLevels;
-	cSettings->NUM_TILES_XAXIS = uiNumCols;
-	cSettings->NUM_TILES_YAXIS = uiNumRows;
-	cSettings->UpdateSpecifications();
-
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 
@@ -151,7 +143,7 @@ bool CFloor2D::Init(	const unsigned int uiNumLevels,
 		return false;
 	}
 	// Load the Exit texture
-	if (LoadTexture("Image/Scene2D_Exit.tga", 97) == false)
+	if (LoadTexture("Image/Scene2D_UsedExit.tga", 97) == false)
 	{
 		std::cout << "Failed to load Exit tile texture" << std::endl;
 		return false;
@@ -193,6 +185,13 @@ bool CFloor2D::Init(	const unsigned int uiNumLevels,
 		std::cout << "Failed to load ground tile texture" << std::endl;
 		return false;
 	}
+
+	// Store the map sizes in cSettings
+	uiCurRoom = 0;
+	this->uiNumRooms = uiNumLevels;
+	cSettings->NUM_TILES_XAXIS = uiNumCols;
+	cSettings->NUM_TILES_YAXIS = uiNumRows;
+	cSettings->UpdateSpecifications();
 
 	// Initialise the variables for AStar
 	m_weight = 1;
@@ -255,7 +254,7 @@ void CFloor2D::Render(void)
 			transform = glm::translate(transform, glm::vec3(cSettings->ConvertIndexToUVSpace(cSettings->x, uiCol, false, 0),
 															cSettings->ConvertIndexToUVSpace(cSettings->y, uiRow, true, 0),
 															0.0f));
-			//transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
+			//transform = glm::rotate(transform, Math::HALF_PI, glm::vec3(0.0f, 0.0f, 1.0f));
 			//transform = glm::scale(transform, glm::vec3(1.5, 1, 1));
 
 			// Update the shaders with the latest transform
@@ -962,7 +961,7 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				{
 					arrMapInfo[uiLevel][uiRow][uiCol].value = 101;
 				}
-				else if (uiRow <= 11 && uiCol == 2 || uiRow <= 11 && uiCol == 4 || uiRow >= cSettings->NUM_TILES_YAXIS - 11 && uiCol == cSettings->NUM_TILES_XAXIS - 3 || uiRow >= cSettings->NUM_TILES_YAXIS - 11 && uiCol == cSettings->NUM_TILES_XAXIS - 5)
+				else if (uiRow <= 11 && uiCol == 2 || uiRow <= 11 && uiCol == 5 || uiRow >= cSettings->NUM_TILES_YAXIS - 11 && uiCol == cSettings->NUM_TILES_XAXIS - 3 || uiRow >= cSettings->NUM_TILES_YAXIS - 11 && uiCol == cSettings->NUM_TILES_XAXIS - 6)
 				{
 					arrMapInfo[uiLevel][uiRow][uiCol].value = 102;
 				}
@@ -998,7 +997,7 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				{
 					arrMapInfo[uiLevel][uiRow][uiCol].value = 102;
 				}
-				else if (uiRow == cSettings->NUM_TILES_YAXIS - 3 && uiCol == cSettings->NUM_TILES_XAXIS - 3 || uiRow == 2 && uiCol == 2)
+				else if (uiRow == cSettings->NUM_TILES_YAXIS - 3 && uiCol == cSettings->NUM_TILES_XAXIS - 3 || uiRow == 2 && uiCol == 2 )
 				{
 					arrMapInfo[uiLevel][uiRow][uiCol].value = 1001;
 				}
@@ -1011,6 +1010,34 @@ void CFloor2D::GeneratePreset(int uiLevel)
 		break;
 	}
 	case 9:
+	{
+		for (unsigned int uiRow = 0; uiRow < cSettings->NUM_TILES_YAXIS; uiRow++)
+		{
+			// Load a particular CSV value into the arrMapInfo
+			for (unsigned int uiCol = 0; uiCol < cSettings->NUM_TILES_XAXIS; ++uiCol)
+			{
+				arrMapInfo[uiLevel][uiRow][uiCol].roomid = -1;
+				if ((uiRow < 2) || (uiCol < 2) || (uiCol > cSettings->NUM_TILES_XAXIS - 3) || (uiRow > cSettings->NUM_TILES_YAXIS - 3))
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 101;
+				}
+				else if (uiRow >= cSettings->NUM_TILES_YAXIS / 2 - 5 && uiRow <= cSettings->NUM_TILES_YAXIS / 2 + 5 && uiCol == cSettings->NUM_TILES_XAXIS / 2 - 5 || uiRow >= cSettings->NUM_TILES_YAXIS / 2 - 5 && uiRow <= cSettings->NUM_TILES_YAXIS / 2 + 5 && uiCol == cSettings->NUM_TILES_XAXIS / 2 + 5 || uiRow == cSettings->NUM_TILES_YAXIS / 2 - 5 && uiCol <= cSettings->NUM_TILES_XAXIS / 2 + 5 && uiCol >= cSettings->NUM_TILES_XAXIS / 2 - 5 || uiRow == cSettings->NUM_TILES_YAXIS / 2 + 5 && uiCol <= cSettings->NUM_TILES_XAXIS / 2 + 5 && uiCol >= cSettings->NUM_TILES_XAXIS / 2 - 5)
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 102;
+				}
+				else if (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2)
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1001;
+				}
+				else
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 0;
+				}
+			}
+		}
+		break;
+	}
+	case 10:
 	{
 		for (unsigned int uiRow = 0; uiRow < cSettings->NUM_TILES_YAXIS; uiRow++)
 		{

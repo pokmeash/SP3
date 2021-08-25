@@ -8,17 +8,21 @@ PortalManager::PortalManager() : bluePortal(NULL), orangePortal(NULL), initalize
 
 PortalManager::~PortalManager()
 {
-	if (bluePortal->getDestination()) {
-		bluePortal->getDestination()->setDestination(NULL);
+	if (bluePortal) {
+		if (bluePortal->getDestination()) {
+			bluePortal->getDestination()->setDestination(NULL);
+		}
+		bluePortal->setDestination(NULL);
+		delete bluePortal;
 	}
-	bluePortal->setDestination(NULL);
-	delete bluePortal;
 	bluePortal = NULL;
-	if (orangePortal->getDestination()) {
-		orangePortal->getDestination()->setDestination(NULL);
+	if (orangePortal) {
+		if (orangePortal->getDestination()) {
+			orangePortal->getDestination()->setDestination(NULL);
+		}
+		orangePortal->setDestination(NULL);
+		delete orangePortal;
 	}
-	orangePortal->setDestination(NULL);
-	delete orangePortal;
 	orangePortal = NULL;
 	EventHandler::GetInstance()->Remove(listener);
 }
@@ -165,5 +169,25 @@ void PortalManager::Render()
 		orangePortal->PreRender();
 		orangePortal->Render();
 		orangePortal->PostRender();
+	}
+}
+
+void PortalManager::Reset()
+{
+	if (bluePortal) {
+		if (bluePortal->getDestination()) {
+			bluePortal->getDestination()->setDestination(NULL);
+		}
+		bluePortal->setDestination(NULL);
+		delete bluePortal;
+	}
+	bluePortal = NULL;
+	if (orangePortal) {
+		if (orangePortal->getDestination()) {
+			orangePortal->getDestination()->setDestination(NULL);
+		}
+		orangePortal->setDestination(NULL);
+		delete orangePortal;
+		orangePortal = NULL;
 	}
 }

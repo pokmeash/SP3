@@ -129,6 +129,21 @@ CFloor2D* CFloorManager::GetCurrentFloor() const {
 	return currentFloor;
 }
 
+void CFloorManager::GenerateNewLevel(const unsigned int uiNumLevels, const unsigned int uiNumRows, const unsigned int uiNumCols)
+{
+	// Initialise the instance
+	CFloor2D* cMap2D = ProduceMap(uiNumLevels, uiNumRows, uiNumCols);
+
+	for (unsigned i = 0; i < uiNumLevels; ++i)
+	{
+		if (!cMap2D->LoadMap("", i)) {
+			continue;
+		}
+	}
+
+	currentFloor = cMap2D;
+}
+
 std::vector<glm::i32vec2> CFloorManager::PathFind(const glm::i32vec2& startPos, const glm::i32vec2& targetPos, HeuristicFunction heuristicFunc, const int weight)
 {
 	return currentFloor->PathFind(startPos, targetPos, heuristicFunc, weight);
