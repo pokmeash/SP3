@@ -10,7 +10,7 @@
 
 struct Listener {
     std::function<void (Event*)> cb;
-    bool ic;
+    bool ic = false;
 };
 
 class EventHandler : public CSingletonTemplate<EventHandler> {
@@ -24,22 +24,24 @@ protected:
         Clear();
     }
 public:
-    virtual void On(std::function<void(Event*)> callback) {
-        if (!callback) return;
+    virtual Listener* On(std::function<void(Event*)> callback) {
+        if (!callback) return nullptr;
 
         auto* l = new Listener();
         l->cb = callback;
         l->ic = false;
         listeners.push_back(l);
+        return l;
     }
 
-    virtual void IgnoreCancelOn(std::function<void(Event*)> callback) {
-        if (!callback) return;
+    virtual Listener* IgnoreCancelOn(std::function<void(Event*)> callback) {
+        if (!callback) return nullptr;
 
         auto* l = new Listener();
         l->cb = callback;
         l->ic = true;
         listeners.push_back(l);
+        return l;
     }
 
     virtual void Call(Event* e) {
@@ -77,6 +79,17 @@ public:
             delete c;
         }
         listeners.clear();
+    }
+
+    virtual void Remove(Listener* listener) {
+        if (listener == nullptr) return;
+        for (auto it = listeners.begin(); it != listeners.end(); it++) {
+            Listener* c = *it;
+            if (listener != c) continue;
+            delete c;
+            listeners.erase(it);
+            break;
+        }
     }
 };
 

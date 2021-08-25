@@ -3,6 +3,8 @@
 #include "../App/Source/Scene2D/Physics2D.h"
 #include <vector>
 
+struct Listener;
+
 class PortalManager : public CSingletonTemplate<PortalManager> {
 	friend class CSingletonTemplate<PortalManager>;
 protected:
@@ -10,6 +12,7 @@ protected:
 	Portal* bluePortal;
 	CPhysics2D cPhysics;
 	bool initalized;
+	Listener* listener;
 	PortalManager();
 	virtual ~PortalManager();
 
