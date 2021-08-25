@@ -10,6 +10,7 @@ Portal::Portal(glm::vec2& pos, TYPE type) : type(type), destination(NULL)
 
 Portal::~Portal()
 {
+    destination = NULL;
     cSettings = NULL;
 }
 

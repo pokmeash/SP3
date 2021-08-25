@@ -35,11 +35,13 @@ public:
 	std::vector<glm::i32vec2> PathFind(const glm::i32vec2& startPos, const glm::i32vec2& targetPos, HeuristicFunction heuristicFunc, const int weight = 1);
 	void SetDiagonalMovement(const bool bEnable);
 	CFloor2D* GetCurrentFloor() const;
-	CFloor2D* ProduceMap(unsigned int level) {
+	CFloor2D* ProduceMap(const unsigned int uiNumLevels = 1, const unsigned int uiNumRows = 24, const unsigned int uiNumCols = 32) {
 		CFloor2D* map = new CFloor2D();
 		map->SetShader(sShaderName);
-		if (!map->Init()) return NULL;
+		if (!map->Init(uiNumLevels,uiNumRows,uiNumCols)) return NULL;
 		floorList.push_back(map);
 		return map;
 	}
+
+	void GenerateNewLevel(const unsigned int uiNumLevels = 1, const unsigned int uiNumRows = 24, const unsigned int uiNumCols = 32);
 };
