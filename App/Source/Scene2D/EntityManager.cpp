@@ -52,7 +52,7 @@ void EntityManager::Update(const double dElapsedTime)
 					{
 						CLivingEntity* enemy = (CLivingEntity*) CScene2D::GetInstance()->enemyVector[j];
 						if (!enemy->bIsActive) continue;
-						if (cPhysics.CalculateDistance(entity->vec2WSCoordinate, enemy->vec2WSCoordinate) <= 1)
+						if (cPhysics.CalculateDistance(entity->vec2WSCoordinate, enemy->vec2WSCoordinate) <= enemy->scale.x)
 						{
 							enemy->setHP(enemy->getHP() - CPlayer2D::GetInstance()->getDmg());
 							if (enemy->getHP() <= 0)

@@ -96,6 +96,7 @@ bool CBoss2D::Init(void)
 
 	//CS: Create the animated sprite and setup the animation 
 	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(4, 3, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
+	scale = glm::vec3(2, 2, 2);
 	animatedSprites->AddAnimation("idle", 0, 2);
 	animatedSprites->AddAnimation("right", 3, 5);
 	animatedSprites->AddAnimation("up", 9, 11);
@@ -207,7 +208,6 @@ void CBoss2D::Update(const double dElapsedTime)
 			}
 		}
 	break;
-
 	case MOVERIGHT:
 		if (vec2WSCoordinate.x < cSettings->NUM_TILES_XAXIS)
 		{

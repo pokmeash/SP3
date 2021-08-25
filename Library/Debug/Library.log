@@ -1,16 +1,1 @@
-﻿  Entity2D.cpp
-D:\SP3\SP3\Library\Source\Primitives\Entity2D.cpp(137,26): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-D:\SP3\SP3\Library\Source\Primitives\Entity2D.cpp(138,26): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-  Entity3D.cpp
-  ShaderManager.cpp
-  StopWatch.cpp
-  Generating Code...
-  Library.vcxproj -> D:\SP3\SP3\Debug\Library.lib
+﻿
