@@ -33,7 +33,8 @@ using namespace std;
 CEnemy2D::CEnemy2D(void)
 {
 	transform = glm::mat4(1.0f);	// make sure to initialize matrix to identity matrix first
-
+	rotation = 0.f;
+	scale = glm::vec3(1, 1, 1);
 	// Initialise vecIndex
 	i32vec2Index = glm::i32vec2(0);
 	vec2WSCoordinate = glm::vec2(0);
@@ -96,7 +97,7 @@ bool CEnemy2D::Init(void)
 
 	// If this class is initialised properly, then set the bIsActive to true
 	bIsActive = true;
-
+	bulletTimer = 0;
 	iHealth = 4;
 	std::cout << "Initing enemy\n";
 	return true;
@@ -107,17 +108,8 @@ bool CEnemy2D::Init(void)
  */
 bool CEnemy2D::InteractWithPlayer(void)
 {
-	glm::i32vec2 i32vec2PlayerPos = CPlayer2D::GetInstance()->i32vec2Index;
-	
-	// Check if the enemy2D is within 1.5 indices of the player2D
-	if (((i32vec2Index.x >= i32vec2PlayerPos.x - 0.5) && 
-		(i32vec2Index.x <= i32vec2PlayerPos.x + 0.5))
-		&& 
-		((i32vec2Index.y >= i32vec2PlayerPos.y - 0.5) &&
-		(i32vec2Index.y <= i32vec2PlayerPos.y + 0.5)))
-	{
+	if (cPhysics2D.CalculateDistance(CPlayer2D::GetInstance()->vec2WSCoordinate, vec2WSCoordinate) < 1.f) {
 		CPlayer2D::GetInstance()->PlayerDamaged(getDmg());
-		// Since the player has been caught, then reset the FSM
 		sCurrentFSM = IDLE;
 		iFSMCounter = 0;
 		return true;

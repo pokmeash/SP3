@@ -39,6 +39,7 @@ public:
 		TRIGGER_SHOOT,
 		TRIGGER_THROW,
 		TRIGGER_POWERUP,
+		TRIGGER_PORTAL,
 		TOTAL_KEYBINDS
 	};
 
@@ -89,7 +90,9 @@ public:
 	float ConvertIndexToWSSpace(const AXIS sAxis, const int iIndex, const float fOffset = 0.f);
 	void ConvertFloatToIndexSpace(const AXIS sAxis, const float fCoord, int* iIndex,  int* iMicro);
 	void ConvertMouseToWSSpace(int mouseX, int mouseY, float* posX, float* posY);
+	void ConvertMouseToIndexSpace(int mouseX, int mouseY, int* posX, int* posY);
 	void SaveKeybinds();
+	float Random(float min, float max);
 protected:
 	// Constructor
 	CSettings(void);

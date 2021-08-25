@@ -7,27 +7,21 @@
 
 #include <iostream>
 using namespace std;
-
 // Include Shader Manager
 #include "RenderControl\ShaderManager.h"
 // Include Mesh Builder
 #include "Primitives/MeshBuilder.h"
-
 // Include GLEW
 #include <GL/glew.h>
-
 // Include ImageLoader
 #include "System\ImageLoader.h"
-
 // Include the Map2D as we will use it to check the player's movements and actions
-
 #include "../FloorManager.h"
 // Include math.h
 #include <math.h>
-
 #include "../Player2D.h"
-
 #include "../EntityManager.h"
+#include "EventControl/EventHandler.h"
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
  */
@@ -38,7 +32,8 @@ using namespace std;
 CSpaceFly::CSpaceFly(void)
 {
 	transform = glm::mat4(1.0f);	// make sure to initialize matrix to identity matrix first
-
+	rotation = 0.f;
+	scale = glm::vec3(1, 1, 1);
 	// Initialise vecIndex
 	i32vec2Index = glm::i32vec2(0);
 
@@ -106,8 +101,6 @@ bool CSpaceFly::Init(void)
 	animatedSprites->AddAnimation("up", 9, 11);
 	animatedSprites->AddAnimation("down", 6, 8);
 
-	iHealth = 4;
-
 	//CS: Init the color to white
 	currentColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
 
@@ -130,6 +123,7 @@ void CSpaceFly::Update(const double dElapsedTime)
 	if (!bIsActive)
 		return;
 
+	vec2WSOldCoordinates = vec2WSCoordinate;
 	switch (sCurrentFSM)
 	{
 	case IDLE:
@@ -170,42 +164,8 @@ void CSpaceFly::Update(const double dElapsedTime)
 	case MELEEATTACK:
 		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 20.0f)
 		{
-			// Calculate a path to the player
-			auto path = cMap2D->PathFind(i32vec2Index,
-				CPlayer2D::GetInstance()->i32vec2Index,
-				heuristic::euclidean,
-				10);
-
-			// Calculate new destination
-			bool bFirstPosition = true;
-			for (const auto& coord : path)
-			{
-				//std::cout << coord.x << "," << coord.y << "\n";
-				if (bFirstPosition == true)
-				{
-					// Set a destination
-					i32vec2Destination = coord;
-					// Calculate the direction between enemy2D and this destination
-					i32vec2Direction = i32vec2Destination - i32vec2Index;
-					bFirstPosition = false;
-				}
-				else
-				{
-					if ((coord - i32vec2Destination) == i32vec2Direction)
-					{
-						// Set a destination
-						i32vec2Destination = coord;
-					}
-					else
-						break;
-				}
-			}
-
-			// Attack
-			// Update direction to move towards for attack
+			PathFinding();
 			UpdateDirection();
-
-			// Update the Enemy2D's position for attack
 			UpdatePosition();
 		}
 		else
@@ -238,6 +198,14 @@ void CSpaceFly::Update(const double dElapsedTime)
 			cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
 			sCurrentFSM = MOVERIGHT;
 		}
+		vec2Velocity = vec2WSCoordinate - vec2WSOldCoordinates;
+		if (vec2WSOldCoordinates != vec2WSCoordinate) {
+			if (EventHandler::GetInstance()->CallDeleteIsCancelled(new Entity2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates))) {
+				vec2WSCoordinate = vec2WSOldCoordinates;
+				CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
+				CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->y, vec2WSCoordinate.y, &i32vec2Index.y, &i32vec2NumMicroSteps.y);
+			}
+		}
 	break;
 
 	case MOVERIGHT:
@@ -262,11 +230,19 @@ void CSpaceFly::Update(const double dElapsedTime)
 			vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
 			sCurrentFSM = MOVELEFT;
 		}
+		vec2Velocity = vec2WSCoordinate - vec2WSOldCoordinates;
+		if (vec2WSOldCoordinates != vec2WSCoordinate) {
+			if (EventHandler::GetInstance()->CallDeleteIsCancelled(new Entity2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates))) {
+				vec2WSCoordinate = vec2WSOldCoordinates;
+				CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
+				CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->y, vec2WSCoordinate.y, &i32vec2Index.y, &i32vec2NumMicroSteps.y);
+			}
+		}
 		break;
 	default:
 		break;
 	}
-
+	
 	// Update Jump or Fall
 	// UpdateJumpFall(dElapsedTime);
 	animatedSprites->Update(dElapsedTime);

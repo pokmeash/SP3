@@ -26,6 +26,7 @@ using namespace std;
 
 #include "EntityFactory.h"
 #include "EntityManager.h"
+#include "Projectile/PortalManager.h"
 
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
@@ -38,7 +39,8 @@ CPlayer2D::CPlayer2D(void)
 	, cMouseController(NULL)
 {
 	transform = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-
+	rotation = 0.f;
+	scale = glm::vec3(1, 1, 1);
 	// Initialise vecIndex
 	i32vec2Index = glm::i32vec2(0);
 
@@ -157,8 +159,6 @@ bool CPlayer2D::Init(void)
 	cInventoryItem = cInventoryManager->Add("DoubleShot", "Image/DoubleShot.png", 100, 100);
 	cInventoryItem->vec2Size = glm::vec2(25, 25);
 
-	
-
 	jumpCount = 0;
 
 	dirx = 0;
@@ -168,6 +168,8 @@ bool CPlayer2D::Init(void)
 	cSoundController = CSoundController::GetInstance();
 	swap = true;
 	bIsActive = true;
+
+	PortalManager::GetInstance()->Init();
 	return true;
 }
 
@@ -217,7 +219,6 @@ bool CPlayer2D::Reset()
  */
 void CPlayer2D::Update(const double dElapsedTime)
 {
-	//cout << getHP() << endl;
 	// Store the old position
 	vec2WSOldCoordinates = vec2WSCoordinate;
 
@@ -230,7 +231,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 			vec2WSCoordinate.x -= 4.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
 		}
 		cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
-		
+
 		// Constraint the player's position within the screen boundary
 		Constraint(LEFT);
 
@@ -253,8 +254,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 
 		dirx = -1;
 		diry = 0;
-	}
-	else if (cKeyboardController->IsKeyDown(cSettings->iKeybinds[CSettings::MOVE_RIGHT]))
+	} else if (cKeyboardController->IsKeyDown(cSettings->iKeybinds[CSettings::MOVE_RIGHT]))
 	{
 		// Calculate the new position to the right
 		if (vec2WSCoordinate.x < cSettings->NUM_TILES_XAXIS)
@@ -297,7 +297,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 			vec2WSCoordinate.y += 4.f / cSettings->NUM_STEPS_PER_TILE_YAXIS;
 		}
 		cSettings->ConvertFloatToIndexSpace(cSettings->y, vec2WSCoordinate.y, &i32vec2Index.y, &i32vec2NumMicroSteps.y);
-		
+
 		// Constraint the player's position within the screen boundary
 		Constraint(UP);
 		vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
@@ -314,8 +314,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 
 		dirx = 0;
 		diry = 1;
-	}
-	else if (cKeyboardController->IsKeyDown(cSettings->iKeybinds[CSettings::MOVE_DOWN]))
+	} else if (cKeyboardController->IsKeyDown(cSettings->iKeybinds[CSettings::MOVE_DOWN]))
 	{
 		// Calculate the new position down
 		if (vec2WSCoordinate.y >= 0)
@@ -375,8 +374,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 		cSoundController->PlaySoundByID(8);
 
 
-	}
-	else if ((cMouseController->IsButtonPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP]) ||cKeyboardController->IsKeyPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP])) && swap == false)
+	} else if ((cMouseController->IsButtonPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP]) || cKeyboardController->IsKeyPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP])) && swap == false)
 	{
 		unsigned int InvisRow = -1;
 		unsigned int InvisCol = -1;
@@ -427,27 +425,23 @@ void CPlayer2D::Update(const double dElapsedTime)
 				temp.y = sinf(atan2f(temp.y, temp.x) + 0.1 * i);
 				temp.x = cosf(atan2f(temp.y, temp.x) + 0.1 * i);
 				temp = glm::normalize(temp) * getProjSpeed();  // projectile speed
-				EntityManager::GetInstance()->entitylist.push_back(EntityFactory::GetInstance()->ProduceBullets(vec2WSCoordinate, glm::vec2(temp.x, temp.y), glm::vec3(1, 1, 1), 0, E_BULLET));
+				EntityFactory::GetInstance()->ProduceBullets(vec2WSCoordinate, glm::vec2(temp.x, temp.y), glm::vec3(1, 1, 1), E_BULLET);
 			}
 		}
 	}
-	if (cKeyboardController->IsKeyDown(GLFW_KEY_G) && delay <= 0.f) // Throwing of grenade
+	if (cKeyboardController->IsKeyDown(cSettings->iKeybinds[CSettings::TRIGGER_THROW]) && delay <= 0.f) // Throwing of grenade
 	{
 		delay = 0.5f;
-		
-		EntityManager::GetInstance()->entitylist.push_back(EntityFactory::GetInstance()->ProduceGrenade(vec2WSCoordinate, glm::vec2(1,1), glm::vec3(1, 1, 1), 0, E_GRENADE));
+		glm::i32vec2 mouse((int)CMouseController::GetInstance()->GetMousePositionX(), (int)CMouseController::GetInstance()->GetMousePositionY());
+		glm::vec2 wsSpace(0.f, 0.f);
+		cSettings->ConvertMouseToWSSpace(mouse.x, mouse.y, &(wsSpace.x), &(wsSpace.y));
+		glm::vec2 direction = wsSpace - vec2WSCoordinate;
+		direction = glm::normalize(direction);
+		//EntityFactory::GetInstance()->ProduceGrenade(vec2WSCoordinate, direction, glm::vec3(1, 1, 1), E_GRENADE);
+		EntityFactory::GetInstance()->ProduceBeam(vec2WSCoordinate, direction, E_BEAM);
 	}
 	if (delay > 0) {
 		delay -= dElapsedTime;
-	}
-
-	if (EntityManager::GetInstance()->getExplode() == true) // Grenade projectiles after exploding
-	{
-		for (int j = 0; j < 3; j++)
-		{
-			EntityManager::GetInstance()->entitylist.push_back(EntityFactory::GetInstance()->ProduceBullets(EntityManager::GetInstance()->getPos(), glm::vec2(RNG(-2,2), RNG(-2,2)), glm::vec3(1, 1, 1), 0, E_FRAGMENT));
-		}
-		EntityManager::GetInstance()->setExplode();
 	}
 
 	// Interact with the Map
@@ -458,49 +452,16 @@ void CPlayer2D::Update(const double dElapsedTime)
 
 	//CS: Update the animated sprite
 	animatedSprites->Update(dElapsedTime);
-
-	// Update the UV Coordinates
-	vec2UVCoordinate.x = cSettings->ConvertFloatToUVSpace(cSettings->x, vec2WSCoordinate.x, false);
-	vec2UVCoordinate.y = cSettings->ConvertFloatToUVSpace(cSettings->y, vec2WSCoordinate.y, false);
 	if (vec2WSOldCoordinates != vec2WSCoordinate) {
 		if (EventHandler::GetInstance()->CallDeleteIsCancelled(new Player2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates))) {
 			vec2WSCoordinate = vec2WSOldCoordinates;
 		}
 	}
-	int counter = 0;
-	for (std::vector<CEntity2D*>::iterator it2 = CScene2D::GetInstance()->enemyVector.begin(); it2 != CScene2D::GetInstance()->enemyVector.end(); ++it2)
-	{
-		CEntity2D* enemy = (CEntity2D*)*it2;
-		if (enemy->bIsActive == false)
-		{
-			counter++;
-		}
-		if (CScene2D::GetInstance()->enemyVector.size() == counter)
-		{
-			for (int i = 0; i < 4; i++)
-			{
-				unsigned int DoorRow = -1;
-				unsigned int DoorCol = -1;
-				if (cMap2D->FindValue(100, DoorRow, DoorCol) == false)
-					return;
 
-				cMap2D->SetMapInfo(DoorRow, DoorCol, 99);
-			}
-			cSoundController->PlaySoundByID(6);
-		}
-	}
-	if (CScene2D::GetInstance()->enemyVector.size() == 0)
-	{
-		for (int i = 0; i < 4; i++)
-		{
-			unsigned int DoorRow = -1;
-			unsigned int DoorCol = -1;
-			if (cMap2D->FindValue(100, DoorRow, DoorCol) == false)
-				return;
+	// Update the UV Coordinates
+	vec2UVCoordinate.x = cSettings->ConvertFloatToUVSpace(cSettings->x, vec2WSCoordinate.x, false);
+	vec2UVCoordinate.y = cSettings->ConvertFloatToUVSpace(cSettings->y, vec2WSCoordinate.y, false);
 
-			cMap2D->SetMapInfo(DoorRow, DoorCol, 99);
-		}
-	}
 	if (iframesState == true)
 	{
 		iframesDuration -= dElapsedTime;
@@ -520,13 +481,75 @@ void CPlayer2D::Update(const double dElapsedTime)
 		if (iframesDuration <= 0)
 		{
 			iframesState = false;
-			iFrames = false; 
+			iFrames = false;
 			iframesDuration = 3;
 		}
 
 	}
 	if (vec2WSOldCoordinates != vec2WSCoordinate) {
 		EventHandler::GetInstance()->CallThenDelete(new Player2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates));
+	}
+	CInventoryItem* portalItem = cInventoryManager->GetItem("Portal");
+	if (!cInventoryManager->Check("Portal")) {
+		PortalManager::GetInstance()->Update(dElapsedTime);
+	}
+	if (cMap2D->GetMapInfo(22,16) == 100 && cMap2D->once == false)
+	{
+		int counter = 0;
+		for (std::vector<CEntity2D*>::iterator it2 = CScene2D::GetInstance()->enemyVector.begin(); it2 != CScene2D::GetInstance()->enemyVector.end(); ++it2)
+		{
+			CEntity2D* enemy = (CEntity2D*)*it2;
+			if (enemy->bIsActive == false)
+			{
+				counter++;
+			}
+			if (CScene2D::GetInstance()->enemyVector.size() == counter)
+			{
+				for (int i = 0; i < 4; i++)
+				{
+					unsigned int DoorRow = -1;
+					unsigned int DoorCol = -1;
+					if (cMap2D->FindValue(100, DoorRow, DoorCol) == false)
+						return;
+
+					cMap2D->SetMapInfo(DoorRow, DoorCol, 99);
+				}
+				cSoundController->PlaySoundByID(6);
+				cMap2D->once = true;
+			}
+		}
+		if (CScene2D::GetInstance()->enemyVector.size() == 0)
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				unsigned int DoorRow = -1;
+				unsigned int DoorCol = -1;
+				if (cMap2D->FindValue(100, DoorRow, DoorCol) == false)
+					return;
+
+				cMap2D->SetMapInfo(DoorRow, DoorCol, 99);
+				cMap2D->once = true;
+			}
+		}
+	}
+	else if (cMap2D->GetMapInfo(22, 16) == 101 && cMap2D->once == false)
+	{
+		int counter = 0;
+		for (std::vector<CEntity2D*>::iterator it2 = CScene2D::GetInstance()->enemyVector.begin(); it2 != CScene2D::GetInstance()->enemyVector.end(); ++it2)
+		{
+			CEntity2D* enemy = (CEntity2D*)*it2;
+			if (enemy->bIsActive == false)
+			{
+				counter++;
+			}
+			if (CScene2D::GetInstance()->enemyVector.size() == counter)
+			{
+				cMap2D->SetMapInfo(12,16, 98);// next floor
+				cMap2D->SetMapInfo(8, 16, 2); // powerup
+				cSoundController->PlaySoundByID(6);
+				cMap2D->once = true;
+			}
+		}
 	}
 }
 
@@ -552,6 +575,7 @@ void CPlayer2D::Render(void)
 		animatedSprites->Render();
 		glBindVertexArray(0);
 	}
+	PortalManager::GetInstance()->Render();
 }
 
 void CPlayer2D::PlayerDamaged(int amtOfDmg)
@@ -568,17 +592,6 @@ void CPlayer2D::PlayerDamaged(int amtOfDmg)
 		currentColor = glm::vec4(1.0, 0.0, 0.0, 1.0);
 	}
 
-}
-
-float CPlayer2D::RNG(float min, float max)
-{
-	float range = max - min;
-	float random = ((float)rand() / (float)RAND_MAX * range) + min;
-	while (random >= -0.5 && random <= 0.5)
-	{
-		random = ((float)rand() / (float)RAND_MAX * range) + min;
-	}
-	return random;
 }
 
 /**
@@ -599,6 +612,12 @@ void CPlayer2D::InteractWithMap(void)
 		break;
 	case 4:
 		cSoundController->PlaySoundByID(5);
+		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
+		break;
+	case 5:
+		cInventoryItem = cInventoryManager->GetItem("Portal");
+		cInventoryItem->Add(1);
+		EventHandler::GetInstance()->CallThenDelete(new Item2DPickUpEvent("Portal", cInventoryItem, i32vec2Index));
 		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
 		break;
 	case 10:
@@ -630,6 +649,7 @@ void CPlayer2D::InteractWithMap(void)
 		break;
 	case 99:
 		//Next Room
+		EventHandler::GetInstance()->CallThenDelete(new NextRoomEvent());
 		if (i32vec2Index.x == 16 && i32vec2Index.y == 22)
 		{
 			//Top
