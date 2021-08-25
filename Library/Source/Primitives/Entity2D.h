@@ -134,7 +134,6 @@ public:
 	};
 	ENTITY_TYPE type;
 	bool bIsActive;
-	int iHealth;
 	void addMetadata(std::string s, AbstractMetadata* metadata) {
 		if (hasMetadata(s)) return;
 		metaData.insert(std::pair<std::string, AbstractMetadata*>(s, metadata));

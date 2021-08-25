@@ -11,8 +11,6 @@
 //Enemy
 #include "./Enemies/Enemy2D.h"
 
-//Powerup
-#include "./PowerUps/DoubleShot.h"
 
 class EntityFactory : public CSingletonTemplate<EntityFactory>
 {

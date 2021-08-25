@@ -1,1 +1,9 @@
-﻿
+﻿  Floor2D.cpp
+D:\SP3\SP3\App\Source\Scene2D\Player2D.h(67,21): warning C4305: 'initializing': truncation from 'double' to 'float'
+D:\SP3\SP3\App\Source\Scene2D\Floor2D.cpp(720,14): warning C4018: '>': signed/unsigned mismatch
+D:\SP3\SP3\App\Source\Scene2D\Floor2D.cpp(723,6): warning C4101: 'random': unreferenced local variable
+D:\SP3\SP3\App\Source\Scene2D\Floor2D.cpp(1182,32): warning C4018: '<': signed/unsigned mismatch
+D:\SP3\SP3\App\Source\Scene2D\Floor2D.cpp(1183,26): warning C4018: '<': signed/unsigned mismatch
+D:\SP3\SP3\App\Source\Scene2D\Floor2D.cpp(1244,20): warning C4018: '<': signed/unsigned mismatch
+D:\SP3\SP3\App\Source\Scene2D\Floor2D.cpp(1253,20): warning C4018: '<': signed/unsigned mismatch
+  App.vcxproj -> D:\SP3\SP3\Debug\App.exe
