@@ -54,6 +54,9 @@ public:
 				if (dynamic_cast<EntityPacket*>(packet)) {
 					EntityPacket* entityPacket = (EntityPacket*)packet;
 					entityPacket->getEntity()->vec2WSCoordinate = entityPacket->getPosition();
+					entityPacket->getEntity()->vec2Velocity = entityPacket->getVelocity();
+					entityPacket->getEntity()->counter = entityPacket->getCounter();
+					entityPacket->getEntity()->rotation = atan2f(entityPacket->getEntity()->vec2Velocity.y, entityPacket->getEntity()->vec2Velocity.x);
 					CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->x, entityPacket->getEntity()->vec2WSCoordinate.x, &entityPacket->getEntity()->i32vec2Index.x, &entityPacket->getEntity()->i32vec2NumMicroSteps.x);
 					CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->y, entityPacket->getEntity()->vec2WSCoordinate.y, &entityPacket->getEntity()->i32vec2Index.y, &entityPacket->getEntity()->i32vec2NumMicroSteps.y);
 					if (entityPacket->isReturnActive() && !entityPacket->getEntity()->bIsActive) {

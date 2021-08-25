@@ -24,6 +24,9 @@ bool Beam::Init() {
 
 void Beam::Update(const double dElapsedTime)
 {
+    addMetadata("test", new DynamicMetadata<int>(1));
+    std::cout << ((DynamicMetadata<int>*)getMetadata("test"))->getValue() << std::endl;
+
     rotation = atan2f(vec2Velocity.y, vec2Velocity.x);
     timer -= dElapsedTime;
     if (timer <= 0.f) bIsActive = false;

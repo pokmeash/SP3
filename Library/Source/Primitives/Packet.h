@@ -14,7 +14,12 @@ protected:
 
 class EntityPacket : public Packet {
 public:
-	EntityPacket(long frame, CEntity2D* entity) : entity(entity), returnActiveState(false), position(entity->vec2WSCoordinate) {
+	EntityPacket(long frame, CEntity2D* entity) 
+		: entity(entity)
+		, returnActiveState(false)
+		, position(entity->vec2WSCoordinate)
+		, velocity(entity->vec2Velocity)
+		, counter(entity->counter) {
 		this->frame = frame;
 	}
 	virtual ~EntityPacket() {
@@ -29,16 +34,24 @@ public:
 	glm::vec2 getPosition() {
 		return position;
 	}
+	glm::vec2 getVelocity() {
+		return velocity;
+	}
 	bool isReturnActive() {
 		return returnActiveState;
 	}
 	CEntity2D* getEntity() {
 		return entity;
 	}
+	int getCounter() {
+		return counter;
+	}
 protected:
 	CEntity2D* entity;
 	bool returnActiveState;
 	glm::vec2 position;
+	glm::vec2 velocity;
+	int counter;
 };
 
 class BlockPacket : public Packet {

@@ -53,7 +53,9 @@
     <ClInclude Include="Source\GUI\imgui_internal.h" />
     <ClInclude Include="Source\Inputs\KeyboardController.h" />
     <ClInclude Include="Source\Inputs\MouseController.h" />
+    <ClInclude Include="Source\Primitives\AbstractMetadata.h" />
     <ClInclude Include="Source\Primitives\Collider.h" />
+    <ClInclude Include="Source\Primitives\DynamicMetadata.h" />
     <ClInclude Include="Source\Primitives\Entity2D.h" />
     <ClInclude Include="Source\Primitives\Entity3D.h" />
     <ClInclude Include="Source\Primitives\LevelOfDetails.h" />

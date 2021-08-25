@@ -20,15 +20,39 @@
 #include "..\GameControl\Settings.h"
 #include <iostream>
 #include <string>
+#include <map>
 
 //CS: Include Mesh.h to use to draw (include vertex and index buffers)
 #include "Mesh.h"
 #include "SpriteAnimation.h"
+#include "DynamicMetadata.h"
 
 using namespace std;
 
 class CEntity2D
 {
+protected:
+	// Name of Shader Program instance
+	std::string sShaderName;
+
+	//CS: The mesh that is used to draw objects
+	CMesh* mesh;
+
+	CSpriteAnimation* animatedSprites;
+
+	// OpenGL objects
+	unsigned int VBO, VAO, EBO;
+
+	// The texture ID in OpenGL
+	unsigned int iTextureID;
+
+	// A transformation matrix for controlling where to render the entities
+	glm::mat4 transform;
+
+	// Settings
+	CSettings* cSettings;
+
+	std::map<std::string, AbstractMetadata*> metaData;
 public:
 	// Constructor
 	CEntity2D(void);
@@ -111,24 +135,17 @@ public:
 	ENTITY_TYPE type;
 	bool bIsActive;
 	int iHealth;
-protected:
-	// Name of Shader Program instance
-	std::string sShaderName;
-
-	//CS: The mesh that is used to draw objects
-	CMesh* mesh;
-
-	CSpriteAnimation* animatedSprites;
-
-	// OpenGL objects
-	unsigned int VBO, VAO, EBO;
-
-	// The texture ID in OpenGL
-	unsigned int iTextureID;
-
-	// A transformation matrix for controlling where to render the entities
-	glm::mat4 transform;
-
-	// Settings
-	CSettings* cSettings;
+	void addMetadata(std::string s, AbstractMetadata* metadata) {
+		if (hasMetadata(s)) return;
+		metaData.insert(std::pair<std::string, AbstractMetadata*>(s, metadata));
+	}
+	bool hasMetadata(std::string s) {
+		return metaData.count(s) != 0;
+	}
+	AbstractMetadata* getMetadata(std::string s) {
+		if (hasMetadata(s)) {
+			return metaData.at(s);
+		}
+		return nullptr;
+	}
 };

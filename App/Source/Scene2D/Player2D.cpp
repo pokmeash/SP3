@@ -228,7 +228,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 			vec2WSCoordinate.x -= 4.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
 		}
 		cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
-		
+
 		// Constraint the player's position within the screen boundary
 		Constraint(LEFT);
 
@@ -251,8 +251,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 
 		dirx = -1;
 		diry = 0;
-	}
-	else if (cKeyboardController->IsKeyDown(cSettings->iKeybinds[CSettings::MOVE_RIGHT]))
+	} else if (cKeyboardController->IsKeyDown(cSettings->iKeybinds[CSettings::MOVE_RIGHT]))
 	{
 		// Calculate the new position to the right
 		if (vec2WSCoordinate.x < cSettings->NUM_TILES_XAXIS)
@@ -295,7 +294,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 			vec2WSCoordinate.y += 4.f / cSettings->NUM_STEPS_PER_TILE_YAXIS;
 		}
 		cSettings->ConvertFloatToIndexSpace(cSettings->y, vec2WSCoordinate.y, &i32vec2Index.y, &i32vec2NumMicroSteps.y);
-		
+
 		// Constraint the player's position within the screen boundary
 		Constraint(UP);
 		vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
@@ -312,8 +311,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 
 		dirx = 0;
 		diry = 1;
-	}
-	else if (cKeyboardController->IsKeyDown(cSettings->iKeybinds[CSettings::MOVE_DOWN]))
+	} else if (cKeyboardController->IsKeyDown(cSettings->iKeybinds[CSettings::MOVE_DOWN]))
 	{
 		// Calculate the new position down
 		if (vec2WSCoordinate.y >= 0)
@@ -373,8 +371,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 		cSoundController->PlaySoundByID(8);
 
 
-	}
-	else if ((cMouseController->IsButtonPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP]) ||cKeyboardController->IsKeyPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP])) && swap == false)
+	} else if ((cMouseController->IsButtonPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP]) || cKeyboardController->IsKeyPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP])) && swap == false)
 	{
 		unsigned int InvisRow = -1;
 		unsigned int InvisCol = -1;
@@ -461,7 +458,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 	// Update the UV Coordinates
 	vec2UVCoordinate.x = cSettings->ConvertFloatToUVSpace(cSettings->x, vec2WSCoordinate.x, false);
 	vec2UVCoordinate.y = cSettings->ConvertFloatToUVSpace(cSettings->y, vec2WSCoordinate.y, false);
-	
+
 	if (iframesState == true)
 	{
 		iframesDuration -= dElapsedTime;
@@ -486,10 +483,13 @@ void CPlayer2D::Update(const double dElapsedTime)
 		}
 
 	}
-  if (vec2WSOldCoordinates != vec2WSCoordinate) {
+	if (vec2WSOldCoordinates != vec2WSCoordinate) {
 		EventHandler::GetInstance()->CallThenDelete(new Player2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates));
 	}
-	PortalManager::GetInstance()->Update(dElapsedTime);
+	CInventoryItem* portalItem = cInventoryManager->GetItem("Portal");
+	if (!cInventoryManager->Check("Portal")) {
+		PortalManager::GetInstance()->Update(dElapsedTime);
+	}
 	if (cMap2D->GetMapInfo(22,16) == 100 && cMap2D->once == false)
 	{
 		int counter = 0;
@@ -612,6 +612,12 @@ void CPlayer2D::InteractWithMap(void)
 		break;
 	case 4:
 		cSoundController->PlaySoundByID(5);
+		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
+		break;
+	case 5:
+		cInventoryItem = cInventoryManager->GetItem("Portal");
+		cInventoryItem->Add(1);
+		EventHandler::GetInstance()->CallThenDelete(new Item2DPickUpEvent("Portal", cInventoryItem, i32vec2Index));
 		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
 		break;
 	case 10:
