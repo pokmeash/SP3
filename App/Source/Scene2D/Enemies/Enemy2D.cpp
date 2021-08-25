@@ -98,7 +98,6 @@ bool CEnemy2D::Init(void)
 	// If this class is initialised properly, then set the bIsActive to true
 	bIsActive = true;
 	bulletTimer = 0;
-	iHealth = 4;
 	std::cout << "Initing enemy\n";
 	return true;
 }
