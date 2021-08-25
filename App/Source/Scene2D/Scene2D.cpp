@@ -10,6 +10,7 @@ using namespace std;
 #include "Enemies/SpaceTurret.h"
 #include "Enemies/SpaceSkeleton.h"
 #include "Enemies/SpaceCannon.h"
+#include "Enemies/SpaceSpawner.h"
 #include "Bosses/BossTimeControl.h"
 
 /**
@@ -209,6 +210,23 @@ bool CScene2D::Init(void)
 	while (true)
 	{
 		CEnemy2D* cEnemy2D = new CSpaceCannon();
+		// Pass shader to cEnemy2D
+		cEnemy2D->SetShader("2DColorShader");
+		// Initialise the instance
+		if (cEnemy2D->Init() == true)
+		{
+			enemyVector.push_back(cEnemy2D);
+		}
+		else
+		{
+			// Break out of this loop if the enemy has all been loaded
+			break;
+		}
+	}
+
+	while (true)
+	{
+		CEnemy2D* cEnemy2D = new CSpaceSpawner();
 		// Pass shader to cEnemy2D
 		cEnemy2D->SetShader("2DColorShader");
 		// Initialise the instance
@@ -601,4 +619,22 @@ void CScene2D::LevelCompleted(int DoorDir)
 			break;
 		}
 	}
+
+	while (true)
+	{
+		CEnemy2D* cEnemy2D = new CSpaceSpawner();
+		// Pass shader to cEnemy2D
+		cEnemy2D->SetShader("2DColorShader");
+		// Initialise the instance
+		if (cEnemy2D->Init() == true)
+		{
+			enemyVector.push_back(cEnemy2D);
+		}
+		else
+		{
+			// Break out of this loop if the enemy has all been loaded
+			break;
+		}
+	}
+
 }

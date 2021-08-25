@@ -1,185 +1,59 @@
-﻿  Application.cpp
+﻿  SpaceCannon.cpp
 D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.h(67,21): warning C4305: 'initializing': truncation from 'double' to 'float'
-  PlayGameState.cpp
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\glfw\include\GLFW\glfw3.h(98): message : see previous definition of 'APIENTRY'
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.h(67,21): warning C4305: 'initializing': truncation from 'double' to 'float'
-  Enemy2D.cpp
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.h(67,21): warning C4305: 'initializing': truncation from 'double' to 'float'
-  SpaceCannon.cpp
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.h(67,21): warning C4305: 'initializing': truncation from 'double' to 'float'
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceCannon.cpp(143,31): warning C4244: '+=': conversion from 'const double' to 'float', possible loss of data
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceCannon.cpp(152,42): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceCannon.cpp(153,42): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceCannon.cpp(138,31): warning C4244: '+=': conversion from 'const double' to 'float', possible loss of data
   SpaceFly.cpp
 D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.h(67,21): warning C4305: 'initializing': truncation from 'double' to 'float'
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceFly.cpp(224,107): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceFly.cpp(183,107): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
           with
           [
               T=glm::i32
           ]
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceFly.cpp(231,108): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceFly.cpp(190,108): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
           with
           [
               T=glm::i32
           ]
   SpaceGoop.cpp
 D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.h(67,21): warning C4305: 'initializing': truncation from 'double' to 'float'
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceGoop.cpp(226,107): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceGoop.cpp(223,107): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
           with
           [
               T=glm::i32
           ]
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceGoop.cpp(233,108): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceGoop.cpp(230,108): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
           with
           [
               T=glm::i32
           ]
   SpaceSkeleton.cpp
 D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.h(67,21): warning C4305: 'initializing': truncation from 'double' to 'float'
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceSkeleton.cpp(145,31): warning C4244: '+=': conversion from 'const double' to 'float', possible loss of data
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceSkeleton.cpp(151,42): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceSkeleton.cpp(152,42): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceSkeleton.cpp(222,107): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceSkeleton.cpp(147,31): warning C4244: '+=': conversion from 'const double' to 'float', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceSkeleton.cpp(153,42): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceSkeleton.cpp(154,42): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceSkeleton.cpp(224,107): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
           with
           [
               T=glm::i32
           ]
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceSkeleton.cpp(229,108): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceSkeleton.cpp(231,108): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
           with
           [
               T=glm::i32
           ]
+  SpaceSpawner.cpp
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.h(67,21): warning C4305: 'initializing': truncation from 'double' to 'float'
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceSpawner.cpp(144,30): warning C4244: '+=': conversion from 'const double' to 'float', possible loss of data
   SpaceTurret.cpp
 D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.h(67,21): warning C4305: 'initializing': truncation from 'double' to 'float'
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceTurret.cpp(158,31): warning C4244: '+=': conversion from 'const double' to 'float', possible loss of data
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceTurret.cpp(167,42): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceTurret.cpp(168,42): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-  EntityFactory.cpp
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.h(67,21): warning C4305: 'initializing': truncation from 'double' to 'float'
-  EntityManager.cpp
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.h(67,21): warning C4305: 'initializing': truncation from 'double' to 'float'
-  GUI_Scene2D.cpp
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.h(67,21): warning C4305: 'initializing': truncation from 'double' to 'float'
-  LivingEntity.cpp
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.h(67,21): warning C4305: 'initializing': truncation from 'double' to 'float'
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\LivingEntity.cpp(92,106): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
-          with
-          [
-              T=glm::i32
-          ]
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\LivingEntity.cpp(93,106): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
-          with
-          [
-              T=glm::i32
-          ]
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\LivingEntity.cpp(105,106): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
-          with
-          [
-              T=glm::i32
-          ]
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\LivingEntity.cpp(106,106): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
-          with
-          [
-              T=glm::i32
-          ]
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\LivingEntity.cpp(184,22): warning C4018: '>=': signed/unsigned mismatch
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\LivingEntity.cpp(214,22): warning C4018: '>=': signed/unsigned mismatch
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\LivingEntity.cpp(301,107): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
-          with
-          [
-              T=glm::i32
-          ]
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\LivingEntity.cpp(318,107): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
-          with
-          [
-              T=glm::i32
-          ]
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\LivingEntity.cpp(323,108): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
-          with
-          [
-              T=glm::i32
-          ]
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\LivingEntity.cpp(338,107): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
-          with
-          [
-              T=glm::i32
-          ]
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\LivingEntity.cpp(343,108): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
-          with
-          [
-              T=glm::i32
-          ]
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\LivingEntity.cpp(356,107): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
-          with
-          [
-              T=glm::i32
-          ]
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\LivingEntity.cpp(362,108): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
-          with
-          [
-              T=glm::i32
-          ]
-  Player2D.cpp
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.h(67,21): warning C4305: 'initializing': truncation from 'double' to 'float'
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.cpp(267,107): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
-          with
-          [
-              T=glm::i32
-          ]
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.cpp(273,108): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
-          with
-          [
-              T=glm::i32
-          ]
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.cpp(300,107): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
-          with
-          [
-              T=glm::i32
-          ]
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.cpp(305,108): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
-          with
-          [
-              T=glm::i32
-          ]
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.cpp(324,107): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
-          with
-          [
-              T=glm::i32
-          ]
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.cpp(330,108): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
-          with
-          [
-              T=glm::i32
-          ]
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.cpp(422,42): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.cpp(423,42): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.cpp(441,24): warning C4244: '-=': conversion from 'const double' to 'float', possible loss of data
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.cpp(464,34): warning C4244: '-=': conversion from 'const double' to 'float', possible loss of data
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.cpp(465,31): warning C4244: '-=': conversion from 'const double' to 'float', possible loss of data
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.cpp(475,22): warning C4305: '=': truncation from 'double' to 'float'
-  Grenade.cpp
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.h(67,21): warning C4305: 'initializing': truncation from 'double' to 'float'
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Projectile\Grenade.cpp(34,23): warning C4244: '-=': conversion from 'const double' to 'float', possible loss of data
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Projectile\Grenade.cpp(36,43): warning C4018: '>': signed/unsigned mismatch
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Projectile\Grenade.cpp(37,40): warning C4018: '>': signed/unsigned mismatch
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Projectile\Grenade.cpp(57,11): warning C4244: '=': conversion from 'const double' to 'float', possible loss of data
-  Scene2D.cpp
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.h(67,21): warning C4305: 'initializing': truncation from 'double' to 'float'
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Bosses\BossTimeControl.h(73,98): warning C4244: 'argument': conversion from 'T' to 'const unsigned int', possible loss of data
-          with
-          [
-              T=float
-          ]
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Bosses\BossTimeControl.h(73,68): warning C4244: 'argument': conversion from 'T' to 'const unsigned int', possible loss of data
-          with
-          [
-              T=float
-          ]
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Scene2D.cpp(52,20): warning C4018: '<': signed/unsigned mismatch
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Scene2D.cpp(275,29): warning C4244: 'argument': conversion from 'const double' to 'float', possible loss of data
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Scene2D.cpp(356,20): warning C4018: '<': signed/unsigned mismatch
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Scene2D.cpp(406,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceTurret.cpp(160,31): warning C4244: '+=': conversion from 'const double' to 'float', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceTurret.cpp(169,42): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceTurret.cpp(170,42): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  Floor2D.cpp
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Floor2D.cpp(711,14): warning C4018: '>': signed/unsigned mismatch
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Floor2D.cpp(714,6): warning C4101: 'random': unreferenced local variable
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Floor2D.cpp(1051,32): warning C4018: '<': signed/unsigned mismatch
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Floor2D.cpp(1052,26): warning C4018: '<': signed/unsigned mismatch
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Floor2D.cpp(1113,20): warning C4018: '<': signed/unsigned mismatch
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Floor2D.cpp(1122,20): warning C4018: '<': signed/unsigned mismatch
   Generating Code...
-LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
   App.vcxproj -> D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Debug\App.exe

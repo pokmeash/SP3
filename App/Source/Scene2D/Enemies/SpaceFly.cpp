@@ -48,6 +48,8 @@ CSpaceFly::CSpaceFly(void)
 
 	i32vec2Destination = glm::i32vec2(0, 0);	// Initialise the iDestination
 	i32vec2Direction = glm::i32vec2(0, 0);		// Initialise the iDirection
+
+	setHP(10);
 }
 
 CSpaceFly::~CSpaceFly(void)
@@ -102,8 +104,7 @@ bool CSpaceFly::Init(void)
 	animatedSprites->AddAnimation("up", 9, 11);
 	animatedSprites->AddAnimation("down", 6, 8);
 
-	setHP(10);
-	setDmg(1);
+	
 	//CS: Init the color to white
 	currentColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
 
@@ -139,47 +140,6 @@ void CSpaceFly::Update(const double dElapsedTime)
 		iFSMCounter++;
 		animatedSprites->PlayAnimation("idle", -1, 1.0f);
 		break;
-	case SEARCH:
-
-		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 15.0f)
-		{
-			if (iFSMCounter > iMaxFSMCounter)
-			{
-				sCurrentFSM = ATTACK;
-				iFSMCounter = 0;
-				currentColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
-			}
-			iFSMCounter++;
-		}
-
-		//animatedSprites->PlayAnimation("idle", -1, 1.0f);
-		break;
-	case ATTACK:
-		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) >= 20.0f)
-		{
-			sCurrentFSM = IDLE;
-		}
-		else if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 20.0f)
-		{
-			sCurrentFSM = MELEEATTACK;
-		}
-	case MELEEATTACK:
-		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 20.0f)
-		{
-			PathFinding();
-			UpdateDirection();
-			UpdatePosition();
-		}
-		else
-		{
-			if (iFSMCounter > iMaxFSMCounter)
-			{
-				sCurrentFSM = SEARCH;
-				iFSMCounter = 0;
-			}
-			iFSMCounter++;
-		}
-		break;
 	case MOVELEFT:
 		//movementLEFT
 		if (vec2WSCoordinate.x >= 0)
@@ -208,7 +168,6 @@ void CSpaceFly::Update(const double dElapsedTime)
 			}
 		}
 	break;
-
 	case MOVERIGHT:
 		if (vec2WSCoordinate.x < cSettings->NUM_TILES_XAXIS)
 		{

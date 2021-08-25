@@ -14,6 +14,32 @@ EntityManager::~EntityManager(void)
 bool EntityManager::Init(void)
 {
 	cMap2D = CFloorManager::GetInstance();
+	EventHandler::GetInstance()->On([&](Event* e) {
+		if (e->getName() == Entity2DMoveEvent::BASE_NAME()) {
+			Entity2DMoveEvent* ev = (Entity2DMoveEvent*)e;
+			if (dynamic_cast<CEnemy2D*>(ev->getEntity())) {
+				CEnemy2D* enemy = (CEnemy2D*)ev->getEntity();
+				for (unsigned i = 0; i < CScene2D::GetInstance()->enemyVector.size(); ++i)
+				{
+					CLivingEntity* enemy2 = (CLivingEntity*)CScene2D::GetInstance()->enemyVector[i];
+					if (!enemy2->bIsActive || enemy == enemy2) continue;
+					if (glm::length(ev->getTo() - enemy2->vec2WSCoordinate) < 1.f)
+					{
+						ev->setCancelled(true);
+						if (enemy->sCurrentFSM = CLivingEntity::FSM::MOVERIGHT)
+						{
+							enemy2->sCurrentFSM = CLivingEntity::FSM::MOVELEFT;
+						}
+
+						else if (enemy->sCurrentFSM = CLivingEntity::FSM::MOVELEFT)
+						{
+							enemy2->sCurrentFSM = CLivingEntity::FSM::MOVERIGHT;
+						}
+					}
+				}
+			}
+		}
+	});
 	return false;
 }
 

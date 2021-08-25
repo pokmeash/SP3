@@ -1,9 +1,9 @@
 /**
- CSpaceCannon
+ CSpaceSpawner
  By: Toh Da Jun
  Date: Mar 2020
  */
-#include "SpaceCannon.h"
+#include "SpaceSpawner.h"
 
 #include <iostream>
 using namespace std;
@@ -33,7 +33,7 @@ using namespace std;
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
  */
-CSpaceCannon::CSpaceCannon(void)
+CSpaceSpawner::CSpaceSpawner(void)
 {
 	transform = glm::mat4(1.0f);	// make sure to initialize matrix to identity matrix first
 
@@ -49,12 +49,14 @@ CSpaceCannon::CSpaceCannon(void)
 	i32vec2Destination = glm::i32vec2(0, 0);	// Initialise the iDestination
 	i32vec2Direction = glm::i32vec2(0, 0);		// Initialise the iDirection
 
+	setHP(20);
+
 }
 
 /**
  @brief Destructor This destructor has protected access modifier as this class will be a Singleton
  */
-CSpaceCannon::~CSpaceCannon(void)
+CSpaceSpawner::~CSpaceSpawner(void)
 {
 	// Delete the quadMesh
 	if (mesh)
@@ -75,21 +77,19 @@ CSpaceCannon::~CSpaceCannon(void)
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
-
-	setHP(10);
 }
 
 /**
   @brief Initialise this instance
   */
-bool CSpaceCannon::Init(void)
+bool CSpaceSpawner::Init(void)
 {
 	CEnemy2D::Init();
 	std::cout << "Initing spacegoop\n";
 	// Find the indices for the player in arrMapInfo, and assign it to cPlayer2D
 	unsigned int uiRow = -1;
 	unsigned int uiCol = -1;
-	if (cMap2D->FindValue(1005, uiRow, uiCol) == false)
+	if (cMap2D->FindValue(1006, uiRow, uiCol) == false)
 		return false;	// Unable to find the start position of the player, so quit this game
 
 	// Erase the value of the player in the arrMapInfo
@@ -102,7 +102,7 @@ bool CSpaceCannon::Init(void)
 	i32vec2NumMicroSteps = glm::i32vec2(0, 0);
 
 	// Load the enemy2D texture
-	if (LoadTexture("Image/enemy5.png") == false)
+	if (LoadTexture("Image/enemy6.png") == false)
 	{
 		std::cout << "Failed to load enemy2D tile texture" << std::endl;
 		return false;
@@ -111,13 +111,19 @@ bool CSpaceCannon::Init(void)
 	//CS: Create the animated sprite and setup the animation 
 	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(1, 1, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
 	animatedSprites->AddAnimation("idle", 0, 3);
+
+	//bulletTimer = 0;
+
+	setHP(5);
+	setProjSpeed(0.5);
+	
 	return true;
 }
 
 /**
  @brief Update this instance
  */
-void CSpaceCannon::Update(const double dElapsedTime)
+void CSpaceSpawner::Update(const double dElapsedTime)
 {
 	if (!bIsActive)
 		return;
@@ -135,17 +141,18 @@ void CSpaceCannon::Update(const double dElapsedTime)
 		animatedSprites->PlayAnimation("idle", -1, 1.0f);
 		break;
 	case SHOOT:
-			bulletTimer += dElapsedTime;
-			if (bulletTimer >= 2)
+		bulletTimer += dElapsedTime;
+		if (bulletTimer >= 2)
+		{
+			double piBullet = 3.14159;
+			for (double theta = 0; theta <= 2 * piBullet; theta += piBullet / 5.f)
 			{
-				for (double theta = 0; theta <= 2 * 3.14159; theta += 3.14159 / 5.f) 
-				{
-					glm::vec2 temp(cos(theta), sin(theta));
-					temp = glm::normalize(temp) * projectileSpeed;
-					EntityFactory::GetInstance()->ProduceBullets(vec2WSCoordinate, temp, glm::vec3(1, 1, 1), E_EBULLET);
-				}
-				bulletTimer = 0;
+				glm::vec2 temp(cos(theta), sin(theta));
+				temp = glm::normalize(temp) * projectileSpeed;
+				EntityFactory::GetInstance()->ProduceBullets(vec2WSCoordinate, temp, glm::vec3(1, 1, 1), E_EBULLET);
 			}
+			bulletTimer = 0;
+		}
 		break;
 	default:
 		break;

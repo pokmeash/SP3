@@ -47,6 +47,8 @@ CSpaceSkeleton::CSpaceSkeleton(void)
 
 	i32vec2Destination = glm::i32vec2(0, 0);	// Initialise the iDestination
 	i32vec2Direction = glm::i32vec2(0, 0);		// Initialise the iDirection
+
+	setHP(5);
 }
 
 /**
@@ -112,7 +114,7 @@ bool CSpaceSkeleton::Init(void)
 	animatedSprites->AddAnimation("down", 18, 26);
 	bulletTimer = 0;
 
-	setHP(10);
+
 	return true;
 }
 

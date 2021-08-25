@@ -46,28 +46,34 @@ void Bullet::Update(const double dElapsedTime)
         }
     }
     if (!bIsActive) return;
-    if (cMap2D->GetMapInfo(i32vec2Index.y + 1, i32vec2Index.x) >= 100 && vec2Velocity.y > 0)
+
+    if (type == E_BULLET)
     {
-        vec2Velocity.y *= -1;
-        counter--;
-    } else if (cMap2D->GetMapInfo(i32vec2Index.y - 1, i32vec2Index.x) >= 100 && vec2Velocity.y < 0 && i32vec2NumMicroSteps.y <= cSettings->NUM_STEPS_PER_TILE_YAXIS * 0.5f)
-    {
-        vec2Velocity.y *= -1;
-        counter--;
-    }
-    if (cMap2D->GetMapInfo(i32vec2Index.y,i32vec2Index.x + 1) >= 100 && vec2Velocity.x > 0)
-    {
-        vec2Velocity.x *= -1;
-        counter--;
-    } else if (cMap2D->GetMapInfo(i32vec2Index.y, i32vec2Index.x - 1) >= 100 && vec2Velocity.x < 0 && i32vec2NumMicroSteps.x <= cSettings->NUM_STEPS_PER_TILE_XAXIS * 0.25f)
-    {
-        vec2Velocity.x *= -1;
-        counter--;
-    }
-    if (counter <= 0)
-    {
-        bIsActive = false;
-        EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(this));
+        if (i32vec2Index.y < CSettings::GetInstance()->NUM_TILES_YAXIS && cMap2D->GetMapInfo(i32vec2Index.y + 1, i32vec2Index.x) >= 100 && vec2Velocity.y > 0)
+        {
+            vec2Velocity.y *= -1;
+            counter--;
+        }
+        else if (i32vec2Index.y > 0 && cMap2D->GetMapInfo(i32vec2Index.y - 1, i32vec2Index.x) >= 100 && vec2Velocity.y < 0 && i32vec2NumMicroSteps.y <= cSettings->NUM_STEPS_PER_TILE_YAXIS * 0.5f)
+        {
+            vec2Velocity.y *= -1;
+            counter--;
+        }
+        if (i32vec2Index.x < CSettings::GetInstance()->NUM_TILES_XAXIS && cMap2D->GetMapInfo(i32vec2Index.y, i32vec2Index.x + 1) >= 100 && vec2Velocity.x > 0)
+        {
+            vec2Velocity.x *= -1;
+            counter--;
+        }
+        else if (i32vec2Index.x > 0 && cMap2D->GetMapInfo(i32vec2Index.y, i32vec2Index.x - 1) >= 100 && vec2Velocity.x < 0 && i32vec2NumMicroSteps.x <= cSettings->NUM_STEPS_PER_TILE_XAXIS * 0.25f)
+        {
+            vec2Velocity.x *= -1;
+            counter--;
+        }
+        if (counter <= 0)
+        {
+            bIsActive = false;
+            EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(this));
+        }
     }
     
     if (vec2WSOldCoordinates != vec2WSCoordinate) {

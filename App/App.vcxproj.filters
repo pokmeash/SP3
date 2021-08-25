@@ -163,7 +163,7 @@
     </ClCompile>
     <ClCompile Include="Source\Scene2D\Enemies\SpaceCannon.cpp">
       <Filter>Enemies</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="Source\Scene2D\Projectile\Portal.cpp">
       <Filter>Projectiles</Filter>
     </ClCompile>
@@ -172,6 +172,9 @@
     </ClCompile>
     <ClCompile Include="Source\Scene2D\Projectile\Beam.cpp">
       <Filter>Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\Enemies\SpaceSpawner.cpp">
+      <Filter>Enemies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -303,7 +306,7 @@
     </ClInclude>
     <ClInclude Include="Source\Scene2D\Enemies\SpaceCannon.h">
       <Filter>Enemies</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="Source\Scene2D\Projectile\Portal.h">
       <Filter>Projectiles</Filter>
     </ClInclude>
@@ -312,6 +315,9 @@
     </ClInclude>
     <ClInclude Include="Source\Scene2D\Projectile\Beam.h">
       <Filter>Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\Enemies\SpaceSpawner.h">
+      <Filter>Enemies</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
