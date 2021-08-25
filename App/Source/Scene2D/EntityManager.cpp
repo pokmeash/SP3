@@ -39,6 +39,15 @@ bool EntityManager::Init(void)
 				}
 			}
 		}
+		if (e->getName() == NextRoomEvent::BASE_NAME()) {
+			for (unsigned i = 0; i < entitylist.size(); ++i) {
+				CEntity2D* entity = entitylist[i];
+				if (entity) {
+					delete entity;
+				}
+			}
+			entitylist.clear();
+		}
 	});
 	return false;
 }
@@ -67,7 +76,7 @@ void EntityManager::Update(const double dElapsedTime)
 					{
 						CLivingEntity* enemy = (CLivingEntity*) CScene2D::GetInstance()->enemyVector[j];
 						if (!enemy->bIsActive) continue;
-						if (cPhysics.CalculateDistance(entity->vec2WSCoordinate, enemy->vec2WSCoordinate) <= 1)
+						if (cPhysics.CalculateDistance(entity->vec2WSCoordinate, enemy->vec2WSCoordinate) <= enemy->scale.x)
 						{
 							enemy->setHP(enemy->getHP() - CPlayer2D::GetInstance()->getDmg());
 							if (enemy->getHP() <= 0)

@@ -27,6 +27,8 @@
 // Include Entity2D
 #include "Primitives/Entity2D.h"
 
+#include "./Enemies/Enemy2D.h"
+
 // Include files for AStar
 #include <queue>
 #include <functional>
@@ -133,6 +135,8 @@ public:
 	virtual void PrintSelf(void) const;
 
 	void GeneratePreset(int uiLevel);
+
+	void LoadEnemies();
 
 	bool once = false;
 

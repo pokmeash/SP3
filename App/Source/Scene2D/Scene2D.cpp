@@ -76,6 +76,7 @@ CScene2D::~CScene2D(void)
 		cEntityManager = NULL;
 	}
 
+
 	// Clear out all the shaders
 	//CShaderManager::GetInstance()->Destroy();
 }
@@ -96,25 +97,8 @@ bool CScene2D::Init(void)
 	cMap2D->SetShader("2DShader");
 	
 
-	// Load the map into an array
-	unsigned amt = FileSystem::getAmountOfSaves("Maps/Preset/1");
-	if (amt == 0) {
-		cout << "No presets were found!\n";
-		return false;
-	}
-	// Initialise the instance
-	if (!cMap2D->Init(amt, 24, 32))
-	{
-		cout << "Failed to load CMap2D" << endl;
-		return false;
-	}
-	vector<std::string> files = FileSystem::getSaves("Maps/Preset/1");
-	for (unsigned i = 0; i < amt; ++i) {
-		if (!cMap2D->LoadMap(files[i], i)) {
-			std::cout << "Map " << files[i] << " could not load!\n";
-			return false;
-		}
-	}
+
+	cMap2D->GenerateNewLevel(11,24,32);
 
 	// Activate diagonal movement
 	cMap2D->SetDiagonalMovement(false);
@@ -134,78 +118,8 @@ bool CScene2D::Init(void)
 		return false;
 	}
 
-	// Create and initialise the CEnemy2D
-	enemyVector.clear();
-	while (true)
-	{
-		//CEnemy2D* cEnemy2D = new CEnemy2D();
-		//SpaceFly* cEnemy = new SpaceFly();
-		//cEnemy->SetShader("2DColorShader");
-		CEnemy2D* cEnemy2D = new CSpaceGoop();
-		// Pass shader to cEnemy2D
-		cEnemy2D->SetShader("2DColorShader");
-		// Initialise the instance
-		if (cEnemy2D->Init() == true)
-		{
-			enemyVector.push_back(cEnemy2D);
-		}
-		else
-		{
-			// Break out of this loop if the enemy has all been loaded
-			break;
-		}
-	}
-
-	while (true)
-	{
-		CEnemy2D* cEnemy2D = new CSpaceFly();
-		// Pass shader to cEnemy2D
-		cEnemy2D->SetShader("2DColorShader");
-		// Initialise the instance
-		if (cEnemy2D->Init() == true)
-		{
-			enemyVector.push_back(cEnemy2D);
-		}
-		else
-		{
-			// Break out of this loop if the enemy has all been loaded
-			break;
-		}
-	}
-
-	while (true)
-	{
-		CEnemy2D* cEnemy2D = new CSpaceTurret();
-		// Pass shader to cEnemy2D
-		cEnemy2D->SetShader("2DColorShader");
-		// Initialise the instance
-		if (cEnemy2D->Init() == true)
-		{
-			enemyVector.push_back(cEnemy2D);
-		}
-		else
-		{
-			// Break out of this loop if the enemy has all been loaded
-			break;
-		}
-	}
-
-	while (true)
-	{
-		CEnemy2D* cEnemy2D = new CSpaceSkeleton();
-		// Pass shader to cEnemy2D
-		cEnemy2D->SetShader("2DColorShader");
-		// Initialise the instance
-		if (cEnemy2D->Init() == true)
-		{
-			enemyVector.push_back(cEnemy2D);
-		}
-		else
-		{
-			// Break out of this loop if the enemy has all been loaded
-			break;
-		}
-	}
+	// ENEMEY INIT
+	cMap2D->LoadEnemies();
 
 	while (true)
 	{
@@ -521,6 +435,18 @@ void CScene2D::LevelCompleted(int DoorDir)
 			cPlayer2D->vec2WSCoordinate.y = 11;
 			break;
 		}
+		case 4://next floor
+		{
+			randomvect.clear();
+			for (int i = 1; i < 11; ++i)
+			{
+				randomvect.push_back(i);
+			}
+			cPlayer2D->vec2WSCoordinate.x = 16;
+			cPlayer2D->vec2WSCoordinate.y = 12;
+
+			cMap2D->GenerateNewLevel(11, 24, 32);
+		}
 		default:
 		{
 			cMap2D->SetCurrentLevel(cMap2D->GetCurrentLevel());
@@ -532,93 +458,6 @@ void CScene2D::LevelCompleted(int DoorDir)
 
 	cPlayer2D->Reset();
 	cMap2D->once = false;
-
-	// Create and initialise the CEnemy2D
-	enemyVector.clear();
-	while (true)
-	{
-		CEnemy2D* cEnemy2D = new CSpaceGoop();
-		// Pass shader to cEnemy2D
-		cEnemy2D->SetShader("2DColorShader");
-		// Initialise the instance
-		if (cEnemy2D->Init() == true)
-		{
-			enemyVector.push_back(cEnemy2D);
-		}
-		else
-		{
-			// Break out of this loop if the enemy has all been loaded
-			break;
-		}
-	}
-
-	while (true)
-	{
-		CEnemy2D* cEnemy2D = new CSpaceFly();
-		// Pass shader to cEnemy2D
-		cEnemy2D->SetShader("2DColorShader");
-		// Initialise the instance
-		if (cEnemy2D->Init() == true)
-		{
-			enemyVector.push_back(cEnemy2D);
-		}
-		else
-		{
-			// Break out of this loop if the enemy has all been loaded
-			break;
-		}
-	}
-
-	while (true)
-	{
-		CEnemy2D* cEnemy2D = new CSpaceTurret();
-		// Pass shader to cEnemy2D
-		cEnemy2D->SetShader("2DColorShader");
-		// Initialise the instance
-		if (cEnemy2D->Init() == true)
-		{
-			enemyVector.push_back(cEnemy2D);
-		}
-		else
-		{
-			// Break out of this loop if the enemy has all been loaded
-			break;
-		}
-	}
-
-	while (true)
-	{
-		CEnemy2D* cEnemy2D = new CSpaceSkeleton();
-		// Pass shader to cEnemy2D
-		cEnemy2D->SetShader("2DColorShader");
-		// Initialise the instance
-		if (cEnemy2D->Init() == true)
-		{
-			enemyVector.push_back(cEnemy2D);
-		}
-		else
-		{
-			// Break out of this loop if the enemy has all been loaded
-			break;
-		}
-	}
-
-	while (true)
-	{
-		CEnemy2D* cEnemy2D = new CSpaceCannon();
-		// Pass shader to cEnemy2D
-		cEnemy2D->SetShader("2DColorShader");
-		// Initialise the instance
-		if (cEnemy2D->Init() == true)
-		{
-			enemyVector.push_back(cEnemy2D);
-		}
-		else
-		{
-			// Break out of this loop if the enemy has all been loaded
-			break;
-		}
-	}
 
 	while (true)
 	{
@@ -636,5 +475,7 @@ void CScene2D::LevelCompleted(int DoorDir)
 			break;
 		}
 	}
+	//ENEMY
+	cMap2D->LoadEnemies();
 
 }

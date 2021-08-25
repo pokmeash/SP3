@@ -62,7 +62,7 @@ Grenade* EntityFactory::ProduceGrenade(glm::f32vec2 EntityVec2Index, glm::f32vec
 	return temp;
 }
 
-std::vector<Beam*> EntityFactory::ProduceBeam(glm::vec2 pos, glm::vec2 dir, CEntity2D::ENTITY_TYPE type)
+std::vector<Beam*> EntityFactory::ProduceBeam(glm::vec2 pos, glm::vec2 dir, CEntity2D::ENTITY_TYPE type, unsigned length)
 {
 	std::vector<Beam*> beams;
 	for (unsigned i = 0; i < EntityManager::GetInstance()->entitylist.size(); ++i) {
@@ -72,7 +72,7 @@ std::vector<Beam*> EntityFactory::ProduceBeam(glm::vec2 pos, glm::vec2 dir, CEnt
 		beams.push_back((Beam*)entity);
 		break;
 	}
-	while (beams.size() < 10) {
+	while (beams.size() < length) {
 		Beam* temp = new Beam();
 		temp->Init();
 		EntityManager::GetInstance()->entitylist.push_back(temp);
@@ -85,7 +85,6 @@ std::vector<Beam*> EntityFactory::ProduceBeam(glm::vec2 pos, glm::vec2 dir, CEnt
 		beam->type = type;
 		beam->timer = 0.1f;
 		beam->bIsActive = true;
-		pos += dir * 0.8f;
 		EventHandler::GetInstance()->CallThenDelete(new Entity2DSpawnEvent(beam));
 		if (PortalManager::GetInstance()->getPortal(pos) && PortalManager::GetInstance()->getPortal(pos)->getDestination()) {
 			Portal* portal = PortalManager::GetInstance()->getPortal(pos)->getDestination();
@@ -95,11 +94,32 @@ std::vector<Beam*> EntityFactory::ProduceBeam(glm::vec2 pos, glm::vec2 dir, CEnt
 				pos += dir * 0.8f;
 			}
 		}
+		glm::i32vec2 index, micro;
+		CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::x, pos.x, &index.x, &micro.x);
+		CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::y, pos.y, &index.y, &micro.y);
+		if (index.x > 0 && index.x < CSettings::GetInstance()->NUM_TILES_XAXIS && index.y > 0 && index.y < CSettings::GetInstance()->NUM_TILES_YAXIS) {
+			CFloorManager* cMap2D = CFloorManager::GetInstance();
+			if (cMap2D->GetMapInfo(index.y + 1, index.x) >= 100 && dir.y > 0)
+			{
+				dir.y *= -1;
+			} else if (cMap2D->GetMapInfo(index.y - 1, index.x) >= 100 && dir.y < 0 && micro.y <= CSettings::GetInstance()->NUM_STEPS_PER_TILE_YAXIS * 0.5f)
+			{
+				dir.y *= -1;
+			}
+			if (cMap2D->GetMapInfo(index.y, index.x + 1) >= 100 && dir.x > 0)
+			{
+				dir.x *= -1;
+			} else if (cMap2D->GetMapInfo(index.y, index.x - 1) >= 100 && dir.x < 0 && micro.x <= CSettings::GetInstance()->NUM_STEPS_PER_TILE_XAXIS * 0.25f)
+			{
+				dir.x *= -1;
+			}
+		}
+		pos += dir * 0.8f;
 		for (unsigned j = 0; j < CScene2D::GetInstance()->enemyVector.size(); ++j) {
 			CLivingEntity* enemy = (CLivingEntity*)CScene2D::GetInstance()->enemyVector[j];
 			if (!enemy->bIsActive) continue;
 			if (glm::length(enemy->vec2WSCoordinate - pos) <= .5f) {
-				enemy->addHP(-5);
+				enemy->addHP(-1);
 				if (enemy->getHP() <= 0) {
 					enemy->bIsActive = false;
 					EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(enemy));
