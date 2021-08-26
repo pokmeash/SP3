@@ -222,7 +222,7 @@ void CGUI_Scene2D::Update(const double dElapsedTime)
 		ImGui::SetWindowSize(ImVec2(cSettings->iWindowWidth / cSettings->NUM_TILES_XAXIS, cSettings->iWindowHeight / cSettings->NUM_TILES_YAXIS * 0.25f));
 		ImGui::PushStyleColor(ImGuiCol_PlotHistogram, ImVec4(0.0f, 1.0f, 0.0f, 1.0f));
 		ImGui::PushStyleColor(ImGuiCol_FrameBg, ImVec4(1.0f, .0f, 0.0f, 1.0f));
-		ImGui::ProgressBar(enemy->getHP() / (float)enemy->getMaxHP(), ImVec2(cSettings->iWindowWidth / cSettings->NUM_TILES_XAXIS, cSettings->iWindowHeight / cSettings->NUM_TILES_YAXIS * 0.25f));
+		ImGui::ProgressBar(enemy->getHP() / (float)enemy->getMaxHP(), ImVec2(cSettings->iWindowWidth / cSettings->NUM_TILES_XAXIS * enemy->scale.x, cSettings->iWindowHeight / cSettings->NUM_TILES_YAXIS * 0.25f * enemy->scale.x));
 		ImGui::PopStyleColor();
 		ImGui::PopStyleColor();
 		ImGui::End();
