@@ -153,10 +153,6 @@ bool CPlayer2D::Init(void)
 	// Add a Wing icon as one of the inventory items
 	cInventoryItem = cInventoryManager->Add("Wing", "Image/Scene2D_WingsTile.tga", 100, 100);
 	cInventoryItem->vec2Size = glm::vec2(25, 25);
-	
-	// Add a Wing icon as one of the inventory items
-	cInventoryItem = cInventoryManager->Add("DoubleShot", "Image/DoubleShot.png", 100, 100);
-	cInventoryItem->vec2Size = glm::vec2(25, 25);
 
 	jumpCount = 0;
 
@@ -251,8 +247,6 @@ void CPlayer2D::Update(const double dElapsedTime)
 		animatedSprites->PlayAnimation("left", -1, 1.0f);
 		currentColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
 
-		dirx = -1;
-		diry = 0;
 	} else if (cKeyboardController->IsKeyDown(cSettings->iKeybinds[CSettings::MOVE_RIGHT]))
 	{
 		// Calculate the new position to the right
@@ -285,8 +279,6 @@ void CPlayer2D::Update(const double dElapsedTime)
 		animatedSprites->PlayAnimation("right", -1, 1.0f);
 		currentColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
 
-		dirx = 1;
-		diry = 0;
 	}
 	if (cKeyboardController->IsKeyDown(cSettings->iKeybinds[CSettings::MOVE_UP]))
 	{
@@ -311,8 +303,6 @@ void CPlayer2D::Update(const double dElapsedTime)
 		animatedSprites->PlayAnimation("idle", -1, 1.0f);
 		currentColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
 
-		dirx = 0;
-		diry = 1;
 	} else if (cKeyboardController->IsKeyDown(cSettings->iKeybinds[CSettings::MOVE_DOWN]))
 	{
 		// Calculate the new position down
@@ -335,8 +325,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 		animatedSprites->PlayAnimation("idle", -1, 1.0f);
 		currentColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
 
-		dirx = 0;
-		diry = -1;
+
 	}
 	vec2Velocity = vec2WSCoordinate - vec2WSOldCoordinates;
 	//Swapping

@@ -17,11 +17,4 @@ public:
 
 	// Update
 	virtual void Update(const double dElapsedTime);
-protected:
-	int temphp;
-	float offset;
-	int dirx;
-	int diry;
-	int wallcounter;
-	glm::vec2 rushdirection;
 };
