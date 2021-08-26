@@ -95,7 +95,7 @@ bool CWinState::Update(const double dElapsedTime)
 	//BGM
 	if (bgm)
 	{
-		cSoundController->PlaySoundByID(1);
+		cSoundController->PlaySoundByID(CSoundController::SOUNDS::ORAS);
 		bgm = false;
 	}
 

@@ -52,7 +52,7 @@ bool CPlayGameState::Init(void)
 	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Lance.ogg"), 3, true, true);
 	for (int i = 0; i < 8; i++)
 	{
-		cSoundController->VolumeDecrease(3);
+		cSoundController->VolumeDecrease(CSoundController::SOUNDS::LANCE);
 	}
 	bgm = true;
 
@@ -64,25 +64,13 @@ bool CPlayGameState::Init(void)
  */
 bool CPlayGameState::Update(const double dElapsedTime)
 {
-	/*if (CKeyboardController::GetInstance()->IsKeyReleased(GLFW_KEY_ESCAPE))
-	{
-		 Reset the CKeyboardController
-		CKeyboardController::GetInstance()->Reset();
-
-		 Load the menu state
-		cSoundController->StopAllSound();
-		CGameStateManager::GetInstance()->SetActiveGameState("MenuState");
-		cSoundController->PlaySoundByID(2);
-		return true;
-	}*/
-
 	// Call the cScene2D's Update method
 	cScene2D->Update(dElapsedTime);
 
 	//BGM
 	if (bgm)
 	{
-		cSoundController->PlaySoundByID(3);
+		cSoundController->PlaySoundByID(CSoundController::SOUNDS::LANCE);
 		bgm = false;
 	}
 	// Check if the game has been won by the player
@@ -92,7 +80,7 @@ bool CPlayGameState::Update(const double dElapsedTime)
 		// Load the menu state
 		CGameStateManager::GetInstance()->SetActiveGameState("WinState");
 		cSoundController->StopAllSound();
-		cSoundController->PlaySoundByID(1);
+		cSoundController->PlaySoundByID(CSoundController::SOUNDS::ORAS);
 	}
 	return true;
 }

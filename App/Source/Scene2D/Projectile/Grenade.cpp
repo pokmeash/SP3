@@ -9,6 +9,7 @@
 #include "../EntityFactory.h"
 #include "../FloorManager.h"
 #include "../Particles/ParticleManager.h"
+#include "../../SoundController/SoundController.h"
 
 Grenade::Grenade()
 {
@@ -45,16 +46,20 @@ void Grenade::Update(const double dElapsedTime)
     if (cMap2D->GetMapInfo(i32vec2Index.y + 1, i32vec2Index.x) >= 100 && vec2Velocity.y > 0)
     {
         vec2Velocity.y *= -1;
+        CSoundController::GetInstance()->Replay(CSoundController::RICOCHET);
     } else if (cMap2D->GetMapInfo(i32vec2Index.y - 1, i32vec2Index.x) >= 100 && vec2Velocity.y < 0 && i32vec2NumMicroSteps.y <= cSettings->NUM_STEPS_PER_TILE_YAXIS * 0.5f)
     {
         vec2Velocity.y *= -1;
+        CSoundController::GetInstance()->Replay(CSoundController::RICOCHET);
     }
     if (cMap2D->GetMapInfo(i32vec2Index.y, i32vec2Index.x + 1) >= 100 && vec2Velocity.x > 0)
     {
         vec2Velocity.x *= -1;
+        CSoundController::GetInstance()->Replay(CSoundController::RICOCHET);
     } else if (cMap2D->GetMapInfo(i32vec2Index.y, i32vec2Index.x - 1) >= 100 && vec2Velocity.x < 0 && i32vec2NumMicroSteps.x <= cSettings->NUM_STEPS_PER_TILE_XAXIS * 0.25f)
     {
         vec2Velocity.x *= -1;
+        CSoundController::GetInstance()->Replay(CSoundController::RICOCHET);
     }
 	if (timer <= 0)
 	{

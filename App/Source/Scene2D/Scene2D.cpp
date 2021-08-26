@@ -93,8 +93,6 @@ bool CScene2D::Init(void)
 	// Set a shader to this class
 	cMap2D->SetShader("2DShader");
 	
-
-
 	cMap2D->GenerateNewLevel(11,24,32);
 
 	// Activate diagonal movement
@@ -139,16 +137,9 @@ bool CScene2D::Init(void)
 
 	// Load the sounds into CSoundController
 	cSoundController = CSoundController::GetInstance();
-	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Jump.ogg"), 4, true);
-	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Pickup.ogg"), 5, true);
-	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Door.ogg"), 6, true);
-	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Button.ogg"), 7, true);
-	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Swap.ogg"), 8, true);
-	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Hurt.ogg"), 9, true);
 	CBossTimeControl::GetInstance()->Init();
 
-	for (int i = 1; i < 11; ++i)
-	{
+	for (int i = 1; i < 11; ++i) {
 		randomvect.push_back(i);
 	}
 	temp = 0;

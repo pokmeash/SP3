@@ -38,6 +38,7 @@ using namespace std;
 #include "GameStateManagement/PlayGameState.h"
 #include "GameStateManagement/Music.h"
 #include "GameStateManagement/WinState.h"
+#include "System/filesystem.h"
 
 /**
  @brief Define an error callback
@@ -218,6 +219,19 @@ bool Application::Init(void)
 
 	// Initialise the CSoundController singleton
 	CSoundController::GetInstance()->Init();
+	CSoundController::GetInstance()->LoadSound(FileSystem::getPath("Sounds\\Oras.ogg"), CSoundController::SOUNDS::ORAS, true, true);
+	CSoundController::GetInstance()->LoadSound(FileSystem::getPath("Sounds\\Wii.ogg"), CSoundController::SOUNDS::WII, true, true);
+	CSoundController::GetInstance()->LoadSound(FileSystem::getPath("Sounds\\Lance.ogg"), CSoundController::SOUNDS::LANCE, true, true);
+	CSoundController::GetInstance()->LoadSound(FileSystem::getPath("Sounds\\Jump.ogg"), CSoundController::SOUNDS::JUMP, true);
+	CSoundController::GetInstance()->LoadSound(FileSystem::getPath("Sounds\\Pickup.ogg"), CSoundController::SOUNDS::PICK_UP, true);
+	CSoundController::GetInstance()->LoadSound(FileSystem::getPath("Sounds\\Door.ogg"), CSoundController::SOUNDS::DOOR, true);
+	CSoundController::GetInstance()->LoadSound(FileSystem::getPath("Sounds\\Button.ogg"), CSoundController::SOUNDS::BUTTON, true);
+	CSoundController::GetInstance()->LoadSound(FileSystem::getPath("Sounds\\Swap.ogg"), CSoundController::SOUNDS::SWAP, true);
+	CSoundController::GetInstance()->LoadSound(FileSystem::getPath("Sounds\\Hurt.ogg"), CSoundController::SOUNDS::HURT, true);
+	CSoundController::GetInstance()->LoadSound(FileSystem::getPath("Sounds\\Grenade.ogg"), CSoundController::SOUNDS::GRENADE, true);
+	CSoundController::GetInstance()->LoadSound(FileSystem::getPath("Sounds\\Throw.ogg"), CSoundController::SOUNDS::THROW, true);
+	CSoundController::GetInstance()->LoadSound(FileSystem::getPath("Sounds\\Ricochet.ogg"), CSoundController::SOUNDS::RICOCHET, true);
+	CSoundController::GetInstance()->LoadSound(FileSystem::getPath("Sounds\\Laser.ogg"), CSoundController::SOUNDS::LASER, true);
 
 	//// Initialise the cScene2D instance
 	//cScene2D = CScene2D::GetInstance();
@@ -315,7 +329,7 @@ void Application::Destroy(void)
 	CGameStateManager::GetInstance()->Destroy();
 	// Destory the ShaderManager
 	CShaderManager::GetInstance()->Destroy();
-
+	CSoundController::GetInstance()->Destroy();
 	// Destroy the keyboard instance
 	CKeyboardController::GetInstance()->Destroy();
 

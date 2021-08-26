@@ -13,7 +13,9 @@ Beam::Beam()
     timer = 0.1f;
 }
 Beam::~Beam()
-{}
+{
+    hitEntities.clear();
+}
 
 bool Beam::Init() {
     cSettings = CSettings::GetInstance();

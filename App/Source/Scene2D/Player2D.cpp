@@ -373,7 +373,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 			if (!counter2) break;
 			cMap2D->SetMapInfo(InvisRow, InvisCol, 96);
 		}
-		cSoundController->PlaySoundByID(8);
+		cSoundController->PlaySoundByID(CSoundController::SOUNDS::SWAP);
 
 
 	} else if ((cMouseController->IsButtonPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP]) || cKeyboardController->IsKeyPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP])) && swap == false)
@@ -405,7 +405,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 			if (!counter2) break;
 			cMap2D->SetMapInfo(InvisRow2, InvisCol2, 102);
 		}
-		cSoundController->PlaySoundByID(8);
+		cSoundController->PlaySoundByID(CSoundController::SOUNDS::SWAP);
 	}
 
 	static float delay = 0.f;
@@ -535,7 +535,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 					}
 
 				}
-				cSoundController->PlaySoundByID(6);
+				cSoundController->PlaySoundByID(CSoundController::SOUNDS::DOOR);
 				cMap2D->once = true;
 			}
 		}
@@ -574,7 +574,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 			{
 				cMap2D->SetMapInfo(12,16, 98);// next floor
 				cMap2D->SetMapInfo(8, 16, 2); // powerup
-				cSoundController->PlaySoundByID(6);
+				cSoundController->PlaySoundByID(CSoundController::SOUNDS::DOOR);
 				cMap2D->once = true;
 			}
 		}

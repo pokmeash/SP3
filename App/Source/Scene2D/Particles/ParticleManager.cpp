@@ -1,11 +1,20 @@
 #include "ParticleManager.h"
 #include "EventControl/EventHandler.h"
 #include "EventControl/Entity2DDespawnEvent.h"
+#include "EventControl/NextRoomEvent.h"
 #include "../Enemies/Enemy2D.h"
 
 ParticleManager::ParticleManager()
 {
 	EventHandler::GetInstance()->On([&](Event* e) {
+		if (e->getName() == NextRoomEvent::BASE_NAME()) {
+			for (unsigned i = 0; i < particles.size(); ++i) {
+				Particle* p = particles[i];
+				if (p) delete p;
+			}
+			particles.clear();
+			return;
+		}
 		if (e->getName() == Entity2DDespawnEvent::BASE_NAME()) {
 			Entity2DDespawnEvent* ev = (Entity2DDespawnEvent*)e;
 			if (dynamic_cast<CEnemy2D*>(ev->getEntity())) {

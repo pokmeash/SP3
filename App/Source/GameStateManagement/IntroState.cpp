@@ -69,11 +69,9 @@ bool CIntroState::Init(void)
 	background->SetShader("2DShader");
 	background->Init();
 
-
-	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Oras.ogg"), 1, true, true);
 	for (int i = 0; i < 6; i++)
 	{
-		cSoundController->VolumeDecrease(1);
+		cSoundController->VolumeDecrease(CSoundController::SOUNDS::ORAS);
 	}
 	bgm = true;
 
@@ -100,7 +98,7 @@ bool CIntroState::Update(const double dElapsedTime)
 	//BGM
 	if (bgm)
 	{
-		cSoundController->PlaySoundByID(1);
+		cSoundController->PlaySoundByID(CSoundController::SOUNDS::ORAS);
 		bgm = false;
 	}
 

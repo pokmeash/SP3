@@ -68,12 +68,11 @@ Grenade* EntityFactory::ProduceGrenade(glm::f32vec2 EntityVec2Index, glm::f32vec
 std::vector<Beam*> EntityFactory::ProduceBeam(glm::vec2 pos, glm::vec2 dir, CEntity2D::ENTITY_TYPE type, unsigned length)
 {
 	std::vector<Beam*> beams;
-	for (unsigned i = 0; i < EntityManager::GetInstance()->entitylist.size(); ++i) {
+	for (unsigned i = 0; i < EntityManager::GetInstance()->entitylist.size() && beams.size() < length; ++i) {
 		CEntity2D* entity = EntityManager::GetInstance()->entitylist[i];
 		if (entity->bIsActive) continue;
 		if (!dynamic_cast<Beam*>(entity)) continue;
 		beams.push_back((Beam*)entity);
-		break;
 	}
 	while (beams.size() < length) {
 		Beam* temp = new Beam();
@@ -119,8 +118,8 @@ std::vector<Beam*> EntityFactory::ProduceBeam(glm::vec2 pos, glm::vec2 dir, CEnt
 		for (unsigned j = 0; j < CScene2D::GetInstance()->enemyVector.size(); ++j) {
 			CLivingEntity* enemy = (CLivingEntity*)CScene2D::GetInstance()->enemyVector[j];
 			if (!enemy->bIsActive) continue;
-			if (glm::length(enemy->vec2WSCoordinate - pos) <= .5f) {
-				enemy->addHP(-1);
+			if (glm::length(enemy->vec2WSCoordinate - pos) <= enemy->scale.x * 0.5f) {
+				enemy->addHP(-CPlayer2D::GetInstance()->getDmg());
 				beam->hitEntities.push_back(enemy);
 				if (enemy->getHP() <= 0) {
 					enemy->bIsActive = false;
@@ -129,6 +128,7 @@ std::vector<Beam*> EntityFactory::ProduceBeam(glm::vec2 pos, glm::vec2 dir, CEnt
 			}
 		}
 		if (i + 1 == beams.size()) {
+			CSoundController::GetInstance()->Replay(CSoundController::SOUNDS::LASER);
 			ParticleManager::GetInstance()->SpawnParticle(Particle::PARTICLE_TYPE::EXPLOSION, pos += dir * 0.7f, 0.5f);
 		}
 	}
