@@ -85,7 +85,7 @@ CSpaceSpawner::~CSpaceSpawner(void)
 bool CSpaceSpawner::Init(void)
 {
 	CEnemy2D::Init();
-	std::cout << "Initing spacegoop\n";
+	std::cout << "Initing SpaceSpawner\n";
 	// Find the indices for the player in arrMapInfo, and assign it to cPlayer2D
 	unsigned int uiRow = -1;
 	unsigned int uiCol = -1;
@@ -134,25 +134,11 @@ void CSpaceSpawner::Update(const double dElapsedTime)
 		//Means that each state changes every 2 seconds
 		if (iFSMCounter > iMaxFSMCounter)
 		{
-			sCurrentFSM = SHOOT;
+			sCurrentFSM = SPAWN;
 			iFSMCounter = 0;
 		}
 		iFSMCounter++;
 		animatedSprites->PlayAnimation("idle", -1, 1.0f);
-		break;
-	case SHOOT:
-		bulletTimer += dElapsedTime;
-		if (bulletTimer >= 2)
-		{
-			double piBullet = 3.14159;
-			for (double theta = 0; theta <= 2 * piBullet; theta += piBullet / 5.f)
-			{
-				glm::vec2 temp(cos(theta), sin(theta));
-				temp = glm::normalize(temp) * projectileSpeed;
-				EntityFactory::GetInstance()->ProduceBullets(vec2WSCoordinate, temp, glm::vec3(1, 1, 1), E_EBULLET);
-			}
-			bulletTimer = 0;
-		}
 		break;
 	default:
 		break;

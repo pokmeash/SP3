@@ -172,8 +172,11 @@
     </ClCompile>
     <ClCompile Include="Source\Scene2D\Enemies\SpaceSpawner.cpp">
       <Filter>Enemies</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="Source\Scene2D\Bosses\Boss2D.cpp">
+      <Filter>Enemies\Bosses</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\Bosses\ContagionBoss.cpp">
       <Filter>Enemies\Bosses</Filter>
     </ClCompile>
   </ItemGroup>
@@ -315,8 +318,11 @@
     </ClInclude>
     <ClInclude Include="Source\Scene2D\Enemies\SpaceSpawner.h">
       <Filter>Enemies</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="Source\Scene2D\Bosses\Boss2D.h">
+      <Filter>Enemies\Bosses</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\Bosses\ContagionBoss.h">
       <Filter>Enemies\Bosses</Filter>
     </ClInclude>
   </ItemGroup>

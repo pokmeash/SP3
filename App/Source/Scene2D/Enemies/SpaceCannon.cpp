@@ -77,6 +77,7 @@ CSpaceCannon::~CSpaceCannon(void)
 	glDeleteBuffers(1, &EBO);
 
 	setHP(10);
+	setProjSpeed(0.3);
 }
 
 /**
@@ -85,7 +86,7 @@ CSpaceCannon::~CSpaceCannon(void)
 bool CSpaceCannon::Init(void)
 {
 	CEnemy2D::Init();
-	std::cout << "Initing spacegoop\n";
+	std::cout << "Initing SpaceCannon\n";
 	// Find the indices for the player in arrMapInfo, and assign it to cPlayer2D
 	unsigned int uiRow = -1;
 	unsigned int uiCol = -1;
@@ -111,6 +112,7 @@ bool CSpaceCannon::Init(void)
 	//CS: Create the animated sprite and setup the animation 
 	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(1, 1, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
 	animatedSprites->AddAnimation("idle", 0, 3);
+	
 	return true;
 }
 
@@ -136,16 +138,18 @@ void CSpaceCannon::Update(const double dElapsedTime)
 		break;
 	case SHOOT:
 			bulletTimer += dElapsedTime;
-			if (bulletTimer >= 2)
+
+			if (bulletTimer >= 1)
 			{
 				for (double theta = 0; theta <= 2 * 3.14159; theta += 3.14159 / 5.f) 
 				{
 					glm::vec2 temp(cos(theta), sin(theta));
-					temp = glm::normalize(temp) * projectileSpeed;
+					temp = glm::normalize(temp) * .5f;
 					EntityFactory::GetInstance()->ProduceBullets(vec2WSCoordinate, temp, glm::vec3(1, 1, 1), E_EBULLET);
+					bulletTimer = 0;
 				}
-				bulletTimer = 0;
 			}
+			
 		break;
 	default:
 		break;

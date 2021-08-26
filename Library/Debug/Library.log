@@ -1,24 +1,15 @@
 ﻿  GUI.cpp
-  Settings.cpp
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\GameControl\Settings.cpp(105,56): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\GameControl\Settings.cpp(113,56): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\GameControl\Settings.cpp(124,52): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\GameControl\Settings.cpp(132,12): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
   Entity2D.cpp
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\Primitives\Entity2D.cpp(137,26): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
 D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\Primitives\Entity2D.cpp(138,26): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
           with
           [
               T=float
           ]
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\Primitives\Entity2D.cpp(139,26): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-  Entity3D.cpp
   TextRenderer.cpp
-  CSVReader.cpp
-  CSVWriter.cpp
-  ImageLoader.cpp
   Generating Code...
   Library.vcxproj -> D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Debug\Library.lib

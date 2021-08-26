@@ -69,6 +69,7 @@ public:
 		MOVEUP = 10,
 		MOVEDOWN = 11,
 		SHOOT = 10,
+		SPAWN = 11,
 		NUM_FSM
 	};
 

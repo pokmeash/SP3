@@ -85,7 +85,7 @@ bool CSpaceGoop::Init(void)
 {
 	
 	CEnemy2D::Init();
-	std::cout << "Initing spacegoop\n";
+	std::cout << "Initing SpaceGoop\n";
 	// Find the indices for the player in arrMapInfo, and assign it to cPlayer2D
 	unsigned int uiRow = -1;
 	unsigned int uiCol = -1;
@@ -102,11 +102,7 @@ bool CSpaceGoop::Init(void)
 	i32vec2NumMicroSteps = glm::i32vec2(0, 0);
 
 	// Load the enemy2D texture
-	if (LoadTexture("Image/enemy1.png") == false)
-	{
-		std::cout << "Failed to load enemy2D tile texture" << std::endl;
-		return false;
-	}
+	LoadTexture("Image/enemy1.png");
 
 	//CS: Create the animated sprite and setup the animation 
 	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(3, 3, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
@@ -137,37 +133,12 @@ void CSpaceGoop::Update(const double dElapsedTime)
 		iFSMCounter++;
 		animatedSprites->PlayAnimation("idle", -1, 1.0f);
 		break;
-	case SEARCH:
-		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 15.0f)
-		{
-			if (iFSMCounter > iMaxFSMCounter)
-			{
-				sCurrentFSM = ATTACK;
-				iFSMCounter = 0;
-				currentColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
-			}
-			iFSMCounter++;
-		}
-		//animatedSprites->PlayAnimation("idle", -1, 1.0f);
-		break;
-	case ATTACK:
-		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) >= 20.0f)
-		{
-			sCurrentFSM = IDLE;
-		}
-		else if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 20.0f)
-		{
-			sCurrentFSM = MELEEATTACK;
-		}
 	case MELEEATTACK:
-		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 5.0f)
-		{
-			PathFinding();
-			UpdateDirection();
-			UpdatePosition();
-		}
+		PathFinding();
+		UpdateDirection();
+		UpdatePosition();
 
-		else
+		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) > 5.0f)
 		{
 			sCurrentFSM = MOVELEFT;
 			iFSMCounter = 0;

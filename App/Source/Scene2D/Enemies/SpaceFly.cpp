@@ -78,7 +78,7 @@ CSpaceFly::~CSpaceFly(void)
 bool CSpaceFly::Init(void)
 {
 	CEnemy2D::Init();
-	std::cout << "Initing spacefly\n";
+	std::cout << "Initing SpaceFly\n";
 	// Find the indices for the player in arrMapInfo, and assign it to cPlayer2D
 	unsigned int uiRow = -1;
 	unsigned int uiCol = -1;
@@ -103,17 +103,6 @@ bool CSpaceFly::Init(void)
 	animatedSprites->AddAnimation("right", 3, 5);
 	animatedSprites->AddAnimation("up", 9, 11);
 	animatedSprites->AddAnimation("down", 6, 8);
-
-	
-	//CS: Init the color to white
-	currentColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
-
-	// Set the Physics to fall status by default
-	cPhysics2D.Init();
-	cPhysics2D.SetStatus(CPhysics2D::STATUS::FALL);
-
-	// If this class is initialised properly, then set the bIsActive to true
-	bIsActive = true;
 
 	return true;
 }
