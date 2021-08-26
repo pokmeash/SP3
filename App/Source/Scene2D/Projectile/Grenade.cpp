@@ -1,5 +1,8 @@
 #include "Grenade.h"
 #include "EventControl/EventHandler.h"
+#include "EventControl/Entity2DMoveEvent.h"
+#include "EventControl/Entity2DDespawnEvent.h"
+#include "EventControl/GrenadeExplodeEvent.h"
 #include"RenderControl/ShaderManager.h"
 #include"System/ImageLoader.h"
 #include"Primitives/MeshBuilder.h"
@@ -55,26 +58,30 @@ void Grenade::Update(const double dElapsedTime)
     }
 	if (timer <= 0)
 	{
-		timer = dElapsedTime;
-		bIsActive = false;
-		explode = true;
-        ParticleManager::GetInstance()->SpawnParticle(Particle::PARTICLE_TYPE::EXPLOSION, vec2WSCoordinate, 4);
-        EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(this));
+        setExplode(true);
 	}
     if (vec2WSOldCoordinates != vec2WSCoordinate) {
         if (EventHandler::GetInstance()->CallDeleteIsCancelled(new Entity2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates))) {
             vec2WSCoordinate = vec2WSOldCoordinates;
         }
     }
-    if (explode) {
+    rotation = atan2f(vec2Velocity.y, vec2Velocity.x);
+    CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
+    CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->y, vec2WSCoordinate.y, &i32vec2Index.y, &i32vec2NumMicroSteps.y);
+}
+
+void Grenade::setExplode(bool explode)
+{
+    this->explode = explode;
+    if (this->explode) {
+        ParticleManager::GetInstance()->SpawnParticle(Particle::PARTICLE_TYPE::EXPLOSION, vec2WSCoordinate, 4);
+        EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(this));
+        EventHandler::GetInstance()->CallThenDelete(new GrenadeExplodeEvent(this));
         for (int j = 0; j < 3; j++)
         {
             EntityFactory::GetInstance()->ProduceBullets(vec2WSCoordinate, glm::vec2(CSettings::GetInstance()->Random(-2, 2), CSettings::GetInstance()->Random(-2, 2)), glm::vec3(1, 1, 1), E_FRAGMENT);
         }
-        explode = false;
+        bIsActive = false;
     }
-    rotation = atan2f(vec2Velocity.y, vec2Velocity.x);
-    CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
-    CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->y, vec2WSCoordinate.y, &i32vec2Index.y, &i32vec2NumMicroSteps.y);
 }
 

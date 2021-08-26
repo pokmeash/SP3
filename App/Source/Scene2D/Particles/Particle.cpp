@@ -1,5 +1,7 @@
 #include "Particle.h"
 #include "ParticleManager.h"
+#include "EventControl/EventHandler.h"
+#include "EventControl/Entity2DDespawnEvent.h"
 
 Particle::Particle() : CBackgroundEntity("")
 {
@@ -14,7 +16,7 @@ bool Particle::Init(PARTICLE_TYPE type, float size, float interval, bool repeat)
 {
 	cSettings = CSettings::GetInstance();
 	this->type = type;
-	this->duration = interval * numOfStates;
+	this->duration = interval;
 	scale = glm::vec3(size, size, size);
 	if (textureName == "") {
 		std::cout << "No texture file is attached to this particle!" << std::endl;
@@ -29,7 +31,7 @@ bool Particle::Init(PARTICLE_TYPE type, float size, float interval, bool repeat)
 		return false;
 	}
 	if (!animatedSprites) return false;
-	animatedSprites->PlayAnimation("anim", repeat ? 1 : -1, interval);
+	animatedSprites->PlayAnimation("anim", repeat ? -1 : 1, interval);
 	bIsActive = true;
 	return true;
 }
@@ -40,19 +42,10 @@ void Particle::Update(const double dt)
 	duration -= dt;
 	if (duration <= 0.f) {
 		bIsActive = false;
+		EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(this));
 		return;
 	}
 	if (animatedSprites) animatedSprites->Update(dt);
-}
-
-void Particle::UpdateReversed(const double dt)
-{
-	duration += dt;
-	if (duration <= 0.f) {
-		bIsActive = false;
-		return;
-	}
-	if (animatedSprites) animatedSprites->UpdateReverse(dt);
 }
 
 void Particle::LoadSprite(std::string filename, unsigned rows, unsigned cols)

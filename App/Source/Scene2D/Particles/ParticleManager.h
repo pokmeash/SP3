@@ -10,7 +10,7 @@ protected:
 	ParticleManager();
 	virtual ~ParticleManager();
 public:
-	Particle* SpawnParticle(Particle::PARTICLE_TYPE type, glm::vec2& position, float size = 1.f, float duration = .1f, bool repeat = false);
+	Particle* SpawnParticle(Particle::PARTICLE_TYPE type, glm::vec2& position, float size = 1.f, float duration = 1.f, bool repeat = false);
 	bool Update(const double dt);
 	void Render();
 };

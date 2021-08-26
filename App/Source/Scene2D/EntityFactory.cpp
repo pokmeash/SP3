@@ -1,8 +1,11 @@
 #include "EntityFactory.h"
 #include "EventControl/EventHandler.h"
+#include "EventControl/Entity2DSpawnEvent.h"
+#include "EventControl/Entity2DDespawnEvent.h"
 #include "EntityManager.h"
 #include "Projectile/PortalManager.h"
 #include "Scene2D.h"
+#include "Particles/ParticleManager.h"
 
 EntityFactory::EntityFactory()
 {}
@@ -112,6 +115,7 @@ std::vector<Beam*> EntityFactory::ProduceBeam(glm::vec2 pos, glm::vec2 dir, CEnt
 		beam->type = type;
 		beam->timer = 0.1f;
 		beam->bIsActive = true;
+		EventHandler::GetInstance()->CallThenDelete(new Entity2DSpawnEvent(beam));
 		for (unsigned j = 0; j < CScene2D::GetInstance()->enemyVector.size(); ++j) {
 			CLivingEntity* enemy = (CLivingEntity*)CScene2D::GetInstance()->enemyVector[j];
 			if (!enemy->bIsActive) continue;
@@ -123,6 +127,9 @@ std::vector<Beam*> EntityFactory::ProduceBeam(glm::vec2 pos, glm::vec2 dir, CEnt
 					EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(enemy));
 				}
 			}
+		}
+		if (i + 1 == beams.size()) {
+			ParticleManager::GetInstance()->SpawnParticle(Particle::PARTICLE_TYPE::EXPLOSION, pos += dir * 0.7f, 0.5f);
 		}
 	}
 	return beams;

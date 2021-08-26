@@ -34,10 +34,7 @@ public:
     bool Init(void);
     // Update
     virtual void Update(const double dElapsedTime);
-    void setExplode()
-    {
-        explode = !explode;
-    }
+    void setExplode(bool explode);
     bool getExplode()
     {
         return explode;

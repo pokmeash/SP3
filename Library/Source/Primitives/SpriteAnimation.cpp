@@ -9,6 +9,10 @@ Sprite Animation
 /******************************************************************************/
 #include "SpriteAnimation.h"
 #include "GL\glew.h"
+#include "../EventControl/EventHandler.h"
+#include "../EventControl/AnimationFrameChangeEvent.h"
+#include "../EventControl/AnimationStartEvent.h"
+#include "../EventControl/AnimationStopEvent.h"
 
 /******************************************************************************/
 /*!
@@ -70,55 +74,14 @@ void CSpriteAnimation::Update(double dt)
 		//Get the number of frame to get the frame per second
 		int numFrame = animationList[currentAnimation]->frames.size();
 		float frameTime = animationList[currentAnimation]->animTime / numFrame;
-
+		int oldFrame = currentFrame;
 		//Set the current frame based on the current time
 		currentFrame = animationList[currentAnimation]->frames[fmin((int)animationList[currentAnimation]->frames.size() - 1 , static_cast<int>(currentTime / frameTime))];
-
+		if (currentFrame != oldFrame) {
+			EventHandler::GetInstance()->CallThenDelete(new AnimationFrameChangeEvent(this, animationList[currentAnimation], oldFrame, currentFrame));
+		}
 		//check if the current time is more than the total animated time
 		if (currentTime >= animationList[currentAnimation]->animTime)
-		{
-			//if it is less than the repeat count, increase the count and repeat
-			if (playCount < animationList[currentAnimation]->repeatCount)
-			{
-				++playCount;
-				currentTime = 0;
-				currentFrame = animationList[currentAnimation]->frames[0];
-			}
-			//if we repeat count is 0 or we have reach same number of play count
-			else
-			{
-				animationList[currentAnimation]->animActive = false;
-				animationList[currentAnimation]->ended = true;
-			}
-
-			//If the animaton is infinite
-			if (animationList[currentAnimation]->repeatCount == -1)
-			{
-				currentTime = 0.f;
-				currentFrame = animationList[currentAnimation]->frames[0];
-				animationList[currentAnimation]->animActive = true;
-				animationList[currentAnimation]->ended = false;
-			}
-		}
-	}
-}
-
-void CSpriteAnimation::UpdateReverse(double dt)
-{
-	if (animationList[currentAnimation]->animActive)
-	{
-		//Add the delta time
-		currentTime -= static_cast<float>(dt);
-
-		//Get the number of frame to get the frame per second
-		int numFrame = animationList[currentAnimation]->frames.size();
-		float frameTime = animationList[currentAnimation]->animTime / numFrame;
-
-		//Set the current frame based on the current time
-		currentFrame = animationList[currentAnimation]->frames[fmin((int)animationList[currentAnimation]->frames.size() - 1, static_cast<int>(currentTime / frameTime))];
-
-		//check if the current time is more than the total animated time
-		if (currentTime < animationList[currentAnimation]->animTime)
 		{
 			//if it is less than the repeat count, increase the count and repeat
 			if (playCount <= animationList[currentAnimation]->repeatCount)
@@ -126,12 +89,14 @@ void CSpriteAnimation::UpdateReverse(double dt)
 				++playCount;
 				currentTime = 0;
 				currentFrame = animationList[currentAnimation]->frames[0];
+				EventHandler::GetInstance()->CallThenDelete(new AnimationFrameChangeEvent(this, animationList[currentAnimation], oldFrame, currentFrame));
 			}
 			//if we repeat count is 0 or we have reach same number of play count
 			else
 			{
 				animationList[currentAnimation]->animActive = false;
 				animationList[currentAnimation]->ended = true;
+				EventHandler::GetInstance()->CallThenDelete(new AnimationStopEvent(this, animationList[currentAnimation]));
 			}
 
 			//If the animaton is infinite
@@ -139,6 +104,7 @@ void CSpriteAnimation::UpdateReverse(double dt)
 			{
 				currentTime = 0.f;
 				currentFrame = animationList[currentAnimation]->frames[0];
+				EventHandler::GetInstance()->CallThenDelete(new AnimationFrameChangeEvent(this, animationList[currentAnimation], oldFrame, currentFrame));
 				animationList[currentAnimation]->animActive = true;
 				animationList[currentAnimation]->ended = false;
 			}
@@ -285,6 +251,7 @@ void CSpriteAnimation::PlayAnimation(std::string anim_name, int repeat, float ti
 		currentAnimation = anim_name;
 		animationList[anim_name]->Set(repeat, time, true);
 	}
+	EventHandler::GetInstance()->CallThenDelete(new AnimationStartEvent(this, animationList[currentAnimation]));
 }
 
 /******************************************************************************/

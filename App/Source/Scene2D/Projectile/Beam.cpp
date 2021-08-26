@@ -4,6 +4,7 @@
 #include "System/ImageLoader.h"
 #include "Primitives/MeshBuilder.h"
 #include "EventControl/EventHandler.h"
+#include "EventControl/Entity2DDespawnEvent.h"
 
 Beam::Beam()
 {
@@ -24,12 +25,13 @@ bool Beam::Init() {
 
 void Beam::Update(const double dElapsedTime)
 {
-    addMetadata("test", new DynamicMetadata<int>(1));
-    std::cout << ((DynamicMetadata<int>*)getMetadata("test"))->getValue() << std::endl;
-
     rotation = atan2f(vec2Velocity.y, vec2Velocity.x);
     timer -= dElapsedTime;
-    if (timer <= 0.f) bIsActive = false;
+    if (timer <= 0.f) {
+        bIsActive = false;
+        EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(this));
+        return;
+    }
     CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
     CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->y, vec2WSCoordinate.y, &i32vec2Index.y, &i32vec2NumMicroSteps.y);
 }

@@ -174,24 +174,15 @@ bool CScene2D::Update(const double dElapsedTime)
 	if (!CBossTimeControl::GetInstance()->UpdateReverse()) {
 		cPlayer2D->Update(dElapsedTime);
 		cEntityManager->Update(dElapsedTime);
+		ParticleManager::GetInstance()->Update(dElapsedTime);
 		for (unsigned int i = 0; i < enemyVector.size(); i++) enemyVector[i]->Update(dElapsedTime);
 		if (CBossTimeControl::GetInstance()->isListening()) {
 			CBossTimeControl::GetInstance()->Update();
-			if (CBossTimeControl::GetInstance()->getCurrentFrame() >= 60) {
-				CBossTimeControl::GetInstance()->setListening(false);
-			}
-		}
-	} else {
-		std::cout << "Reversing\n";
-		if (CBossTimeControl::GetInstance()->getCurrentFrame() <= 0) {
-			CBossTimeControl::GetInstance()->Reset();
-			CBossTimeControl::GetInstance()->setListening(false);
 		}
 	}
 
 	// Call the Map2D's update method
 	cMap2D->Update(dElapsedTime);
-	ParticleManager::GetInstance()->Update(dElapsedTime);
 
 	if (cKeyboardController->IsKeyDown(GLFW_KEY_H)) {
 		if (!CBossTimeControl::GetInstance()->isListening() && CBossTimeControl::GetInstance()->getPackets().size() == 0) {

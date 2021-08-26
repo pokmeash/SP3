@@ -2,6 +2,9 @@
 #include "Scene2D.h"
 #include "../Library/Source/System/MyMath.h"
 #include "EventControl/EventHandler.h"
+#include "EventControl/NextRoomEvent.h"
+#include "EventControl/Entity2DDespawnEvent.h"
+#include "EventControl/GrenadeExplodeEvent.h"
 
 EntityManager::EntityManager(void)
 {
@@ -23,6 +26,22 @@ bool EntityManager::Init(void)
 				}
 			}
 			entitylist.clear();
+			return;
+		}
+		if (e->getName() == GrenadeExplodeEvent::BASE_NAME()) {
+			Grenade* grenade = (Grenade*)((GrenadeExplodeEvent*)e)->getEntity();
+			for (unsigned j = 0; j < CScene2D::GetInstance()->enemyVector.size(); ++j) {
+				CLivingEntity* enemy = (CLivingEntity*)CScene2D::GetInstance()->enemyVector[j];
+				if (!enemy->bIsActive) continue;
+				if (cPhysics.CalculateDistance(grenade->vec2WSCoordinate, enemy->vec2WSCoordinate) <= 2.f) {
+					enemy->addHP(-1);
+					if (enemy->getHP() <= 0) {
+						enemy->bIsActive = false;
+						EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(enemy));
+					}
+				}
+			}
+			return;
 		}
 	});
 	return false;
@@ -85,6 +104,17 @@ void EntityManager::Update(const double dElapsedTime)
 					}
 					break;
 				case CEntity2D::E_GRENADE:
+					break;
+				case CEntity2D::E_BEAM:
+					for (unsigned j = 0; j < entitylist.size(); ++j) {
+						CEntity2D* entity2 = entitylist[j];
+						if (!entity2->bIsActive || entity2 == entity) continue;
+						if (entity2->type != CEntity2D::E_GRENADE) continue;
+						Grenade* grenade = (Grenade*)entity2;
+						if (glm::length(entity->vec2WSCoordinate - grenade->vec2WSCoordinate) <= .5f) {
+							grenade->setExplode(true);
+						}
+					}
 					break;
 				default:
 					break;

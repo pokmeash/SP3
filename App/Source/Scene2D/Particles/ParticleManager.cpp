@@ -1,5 +1,6 @@
 #include "ParticleManager.h"
 #include "EventControl/EventHandler.h"
+#include "EventControl/Entity2DDespawnEvent.h"
 #include "../Enemies/Enemy2D.h"
 
 ParticleManager::ParticleManager()

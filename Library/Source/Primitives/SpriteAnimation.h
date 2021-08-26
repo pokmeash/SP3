@@ -41,7 +41,6 @@ struct CAnimation
 		frames.push_back(i);
 	}
 
-private:
 	//name of the animation
 	std::string animationName;
 
@@ -70,7 +69,6 @@ public:
 
 	//Update the animated sprite
 	void Update(double dt);
-	void UpdateReverse(double dt);
 	virtual void Render();
 
 	void AddAnimation(std::string name, int start, int end);
@@ -80,7 +78,6 @@ public:
 	void Resume();
 	void Reset();
 
-private:
 	//number of rows
 	int row;
 	//number of columns 

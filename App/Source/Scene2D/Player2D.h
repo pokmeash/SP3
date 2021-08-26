@@ -6,7 +6,7 @@
 #pragma once
 
 // Include Singleton template
-#include "DesignPatterns\SingletonTemplate.h"
+#include "DesignPatterns/SingletonTemplate.h"
 
 // Include GLEW
 #ifndef GLEW_STATIC
@@ -21,9 +21,6 @@
 
 // Include CEntity2D
 #include "LivingEntity.h"
-
-// Include the Map2D as we will use it to check the player's movements and actions
-class CMapManager;
 
 // Include Keyboard controller
 #include "Inputs\KeyboardController.h"
