@@ -11,7 +11,4 @@ public:
 		setDmg(dmg);
 		setProjSpeed(projspeed);
 	}
-
-
-	
 };

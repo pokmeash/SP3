@@ -6,9 +6,8 @@ class Attribute
 {
 protected:
 	int HP;
-	int maxHP;
+	int maxHP = 0;
 	int Dmg;
-	int MaxHP;
 	float MovingSpeed;
 	float projectileSpeed;
 public:
@@ -26,10 +25,6 @@ public:
 	{
 		return projectileSpeed;
 	}
-	virtual int getMaxHP()
-	{
-		return MaxHP;
-	}
 	virtual float getMoveSpeed()
 	{
 		return MovingSpeed;
@@ -37,6 +32,7 @@ public:
 	virtual void setHP(int hp)
 	{
 		HP = hp;
+		if (hp > maxHP)
 		maxHP = hp;
 	}
 	virtual void setDmg(int dmg)
@@ -49,7 +45,7 @@ public:
 	}
 	virtual void setMaxHP(int maxhp)
 	{
-		MaxHP = maxhp;
+		maxHP = maxhp;
 	}
 	virtual void setMoveSpeed(float MoveSpeed)
 	{
@@ -73,7 +69,7 @@ public:
 	}
 	virtual void addMaxHP(int maxhp)
 	{
-		MaxHP += maxhp;
+		maxHP += maxhp;
 	}
 	virtual void minusHP(int amtOfHP)
 	{
