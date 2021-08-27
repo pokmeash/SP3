@@ -111,7 +111,7 @@ void EntityManager::Update(const double dElapsedTime)
 							if (!enemy->bIsActive) continue;
 							CPlayer2D::GetInstance()->PlayerDamaged(enemy->getDmg());
 						}
-						
+
 						entity->bIsActive = false;
 					}
 					break;
