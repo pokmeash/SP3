@@ -50,7 +50,7 @@ CSpaceTurret::CSpaceTurret(void)
 	i32vec2Destination = glm::i32vec2(0, 0);	// Initialise the iDestination
 	i32vec2Direction = glm::i32vec2(0, 0);		// Initialise the iDirection
 
-	setHP(10);
+
 
 }
 
@@ -94,7 +94,7 @@ bool CSpaceTurret::Init(void)
 		return false;	// Unable to find the start position of the player, so quit this game
 
 	// Erase the value of the player in the arrMapInfo
-	cMap2D->SetMapInfo(uiRow, uiCol, 0);
+	cMap2D->SetMapInfo(uiRow, uiCol, 96);
 
 	// Set the start position of the Player to iRow and iCol
 	i32vec2Index = glm::i32vec2(uiCol, uiRow);
@@ -112,6 +112,10 @@ bool CSpaceTurret::Init(void)
 	//CS: Create the animated sprite and setup the animation 
 	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(1, 4, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
 	animatedSprites->AddAnimation("idle", 0, 3);
+
+	//Attributes
+	setHP(10);
+	setDmg(1);
 
 	return true;
 }
@@ -143,7 +147,6 @@ void CSpaceTurret::Update(const double dElapsedTime)
 			glm::vec2 direction = CPlayer2D::GetInstance()->vec2WSCoordinate - vec2WSCoordinate;
 			direction = glm::normalize(direction);
 
-			cout << direction.x << ", " << direction.y << endl;
 
 			if (bulletTimer >= 1)
 			{

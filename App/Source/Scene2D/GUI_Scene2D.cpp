@@ -290,10 +290,10 @@ void CGUI_Scene2D::updatePause(float dElapsedTime)
 
 
 			CSoundController::GetInstance()->StopAllSound();
-
+			
 			// Load the menu state
 			cout << "Quitting to main menu" << endl;
-
+			
 			CGameStateManager::GetInstance()->SetActiveGameState("MenuState");
 		}
 

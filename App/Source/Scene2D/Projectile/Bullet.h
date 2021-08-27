@@ -10,6 +10,7 @@
 // Include CEntity2D
 #include "Primitives/Entity2D.h"
 class CFloor2D;
+#include "../BaseAttribute.h"
 
 // Include Keyboard controller
 #include "Inputs\KeyboardController.h"
@@ -17,7 +18,7 @@ class CFloor2D;
 // Include Settings
 #include "GameControl\Settings.h"
 
-class Bullet : public CEntity2D
+class Bullet : public CEntity2D, public BaseAttribute
 {
 public:
     // Constructor

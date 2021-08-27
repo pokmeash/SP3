@@ -30,6 +30,13 @@ int CGameManager::getTotalPower()
 	return totalPowerUp;
 }
 
+void CGameManager::Reset()
+{
+	FinalDmg = 0;
+	DamageTaken = 0;
+	totalPowerUp = 0;
+}
+
 /**
 @brief Constructor
 */
@@ -49,6 +56,7 @@ CGameManager::CGameManager(void)
 */
 CGameManager::~CGameManager(void)
 {
+	cout << "GameManager Destroyed\n";
 }
 
 // Initialise this class instance

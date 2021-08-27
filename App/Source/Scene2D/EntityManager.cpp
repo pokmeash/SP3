@@ -56,7 +56,7 @@ bool EntityManager::Init(void)
 			}
 			return;
 		}
-		if (e->getName() == Entity2DMoveEvent::BASE_NAME()) {
+		if (e->getName() == Entity2DMoveEvent::BASE_NAME()) { //Enemy Collision
 			Entity2DMoveEvent* ev = (Entity2DMoveEvent*)e;
 			if (dynamic_cast<CEnemy2D*>(ev->getEntity())) {
 				CEnemy2D* enemy = (CEnemy2D*)ev->getEntity();
@@ -67,14 +67,14 @@ bool EntityManager::Init(void)
 					if (glm::length(ev->getTo() - enemy2->vec2WSCoordinate) < 1.f)
 					{
 						ev->setCancelled(true);
-						if (enemy->sCurrentFSM = CLivingEntity::FSM::MOVERIGHT)
+						if (enemy->sCurrentFSM == CLivingEntity::FSM::MOVERIGHT)
 						{
-							enemy2->sCurrentFSM = CLivingEntity::FSM::MOVELEFT;
+							enemy->sCurrentFSM = CLivingEntity::FSM::MOVELEFT;
 						}
 
-						else if (enemy->sCurrentFSM = CLivingEntity::FSM::MOVELEFT)
+						else if (enemy->sCurrentFSM == CLivingEntity::FSM::MOVELEFT)
 						{
-							enemy2->sCurrentFSM = CLivingEntity::FSM::MOVERIGHT;
+							enemy->sCurrentFSM = CLivingEntity::FSM::MOVERIGHT;
 						}
 					}
 				}
@@ -102,22 +102,15 @@ void EntityManager::Update(const double dElapsedTime)
 				switch (entity->type)
 				{
 				case CEntity2D::E_EBULLET:
-				{
-					if (cPhysics.CalculateDistance(entity->vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) <= 1)
+					cout << "Shoot2" << endl;
+					if (cMap2D->GetMapInfo(entity->vec2WSCoordinate.y, entity->vec2WSCoordinate.x) >= 100)
 					{
-						for (std::vector<CEntity2D*>::iterator it2 = CScene2D::GetInstance()->enemyVector.begin(); it2 != CScene2D::GetInstance()->enemyVector.end(); ++it2)
-						{
-							CLivingEntity* enemy = (CLivingEntity*)*it2;
-							if (!enemy->bIsActive) continue;
-							CPlayer2D::GetInstance()->PlayerDamaged(enemy->getDmg());
-						}
-
 						entity->bIsActive = false;
+						EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(entity));
 					}
 					break;
 				case CEntity2D::E_BULLET:
 				{
-					
 					for (unsigned j = 0; j < CScene2D::GetInstance()->enemyVector.size(); ++j)
 					{
 						CLivingEntity* enemy = (CLivingEntity*)CScene2D::GetInstance()->enemyVector[j];
@@ -126,8 +119,19 @@ void EntityManager::Update(const double dElapsedTime)
 						{
 							enemy->minusHP(CPlayer2D::GetInstance()->getDmg());
 							CGameManager::GetInstance()->addFinalDmg(CPlayer2D::GetInstance()->getDmg());
+							cout << CPlayer2D::GetInstance()->getDmg() << endl;
+							cout << CGameManager::GetInstance()->getFinalDmg() << endl;
 							if (enemy->getHP() <= 0)
 							{
+								if (cMap2D->GetMapInfo(enemy->i32vec2Index.y, enemy->i32vec2Index.x) == 0)
+								{
+									srand(time(NULL));
+									int random = rand() % 5 + 1;
+									if (random == 1)
+									{
+										cMap2D->SetMapInfo(enemy->i32vec2Index.y, enemy->i32vec2Index.x, 30);
+									}
+								}
 								enemy->bIsActive = false;
 								EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(enemy));
 							}
@@ -148,6 +152,15 @@ void EntityManager::Update(const double dElapsedTime)
 							CGameManager::GetInstance()->addFinalDmg(CPlayer2D::GetInstance()->getDmg());
 							if (enemy->getHP() <= 0)
 							{
+								if (cMap2D->GetMapInfo(enemy->i32vec2Index.y, enemy->i32vec2Index.x) == 0)
+								{
+									srand(time(NULL));
+									int random = rand() % 5 + 1;
+									if (random == 1)
+									{
+										cMap2D->SetMapInfo(enemy->i32vec2Index.y, enemy->i32vec2Index.x, 30);
+									}
+								}
 								enemy->bIsActive = false;
 								EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(enemy));
 							}
@@ -171,7 +184,6 @@ void EntityManager::Update(const double dElapsedTime)
 					break;
 				default:
 					break;
-				}
 				}
 			}
 		}
