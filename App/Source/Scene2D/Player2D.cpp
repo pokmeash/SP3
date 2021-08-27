@@ -575,7 +575,9 @@ void CPlayer2D::Update(const double dElapsedTime)
 			if (CScene2D::GetInstance()->enemyVector.size() == counter)
 			{
 				cMap2D->SetMapInfo(12,16, 98);// next floor
-				cMap2D->SetMapInfo(8, 16, 2); // powerup
+				srand(time(NULL));
+				int random = rand() % 5 + 11; 
+				cMap2D->SetMapInfo(8, 16, random); // powerup
 				cSoundController->PlaySoundByID(CSoundController::SOUNDS::DOOR);
 				cMap2D->once = true;
 			}
@@ -651,15 +653,7 @@ void CPlayer2D::InteractWithMap(void)
 {
 	switch (cMap2D->GetMapInfo(i32vec2Index.y, i32vec2Index.x))
 	{
-	case 2:
-		cSoundController->PlaySoundByID(5);
-		// Erase the tree from this position
-		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
-		// Increase the Tree by 1
-		cInventoryItem = cInventoryManager->GetItem("Tree");
-		cInventoryItem->Add(1);
-		EventHandler::GetInstance()->CallThenDelete(new Item2DPickUpEvent("Tree", cInventoryItem, i32vec2Index));
-		break;
+
 	case 4:
 		cSoundController->PlaySoundByID(5);
 		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
@@ -668,13 +662,6 @@ void CPlayer2D::InteractWithMap(void)
 		cInventoryItem = cInventoryManager->GetItem("Portal");
 		cInventoryItem->Add(1);
 		EventHandler::GetInstance()->CallThenDelete(new Item2DPickUpEvent("Portal", cInventoryItem, i32vec2Index));
-		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
-		break;
-	case 10:
-		// Increase the lives by 1
-		cInventoryItem = cInventoryManager->GetItem("Lives");
-		cInventoryItem->Add(1);
-		// Erase the life from this position
 		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
 		break;
 	case 11:
@@ -693,29 +680,25 @@ void CPlayer2D::InteractWithMap(void)
 		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
 		break;
 	case 14:
-		if (getHP() != getMaxHP())
-		{
-			addHP(1);
-		}
-		CGameManager::GetInstance()->addPowerUp(1);
+		
+		cSoundController->PlaySoundByID(5);
 		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
+		cInventoryItem = cInventoryManager->GetItem("Tree");
+		cInventoryItem->Add(1);
+		EventHandler::GetInstance()->CallThenDelete(new Item2DPickUpEvent("Tree", cInventoryItem, i32vec2Index));
 		break;
 	case 15:
 		addRicochetTimes(1);
 		CGameManager::GetInstance()->addPowerUp(1);
 		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
 		break;
-	case 20:
-		// Decrease the health by 1
-		cInventoryItem = cInventoryManager->GetItem("Health");
-		cInventoryItem->Remove(1);
-		currentColor = glm::vec4(1.0, 0.0, 0.0, 1.0);
-		break;
-	case 21:
-		// Increase the health
-		cInventoryItem = cInventoryManager->GetItem("Health");
-		cInventoryItem->Add(1);
-		currentColor = glm::vec4(0.0, 1.0, 0.0, 1.0);
+	case 30:
+		if (getHP() != getMaxHP())
+		{
+			addHP(1);
+		}
+		CGameManager::GetInstance()->addPowerUp(1);
+		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
 		break;
 	case 97:
 		//Next Room

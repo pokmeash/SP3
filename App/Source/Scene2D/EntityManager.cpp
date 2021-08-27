@@ -128,6 +128,15 @@ void EntityManager::Update(const double dElapsedTime)
 							CGameManager::GetInstance()->addFinalDmg(CPlayer2D::GetInstance()->getDmg());
 							if (enemy->getHP() <= 0)
 							{
+								if (cMap2D->GetMapInfo(enemy->i32vec2Index.y, enemy->i32vec2Index.x) == 0)
+								{
+									srand(time(NULL));
+									int random = rand() % 5 + 1;
+									if (random == 1)
+									{
+										cMap2D->SetMapInfo(enemy->i32vec2Index.y, enemy->i32vec2Index.x, 30);
+									}
+								}
 								enemy->bIsActive = false;
 								EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(enemy));
 							}
@@ -148,6 +157,15 @@ void EntityManager::Update(const double dElapsedTime)
 							CGameManager::GetInstance()->addFinalDmg(CPlayer2D::GetInstance()->getDmg());
 							if (enemy->getHP() <= 0)
 							{
+								if (cMap2D->GetMapInfo(enemy->i32vec2Index.y, enemy->i32vec2Index.x) == 0)
+								{
+									srand(time(NULL));
+									int random = rand() % 5 + 1;
+									if (random == 1)
+									{
+										cMap2D->SetMapInfo(enemy->i32vec2Index.y, enemy->i32vec2Index.x, 30);
+									}
+								}
 								enemy->bIsActive = false;
 								EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(enemy));
 							}

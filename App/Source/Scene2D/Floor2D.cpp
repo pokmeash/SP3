@@ -102,7 +102,7 @@ bool CFloor2D::Init(	const unsigned int uiNumLevels,
 
 	// Load and create textures
 	// Load the tree texture
-	if (LoadTexture("Image/Scene2D_StarTile.tga", 2) == false)
+	if (LoadTexture("Image/Scene2D_StarTile.tga", 14) == false)
 	{
 		std::cout << "Failed to load star tile texture" << std::endl;
 		return false;
@@ -137,7 +137,7 @@ bool CFloor2D::Init(	const unsigned int uiNumLevels,
 		std::cout << "Failed to load Health up tile texture" << std::endl;
 		return false;
 	}
-	if (LoadTexture("Image/health.tga", 14) == false)
+	if (LoadTexture("Image/health.tga", 30) == false)
 	{
 		std::cout << "Failed to load Health up tile texture" << std::endl;
 		return false;
@@ -160,8 +160,7 @@ bool CFloor2D::Init(	const unsigned int uiNumLevels,
 		std::cout << "Failed to load Scene2D_Spa tile texture" << std::endl;
 		return false;
 	}
-	// Load the Invis texture
-	if (LoadTexture("Image/Scene2D_Exit.tga", 96) == false)
+	if (LoadTexture("Image/Scene2D_UsedExit.tga", 96) == false)
 	{
 		std::cout << "Failed to load Exit tile texture" << std::endl;
 		return false;
@@ -563,7 +562,7 @@ bool CFloor2D::LoadTexture(const char* filename, const int iTextureCode)
  */
 void CFloor2D::RenderTile(const unsigned int uiRow, const unsigned int uiCol)
 {
-	if (arrMapInfo[uiCurRoom][uiRow][uiCol].value > 1)
+	if (arrMapInfo[uiCurRoom][uiRow][uiCol].value > 1 && arrMapInfo[uiCurRoom][uiRow][uiCol].value != 96)
 	{
 		//if (arrMapInfo[uiCurLevel][uiRow][uiCol].value < 3)
 		glBindTexture(GL_TEXTURE_2D, MapOfTextureIDs.at(arrMapInfo[uiCurRoom][uiRow][uiCol].value));
@@ -1078,7 +1077,16 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1101;
+					srand(time(NULL));
+					int random = rand() % 2 + 1;
+					if (random == 1)
+					{
+						arrMapInfo[uiLevel][uiRow][uiCol].value = 1101;
+					}
+					else if (random == 2)
+					{
+						arrMapInfo[uiLevel][uiRow][uiCol].value = 1102;
+					}
 				}
 				else
 				{
@@ -1102,7 +1110,16 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1102;
+					srand(time(NULL));
+					int random = rand() % 2 + 1;
+					if (random == 1)
+					{
+						arrMapInfo[uiLevel][uiRow][uiCol].value = 1101;
+					}
+					else if (random == 2)
+					{
+						arrMapInfo[uiLevel][uiRow][uiCol].value = 1102;
+					}
 				}
 				else
 				{
