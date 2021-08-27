@@ -47,7 +47,7 @@ bool EntityManager::Init(void)
 				if (!enemy->bIsActive) continue;
 				float dist = glm::length(grenade->vec2WSCoordinate - enemy->vec2WSCoordinate);
 				if (dist <= enemy->scale.x * 0.5f + 1.f) {
-					enemy->addHP(-1 / dist);
+					enemy->addHP(-2 / dist);
 					if (enemy->getHP() <= 0) {
 						enemy->bIsActive = false;
 						EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(enemy));
