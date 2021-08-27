@@ -9,7 +9,10 @@ using namespace std;
 #include "Enemies/SpaceFly.h"
 #include "Enemies/SpaceTurret.h"
 #include "Enemies/SpaceSkeleton.h"
+#include "Enemies/SpaceCannon.h"
+#include "Enemies/SpaceSpawner.h"
 #include "Bosses/BossTimeControl.h"
+#include "Particles/ParticleManager.h"
 
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
@@ -70,6 +73,7 @@ CScene2D::~CScene2D(void)
 		cEntityManager = NULL;
 	}
 
+
 	// Clear out all the shaders
 	//CShaderManager::GetInstance()->Destroy();
 }
@@ -89,26 +93,7 @@ bool CScene2D::Init(void)
 	// Set a shader to this class
 	cMap2D->SetShader("2DShader");
 	
-
-	// Load the map into an array
-	unsigned amt = FileSystem::getAmountOfSaves("Maps/Preset/1");
-	if (amt == 0) {
-		cout << "No presets were found!\n";
-		return false;
-	}
-	// Initialise the instance
-	if (!cMap2D->Init(amt, 24, 32))
-	{
-		cout << "Failed to load CMap2D" << endl;
-		return false;
-	}
-	vector<std::string> files = FileSystem::getSaves("Maps/Preset/1");
-	for (unsigned i = 0; i < amt; ++i) {
-		if (!cMap2D->LoadMap(files[i], i)) {
-			std::cout << "Map " << files[i] << " could not load!\n";
-			return false;
-		}
-	}
+	cMap2D->GenerateNewLevel(11,24,32);
 
 	// Activate diagonal movement
 	cMap2D->SetDiagonalMovement(false);
@@ -128,78 +113,8 @@ bool CScene2D::Init(void)
 		return false;
 	}
 
-	// Create and initialise the CEnemy2D
-	enemyVector.clear();
-	while (true)
-	{
-		//CEnemy2D* cEnemy2D = new CEnemy2D();
-		//SpaceFly* cEnemy = new SpaceFly();
-		//cEnemy->SetShader("2DColorShader");
-		CEnemy2D* cEnemy2D = new CSpaceGoop();
-		// Pass shader to cEnemy2D
-		cEnemy2D->SetShader("2DColorShader");
-		// Initialise the instance
-		if (cEnemy2D->Init() == true)
-		{
-			enemyVector.push_back(cEnemy2D);
-		}
-		else
-		{
-			// Break out of this loop if the enemy has all been loaded
-			break;
-		}
-	}
-
-	while (true)
-	{
-		CEnemy2D* cEnemy2D = new CSpaceFly();
-		// Pass shader to cEnemy2D
-		cEnemy2D->SetShader("2DColorShader");
-		// Initialise the instance
-		if (cEnemy2D->Init() == true)
-		{
-			enemyVector.push_back(cEnemy2D);
-		}
-		else
-		{
-			// Break out of this loop if the enemy has all been loaded
-			break;
-		}
-	}
-
-	while (true)
-	{
-		CEnemy2D* cEnemy2D = new CSpaceTurret();
-		// Pass shader to cEnemy2D
-		cEnemy2D->SetShader("2DColorShader");
-		// Initialise the instance
-		if (cEnemy2D->Init() == true)
-		{
-			enemyVector.push_back(cEnemy2D);
-		}
-		else
-		{
-			// Break out of this loop if the enemy has all been loaded
-			break;
-		}
-	}
-
-	while (true)
-	{
-		CEnemy2D* cEnemy2D = new CSpaceSkeleton();
-		// Pass shader to cEnemy2D
-		cEnemy2D->SetShader("2DColorShader");
-		// Initialise the instance
-		if (cEnemy2D->Init() == true)
-		{
-			enemyVector.push_back(cEnemy2D);
-		}
-		else
-		{
-			// Break out of this loop if the enemy has all been loaded
-			break;
-		}
-	}
+	// ENEMEY INIT
+	cMap2D->LoadEnemies();
 
 	// Setup the shaders
 	CShaderManager::GetInstance()->Add("textShader", "Shader//text.vs", "Shader//text.fs");
@@ -222,16 +137,9 @@ bool CScene2D::Init(void)
 
 	// Load the sounds into CSoundController
 	cSoundController = CSoundController::GetInstance();
-	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Jump.ogg"), 4, true);
-	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Pickup.ogg"), 5, true);
-	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Door.ogg"), 6, true);
-	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Button.ogg"), 7, true);
-	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Swap.ogg"), 8, true);
-	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Hurt.ogg"), 9, true);
 	CBossTimeControl::GetInstance()->Init();
 
-	for (int i = 1; i < 11; ++i)
-	{
+	for (int i = 1; i < 11; ++i) {
 		randomvect.push_back(i);
 	}
 	temp = 0;
@@ -257,18 +165,10 @@ bool CScene2D::Update(const double dElapsedTime)
 	if (!CBossTimeControl::GetInstance()->UpdateReverse()) {
 		cPlayer2D->Update(dElapsedTime);
 		cEntityManager->Update(dElapsedTime);
+		ParticleManager::GetInstance()->Update(dElapsedTime);
 		for (unsigned int i = 0; i < enemyVector.size(); i++) enemyVector[i]->Update(dElapsedTime);
 		if (CBossTimeControl::GetInstance()->isListening()) {
 			CBossTimeControl::GetInstance()->Update();
-			if (CBossTimeControl::GetInstance()->getCurrentFrame() >= 60) {
-				CBossTimeControl::GetInstance()->setListening(false);
-			}
-		}
-	} else {
-		std::cout << "Reversing\n";
-		if (CBossTimeControl::GetInstance()->getCurrentFrame() <= 0) {
-			CBossTimeControl::GetInstance()->Reset();
-			CBossTimeControl::GetInstance()->setListening(false);
 		}
 	}
 
@@ -356,6 +256,8 @@ void CScene2D::Render(void)
 	cMap2D->Render();
 	// Call the Map2D's PostRender()
 	cMap2D->PostRender();
+
+	ParticleManager::GetInstance()->Render();
 
 	// Call the cGUI_Scene2D's PreRender()
 	cGUI_Scene2D->PreRender();
@@ -481,6 +383,18 @@ void CScene2D::LevelCompleted(int DoorDir)
 			cPlayer2D->vec2WSCoordinate.y = 11;
 			break;
 		}
+		case 4://next floor
+		{
+			randomvect.clear();
+			for (int i = 1; i < 11; ++i)
+			{
+				randomvect.push_back(i);
+			}
+			cPlayer2D->vec2WSCoordinate.x = 16;
+			cPlayer2D->vec2WSCoordinate.y = 12;
+
+			cMap2D->GenerateNewLevel(11, 24, 32);
+		}
 		default:
 		{
 			cMap2D->SetCurrentLevel(cMap2D->GetCurrentLevel());
@@ -493,22 +407,7 @@ void CScene2D::LevelCompleted(int DoorDir)
 	cPlayer2D->Reset();
 	cMap2D->once = false;
 
-	// Create and initialise the CEnemy2D
-	enemyVector.clear();
-	while (true)
-	{
-		CEnemy2D* cEnemy2D = new CSpaceGoop();
-		// Pass shader to cEnemy2D
-		cEnemy2D->SetShader("2DColorShader");
-		// Initialise the instance
-		if (cEnemy2D->Init() == true)
-		{
-			enemyVector.push_back(cEnemy2D);
-		}
-		else
-		{
-			// Break out of this loop if the enemy has all been loaded
-			break;
-		}
-	}
+	//ENEMY
+	cMap2D->LoadEnemies();
+
 }

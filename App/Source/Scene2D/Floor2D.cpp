@@ -13,9 +13,21 @@
 // Include ImageLoader
 #include "System\ImageLoader.h"
 #include "Primitives/MeshBuilder.h"
-
+#include "System\MyMath.h"
 #include <iostream>
 #include <vector>
+
+#include "Scene2D.h"
+
+#include "Enemies/SpaceGoop.h"
+#include "Enemies/SpaceFly.h"
+#include "Enemies/SpaceTurret.h"
+#include "Enemies/SpaceSkeleton.h"
+#include "Enemies/SpaceCannon.h"
+#include "Enemies/SpaceSpawner.h"
+#include "Bosses/Boss2D.h"
+
+
 using namespace std;
 
 // For AStar PathFinding
@@ -27,6 +39,7 @@ using namespace std::placeholders;
 CFloor2D::CFloor2D(void)
 	: uiCurRoom(0)
 {
+	
 }
 
 /**
@@ -64,7 +77,6 @@ bool CFloor2D::Init(	const unsigned int uiNumLevels,
 {
 	// Get the handler to the CSettings instance
 	cSettings = CSettings::GetInstance();
-
 	// Create the arrMapInfo and initialise to 0
 	// Start by initialising the number of levels
 	arrMapInfo.reserve(uiNumLevels);
@@ -81,14 +93,6 @@ bool CFloor2D::Init(	const unsigned int uiNumLevels,
 			}
 		}
 	}
-
-	// Store the map sizes in cSettings
-	uiCurRoom = 0;
-	this->uiNumRooms = uiNumLevels;
-	cSettings->NUM_TILES_XAXIS = uiNumCols;
-	cSettings->NUM_TILES_YAXIS = uiNumRows;
-	cSettings->UpdateSpecifications();
-
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 
@@ -162,7 +166,7 @@ bool CFloor2D::Init(	const unsigned int uiNumLevels,
 		return false;
 	}
 	// Load the Exit texture
-	if (LoadTexture("Image/Scene2D_Exit.tga", 97) == false)
+	if (LoadTexture("Image/Scene2D_UsedExit.tga", 97) == false)
 	{
 		std::cout << "Failed to load Exit tile texture" << std::endl;
 		return false;
@@ -204,6 +208,13 @@ bool CFloor2D::Init(	const unsigned int uiNumLevels,
 		std::cout << "Failed to load ground tile texture" << std::endl;
 		return false;
 	}
+
+	// Store the map sizes in cSettings
+	uiCurRoom = 0;
+	this->uiNumRooms = uiNumLevels;
+	cSettings->NUM_TILES_XAXIS = uiNumCols;
+	cSettings->NUM_TILES_YAXIS = uiNumRows;
+	cSettings->UpdateSpecifications();
 
 	// Initialise the variables for AStar
 	m_weight = 1;
@@ -266,7 +277,7 @@ void CFloor2D::Render(void)
 			transform = glm::translate(transform, glm::vec3(cSettings->ConvertIndexToUVSpace(cSettings->x, uiCol, false, 0),
 															cSettings->ConvertIndexToUVSpace(cSettings->y, uiRow, true, 0),
 															0.0f));
-			//transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
+			//transform = glm::rotate(transform, Math::HALF_PI, glm::vec3(0.0f, 0.0f, 1.0f));
 			//transform = glm::scale(transform, glm::vec3(1.5, 1, 1));
 
 			// Update the shaders with the latest transform
@@ -797,7 +808,7 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS - 5 && uiCol == cSettings->NUM_TILES_XAXIS - 5 || uiRow == 5 && uiCol == 5)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1001;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1002;
 				}
 				else
 				{
@@ -829,11 +840,11 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS - 5 && uiCol == cSettings->NUM_TILES_XAXIS - 5 || uiRow == 5 && uiCol == 5)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1001;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1002;
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS - 5 && uiCol == 5 || uiRow == 5 && uiCol == cSettings->NUM_TILES_XAXIS - 5)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1001;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1002;
 				}
 				else
 				{
@@ -865,11 +876,11 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS / 2 + 5 && uiCol == cSettings->NUM_TILES_XAXIS / 2 - 5 || uiRow == cSettings->NUM_TILES_YAXIS / 2 - 5 && uiCol == cSettings->NUM_TILES_XAXIS / 2 + 5)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1001;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1002;
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS/2 - 5 && uiCol == cSettings->NUM_TILES_XAXIS/2 - 5 || uiRow == cSettings->NUM_TILES_YAXIS / 2 + 5 && uiCol == cSettings->NUM_TILES_XAXIS / 2 + 5)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1001;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1002;
 				}
 				else
 				{
@@ -900,7 +911,7 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2 - 2 || uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2 + 2)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1001;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1002;
 				}
 				else
 				{
@@ -932,7 +943,7 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2 - 2 || uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2 + 2)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1001;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1002;
 				}
 				else
 				{
@@ -968,7 +979,7 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2 - 2 || uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2 + 2 || uiRow == cSettings->NUM_TILES_YAXIS / 2 - 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2 || uiRow == cSettings->NUM_TILES_YAXIS / 2 + 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1001;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1002;
 				}
 				else
 				{
@@ -994,13 +1005,13 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				{
 					arrMapInfo[uiLevel][uiRow][uiCol].value = 101;
 				}
-				else if (uiRow <= 11 && uiCol == 2 || uiRow <= 11 && uiCol == 4 || uiRow >= cSettings->NUM_TILES_YAXIS - 11 && uiCol == cSettings->NUM_TILES_XAXIS - 3 || uiRow >= cSettings->NUM_TILES_YAXIS - 11 && uiCol == cSettings->NUM_TILES_XAXIS - 5)
+				else if (uiRow <= 11 && uiCol == 2 || uiRow <= 11 && uiCol == 5 || uiRow >= cSettings->NUM_TILES_YAXIS - 11 && uiCol == cSettings->NUM_TILES_XAXIS - 3 || uiRow >= cSettings->NUM_TILES_YAXIS - 11 && uiCol == cSettings->NUM_TILES_XAXIS - 6)
 				{
 					arrMapInfo[uiLevel][uiRow][uiCol].value = 102;
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS - 3 && uiCol == cSettings->NUM_TILES_XAXIS - 4 || uiRow == 2 && uiCol == 3)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1001;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1002;
 				}
 				else
 				{
@@ -1030,9 +1041,9 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				{
 					arrMapInfo[uiLevel][uiRow][uiCol].value = 102;
 				}
-				else if (uiRow == cSettings->NUM_TILES_YAXIS - 3 && uiCol == cSettings->NUM_TILES_XAXIS - 3 || uiRow == 2 && uiCol == 2)
+				else if (uiRow == cSettings->NUM_TILES_YAXIS - 3 && uiCol == cSettings->NUM_TILES_XAXIS - 3 || uiRow == 2 && uiCol == 2 )
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1001;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1002;
 				}
 				else
 				{
@@ -1054,9 +1065,37 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				{
 					arrMapInfo[uiLevel][uiRow][uiCol].value = 101;
 				}
+				else if (uiRow >= cSettings->NUM_TILES_YAXIS / 2 - 5 && uiRow <= cSettings->NUM_TILES_YAXIS / 2 + 5 && uiCol == cSettings->NUM_TILES_XAXIS / 2 - 5 || uiRow >= cSettings->NUM_TILES_YAXIS / 2 - 5 && uiRow <= cSettings->NUM_TILES_YAXIS / 2 + 5 && uiCol == cSettings->NUM_TILES_XAXIS / 2 + 5 || uiRow == cSettings->NUM_TILES_YAXIS / 2 - 5 && uiCol <= cSettings->NUM_TILES_XAXIS / 2 + 5 && uiCol >= cSettings->NUM_TILES_XAXIS / 2 - 5 || uiRow == cSettings->NUM_TILES_YAXIS / 2 + 5 && uiCol <= cSettings->NUM_TILES_XAXIS / 2 + 5 && uiCol >= cSettings->NUM_TILES_XAXIS / 2 - 5)
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 102;
+				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1001;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1102;
+				}
+				else
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 0;
+				}
+			}
+		}
+		break;
+	}
+	case 10:
+	{
+		for (unsigned int uiRow = 0; uiRow < cSettings->NUM_TILES_YAXIS; uiRow++)
+		{
+			// Load a particular CSV value into the arrMapInfo
+			for (unsigned int uiCol = 0; uiCol < cSettings->NUM_TILES_XAXIS; ++uiCol)
+			{
+				arrMapInfo[uiLevel][uiRow][uiCol].roomid = -1;
+				if ((uiRow < 2) || (uiCol < 2) || (uiCol > cSettings->NUM_TILES_XAXIS - 3) || (uiRow > cSettings->NUM_TILES_YAXIS - 3))
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 101;
+				}
+				else if (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2)
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1102;
 				}
 				else
 				{
@@ -1072,6 +1111,140 @@ void CFloor2D::GeneratePreset(int uiLevel)
 	}
 	}
 	}
+}
+
+void CFloor2D::LoadEnemies()
+{
+	// Create and initialise the CEnemy2D
+	for (int i = 0; i < CScene2D::GetInstance()->enemyVector.size(); i++)
+	{
+
+		delete CScene2D::GetInstance()->enemyVector[i];
+		CScene2D::GetInstance()->enemyVector[i] = NULL;
+	}
+	CScene2D::GetInstance()->enemyVector.clear();
+	while (true)
+	{
+		//CEnemy2D* cEnemy2D = new CEnemy2D();
+		//SpaceFly* cEnemy = new SpaceFly();
+		//cEnemy->SetShader("2DColorShader");
+		CEnemy2D* cEnemy2D = new CSpaceGoop();
+		// Pass shader to cEnemy2D
+		cEnemy2D->SetShader("2DColorShader");
+		// Initialise the instance
+		if (cEnemy2D->Init() == true)
+		{
+			CScene2D::GetInstance()->enemyVector.push_back(cEnemy2D);
+		}
+		else
+		{
+			// Break out of this loop if the enemy has all been loaded
+			break;
+		}
+	}
+
+	while (true)
+	{
+		CEnemy2D* cEnemy2D = new CSpaceFly();
+		// Pass shader to cEnemy2D
+		cEnemy2D->SetShader("2DColorShader");
+		// Initialise the instance
+		if (cEnemy2D->Init() == true)
+		{
+			CScene2D::GetInstance()->enemyVector.push_back(cEnemy2D);
+		}
+		else
+		{
+			// Break out of this loop if the enemy has all been loaded
+			break;
+		}
+	}
+
+	while (true)
+	{
+		CEnemy2D* cEnemy2D = new CSpaceTurret();
+		// Pass shader to cEnemy2D
+		cEnemy2D->SetShader("2DColorShader");
+		// Initialise the instance
+		if (cEnemy2D->Init() == true)
+		{
+			CScene2D::GetInstance()->enemyVector.push_back(cEnemy2D);
+		}
+		else
+		{
+			// Break out of this loop if the enemy has all been loaded
+			break;
+		}
+	}
+
+	while (true)
+	{
+		CEnemy2D* cEnemy2D = new CSpaceSkeleton();
+		// Pass shader to cEnemy2D
+		cEnemy2D->SetShader("2DColorShader");
+		// Initialise the instance
+		if (cEnemy2D->Init() == true)
+		{
+			CScene2D::GetInstance()->enemyVector.push_back(cEnemy2D);
+		}
+		else
+		{
+			// Break out of this loop if the enemy has all been loaded
+			break;
+		}
+	}
+
+	while (true)
+	{
+		CEnemy2D* cEnemy2D = new CBoss2D();
+		// Pass shader to cEnemy2D
+		cEnemy2D->SetShader("2DColorShader");
+		// Initialise the instance
+		if (cEnemy2D->Init() == true)
+		{
+			CScene2D::GetInstance()->enemyVector.push_back(cEnemy2D);
+		}
+		else
+		{
+			// Break out of this loop if the enemy has all been loaded
+			break;
+		}
+	}
+
+	while (true)
+	{
+		CEnemy2D* cEnemy2D = new CSpaceCannon();
+		// Pass shader to cEnemy2D
+		cEnemy2D->SetShader("2DColorShader");
+		// Initialise the instance
+		if (cEnemy2D->Init() == true)
+		{
+			CScene2D::GetInstance()->enemyVector.push_back(cEnemy2D);
+		}
+		else
+		{
+			// Break out of this loop if the enemy has all been loaded
+			break;
+		}
+	}
+
+	while (true)
+	{
+		CEnemy2D* cEnemy2D = new CSpaceSpawner();
+		// Pass shader to cEnemy2D
+		cEnemy2D->SetShader("2DColorShader");
+		// Initialise the instance
+		if (cEnemy2D->Init() == true)
+		{
+			CScene2D::GetInstance()->enemyVector.push_back(cEnemy2D);
+		}
+		else
+		{
+			// Break out of this loop if the enemy has all been loaded
+			break;
+		}
+	}
+
 }
 
 /**

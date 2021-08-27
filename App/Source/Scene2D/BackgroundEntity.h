@@ -24,10 +24,10 @@ class CBackgroundEntity : public CEntity2D
 {
 public:
 	CBackgroundEntity(std::string name);
-	~CBackgroundEntity();
+	virtual ~CBackgroundEntity();
 
 	// Init
-	bool Init(void);
+	virtual bool Init(void);
 protected:
 	std::string textureName;
 };

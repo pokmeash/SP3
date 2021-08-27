@@ -26,6 +26,21 @@ class CSoundController : public CSingletonTemplate<CSoundController>
 {
 	friend CSingletonTemplate<CSoundController>;
 public:
+	enum SOUNDS {
+		ORAS = 1,
+		WII,
+		LANCE,
+		JUMP,
+		PICK_UP,
+		DOOR,
+		BUTTON,
+		SWAP,
+		HURT,
+		GRENADE,
+		THROW,
+		RICOCHET,
+		LASER
+	};
 	// Initialise this class instance
 	bool Init(void);
 
@@ -39,6 +54,10 @@ public:
 
 	// Play a sound by its ID
 	void PlaySoundByID(const int ID);
+
+	bool IsPlaying(const int ID);
+
+	void Replay(const int ID);
 
 	// Increase Master volume
 	bool MasterVolumeIncrease(void);

@@ -6,6 +6,7 @@ class Attribute
 {
 protected:
 	int HP;
+	int maxHP;
 	int Dmg;
 	int MaxHP;
 	float MovingSpeed;
@@ -17,6 +18,9 @@ public:
 	virtual int getDmg()
 	{
 		return Dmg;
+	}
+	virtual int getMaxHP() {
+		return maxHP;
 	}
 	virtual float getProjSpeed()
 	{
@@ -33,6 +37,7 @@ public:
 	virtual void setHP(int hp)
 	{
 		HP = hp;
+		maxHP = hp;
 	}
 	virtual void setDmg(int dmg)
 	{

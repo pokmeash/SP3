@@ -92,7 +92,7 @@ bool CMusicState::Init(void)
 	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Wii.ogg"), 2, true, true);
 	for (int i = 0; i < 6; i++)
 	{
-		cSoundController->VolumeDecrease(2);
+		cSoundController->VolumeDecrease(CSoundController::SOUNDS::WII);
 	}
 	bgm = true;
 
@@ -153,21 +153,21 @@ bool CMusicState::Update(const double dElapsedTime)
 
 	if (CKeyboardController::GetInstance()->IsKeyReleased(GLFW_KEY_ESCAPE))
 	{
-		cSoundController->PlaySoundByID(7);
+		cSoundController->PlaySoundByID(CSoundController::SOUNDS::BUTTON);
 		// Reset the CKeyboardController
 		CKeyboardController::GetInstance()->Reset();
 
 		// Load the menu state
 		CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
 		cSoundController->StopAllSound();
-		cSoundController->PlaySoundByID(3);
+		cSoundController->PlaySoundByID(CSoundController::SOUNDS::LANCE);
 		
 	}
 
 	//BGM
 	if (bgm)
 	{
-		cSoundController->PlaySoundByID(2);
+		cSoundController->PlaySoundByID(CSoundController::SOUNDS::WII);
 		bgm = false;
 	}
 

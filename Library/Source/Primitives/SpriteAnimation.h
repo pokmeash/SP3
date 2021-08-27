@@ -41,7 +41,6 @@ struct CAnimation
 		frames.push_back(i);
 	}
 
-private:
 	//name of the animation
 	std::string animationName;
 
@@ -79,7 +78,6 @@ public:
 	void Resume();
 	void Reset();
 
-private:
 	//number of rows
 	int row;
 	//number of columns 

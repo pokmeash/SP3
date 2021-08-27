@@ -176,6 +176,24 @@ bool CSoundController::MasterVolumeDecrease(void)
 	return true;
 }
 
+bool CSoundController::IsPlaying(const int ID)
+{
+	CSoundInfo* pSoundInfo = GetSound(ID);
+	if (!pSoundInfo) return false;
+	return cSoundEngine->isCurrentlyPlaying(pSoundInfo->GetSound());
+}
+
+
+void CSoundController::Replay(const int ID)
+{
+	if (IsPlaying(ID)) {
+		CSoundInfo* pSoundInfo = GetSound(ID);
+		cSoundEngine->stopAllSoundsOfSoundSource(pSoundInfo->GetSound());
+		PlaySoundByID(ID);
+	} else {
+		PlaySoundByID(ID);
+	}
+}
 
 /**
  @brief Increase volume of a ISoundSource

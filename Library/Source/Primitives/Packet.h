@@ -1,5 +1,6 @@
 #pragma once
 #include "Entity2D.h"
+#include "SpriteAnimation.h"
 
 class Packet {
 public:
@@ -19,7 +20,8 @@ public:
 		, returnActiveState(false)
 		, position(entity->vec2WSCoordinate)
 		, velocity(entity->vec2Velocity)
-		, counter(entity->counter) {
+		, counter(entity->counter)
+		, timer(entity->timer) {
 		this->frame = frame;
 	}
 	virtual ~EntityPacket() {
@@ -46,12 +48,16 @@ public:
 	int getCounter() {
 		return counter;
 	}
+	float getTimer() {
+		return timer;
+	}
 protected:
 	CEntity2D* entity;
 	bool returnActiveState;
 	glm::vec2 position;
 	glm::vec2 velocity;
 	int counter;
+	float timer;
 };
 
 class BlockPacket : public Packet {
@@ -77,4 +83,38 @@ protected:
 	int tile;
 	CFloor2D* floor;
 	int roomID;
+};
+
+class AnimationPacket : public Packet {
+public:
+	AnimationPacket(long frame, CSpriteAnimation* sprite, CAnimation* animation, int animFrame, bool returnActive) : sprite(sprite), animation(animation), animFrame(animFrame), returnActiveState(returnActive) {
+		this->frame = frame;
+		playCount = sprite->playCount;
+		currentTime = sprite->currentTime;
+	}
+	CAnimation* getAnimation() {
+		return animation;
+	}
+	CSpriteAnimation* getSprite() {
+		return sprite;
+	}
+	int getAnimFrame() {
+		return animFrame;
+	}
+	bool isReturnActive() {
+		return returnActiveState;
+	}
+	int getPlayCount() {
+		return playCount;
+	}
+	float getTime() {
+		return currentTime;
+	}
+protected:
+	CSpriteAnimation* sprite;
+	CAnimation* animation;
+	int animFrame;
+	bool returnActiveState;
+	int playCount;
+	float currentTime;
 };

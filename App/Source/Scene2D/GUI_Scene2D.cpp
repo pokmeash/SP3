@@ -115,18 +115,6 @@ void CGUI_Scene2D::Update(const double dElapsedTime)
 	// Display the FPS
 	//ImGui::TextColored(ImVec4(0, 0, 1, 1), "FPS: %d", cFPSCounter->GetFrameRate());
 
-	//// Render a progress bar
-	//m_fProgressBar += 0.001f;
-	//if (m_fProgressBar > 1.0f)
-	//	m_fProgressBar = 0.0f;
-	//ImVec4 col = ImVec4(0.0f, 0.0f, 1.0f, 1.0f);
-	//ImGui::PushStyleColor(ImGuiCol_PlotHistogram, col);
-	//col = ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
-	//ImGui::PushStyleColor(ImGuiCol_FrameBg, col);
-	//ImGui::ProgressBar(m_fProgressBar, ImVec2(100.0f, 20.0f));
-	//ImGui::PopStyleColor();
-	//ImGui::PopStyleColor();
-
 	// Render the Health
 	/*ImGuiWindowFlags healthWindowFlags = ImGuiWindowFlags_AlwaysAutoResize |
 		ImGuiWindowFlags_NoBackground |
@@ -207,7 +195,6 @@ void CGUI_Scene2D::Update(const double dElapsedTime)
 		ImGui::End();
 	}
 
-
 	// Render the inventory items
 	cInventoryItem = cInventoryManager->GetItem("Tree");
 	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.0f, 0.0f, 1.0f, 1.0f));  // Set a background color
@@ -229,6 +216,30 @@ void CGUI_Scene2D::Update(const double dElapsedTime)
 		cInventoryItem->GetCount(), cInventoryItem->GetMaxCount());
 	ImGui::End();
 	ImGui::PopStyleColor();
+
+	for (unsigned i = 0; i < CScene2D::GetInstance()->enemyVector.size(); ++i) {
+		CLivingEntity* enemy = (CLivingEntity*)CScene2D::GetInstance()->enemyVector[i];
+		if (!enemy->bIsActive) continue;
+		glm::ivec2 screenPos(50, 50);
+		CSettings::GetInstance()->ConvertWSToMouseSpace(enemy->vec2WSCoordinate.x - enemy->scale.x * 0.5f, enemy->vec2WSCoordinate.y + enemy->scale.x, &screenPos.x, &screenPos.y);
+		std::cout << screenPos.x << ", " << screenPos.y << std::endl;
+		ImGuiWindowFlags enemyHealthWindowFlags = ImGuiWindowFlags_AlwaysAutoResize |
+			ImGuiWindowFlags_NoBackground |
+			ImGuiWindowFlags_NoTitleBar |
+			ImGuiWindowFlags_NoMove |
+			ImGuiWindowFlags_NoResize |
+			ImGuiWindowFlags_NoCollapse |
+			ImGuiWindowFlags_NoScrollbar;
+		ImGui::Begin("EnemyHealth"+i, NULL, enemyHealthWindowFlags);
+		ImGui::SetWindowPos(ImVec2(screenPos.x, screenPos.y));
+		ImGui::SetWindowSize(ImVec2(cSettings->iWindowWidth / cSettings->NUM_TILES_XAXIS, cSettings->iWindowHeight / cSettings->NUM_TILES_YAXIS * 0.25f));
+		ImGui::PushStyleColor(ImGuiCol_PlotHistogram, ImVec4(0.0f, 1.0f, 0.0f, 1.0f));
+		ImGui::PushStyleColor(ImGuiCol_FrameBg, ImVec4(1.0f, .0f, 0.0f, 1.0f));
+		ImGui::ProgressBar(enemy->getHP() / (float)enemy->getMaxHP(), ImVec2(cSettings->iWindowWidth / cSettings->NUM_TILES_XAXIS * enemy->scale.x, cSettings->iWindowHeight / cSettings->NUM_TILES_YAXIS * 0.25f * enemy->scale.x));
+		ImGui::PopStyleColor();
+		ImGui::PopStyleColor();
+		ImGui::End();
+	}
 
 	ImGui::End();
 }

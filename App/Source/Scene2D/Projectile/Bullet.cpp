@@ -4,6 +4,9 @@
 #include "System/ImageLoader.h"
 #include "Primitives/MeshBuilder.h"
 #include "EventControl/EventHandler.h"
+#include "EventControl/Entity2DDespawnEvent.h"
+#include "EventControl/Entity2DMoveEvent.h"
+#include "../Player2D.h"
 #include "../FloorManager.h"
 
 Bullet::Bullet()
@@ -46,24 +49,25 @@ void Bullet::Update(const double dElapsedTime)
         }
     }
     if (!bIsActive) return;
+
     if (type == E_BULLET)
     {
-        if (cMap2D->GetMapInfo(i32vec2Index.y + 1, i32vec2Index.x) >= 100 && vec2Velocity.y > 0)
+        if (i32vec2Index.y < CSettings::GetInstance()->NUM_TILES_YAXIS && cMap2D->GetMapInfo(i32vec2Index.y + 1, i32vec2Index.x) >= 100 && vec2Velocity.y > 0)
         {
             vec2Velocity.y *= -1;
             counter--;
         }
-        else if (cMap2D->GetMapInfo(i32vec2Index.y - 1, i32vec2Index.x) >= 100 && vec2Velocity.y < 0 && i32vec2NumMicroSteps.y <= cSettings->NUM_STEPS_PER_TILE_YAXIS * 0.5f)
+        else if (i32vec2Index.y > 0 && cMap2D->GetMapInfo(i32vec2Index.y - 1, i32vec2Index.x) >= 100 && vec2Velocity.y < 0 && i32vec2NumMicroSteps.y <= cSettings->NUM_STEPS_PER_TILE_YAXIS * 0.5f)
         {
             vec2Velocity.y *= -1;
             counter--;
         }
-        if (cMap2D->GetMapInfo(i32vec2Index.y, i32vec2Index.x + 1) >= 100 && vec2Velocity.x > 0)
+        if (i32vec2Index.x < CSettings::GetInstance()->NUM_TILES_XAXIS && cMap2D->GetMapInfo(i32vec2Index.y, i32vec2Index.x + 1) >= 100 && vec2Velocity.x > 0)
         {
             vec2Velocity.x *= -1;
             counter--;
         }
-        else if (cMap2D->GetMapInfo(i32vec2Index.y, i32vec2Index.x - 1) >= 100 && vec2Velocity.x < 0 && i32vec2NumMicroSteps.x <= cSettings->NUM_STEPS_PER_TILE_XAXIS * 0.25f)
+        else if (i32vec2Index.x > 0 && cMap2D->GetMapInfo(i32vec2Index.y, i32vec2Index.x - 1) >= 100 && vec2Velocity.x < 0 && i32vec2NumMicroSteps.x <= cSettings->NUM_STEPS_PER_TILE_XAXIS * 0.25f)
         {
             vec2Velocity.x *= -1;
             counter--;

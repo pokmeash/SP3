@@ -22,6 +22,8 @@ using namespace std;
 #include "../Player2D.h"
 #include "../EntityManager.h"
 #include "EventControl/EventHandler.h"
+#include "EventControl/Entity2DMoveEvent.h"
+
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
  */
@@ -47,6 +49,8 @@ CSpaceFly::CSpaceFly(void)
 
 	i32vec2Destination = glm::i32vec2(0, 0);	// Initialise the iDestination
 	i32vec2Direction = glm::i32vec2(0, 0);		// Initialise the iDirection
+
+	setHP(10);
 }
 
 CSpaceFly::~CSpaceFly(void)
@@ -75,7 +79,7 @@ CSpaceFly::~CSpaceFly(void)
 bool CSpaceFly::Init(void)
 {
 	CEnemy2D::Init();
-	std::cout << "Initing spacefly\n";
+	std::cout << "Initing SpaceFly\n";
 	// Find the indices for the player in arrMapInfo, and assign it to cPlayer2D
 	unsigned int uiRow = -1;
 	unsigned int uiCol = -1;
@@ -101,16 +105,6 @@ bool CSpaceFly::Init(void)
 	animatedSprites->AddAnimation("up", 9, 11);
 	animatedSprites->AddAnimation("down", 6, 8);
 
-	//CS: Init the color to white
-	currentColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
-
-	// Set the Physics to fall status by default
-	cPhysics2D.Init();
-	cPhysics2D.SetStatus(CPhysics2D::STATUS::FALL);
-
-	// If this class is initialised properly, then set the bIsActive to true
-	bIsActive = true;
-
 	return true;
 }
 
@@ -131,54 +125,11 @@ void CSpaceFly::Update(const double dElapsedTime)
 		if (iFSMCounter > iMaxFSMCounter)
 		{
 			sCurrentFSM = MOVELEFT;
-
 			iFSMCounter = 0;
 		}
 		iFSMCounter++;
 		animatedSprites->PlayAnimation("idle", -1, 1.0f);
 		break;
-	case SEARCH:
-
-		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 15.0f)
-		{
-			if (iFSMCounter > iMaxFSMCounter)
-			{
-				sCurrentFSM = ATTACK;
-				iFSMCounter = 0;
-				currentColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
-			}
-			iFSMCounter++;
-		}
-
-		//animatedSprites->PlayAnimation("idle", -1, 1.0f);
-		break;
-	case ATTACK:
-		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) >= 20.0f)
-		{
-			sCurrentFSM = IDLE;
-		}
-		else if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 20.0f)
-		{
-			sCurrentFSM = MELEEATTACK;
-		}
-	case MELEEATTACK:
-		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 20.0f)
-		{
-			PathFinding();
-			UpdateDirection();
-			UpdatePosition();
-		}
-		else
-		{
-			if (iFSMCounter > iMaxFSMCounter)
-			{
-				sCurrentFSM = SEARCH;
-				iFSMCounter = 0;
-			}
-			iFSMCounter++;
-		}
-		break;
-
 	case MOVELEFT:
 		//movementLEFT
 		if (vec2WSCoordinate.x >= 0)
@@ -207,7 +158,6 @@ void CSpaceFly::Update(const double dElapsedTime)
 			}
 		}
 	break;
-
 	case MOVERIGHT:
 		if (vec2WSCoordinate.x < cSettings->NUM_TILES_XAXIS)
 		{
@@ -247,3 +197,4 @@ void CSpaceFly::Update(const double dElapsedTime)
 	// UpdateJumpFall(dElapsedTime);
 	animatedSprites->Update(dElapsedTime);
 }
+

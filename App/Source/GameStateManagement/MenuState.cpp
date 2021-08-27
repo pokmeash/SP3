@@ -94,7 +94,7 @@ bool CMenuState::Init(void)
 	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Wii.ogg"), 2, true, true);
 	for (int i = 0; i < 6; i++)
 	{
-		cSoundController->VolumeDecrease(2);
+		cSoundController->VolumeDecrease(CSoundController::SOUNDS::WII);
 	}
 	bgm = true;
 
@@ -141,20 +141,20 @@ bool CMenuState::Update(const double dElapsedTime)
 		if (ImGui::ImageButton((ImTextureID)startButtonData.textureID, 
 			ImVec2(buttonWidth, buttonHeight), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0)))
 		{
-			cSoundController->PlaySoundByID(7);
+			cSoundController->PlaySoundByID(CSoundController::SOUNDS::BUTTON);
 			// Reset the CKeyboardController
 			CKeyboardController::GetInstance()->Reset();
 
 			// Load the menu state
 			CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
 			cSoundController->StopAllSound();
-			cSoundController->PlaySoundByID(3);
+			cSoundController->PlaySoundByID(CSoundController::SOUNDS::LANCE);
 		}
 		// Add codes for Exit button here
 		if (ImGui::ImageButton((ImTextureID)exitButtonData.textureID,
 			ImVec2(buttonWidth, buttonHeight), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0)))
 		{
-			cSoundController->PlaySoundByID(7);
+			cSoundController->PlaySoundByID(CSoundController::SOUNDS::BUTTON);
 			// Reset the CKeyboardController
 			CKeyboardController::GetInstance()->Reset();
 
@@ -176,19 +176,19 @@ bool CMenuState::Update(const double dElapsedTime)
 	//For keyboard controls
 	if (CKeyboardController::GetInstance()->IsKeyReleased(GLFW_KEY_SPACE))
 	{
-		cSoundController->PlaySoundByID(7);
+		cSoundController->PlaySoundByID(CSoundController::SOUNDS::BUTTON);
 		// Reset the CKeyboardController
 		CKeyboardController::GetInstance()->Reset();
 
 		// Load the menu state
 		CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
 		cSoundController->StopAllSound();
-		cSoundController->PlaySoundByID(3);
+		cSoundController->PlaySoundByID(CSoundController::SOUNDS::LANCE);
 		return true;
 	}
 	else if (CKeyboardController::GetInstance()->IsKeyReleased(GLFW_KEY_ESCAPE))
 	{
-		cSoundController->PlaySoundByID(7);
+		cSoundController->PlaySoundByID(CSoundController::SOUNDS::BUTTON);
 		// Reset the CKeyboardController
 		CKeyboardController::GetInstance()->Reset();
 
@@ -199,7 +199,7 @@ bool CMenuState::Update(const double dElapsedTime)
 	//BGM
 	if (bgm)
 	{
-		cSoundController->PlaySoundByID(2);
+		cSoundController->PlaySoundByID(CSoundController::SOUNDS::WII);
 		bgm = false;
 	}
 

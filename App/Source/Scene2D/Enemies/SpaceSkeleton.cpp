@@ -28,6 +28,7 @@ using namespace std;
 
 #include "../EntityManager.h"
 #include "EventControl/EventHandler.h"
+#include "EventControl/Entity2DMoveEvent.h"
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
  */
@@ -47,6 +48,8 @@ CSpaceSkeleton::CSpaceSkeleton(void)
 
 	i32vec2Destination = glm::i32vec2(0, 0);	// Initialise the iDestination
 	i32vec2Direction = glm::i32vec2(0, 0);		// Initialise the iDirection
+
+	setHP(5);
 }
 
 /**
@@ -81,7 +84,7 @@ CSpaceSkeleton::~CSpaceSkeleton(void)
 bool CSpaceSkeleton::Init(void)
 {
 	CEnemy2D::Init();
-	std::cout << "Initing spacegoop\n";
+	std::cout << "Initing SpaceSkeleton\n";
 	// Find the indices for the player in arrMapInfo, and assign it to cPlayer2D
 	unsigned int uiRow = -1;
 	unsigned int uiCol = -1;
@@ -105,11 +108,13 @@ bool CSpaceSkeleton::Init(void)
 	}
 
 	//CS: Create the animated sprite and setup the animation 
-	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(4, 9, cSettings->TILE_WIDTH * 2, cSettings->TILE_HEIGHT * 2);
+	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(4, 9, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
 	animatedSprites->AddAnimation("idle", 9, 17);
 	animatedSprites->AddAnimation("right", 27, 35);
 	animatedSprites->AddAnimation("up", 0, 8);
 	animatedSprites->AddAnimation("down", 18, 26);
+	bulletTimer = 0;
+
 
 	return true;
 }
@@ -136,9 +141,10 @@ void CSpaceSkeleton::Update(const double dElapsedTime)
 		animatedSprites->PlayAnimation("idle", -1, 1.0f);
 		break;
 	case MELEEATTACK:
-		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 10.0f)
+		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 15.0f)
 		{
 			PathFinding();
+
 			//SHOOTING
 			bulletTimer += dElapsedTime;
 			glm::vec2 direction = CPlayer2D::GetInstance()->vec2WSCoordinate - vec2WSCoordinate;

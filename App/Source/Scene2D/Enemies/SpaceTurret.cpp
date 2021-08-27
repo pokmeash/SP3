@@ -27,7 +27,9 @@ using namespace std;
 #include "../Player2D.h"
 
 #include "../EntityManager.h"
+
 #include "EventControl/EventHandler.h"
+
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
  */
@@ -47,6 +49,8 @@ CSpaceTurret::CSpaceTurret(void)
 
 	i32vec2Destination = glm::i32vec2(0, 0);	// Initialise the iDestination
 	i32vec2Direction = glm::i32vec2(0, 0);		// Initialise the iDirection
+
+	setHP(10);
 
 }
 
@@ -82,7 +86,7 @@ CSpaceTurret::~CSpaceTurret(void)
 bool CSpaceTurret::Init(void)
 {
 	CEnemy2D::Init();
-	std::cout << "Initing spacegoop\n";
+	std::cout << "Initing SpaceTurret\n";
 	// Find the indices for the player in arrMapInfo, and assign it to cPlayer2D
 	unsigned int uiRow = -1;
 	unsigned int uiCol = -1;
@@ -132,24 +136,6 @@ void CSpaceTurret::Update(const double dElapsedTime)
 		iFSMCounter++;
 		animatedSprites->PlayAnimation("idle", -1, 1.0f);
 		break;
-	case MELEEATTACK:
-		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 10.0f)
-		{
-			PathFinding();
-			UpdateDirection();
-			UpdatePosition();
-		}
-		else
-		{
-			if (iFSMCounter > iMaxFSMCounter)
-			{
-				sCurrentFSM = SEARCH;
-				iFSMCounter = 0;
-			}
-			iFSMCounter++;
-		}
-		break;
-
 	case SHOOT:
 		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 10.0f)
 		{
@@ -169,7 +155,6 @@ void CSpaceTurret::Update(const double dElapsedTime)
 				bulletTimer = 0;
 			}
 		}
-		break;
 	default:
 		break;
 	}
