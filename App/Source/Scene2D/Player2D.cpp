@@ -612,9 +612,11 @@ void CPlayer2D::Render(void)
 
 void CPlayer2D::PlayerDamaged(int amtOfDmg)
 {
+	
 	if (iframesState == false)
 	{
 		minusHP(amtOfDmg);
+		CGameManager::GetInstance()->addDamageTaken(amtOfDmg);
 		currentColor = glm::vec4(1.0, 0.0, 0.0, 1.0);
 		iframesState = true;
 	}
