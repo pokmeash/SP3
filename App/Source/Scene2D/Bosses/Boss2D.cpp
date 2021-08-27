@@ -183,7 +183,31 @@ void CBoss2D::Update(const double dElapsedTime)
 			}
 			else if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 5.0f)
 			{
-				sCurrentFSM = MELEEATTACK;
+
+				if (random == 1)
+				{
+					if (CPlayer2D::GetInstance()->vec2WSCoordinate.x < vec2WSCoordinate.x - 3)
+					{
+						dirx = -1;
+						diry = 0;
+					}
+					else if (CPlayer2D::GetInstance()->vec2WSCoordinate.x > vec2WSCoordinate.x + 3)
+					{
+						dirx = 1;
+						diry = 0;
+					}
+					else if (CPlayer2D::GetInstance()->vec2WSCoordinate.y < vec2WSCoordinate.y)
+					{
+						dirx = 0;
+						diry = -1;
+					}
+					else if (CPlayer2D::GetInstance()->vec2WSCoordinate.y > vec2WSCoordinate.y)
+					{
+						dirx = 0;
+						diry = 1;
+					}
+					sCurrentFSM = MELEEATTACK;
+				}
 			}
 			iFSMCounter = 0;
 
