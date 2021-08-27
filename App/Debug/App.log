@@ -16,4 +16,62 @@ D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Bosses\Conta
           ]
 D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Bosses\ContagionBoss.cpp(225,31): warning C4244: '+=': conversion from 'const double' to 'float', possible loss of data
 D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Bosses\ContagionBoss.cpp(245,27): warning C4305: '+=': truncation from 'double' to 'float'
+  SpaceCannon.cpp
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.h(109,21): warning C4305: 'initializing': truncation from 'double' to 'float'
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\EventControl\EventHandler.h(11,17): warning C4099: 'Listener': type name first seen using 'class' now seen using 'struct'
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\EventControl\EventHandler.h(11): message : see declaration of 'Listener'
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceCannon.cpp(143,31): warning C4244: '+=': conversion from 'const double' to 'float', possible loss of data
+  SpaceFly.cpp
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.h(109,21): warning C4305: 'initializing': truncation from 'double' to 'float'
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\EventControl\EventHandler.h(11,17): warning C4099: 'Listener': type name first seen using 'class' now seen using 'struct'
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\EventControl\EventHandler.h(11): message : see declaration of 'Listener'
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceFly.cpp(176,107): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+          with
+          [
+              T=glm::i32
+          ]
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceFly.cpp(183,108): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+          with
+          [
+              T=glm::i32
+          ]
+  SpaceGoop.cpp
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.h(109,21): warning C4305: 'initializing': truncation from 'double' to 'float'
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\EventControl\EventHandler.h(11,17): warning C4099: 'Listener': type name first seen using 'class' now seen using 'struct'
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\EventControl\EventHandler.h(11): message : see declaration of 'Listener'
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceGoop.cpp(202,107): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+          with
+          [
+              T=glm::i32
+          ]
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceGoop.cpp(209,108): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+          with
+          [
+              T=glm::i32
+          ]
+  SpaceSkeleton.cpp
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.h(109,21): warning C4305: 'initializing': truncation from 'double' to 'float'
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\EventControl\EventHandler.h(11,17): warning C4099: 'Listener': type name first seen using 'class' now seen using 'struct'
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\EventControl\EventHandler.h(11): message : see declaration of 'Listener'
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceSkeleton.cpp(152,31): warning C4244: '+=': conversion from 'const double' to 'float', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceSkeleton.cpp(158,42): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceSkeleton.cpp(159,42): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceSkeleton.cpp(229,107): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+          with
+          [
+              T=glm::i32
+          ]
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceSkeleton.cpp(236,108): warning C4244: 'argument': conversion from 'T' to 'const float', possible loss of data
+          with
+          [
+              T=glm::i32
+          ]
+  SpaceTurret.cpp
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.h(109,21): warning C4305: 'initializing': truncation from 'double' to 'float'
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\EventControl\EventHandler.h(11,17): warning C4099: 'Listener': type name first seen using 'class' now seen using 'struct'
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\EventControl\EventHandler.h(11): message : see declaration of 'Listener'
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceTurret.cpp(146,31): warning C4244: '+=': conversion from 'const double' to 'float', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceTurret.cpp(155,42): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Enemies\SpaceTurret.cpp(156,42): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  Generating Code...
   App.vcxproj -> D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Debug\App.exe

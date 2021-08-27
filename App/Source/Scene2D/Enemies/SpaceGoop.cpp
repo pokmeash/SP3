@@ -127,6 +127,7 @@ void CSpaceGoop::Update(const double dElapsedTime)
 {
 	if (!bIsActive)
 		return;
+
 	vec2WSOldCoordinates = vec2WSCoordinate;
 	switch (sCurrentFSM)
 	{

@@ -55,7 +55,6 @@ CSpaceFly::CSpaceFly(void)
 
 CSpaceFly::~CSpaceFly(void)
 {
-	cMap2D = NULL;
 	if (mesh)
 	{
 		delete mesh;
@@ -107,6 +106,7 @@ bool CSpaceFly::Init(void)
 
 	//Attributes
 	setHP(2);
+	setDmg(1);
 
 	return true;
 }
