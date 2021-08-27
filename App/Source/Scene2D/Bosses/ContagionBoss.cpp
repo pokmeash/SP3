@@ -25,7 +25,7 @@ using namespace std;
 #include <math.h>
 
 #include "../Player2D.h"
-
+#include "../Scene2D.h"
 #include "../EntityManager.h"
 
 #include "EventControl/EventHandler.h"
@@ -115,8 +115,8 @@ bool CContagionBoss::Init(void)
 	scale = glm::vec3(2, 2, 2);
 	animatedSprites->AddAnimation("idle", 30, 38);
 	
-	setHP(40);
-	setDmg(5);
+	setHP(40 * CScene2D::GetInstance()->difficulty);
+	setDmg(5 * CScene2D::GetInstance()->difficulty);
 	setProjSpeed(0.8);
 	setMoveSpeed(10);
 
