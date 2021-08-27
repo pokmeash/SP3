@@ -1,9 +1,9 @@
 /**
- CSpaceTurret
+ CSpaceSpawner
  By: Toh Da Jun
  Date: Mar 2020
  */
-#include "SpaceTurret.h"
+#include "SpaceSpawner.h"
 
 #include <iostream>
 using namespace std;
@@ -33,11 +33,10 @@ using namespace std;
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
  */
-CSpaceTurret::CSpaceTurret(void)
+CSpaceSpawner::CSpaceSpawner(void)
 {
 	transform = glm::mat4(1.0f);	// make sure to initialize matrix to identity matrix first
-	rotation = 0.f;
-	scale = glm::vec3(1, 1, 1);
+
 	// Initialise vecIndex
 	i32vec2Index = glm::i32vec2(0);
 	vec2WSCoordinate = glm::vec2(0);
@@ -50,14 +49,14 @@ CSpaceTurret::CSpaceTurret(void)
 	i32vec2Destination = glm::i32vec2(0, 0);	// Initialise the iDestination
 	i32vec2Direction = glm::i32vec2(0, 0);		// Initialise the iDirection
 
-	setHP(10);
+	setHP(20);
 
 }
 
 /**
  @brief Destructor This destructor has protected access modifier as this class will be a Singleton
  */
-CSpaceTurret::~CSpaceTurret(void)
+CSpaceSpawner::~CSpaceSpawner(void)
 {
 	// Delete the quadMesh
 	if (mesh)
@@ -83,14 +82,14 @@ CSpaceTurret::~CSpaceTurret(void)
 /**
   @brief Initialise this instance
   */
-bool CSpaceTurret::Init(void)
+bool CSpaceSpawner::Init(void)
 {
 	CEnemy2D::Init();
-	std::cout << "Initing SpaceTurret\n";
+	std::cout << "Initing SpaceSpawner\n";
 	// Find the indices for the player in arrMapInfo, and assign it to cPlayer2D
 	unsigned int uiRow = -1;
 	unsigned int uiCol = -1;
-	if (cMap2D->FindValue(1003, uiRow, uiCol) == false)
+	if (cMap2D->FindValue(1006, uiRow, uiCol) == false)
 		return false;	// Unable to find the start position of the player, so quit this game
 
 	// Erase the value of the player in the arrMapInfo
@@ -103,60 +102,45 @@ bool CSpaceTurret::Init(void)
 	i32vec2NumMicroSteps = glm::i32vec2(0, 0);
 
 	// Load the enemy2D texture
-	if (LoadTexture("Image/enemy4.png") == false)
+	if (LoadTexture("Image/enemy6.png") == false)
 	{
 		std::cout << "Failed to load enemy2D tile texture" << std::endl;
 		return false;
 	}
 
 	//CS: Create the animated sprite and setup the animation 
-	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(1, 4, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
+	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(1, 1, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
 	animatedSprites->AddAnimation("idle", 0, 3);
 
+	//bulletTimer = 0;
+
+	setHP(5);
+	setProjSpeed(0.5);
+	
 	return true;
 }
 
 /**
  @brief Update this instance
  */
-void CSpaceTurret::Update(const double dElapsedTime)
+void CSpaceSpawner::Update(const double dElapsedTime)
 {
 	if (!bIsActive)
 		return;
-	vec2WSOldCoordinates = vec2WSCoordinate;
+
 	switch (sCurrentFSM)
 	{
 	case IDLE:
 		//Means that each state changes every 2 seconds
 		if (iFSMCounter > iMaxFSMCounter)
 		{
-			sCurrentFSM = SHOOT;
+			sCurrentFSM = SPAWN;
 			iFSMCounter = 0;
 		}
 		iFSMCounter++;
 		animatedSprites->PlayAnimation("idle", -1, 1.0f);
 		break;
-	case SHOOT:
-		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 10.0f)
-		{
-			bulletTimer += dElapsedTime;
-			glm::vec2 direction = CPlayer2D::GetInstance()->vec2WSCoordinate - vec2WSCoordinate;
-			direction = glm::normalize(direction);
-
-			cout << direction.x << ", " << direction.y << endl;
-
-			if (bulletTimer >= 1)
-			{
-				glm::vec2 temp = direction;
-				temp.y = sinf(atan2f(temp.y, temp.x) + 0.1);
-				temp.x = cosf(atan2f(temp.y, temp.x) + 0.1);
-				temp = glm::normalize(temp) * 0.5f;
-				EntityFactory::GetInstance()->ProduceBullets(vec2WSCoordinate, glm::vec2(temp.x, temp.y), glm::vec3(1, 1, 1), E_EBULLET);
-				bulletTimer = 0;
-			}
-		}
 	default:
 		break;
 	}
-	animatedSprites->Update(dElapsedTime);
 }

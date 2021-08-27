@@ -25,7 +25,7 @@ using namespace std;
 #include <math.h>
 
 #include "../Player2D.h"
-
+#include "../Scene2D.h"
 #include "../EntityManager.h"
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
@@ -102,6 +102,12 @@ bool CEnemy2D::Init(void)
 	return true;
 }
 
+void CEnemy2D::UpdatePosition()
+{
+	CLivingEntity::UpdatePosition();
+	//InteractWithEnemy();
+}
+
 /**
  @brief Let enemy2D interact with the player.
  */
@@ -113,11 +119,6 @@ bool CEnemy2D::InteractWithPlayer(void)
 		iFSMCounter = 0;
 		return true;
 	}
-	return false;
-}
-
-bool CEnemy2D::InteractWithEnemy(void)
-{
 	return false;
 }
 
