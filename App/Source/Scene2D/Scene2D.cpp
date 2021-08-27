@@ -41,7 +41,11 @@ CScene2D::~CScene2D(void)
 		cGUI_Scene2D->Destroy();
 		cGUI_Scene2D = NULL;
 	}
-
+	if (cGameManager)
+	{
+		cGameManager->Destroy();
+		cGameManager = NULL;
+	}
 	// We won't delete this since it was created elsewhere
 	cKeyboardController = NULL;
 

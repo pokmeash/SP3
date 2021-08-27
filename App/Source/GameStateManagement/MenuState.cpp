@@ -35,6 +35,8 @@
 
 #include <iostream>
 #include "System\filesystem.h"
+
+#include "../App/Source/Scene2D/GameManager.h"
 using namespace std;
 
 /**
@@ -141,12 +143,13 @@ bool CMenuState::Update(const double dElapsedTime)
 		if (ImGui::ImageButton((ImTextureID)startButtonData.textureID, 
 			ImVec2(buttonWidth, buttonHeight), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0)))
 		{
+			CGameManager::GetInstance()->Reset();
 			cSoundController->PlaySoundByID(CSoundController::SOUNDS::BUTTON);
 			// Reset the CKeyboardController
 			CKeyboardController::GetInstance()->Reset();
 
 			// Load the menu state
-			CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
+			CGameStateManager::GetInstance()->SetActiveGameState("CharacterSelectionState");
 			cSoundController->StopAllSound();
 			cSoundController->PlaySoundByID(CSoundController::SOUNDS::LANCE);
 		}

@@ -429,7 +429,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 				temp.y = sinf(atan2f(temp.y, temp.x) + 0.1 * i);
 				temp.x = cosf(atan2f(temp.y, temp.x) + 0.1 * i);
 				temp = glm::normalize(temp) * getProjSpeed();  // projectile speed
-				EntityFactory::GetInstance()->ProduceBullets(vec2WSCoordinate, glm::vec2(temp.x, temp.y), glm::vec3(1, 1, 1), E_BULLET);
+				EntityFactory::GetInstance()->ProduceBullets(vec2WSCoordinate, glm::vec2(temp.x, temp.y), glm::vec3(1, 1, 1), E_BULLET)->setDmg(getDmg());
 			}
 		}
 	}

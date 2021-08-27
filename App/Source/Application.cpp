@@ -263,7 +263,7 @@ bool Application::Init(void)
 	CGameStateManager::GetInstance()->AddGameState("GameOverState", new CGameOverState());
 	CGameStateManager::GetInstance()->AddGameState("CharacterSelectionState", new CCharacterSelectionState());
 	// Set the active scene
-	CGameStateManager::GetInstance()->SetActiveGameState("CharacterSelectionState");
+	CGameStateManager::GetInstance()->SetActiveGameState("MenuState");
 
 	return true;
 }
