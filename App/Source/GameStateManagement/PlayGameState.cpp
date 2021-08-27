@@ -74,6 +74,13 @@ bool CPlayGameState::Update(const double dElapsedTime)
 		bgm = false;
 	}
 	// Check if the game has been won by the player
+	if (CPlayer2D::GetInstance()->getHP() <= 0)
+	{
+		CGameStateManager::GetInstance()->SetActiveGameState("GameOverState");
+		cSoundController->StopAllSound();
+		cSoundController->PlaySoundByID(1);
+	}
+
 	if (CGameManager::GetInstance()->bPlayerWon == true)
 	{
 		// End the game and switch to Win screen

@@ -38,6 +38,8 @@ using namespace std;
 #include "GameStateManagement/PlayGameState.h"
 #include "GameStateManagement/Music.h"
 #include "GameStateManagement/WinState.h"
+#include "GameStateManagement/GameOverState.h"
+#include "GameStateManagement/CharacterSelectionState.h"
 #include "System/filesystem.h"
 
 /**
@@ -258,8 +260,10 @@ bool Application::Init(void)
 	CGameStateManager::GetInstance()->AddGameState("PlayGameState", new CPlayGameState());
 	CGameStateManager::GetInstance()->AddGameState("Music", new CMusicState());
 	CGameStateManager::GetInstance()->AddGameState("WinState", new CWinState());
+	CGameStateManager::GetInstance()->AddGameState("GameOverState", new CGameOverState());
+	CGameStateManager::GetInstance()->AddGameState("CharacterSelectionState", new CCharacterSelectionState());
 	// Set the active scene
-	CGameStateManager::GetInstance()->SetActiveGameState("MenuState");
+	CGameStateManager::GetInstance()->SetActiveGameState("CharacterSelectionState");
 
 	return true;
 }

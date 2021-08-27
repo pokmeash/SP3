@@ -12,6 +12,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp" />
+    <ClCompile Include="Source\GameStateManagement\CharacterSelectionState.cpp" />
+    <ClCompile Include="Source\GameStateManagement\GameOverState.cpp" />
     <ClCompile Include="Source\GameStateManagement\GameStateManager.cpp" />
     <ClCompile Include="Source\GameStateManagement\IntroState.cpp" />
     <ClCompile Include="Source\GameStateManagement\MenuState.cpp" />
@@ -38,7 +40,6 @@
     <ClCompile Include="Source\Scene2D\Floor2D.cpp" />
     <ClCompile Include="Source\Scene2D\FloorManager.cpp" />
     <ClCompile Include="Source\Scene2D\GameManager.cpp" />
-    <ClCompile Include="Source\Scene2D\GoopAttribute.cpp" />
     <ClCompile Include="Source\Scene2D\GUI_Scene2D.cpp" />
     <ClCompile Include="Source\Scene2D\InventoryItem.cpp" />
     <ClCompile Include="Source\Scene2D\InventoryManager.cpp" />
@@ -59,6 +60,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h" />
+    <ClInclude Include="Source\GameStateManagement\CharacterSelectionState.h" />
+    <ClInclude Include="Source\GameStateManagement\GameOverState.h" />
     <ClInclude Include="Source\GameStateManagement\GameStateBase.h" />
     <ClInclude Include="Source\GameStateManagement\GameStateManager.h" />
     <ClInclude Include="Source\GameStateManagement\IntroState.h" />
@@ -86,7 +89,6 @@
     <ClInclude Include="Source\Scene2D\Floor2D.h" />
     <ClInclude Include="Source\Scene2D\FloorManager.h" />
     <ClInclude Include="Source\Scene2D\GameManager.h" />
-    <ClInclude Include="Source\Scene2D\GoopAttribute.h" />
     <ClInclude Include="Source\Scene2D\GUI_Scene2D.h" />
     <ClInclude Include="Source\Scene2D\InventoryItem.h" />
     <ClInclude Include="Source\Scene2D\InventoryManager.h" />

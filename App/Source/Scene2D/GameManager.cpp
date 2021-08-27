@@ -1,5 +1,35 @@
 #include "GameManager.h"
 
+int CGameManager::getFinalDmg()
+{
+	return FinalDmg;
+}
+
+void CGameManager::addFinalDmg(int Finaldmg)
+{
+	FinalDmg += Finaldmg;
+}
+
+int CGameManager::getDamageTaken()
+{
+	return DamageTaken;
+}
+
+void CGameManager::addDamageTaken(int dmgTaken)
+{
+	DamageTaken += dmgTaken;
+}
+
+void CGameManager::addPowerUp(int power)
+{
+	totalPowerUp += power;
+}
+
+int CGameManager::getTotalPower()
+{
+	return totalPowerUp;
+}
+
 /**
 @brief Constructor
 */
@@ -8,7 +38,10 @@ CGameManager::CGameManager(void)
 	, bPlayerLost(false)
 	, bLevelCompleted(false)
 	, bLevelToReplay(false)
-	, bGameToRestart(false) {
+	, bGameToRestart(false)
+	, FinalDmg(0)
+	, DamageTaken(0)	
+	, totalPowerUp(0){
 }
 
 /**
