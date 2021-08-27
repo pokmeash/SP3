@@ -76,8 +76,7 @@ CSpaceCannon::~CSpaceCannon(void)
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
 
-	setHP(10);
-	setProjSpeed(0.3);
+
 }
 
 /**
@@ -94,7 +93,7 @@ bool CSpaceCannon::Init(void)
 		return false;	// Unable to find the start position of the player, so quit this game
 
 	// Erase the value of the player in the arrMapInfo
-	cMap2D->SetMapInfo(uiRow, uiCol, 0);
+	cMap2D->SetMapInfo(uiRow, uiCol, 96);
 
 	// Set the start position of the Player to iRow and iCol
 	i32vec2Index = glm::i32vec2(uiCol, uiRow);
@@ -112,6 +111,10 @@ bool CSpaceCannon::Init(void)
 	//CS: Create the animated sprite and setup the animation  
 	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(1, 1, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
 	animatedSprites->AddAnimation("idle", 0, 3);
+
+	//Attributes
+	setHP(10);
+	setDmg(1);
 	
 	return true;
 }

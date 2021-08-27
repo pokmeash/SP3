@@ -70,6 +70,9 @@ public:
 		MOVEDOWN = 11,
 		SHOOT = 10,
 		SPAWN = 11,
+		PH1 = 12,
+		PH2 = 13,
+		PH3 = 14,
 		NUM_FSM
 	};
 

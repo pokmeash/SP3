@@ -51,10 +51,8 @@ CSpaceGoop::CSpaceGoop(void)
 
 	i32vec2Destination = glm::i32vec2(0, 0);	// Initialise the iDestination
 	i32vec2Direction = glm::i32vec2(0, 0);		// Initialise the iDirection
-	//Attributes
-	setHP(3);
-	setDmg(2);
-	setProjSpeed(1);
+
+
 }
 
 /**
@@ -98,7 +96,7 @@ bool CSpaceGoop::Init(void)
 		return false;	// Unable to find the start position of the player, so quit this game
 
 	// Erase the value of the player in the arrMapInfo
-	cMap2D->SetMapInfo(uiRow, uiCol, 0);
+	cMap2D->SetMapInfo(uiRow, uiCol, 96);
 
 	// Set the start position of the Player to iRow and iCol
 	i32vec2Index = glm::i32vec2(uiCol, uiRow);
@@ -115,6 +113,10 @@ bool CSpaceGoop::Init(void)
 	animatedSprites->AddAnimation("right", 0, 2);
 	animatedSprites->AddAnimation("left", 6, 8);
 
+	//Attributes
+	setHP(5);
+	setDmg(1);
+
 	return true;
 }
 
@@ -125,6 +127,7 @@ void CSpaceGoop::Update(const double dElapsedTime)
 {
 	if (!bIsActive)
 		return;
+
 	vec2WSOldCoordinates = vec2WSCoordinate;
 	switch (sCurrentFSM)
 	{

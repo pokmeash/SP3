@@ -23,5 +23,6 @@ protected:
 	int dirx;
 	int diry;
 	int wallcounter;
+	int random;
 	glm::vec2 rushdirection;
 };

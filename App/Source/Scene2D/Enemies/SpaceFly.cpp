@@ -50,12 +50,11 @@ CSpaceFly::CSpaceFly(void)
 	i32vec2Destination = glm::i32vec2(0, 0);	// Initialise the iDestination
 	i32vec2Direction = glm::i32vec2(0, 0);		// Initialise the iDirection
 
-	setHP(10);
+
 }
 
 CSpaceFly::~CSpaceFly(void)
 {
-	cMap2D = NULL;
 	if (mesh)
 	{
 		delete mesh;
@@ -87,7 +86,7 @@ bool CSpaceFly::Init(void)
 		return false;	// Unable to find the start position of the player, so quit this game
 
 	// Erase the value of the player in the arrMapInfo
-	cMap2D->SetMapInfo(uiRow, uiCol, 0);
+	cMap2D->SetMapInfo(uiRow, uiCol, 96);
 
 	// Set the start position of the Player to iRow and iCol
 	i32vec2Index = glm::i32vec2(uiCol, uiRow);
@@ -104,6 +103,10 @@ bool CSpaceFly::Init(void)
 	animatedSprites->AddAnimation("right", 3, 5);
 	animatedSprites->AddAnimation("up", 9, 11);
 	animatedSprites->AddAnimation("down", 6, 8);
+
+	//Attributes
+	setHP(2);
+	setDmg(1);
 
 	return true;
 }

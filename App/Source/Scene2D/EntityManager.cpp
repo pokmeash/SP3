@@ -56,7 +56,7 @@ bool EntityManager::Init(void)
 			}
 			return;
 		}
-		if (e->getName() == Entity2DMoveEvent::BASE_NAME()) {
+		if (e->getName() == Entity2DMoveEvent::BASE_NAME()) { //Enemy Collision
 			Entity2DMoveEvent* ev = (Entity2DMoveEvent*)e;
 			if (dynamic_cast<CEnemy2D*>(ev->getEntity())) {
 				CEnemy2D* enemy = (CEnemy2D*)ev->getEntity();
@@ -67,14 +67,14 @@ bool EntityManager::Init(void)
 					if (glm::length(ev->getTo() - enemy2->vec2WSCoordinate) < 1.f)
 					{
 						ev->setCancelled(true);
-						if (enemy->sCurrentFSM = CLivingEntity::FSM::MOVERIGHT)
+						if (enemy->sCurrentFSM == CLivingEntity::FSM::MOVERIGHT)
 						{
-							enemy2->sCurrentFSM = CLivingEntity::FSM::MOVELEFT;
+							enemy->sCurrentFSM = CLivingEntity::FSM::MOVELEFT;
 						}
 
-						else if (enemy->sCurrentFSM = CLivingEntity::FSM::MOVELEFT)
+						else if (enemy->sCurrentFSM == CLivingEntity::FSM::MOVELEFT)
 						{
-							enemy2->sCurrentFSM = CLivingEntity::FSM::MOVERIGHT;
+							enemy->sCurrentFSM = CLivingEntity::FSM::MOVERIGHT;
 						}
 					}
 				}
@@ -123,6 +123,15 @@ void EntityManager::Update(const double dElapsedTime)
 							cout << CGameManager::GetInstance()->getFinalDmg() << endl;
 							if (enemy->getHP() <= 0)
 							{
+								if (cMap2D->GetMapInfo(enemy->i32vec2Index.y, enemy->i32vec2Index.x) == 0)
+								{
+									srand(time(NULL));
+									int random = rand() % 5 + 1;
+									if (random == 1)
+									{
+										cMap2D->SetMapInfo(enemy->i32vec2Index.y, enemy->i32vec2Index.x, 30);
+									}
+								}
 								enemy->bIsActive = false;
 								EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(enemy));
 							}
@@ -143,6 +152,15 @@ void EntityManager::Update(const double dElapsedTime)
 							CGameManager::GetInstance()->addFinalDmg(CPlayer2D::GetInstance()->getDmg());
 							if (enemy->getHP() <= 0)
 							{
+								if (cMap2D->GetMapInfo(enemy->i32vec2Index.y, enemy->i32vec2Index.x) == 0)
+								{
+									srand(time(NULL));
+									int random = rand() % 5 + 1;
+									if (random == 1)
+									{
+										cMap2D->SetMapInfo(enemy->i32vec2Index.y, enemy->i32vec2Index.x, 30);
+									}
+								}
 								enemy->bIsActive = false;
 								EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(enemy));
 							}

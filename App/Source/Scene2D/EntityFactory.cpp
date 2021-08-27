@@ -6,6 +6,7 @@
 #include "Projectile/PortalManager.h"
 #include "Scene2D.h"
 #include "Particles/ParticleManager.h"
+#include "FloorManager.h"
 
 EntityFactory::EntityFactory()
 {}
@@ -122,6 +123,15 @@ std::vector<Beam*> EntityFactory::ProduceBeam(glm::vec2 pos, glm::vec2 dir, CEnt
 				enemy->addHP(-CPlayer2D::GetInstance()->getDmg());
 				beam->hitEntities.push_back(enemy);
 				if (enemy->getHP() <= 0) {
+					if (CFloorManager::GetInstance()->GetMapInfo(enemy->i32vec2Index.y, enemy->i32vec2Index.x) == 0)
+					{
+						srand(time(NULL));
+						int random = rand() % 5 + 1;
+						if (random == 1)
+						{
+							CFloorManager::GetInstance()->SetMapInfo(enemy->i32vec2Index.y, enemy->i32vec2Index.x, 30);
+						}
+					}
 					enemy->bIsActive = false;
 					EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(enemy));
 				}
