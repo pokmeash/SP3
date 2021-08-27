@@ -1,1 +1,6 @@
-﻿
+﻿  EntityManager.cpp
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.h(109,21): warning C4305: 'initializing': truncation from 'double' to 'float'
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\EventControl\EventHandler.h(11,17): warning C4099: 'Listener': type name first seen using 'class' now seen using 'struct'
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\EventControl\EventHandler.h(11): message : see declaration of 'Listener'
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\EntityManager.cpp(50,22): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  App.vcxproj -> D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Debug\App.exe

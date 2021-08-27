@@ -50,7 +50,7 @@ CSpaceFly::CSpaceFly(void)
 	i32vec2Destination = glm::i32vec2(0, 0);	// Initialise the iDestination
 	i32vec2Direction = glm::i32vec2(0, 0);		// Initialise the iDirection
 
-	setHP(10);
+
 }
 
 CSpaceFly::~CSpaceFly(void)
@@ -104,6 +104,10 @@ bool CSpaceFly::Init(void)
 	animatedSprites->AddAnimation("right", 3, 5);
 	animatedSprites->AddAnimation("up", 9, 11);
 	animatedSprites->AddAnimation("down", 6, 8);
+
+	//Attributes
+	setHP(2);
+	setMoveSpeed(1);
 
 	return true;
 }

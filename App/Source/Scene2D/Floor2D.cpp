@@ -25,6 +25,7 @@
 #include "Enemies/SpaceSkeleton.h"
 #include "Enemies/SpaceCannon.h"
 #include "Bosses/Boss2D.h"
+#include "Bosses/ContagionBoss.h"
 
 
 using namespace std;
@@ -807,7 +808,7 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS - 5 && uiCol == cSettings->NUM_TILES_XAXIS - 5 || uiRow == 5 && uiCol == 5)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1002;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1001;
 				}
 				else
 				{
@@ -839,11 +840,11 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS - 5 && uiCol == cSettings->NUM_TILES_XAXIS - 5 || uiRow == 5 && uiCol == 5)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1002;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1001;
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS - 5 && uiCol == 5 || uiRow == 5 && uiCol == cSettings->NUM_TILES_XAXIS - 5)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1002;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1005;
 				}
 				else
 				{
@@ -875,11 +876,11 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS / 2 + 5 && uiCol == cSettings->NUM_TILES_XAXIS / 2 - 5 || uiRow == cSettings->NUM_TILES_YAXIS / 2 - 5 && uiCol == cSettings->NUM_TILES_XAXIS / 2 + 5)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1002;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1005;
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS/2 - 5 && uiCol == cSettings->NUM_TILES_XAXIS/2 - 5 || uiRow == cSettings->NUM_TILES_YAXIS / 2 + 5 && uiCol == cSettings->NUM_TILES_XAXIS / 2 + 5)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1002;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1001;
 				}
 				else
 				{
@@ -910,7 +911,7 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2 - 2 || uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2 + 2)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1002;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1001;
 				}
 				else
 				{
@@ -942,7 +943,7 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2 - 2 || uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2 + 2)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1002;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1001;
 				}
 				else
 				{
@@ -978,7 +979,7 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2 - 2 || uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2 + 2 || uiRow == cSettings->NUM_TILES_YAXIS / 2 - 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2 || uiRow == cSettings->NUM_TILES_YAXIS / 2 + 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1002;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1001;
 				}
 				else
 				{
@@ -1010,7 +1011,7 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS - 3 && uiCol == cSettings->NUM_TILES_XAXIS - 4 || uiRow == 2 && uiCol == 3)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1002;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1001;
 				}
 				else
 				{
@@ -1042,7 +1043,7 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS - 3 && uiCol == cSettings->NUM_TILES_XAXIS - 3 || uiRow == 2 && uiCol == 2 )
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1002;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1001;
 				}
 				else
 				{
@@ -1070,7 +1071,7 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1101;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1102;
 				}
 				else
 				{
@@ -1094,7 +1095,7 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1101;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1102;
 				}
 				else
 				{
@@ -1213,6 +1214,23 @@ void CFloor2D::LoadEnemies()
 	while (true)
 	{
 		CEnemy2D* cEnemy2D = new CSpaceCannon();
+		// Pass shader to cEnemy2D
+		cEnemy2D->SetShader("2DColorShader");
+		// Initialise the instance
+		if (cEnemy2D->Init() == true)
+		{
+			CScene2D::GetInstance()->enemyVector.push_back(cEnemy2D);
+		}
+		else
+		{
+			// Break out of this loop if the enemy has all been loaded
+			break;
+		}
+	}
+
+	while (true)
+	{
+		CEnemy2D* cEnemy2D = new CContagionBoss();
 		// Pass shader to cEnemy2D
 		cEnemy2D->SetShader("2DColorShader");
 		// Initialise the instance

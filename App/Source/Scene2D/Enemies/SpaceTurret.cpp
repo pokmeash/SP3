@@ -50,7 +50,7 @@ CSpaceTurret::CSpaceTurret(void)
 	i32vec2Destination = glm::i32vec2(0, 0);	// Initialise the iDestination
 	i32vec2Direction = glm::i32vec2(0, 0);		// Initialise the iDirection
 
-	setHP(10);
+
 
 }
 
@@ -112,6 +112,10 @@ bool CSpaceTurret::Init(void)
 	//CS: Create the animated sprite and setup the animation 
 	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(1, 4, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
 	animatedSprites->AddAnimation("idle", 0, 3);
+
+	//Attributes
+	setHP(10);
+	setMoveSpeed(0);
 
 	return true;
 }

@@ -51,10 +51,8 @@ CSpaceGoop::CSpaceGoop(void)
 
 	i32vec2Destination = glm::i32vec2(0, 0);	// Initialise the iDestination
 	i32vec2Direction = glm::i32vec2(0, 0);		// Initialise the iDirection
-	//Attributes
-	setHP(3);
-	setDmg(2);
-	setProjSpeed(1);
+
+
 }
 
 /**
@@ -114,6 +112,11 @@ bool CSpaceGoop::Init(void)
 	animatedSprites->AddAnimation("idle", 3, 5);
 	animatedSprites->AddAnimation("right", 0, 2);
 	animatedSprites->AddAnimation("left", 6, 8);
+
+	//Attributes
+	setHP(5);
+	setDmg(2);
+	setMoveSpeed(1);
 
 	return true;
 }

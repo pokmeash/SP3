@@ -76,8 +76,7 @@ CSpaceCannon::~CSpaceCannon(void)
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
 
-	setHP(10);
-	setProjSpeed(0.3);
+
 }
 
 /**
@@ -112,6 +111,10 @@ bool CSpaceCannon::Init(void)
 	//CS: Create the animated sprite and setup the animation  
 	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(1, 1, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
 	animatedSprites->AddAnimation("idle", 0, 3);
+
+	//Attributes
+	setHP(10);
+	setMoveSpeed(0);
 	
 	return true;
 }

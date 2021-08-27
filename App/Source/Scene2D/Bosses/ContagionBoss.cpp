@@ -29,6 +29,7 @@ using namespace std;
 #include "../EntityManager.h"
 
 #include "EventControl/EventHandler.h"
+#include "EventControl/Entity2DMoveEvent.h"
 #include <time.h>
 
 /**
@@ -49,6 +50,9 @@ CContagionBoss::CContagionBoss(void)
 
 	i32vec2Destination = glm::i32vec2(0, 0);	// Initialise the iDestination
 	i32vec2Direction = glm::i32vec2(0, 0);		// Initialise the iDirection
+
+	setHP(40);
+	setDmg(5);
 
 }
 
@@ -104,15 +108,18 @@ bool CContagionBoss::Init(void)
 	i32vec2NumMicroSteps = glm::i32vec2(0, 0);
 
 	// Load the enemy2D texture
-	if (LoadTexture("Image/enemy5.png") == false)
+	if (LoadTexture("Image/contagionBoss.png") == false)
 	{
 		std::cout << "Failed to load enemy2D tile texture" << std::endl;
 		return false;
 	}
 
 	//CS: Create the animated sprite and setup the animation 
-	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(1, 1, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
-	animatedSprites->AddAnimation("idle", 0, 3);
+	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(9, 12, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
+	scale = glm::vec3(5, 5, 5);
+	animatedSprites->AddAnimation("idle", 30, 39);
+	animatedSprites->AddAnimation("right", 10, 16);
+	animatedSprites->AddAnimation("left", 10, 16);
 
 	srand(time(0));
 	beamRand = rand() % 10 + 1;
@@ -135,11 +142,84 @@ void CContagionBoss::Update(const double dElapsedTime)
 		//Means that each state changes every 2 seconds
 		if (iFSMCounter > iMaxFSMCounter)
 		{
-			sCurrentFSM = SHOOT;
+			sCurrentFSM = MOVELEFT;
 			iFSMCounter = 0;
 		}
 		iFSMCounter++;
 		animatedSprites->PlayAnimation("idle", -1, 1.0f);
+		break;
+	case MOVELEFT:
+		//movementLEFT
+		if (vec2WSCoordinate.x >= 0)
+		{
+			vec2WSCoordinate.x -= 1.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
+			animatedSprites->PlayAnimation("right", -1, 1.0f);
+		}
+		cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
+
+
+		Constraint(LEFT);
+
+		//Constraints
+		if (CheckPosition(LEFT) == false)
+		{
+			vec2WSCoordinate.x += 1.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
+			cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
+			sCurrentFSM = MOVERIGHT;
+		}
+		vec2Velocity = vec2WSCoordinate - vec2WSOldCoordinates;
+		if (vec2WSOldCoordinates != vec2WSCoordinate) {
+			if (EventHandler::GetInstance()->CallDeleteIsCancelled(new Entity2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates))) {
+				vec2WSCoordinate = vec2WSOldCoordinates;
+				CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
+				CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->y, vec2WSCoordinate.y, &i32vec2Index.y, &i32vec2NumMicroSteps.y);
+			}
+		}
+
+		if (iFSMCounter > iMaxFSMCounter)
+		{
+			sCurrentFSM = SHOOT;
+			iFSMCounter = 0;
+		}
+		iFSMCounter++;
+		break;
+
+	case MOVERIGHT:
+		if (vec2WSCoordinate.x < cSettings->NUM_TILES_XAXIS)
+		{
+			vec2WSCoordinate.x += 1.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
+			animatedSprites->PlayAnimation("right", -1, 1.0f);
+		}
+		cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
+
+
+		// Constraint the player's position within the screen boundary
+		Constraint(RIGHT);
+
+		vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
+
+		// Find a feasible position for the enemy2D's current position
+		if (CheckPosition(RIGHT) == false)
+		{
+			FlipHorizontalDirection();
+			i32vec2NumMicroSteps.x = 0;
+			vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
+			sCurrentFSM = MOVELEFT;
+		}
+		vec2Velocity = vec2WSCoordinate - vec2WSOldCoordinates;
+		if (vec2WSOldCoordinates != vec2WSCoordinate) {
+			if (EventHandler::GetInstance()->CallDeleteIsCancelled(new Entity2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates))) {
+				vec2WSCoordinate = vec2WSOldCoordinates;
+				CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
+				CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->y, vec2WSCoordinate.y, &i32vec2Index.y, &i32vec2NumMicroSteps.y);
+			}
+		}
+		if (iFSMCounter > iMaxFSMCounter)
+		{
+			sCurrentFSM = SHOOT;
+			iFSMCounter = 0;
+		}
+		iFSMCounter++;
 		break;
 	case SHOOT:
 			bulletTimer += dElapsedTime;
@@ -162,7 +242,7 @@ void CContagionBoss::Update(const double dElapsedTime)
 					temp = glm::normalize(temp) * .5f;
 					EntityFactory::GetInstance()->ProduceBullets(vec2WSCoordinate, temp, glm::vec3(1, 1, 1), E_EBULLET);
 					cout << beamRand;
-					offset += 3.14159 / 8;
+					offset += 3.14159 / 4;
 				}
 				phaseOne = false;
 			}
@@ -181,8 +261,20 @@ void CContagionBoss::Update(const double dElapsedTime)
 				phaseOne = false;
 				phaseTwo = false;
 			}
+
+			if (iFSMCounter > iMaxFSMCounter + 60)
+			{
+				sCurrentFSM = IDLE;
+				iFSMCounter = 0;
+			}
+			iFSMCounter++;
+
 		break;
 	default:
 		break;
 	}
+
+	//Animation
+	animatedSprites->Update(dElapsedTime);
+
 }

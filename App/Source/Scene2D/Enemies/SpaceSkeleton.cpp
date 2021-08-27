@@ -49,7 +49,7 @@ CSpaceSkeleton::CSpaceSkeleton(void)
 	i32vec2Destination = glm::i32vec2(0, 0);	// Initialise the iDestination
 	i32vec2Direction = glm::i32vec2(0, 0);		// Initialise the iDirection
 
-	setHP(5);
+
 }
 
 /**
@@ -115,6 +115,10 @@ bool CSpaceSkeleton::Init(void)
 	animatedSprites->AddAnimation("down", 18, 26);
 	bulletTimer = 0;
 
+	setHP(7);
+	setDmg(3);
+	setProjSpeed(1);
+	setMoveSpeed(1);
 
 	return true;
 }
@@ -249,7 +253,7 @@ void CSpaceSkeleton::Update(const double dElapsedTime)
 	default:
 		break;
 	}
-	// Update Jump or Fall
-	// UpdateJumpFall(dElapsedTime);
+	
+	//Animation
 	animatedSprites->Update(dElapsedTime);
 }
