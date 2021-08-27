@@ -32,11 +32,7 @@ CScene2D::~CScene2D(void)
 {
 	std::cout << "destroy\n";
 	cSoundController = NULL;
-	if (cGameManager)
-	{
-		cGameManager->Destroy();
-		cGameManager = NULL;
-	}
+	cGameManager = NULL;
 
 	if (cGUI_Scene2D)
 	{

@@ -31,7 +31,6 @@ public:
     // Update
     virtual void Update(const double dElapsedTime);
 private:
-    int hitcount;
     CFloor2D* cMap2D;
 };
 

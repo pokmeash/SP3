@@ -2,7 +2,6 @@
 #include <iostream>
 #include "Attribute.h"
 using namespace std;
-// Player
 class BaseAttribute : public Attribute
 {
 public:

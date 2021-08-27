@@ -51,9 +51,10 @@ CPlayer2D::CPlayer2D(void)
 	vec2UVCoordinate = glm::vec2(0.0f);
 	//Attributes
 
-	setHP(3);
-	setProjSpeed(1.2);
-	setDmg(1);
+	/*setHP(3);
+	setMaxHP(4);
+	setProjSpeed(0.5);
+	setDmg(1);*/
 }
 
 /**
@@ -117,17 +118,23 @@ bool CPlayer2D::Init(void)
 	glBindVertexArray(VAO);
 	
 	// Load the player texture
-	if (LoadTexture("Image/scene2d_player.png", iTextureID) == false)
+	/*if (LoadTexture("Image/scene2d_player.png", iTextureID) == false)
+	{
+		std::cout << "Failed to load player tile texture" << std::endl;
+		return false;
+	}*/
+	if (LoadTexture("Image/test.png", iTextureID) == false)
 	{
 		std::cout << "Failed to load player tile texture" << std::endl;
 		return false;
 	}
-	
 	//CS: Create the animated sprite and setup the animation 
-	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(6, 3, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
-	animatedSprites->AddAnimation("idle", 0, 2);
-	animatedSprites->AddAnimation("right", 3, 5);
-	animatedSprites->AddAnimation("left", 6, 8);
+	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(4, 4, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
+	animatedSprites->AddAnimation("idle", 0, 3);
+	animatedSprites->AddAnimation("up", 4, 7);
+	animatedSprites->AddAnimation("right", 12, 15);
+	animatedSprites->AddAnimation("left", 8, 11);
+
 	animatedSprites->AddAnimation("idleWing", 9, 11);
 	animatedSprites->AddAnimation("rightWing", 12, 14);
 	animatedSprites->AddAnimation("leftWing", 15, 17);
@@ -144,7 +151,10 @@ bool CPlayer2D::Init(void)
 	// Get the handler to the CInventoryManager instance
 	cInventoryManager = CInventoryManager::GetInstance();
 	// Add a Lives icon as one of the inventory items
-	cInventoryItem = cInventoryManager->Add("Lives", "Image/Scene2D_Lives.tga", getHP(), 0);
+	cInventoryItem = cInventoryManager->Add("Lives", "Image/health.tga", getHP(), 0);
+	cInventoryItem->vec2Size = glm::vec2(25, 25);
+
+	cInventoryItem = cInventoryManager->Add("Damage", "Image/attackup.tga", getDmg(), 0);
 	cInventoryItem->vec2Size = glm::vec2(25, 25);
 
 	// Add a Health icon as one of the inventory items
@@ -309,7 +319,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 		}
 
 		//CS: Play the "idle" animation
-		animatedSprites->PlayAnimation("idle", -1, 1.0f);
+		animatedSprites->PlayAnimation("up", -1, 1.0f);
 		currentColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
 
 		dirx = 0;
@@ -594,6 +604,22 @@ void CPlayer2D::PlayerDamaged(int amtOfDmg)
 
 }
 
+bool CPlayer2D::getiFramesState()
+{
+	return iframesState;
+}
+
+
+void CPlayer2D::addRicochetTimes(int times)
+{
+	numberOfRicochet += times;
+}
+
+int CPlayer2D::getRicochetTimes()
+{
+	return numberOfRicochet;
+}
+
 /**
  @brief Let player interact with the map. You can add collectibles such as powerups and health here.
  */
@@ -629,10 +655,30 @@ void CPlayer2D::InteractWithMap(void)
 		break;
 	case 11:
 		addProjSpeed(0.1);
+		CGameManager::GetInstance()->addPowerUp(1);
 		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
 		break;
 	case 12:
 		addDmg(1);
+		CGameManager::GetInstance()->addPowerUp(1);
+		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
+		break;
+	case 13:
+		addMaxHP(1);
+		CGameManager::GetInstance()->addPowerUp(1);
+		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
+		break;
+	case 14:
+		if (getHP() != getMaxHP())
+		{
+			addHP(1);
+		}
+		CGameManager::GetInstance()->addPowerUp(1);
+		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
+		break;
+	case 15:
+		addRicochetTimes(1);
+		CGameManager::GetInstance()->addPowerUp(1);
 		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
 		break;
 	case 20:

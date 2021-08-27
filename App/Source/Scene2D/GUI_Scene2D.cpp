@@ -94,8 +94,6 @@ bool CGUI_Scene2D::Init(void)
 	Resume = (ImTextureID)ImageLoad->LoadTextureGetID("Image\\GUI\\ResumeButton.png", false);
 	Exit = (ImTextureID)ImageLoad->LoadTextureGetID("Image\\GUI\\ExitButton2.png", false);
 	return true;
-
-	return true;
 }
 
 /**
@@ -115,7 +113,7 @@ void CGUI_Scene2D::Update(const double dElapsedTime)
 	ImGui::SetWindowFontScale(1.5f);
 
 	// Display the FPS
-	ImGui::TextColored(ImVec4(0, 0, 1, 1), "FPS: %d", cFPSCounter->GetFrameRate());
+	//ImGui::TextColored(ImVec4(0, 0, 1, 1), "FPS: %d", cFPSCounter->GetFrameRate());
 
 	//// Render a progress bar
 	//m_fProgressBar += 0.001f;
@@ -130,7 +128,7 @@ void CGUI_Scene2D::Update(const double dElapsedTime)
 	//ImGui::PopStyleColor();
 
 	// Render the Health
-	ImGuiWindowFlags healthWindowFlags = ImGuiWindowFlags_AlwaysAutoResize |
+	/*ImGuiWindowFlags healthWindowFlags = ImGuiWindowFlags_AlwaysAutoResize |
 		ImGuiWindowFlags_NoBackground |
 		ImGuiWindowFlags_NoTitleBar |
 		ImGuiWindowFlags_NoMove |
@@ -151,7 +149,7 @@ void CGUI_Scene2D::Update(const double dElapsedTime)
 		(float)cInventoryItem->GetMaxCount(), ImVec2(100.0f, 20.0f));
 	ImGui::PopStyleColor();
 	ImGui::PopStyleColor();
-	ImGui::End();
+	ImGui::End();*/
 
 	// Render the Lives
 	ImGuiWindowFlags livesWindowFlags = ImGuiWindowFlags_AlwaysAutoResize |
@@ -162,18 +160,33 @@ void CGUI_Scene2D::Update(const double dElapsedTime)
 		ImGuiWindowFlags_NoCollapse |
 		ImGuiWindowFlags_NoScrollbar;
 	ImGui::Begin("Lives", NULL, livesWindowFlags);
-	ImGui::SetWindowPos(ImVec2(CSettings::GetInstance()->iWindowWidth - (800.f - 700.f), 25.f));
+	ImGui::SetWindowPos(ImVec2(CSettings::GetInstance()->iWindowWidth * 0, CSettings::GetInstance()->iWindowHeight * 0.f)); // 0.035f
 	ImGui::SetWindowSize(ImVec2(100.0f, 25.0f));
 	cInventoryItem = cInventoryManager->GetItem("Lives");
 	ImGui::Image((void*)(intptr_t)cInventoryItem->GetTextureID(),
 		ImVec2(cInventoryItem->vec2Size.x, cInventoryItem->vec2Size.y),
 		ImVec2(0, 1), ImVec2(1, 0));
 	ImGui::SameLine();
-	ImGui::SetWindowFontScale(1.5f);
-	ImGui::TextColored(ImVec4(1.0, 1.0, 1.0, 1), "%d",
+	ImGui::SetWindowFontScale(2.f);
+	ImGui::TextColored(ImVec4(1.0, 1.0, 1.0, 1), "%i",
 		CPlayer2D::GetInstance()->getHP());
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(1.0, 1.0, 1.0, 1), "/%i",
+		CPlayer2D::GetInstance()->getMaxHP());
 	ImGui::End();
 
+	ImGui::Begin("Damage", NULL, livesWindowFlags);
+	ImGui::SetWindowPos(ImVec2(CSettings::GetInstance()->iWindowWidth * 0, CSettings::GetInstance()->iWindowHeight * 0.045f)); // 0.035f
+	ImGui::SetWindowSize(ImVec2(100.0f, 25.0f));
+	cInventoryItem = cInventoryManager->GetItem("Damage");
+	ImGui::Image((void*)(intptr_t)cInventoryItem->GetTextureID(),
+		ImVec2(cInventoryItem->vec2Size.x, cInventoryItem->vec2Size.y),
+		ImVec2(0, 1), ImVec2(1, 0));
+	ImGui::SameLine();
+	ImGui::SetWindowFontScale(2.f);
+	ImGui::TextColored(ImVec4(1.0, 1.0, 1.0, 1), "%i",
+		CPlayer2D::GetInstance()->getDmg());
+	ImGui::End();
 	if (wings == true)
 	{
 		// Render the Lives

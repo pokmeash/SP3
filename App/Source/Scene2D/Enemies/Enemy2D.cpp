@@ -108,8 +108,10 @@ bool CEnemy2D::Init(void)
  */
 bool CEnemy2D::InteractWithPlayer(void)
 {
-	if (cPhysics2D.CalculateDistance(CPlayer2D::GetInstance()->vec2WSCoordinate, vec2WSCoordinate) < 1.f) {
+	if (cPhysics2D.CalculateDistance(CPlayer2D::GetInstance()->vec2WSCoordinate, vec2WSCoordinate) < 1.f && CPlayer2D::GetInstance()->getiFramesState() == false) {
 		CPlayer2D::GetInstance()->PlayerDamaged(getDmg());
+		CGameManager::GetInstance()->addDamageTaken(getDmg());
+		cout << CGameManager::GetInstance()->getDamageTaken() << endl;
 		sCurrentFSM = IDLE;
 		iFSMCounter = 0;
 		return true;

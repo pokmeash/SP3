@@ -137,9 +137,6 @@
     <ClCompile Include="Source\Scene2D\BaseAttribute.cpp">
       <Filter>Scene2D</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Scene2D\GoopAttribute.cpp">
-      <Filter>Scene2D</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Scene2D\EntityFactory.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
@@ -163,7 +160,7 @@
     </ClCompile>
     <ClCompile Include="Source\GameStateManagement\GameOverState.cpp">
       <Filter>GameStateManagement</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="Source\Scene2D\Projectile\Portal.cpp">
       <Filter>Projectiles</Filter>
     </ClCompile>
@@ -172,6 +169,9 @@
     </ClCompile>
     <ClCompile Include="Source\Scene2D\Projectile\Beam.cpp">
       <Filter>Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameStateManagement\CharacterSelectionState.cpp">
+      <Filter>GameStateManagement</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -280,9 +280,6 @@
     <ClInclude Include="Source\Scene2D\BaseAttribute.h">
       <Filter>Scene2D</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Scene2D\GoopAttribute.h">
-      <Filter>Scene2D</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Scene2D\EntityFactory.h">
       <Filter>Entity</Filter>
     </ClInclude>
@@ -303,7 +300,7 @@
     </ClInclude>
     <ClInclude Include="Source\GameStateManagement\GameOverState.h">
       <Filter>GameStateManagement</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="Source\Scene2D\Projectile\Portal.h">
       <Filter>Projectiles</Filter>
     </ClInclude>
@@ -312,6 +309,9 @@
     </ClInclude>
     <ClInclude Include="Source\Scene2D\Projectile\Beam.h">
       <Filter>Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameStateManagement\CharacterSelectionState.h">
+      <Filter>GameStateManagement</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -105,9 +105,9 @@ bool CGameOverState::Update(const double dElapsedTime)
 	window_flags |= ImGuiWindowFlags_NoResize;
 	window_flags |= ImGuiWindowFlags_NoCollapse;
 
-	// 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
+	// Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
+	// Game Over Screen
 	{
-		// Create a window called "Hello, world!" and append into it.
 		ImGui::Begin("Game Over", NULL, window_flags);
 		ImGui::SetWindowPos(ImVec2(0.0f, 0.0f));// Set the top-left of the window at (10,10)
 		ImGui::SetWindowSize(ImVec2(CSettings::GetInstance()->iWindowWidth,CSettings::GetInstance()->iWindowHeight));
@@ -118,18 +118,30 @@ bool CGameOverState::Update(const double dElapsedTime)
 			ImGuiWindowFlags_NoResize |
 			ImGuiWindowFlags_NoCollapse |
 			ImGuiWindowFlags_NoScrollbar;
-		ImGui::Begin("Stats", NULL, DmgWindowFlags);
-		ImGui::SetWindowPos(ImVec2(CSettings::GetInstance()->iWindowWidth - (800.f - 645.f), 0.f));
+		ImGui::Begin("Damage Dealt", NULL, DmgWindowFlags);
+		ImGui::SetWindowPos(ImVec2(CSettings::GetInstance()->iWindowWidth * 0.27875, CSettings::GetInstance()->iWindowHeight * 0.33));
 		ImGui::SetWindowSize(ImVec2(100.0f, 25.0f));
 		ImGui::SameLine();
-		ImGui::SetWindowFontScale(1.5f);
-		ImGui::TextColored(ImVec4(1.0, 1.0, 1.0, 1), "Damage Dealt: %d", CGameManager::GetInstance()->getFinalDmg());
+		ImGui::SetWindowFontScale(2.f);
+		ImGui::TextColored(ImVec4(1.0, 1.0, 1.0, 1), "Damage Dealt: %i", CGameManager::GetInstance()->getFinalDmg());
 		ImGui::End();
 
-		
-		//ImGui::TextColored()
-		// Add codes for Start button here
-		
+		ImGui::Begin("Damage Taken", NULL, DmgWindowFlags);
+		ImGui::SetWindowPos(ImVec2(CSettings::GetInstance()->iWindowWidth * 0.27875, CSettings::GetInstance()->iWindowHeight * 0.4));
+		ImGui::SetWindowSize(ImVec2(100.0f, 25.0f));
+		ImGui::SameLine();
+		ImGui::SetWindowFontScale(2.f);
+		ImGui::TextColored(ImVec4(1.0, 1.0, 1.0, 1), "Damage Taken: %i", CGameManager::GetInstance()->getDamageTaken());
+		ImGui::End();
+
+		ImGui::Begin("PowerUps Taken", NULL, DmgWindowFlags);
+		ImGui::SetWindowPos(ImVec2(CSettings::GetInstance()->iWindowWidth * 0.27875, CSettings::GetInstance()->iWindowHeight * 0.47));
+		ImGui::SetWindowSize(ImVec2(100.0f, 25.0f));
+		ImGui::SameLine();
+		ImGui::SetWindowFontScale(2.f);
+		ImGui::TextColored(ImVec4(1.0, 1.0, 1.0, 1), "PowerUps Taken: %i", CGameManager::GetInstance()->getTotalPower());
+		ImGui::End();
+
 		ImGui::End();
 	}
 	if (CKeyboardController::GetInstance()->IsKeyReleased(GLFW_KEY_ENTER))

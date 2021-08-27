@@ -220,7 +220,6 @@ void CMenuState::Render(void)
 	// Rendering
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
 }
 
 /**
