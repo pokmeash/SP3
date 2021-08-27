@@ -157,7 +157,18 @@ bool CSettingsState::Update(const double dElapsedTime)
 			CKeyboardController::GetInstance()->Reset();
 			CGameStateManager::GetInstance()->SetActiveGameState("MenuState");
 		}
-
+		// Add codes for Start button here
+		if (ImGui::ImageButton((ImTextureID)buttonData[VOL_UP].textureID,
+			ImVec2(buttonWidth, buttonHeight), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0)))
+		{
+			cSoundController->MasterVolumeIncrease();
+		}
+		// Add codes for Exit button here
+		if (ImGui::ImageButton((ImTextureID)buttonData[VOL_DOWN].textureID,
+			ImVec2(buttonWidth, buttonHeight), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0)))
+		{
+			cSoundController->MasterVolumeDecrease();
+		}
 		for (unsigned i = 0; i < TOTAL_BUTTONS; ++i) {
 			if (buttonData[i].keybindID == -1) continue;
 			if (glfwGetKeyName(CSettings::GetInstance()->iKeybinds[buttonData[i].keybindID], 0) != NULL)

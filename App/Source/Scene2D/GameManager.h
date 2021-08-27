@@ -54,4 +54,5 @@ protected:
 	int FinalDmg;
 	int totalPowerUp;
 	int DamageTaken;
+	
 };

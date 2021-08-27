@@ -614,7 +614,7 @@ void CPlayer2D::SelectCharacter(CHARACTERS type)
 	case Female:
 		setHP(5);
 		setDmg(1);
-		setProjSpeed(2.);
+		setProjSpeed(0.5);
 		break;
 	}
 	charType = type;

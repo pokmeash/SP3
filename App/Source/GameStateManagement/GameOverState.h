@@ -43,4 +43,5 @@ public:
 
 protected:
 	CBackgroundEntity* background;
+	ImTextureID Retry;
 };

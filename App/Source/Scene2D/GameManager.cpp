@@ -1,5 +1,4 @@
 #include "GameManager.h"
-
 int CGameManager::getFinalDmg()
 {
 	return FinalDmg;

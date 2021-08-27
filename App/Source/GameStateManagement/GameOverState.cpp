@@ -13,7 +13,7 @@
 #include <includes/gtc/type_ptr.hpp>
 
 #include "GameOverState.h"
-
+#include "../Scene2D/Scene2D.h"
 // Include CGameStateManager
 #include "GameStateManager.h"
 
@@ -85,6 +85,8 @@ bool CGameOverState::Init(void)
 	const char* glsl_version = "#version 330";
 	ImGui_ImplOpenGL3_Init(glsl_version);
 
+	CImageLoader* ImageLoad = CImageLoader::GetInstance();
+	Retry = (ImTextureID)ImageLoad->LoadTextureGetID("Image\\GUI\\RetryButton.png", false);
 	return true;
 }
 
@@ -105,6 +107,9 @@ bool CGameOverState::Update(const double dElapsedTime)
 	window_flags |= ImGuiWindowFlags_NoResize;
 	window_flags |= ImGuiWindowFlags_NoCollapse;
 
+
+	float buttonWidth = CSettings::GetInstance()->iWindowWidth * 0.2f; // 256
+	float buttonHeight = CSettings::GetInstance()->iWindowHeight * 0.18f; // 128
 	// Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
 	// Game Over Screen
 	{
@@ -122,7 +127,7 @@ bool CGameOverState::Update(const double dElapsedTime)
 		ImGui::SetWindowPos(ImVec2(CSettings::GetInstance()->iWindowWidth * 0.27875, CSettings::GetInstance()->iWindowHeight * 0.33));
 		ImGui::SetWindowSize(ImVec2(100.0f, 25.0f));
 		ImGui::SameLine();
-		ImGui::SetWindowFontScale(2.f);
+		ImGui::SetWindowFontScale(CSettings::GetInstance()->iWindowWidth * (1.f / 640.f));
 		ImGui::TextColored(ImVec4(1.0, 1.0, 1.0, 1), "Damage Dealt: %i", CGameManager::GetInstance()->getFinalDmg());
 		ImGui::End();
 
@@ -130,7 +135,7 @@ bool CGameOverState::Update(const double dElapsedTime)
 		ImGui::SetWindowPos(ImVec2(CSettings::GetInstance()->iWindowWidth * 0.27875, CSettings::GetInstance()->iWindowHeight * 0.4));
 		ImGui::SetWindowSize(ImVec2(100.0f, 25.0f));
 		ImGui::SameLine();
-		ImGui::SetWindowFontScale(2.f);
+		ImGui::SetWindowFontScale(CSettings::GetInstance()->iWindowWidth * (1.f / 640.f));
 		ImGui::TextColored(ImVec4(1.0, 1.0, 1.0, 1), "Damage Taken: %i", CGameManager::GetInstance()->getDamageTaken());
 		ImGui::End();
 
@@ -138,12 +143,32 @@ bool CGameOverState::Update(const double dElapsedTime)
 		ImGui::SetWindowPos(ImVec2(CSettings::GetInstance()->iWindowWidth * 0.27875, CSettings::GetInstance()->iWindowHeight * 0.47));
 		ImGui::SetWindowSize(ImVec2(100.0f, 25.0f));
 		ImGui::SameLine();
-		ImGui::SetWindowFontScale(2.f);
+		ImGui::SetWindowFontScale(CSettings::GetInstance()->iWindowWidth * (1.f / 640.f));
 		ImGui::TextColored(ImVec4(1.0, 1.0, 1.0, 1), "PowerUps Taken: %i", CGameManager::GetInstance()->getTotalPower());
 		ImGui::End();
 
+		ImGui::Begin("Floors Cleared", NULL, DmgWindowFlags);
+		ImGui::SetWindowPos(ImVec2(CSettings::GetInstance()->iWindowWidth * 0.27875, CSettings::GetInstance()->iWindowHeight * 0.54));
+		ImGui::SetWindowSize(ImVec2(100.0f, 25.0f));
+		ImGui::SameLine();
+		ImGui::SetWindowFontScale(CSettings::GetInstance()->iWindowWidth * (1.f/640.f)); // 2.f
+		ImGui::TextColored(ImVec4(1.0, 1.0, 1.0, 1), "Floors Cleared: %i", CScene2D::GetInstance()->floor);
+		ImGui::End();
+
+		ImGui::Begin("Retry Button", NULL, DmgWindowFlags);
+		ImGui::SetWindowPos(ImVec2(CSettings::GetInstance()->iWindowWidth * 0.41, CSettings::GetInstance()->iWindowHeight * 0.61));
+		ImGui::SetWindowSize(ImVec2(100.0f, 25.0f));
+		if (ImGui::ImageButton(Retry, ImVec2(buttonWidth, buttonHeight), ImVec2(0, 0), ImVec2(1, 1), 1)) {
+			//Load into the game
+			CKeyboardController::GetInstance()->Reset();
+			CGameManager::GetInstance()->Reset();
+			CGameStateManager::GetInstance()->SetActiveGameState("CharacterSelectionState");
+			CSoundController::GetInstance()->StopAllSound();
+		}
+		ImGui::End();
 		ImGui::End();
 	}
+	
 	if (CKeyboardController::GetInstance()->IsKeyReleased(GLFW_KEY_ENTER))
 	{
 		// Reset the CKeyboardController

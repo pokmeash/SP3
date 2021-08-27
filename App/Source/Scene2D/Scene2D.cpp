@@ -87,6 +87,7 @@ CScene2D::~CScene2D(void)
 */ 
 bool CScene2D::Init(void)
 {
+	floor = 0;
 	// Include Shader Manager
 	//CShaderManager::GetInstance()->Add("2DShader", "Shader//Scene2D.vs", "Shader//Scene2D.fs");
 	CShaderManager::GetInstance()->Use("2DShader");
