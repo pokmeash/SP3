@@ -99,9 +99,6 @@ protected:
 	// Update the health and lives
 	void UpdateHealthLives(void);
 
-	bool swap;
-	int dirx; // -1 = left +1 = right
-	int diry; // -1 = down +1 = up
 private:
 	//iFrames
 	bool iFrames = false;

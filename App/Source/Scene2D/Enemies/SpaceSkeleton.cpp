@@ -29,6 +29,8 @@ using namespace std;
 #include "../EntityManager.h"
 #include "EventControl/EventHandler.h"
 #include "EventControl/Entity2DMoveEvent.h"
+
+#include "../Scene2D.h"
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
  */
@@ -115,8 +117,8 @@ bool CSpaceSkeleton::Init(void)
 	animatedSprites->AddAnimation("down", 18, 26);
 	bulletTimer = 0;
 
-	setHP(7);
-	setDmg(1);
+	setHP(7 * CScene2D::GetInstance()->difficulty);
+	setDmg(1 * CScene2D::GetInstance()->difficulty);
 	setProjSpeed(1);
 
 	return true;

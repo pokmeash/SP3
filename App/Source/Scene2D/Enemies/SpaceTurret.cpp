@@ -30,6 +30,8 @@ using namespace std;
 
 #include "EventControl/EventHandler.h"
 
+#include "../Scene2D.h"
+
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
  */
@@ -114,8 +116,8 @@ bool CSpaceTurret::Init(void)
 	animatedSprites->AddAnimation("idle", 0, 3);
 
 	//Attributes
-	setHP(10);
-	setDmg(1);
+	setHP(10 * CScene2D::GetInstance()->difficulty);
+	setDmg(1 * CScene2D::GetInstance()->difficulty);
 
 	return true;
 }

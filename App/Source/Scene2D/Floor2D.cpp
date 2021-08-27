@@ -1142,7 +1142,6 @@ void CFloor2D::LoadEnemies()
 	// Create and initialise the CEnemy2D
 	for (int i = 0; i < CScene2D::GetInstance()->enemyVector.size(); i++)
 	{
-
 		delete CScene2D::GetInstance()->enemyVector[i];
 		CScene2D::GetInstance()->enemyVector[i] = NULL;
 	}

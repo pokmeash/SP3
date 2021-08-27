@@ -12,6 +12,7 @@ using namespace std;
 #include "Enemies/SpaceCannon.h"
 #include "Bosses/BossTimeControl.h"
 #include "Particles/ParticleManager.h"
+#include "EventControl/NextRoomEvent.h"
 
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
@@ -144,6 +145,9 @@ bool CScene2D::Init(void)
 		randomvect.push_back(i);
 	}
 	temp = 0;
+
+	resetfloor = false;
+	difficulty = 1;
 	return true;
 }
 
@@ -286,7 +290,7 @@ void CScene2D::LevelCompleted(int DoorDir)
 {
 	srand(time(NULL));
 	int random = 0;
-
+	EventHandler::GetInstance()->CallThenDelete(new NextRoomEvent());
 	switch (DoorDir)
 	{
 		case 0://Top
@@ -393,8 +397,14 @@ void CScene2D::LevelCompleted(int DoorDir)
 			}
 			cPlayer2D->vec2WSCoordinate.x = 16;
 			cPlayer2D->vec2WSCoordinate.y = 12;
+			resetfloor = false;
 
 			cMap2D->GenerateNewLevel(11, 24, 32);
+			++floor;
+			if (floor%10 == 0)
+			{
+				++difficulty;
+			}
 		}
 		default:
 		{
@@ -402,11 +412,23 @@ void CScene2D::LevelCompleted(int DoorDir)
 			break;
 		}
 	}
-		
-	
 
 	cPlayer2D->Reset();
 	cMap2D->once = false;
+
+	if (resetfloor)
+	{
+		for (int i = 0; i < 5; ++i)
+		{
+			unsigned int DoorRow = CSettings::GetInstance()->NUM_TILES_YAXIS;
+			unsigned int DoorCol = CSettings::GetInstance()->NUM_TILES_XAXIS;
+			if (cMap2D->FindValue(96, DoorRow, DoorCol))
+			{
+				int random2 = rand() % 5 + 1001;
+				cMap2D->SetMapInfo(DoorRow, DoorCol, random2);
+			}
+		}
+	}
 
 	//ENEMY
 	cMap2D->LoadEnemies();
