@@ -199,6 +199,8 @@ protected:
 	std::vector<bool> m_closedList;
 	std::vector<Grid> m_cameFromList;
 	std::vector<glm::i32vec2> m_directions;
+
+	glm::vec4 currentColor;
 	
 };
 

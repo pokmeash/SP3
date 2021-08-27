@@ -37,7 +37,6 @@ public:
 
 	void Init(void) {
 		Reset();
-		listening = false;
 		EventHandler::GetInstance()->IgnoreCancelOn([&](Event* e) {
 			if (!listening) return;
 			if (e->getName() == Entity2DMoveEvent::BASE_NAME()) {
@@ -78,8 +77,14 @@ public:
 					entityPacket->getEntity()->vec2Velocity = entityPacket->getVelocity();
 					entityPacket->getEntity()->counter = entityPacket->getCounter();
 					entityPacket->getEntity()->timer = entityPacket->getTimer();
-					if (!dynamic_cast<CEnemy2D*>(entityPacket->getEntity()))
+					if (!dynamic_cast<CEnemy2D*>(entityPacket->getEntity())) {
 						entityPacket->getEntity()->rotation = atan2f(entityPacket->getEntity()->vec2Velocity.y, entityPacket->getEntity()->vec2Velocity.x);
+					} else if (dynamic_cast<CLivingEntity*>(entityPacket->getEntity())) {
+						CLivingEntity* living = (CLivingEntity*)entityPacket->getEntity();
+						living->setHP(entityPacket->getHealth());
+						living->setMaxHP(entityPacket->getMaxHealth());
+						living->setDmg(entityPacket->getDamage());
+					}
 					CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->x, entityPacket->getEntity()->vec2WSCoordinate.x, &entityPacket->getEntity()->i32vec2Index.x, &entityPacket->getEntity()->i32vec2NumMicroSteps.x);
 					CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->y, entityPacket->getEntity()->vec2WSCoordinate.y, &entityPacket->getEntity()->i32vec2Index.y, &entityPacket->getEntity()->i32vec2NumMicroSteps.y);
 					if (entityPacket->isReturnActive() && !entityPacket->getEntity()->bIsActive) {
@@ -115,9 +120,9 @@ public:
 			}
 		}
 		currentFrame--;
+		reversing = true;
 		if (currentFrame <= 0) {
 			Reset();
-			listening = false;
 		}
 		return true;
 	}
@@ -128,6 +133,8 @@ public:
 			delete packet;
 		}
 		packets.clear();
+		reversing = false;
+		listening = false;
 		currentFrame = 1;
 	}
 
@@ -146,10 +153,15 @@ public:
 	long getCurrentFrame() {
 		return currentFrame;
 	}
+
+	bool isReversing() {
+		return reversing;
+	}
 protected:
 	std::vector<Packet*> packets;
 	CBossTimeControl() {
 		listening = true;
+		reversing = false;
 		currentFrame = 1;
 		packets.reserve(60);
 	}
@@ -158,4 +170,5 @@ protected:
 	}
 	bool listening;
 	long currentFrame;
+	bool reversing;
 };
