@@ -1,5 +1,8 @@
 #include "PortalManager.h"
 #include "EventControl/EventHandler.h"
+#include "EventControl/Player2DMoveEvent.h"
+#include "EventControl/Entity2DMoveEvent.h"
+#include "EventControl/NextRoomEvent.h"
 #include "../FloorManager.h"
 
 PortalManager::PortalManager() : bluePortal(NULL), orangePortal(NULL), initalized(false)
@@ -96,12 +99,16 @@ bool PortalManager::Init(void)
 					while (cPhysics.CalculateDistance(orangePortal->vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) <= .5f) {
 						CPlayer2D::GetInstance()->vec2WSCoordinate += CPlayer2D::GetInstance()->vec2Velocity;
 					}
+					CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::x, CPlayer2D::GetInstance()->vec2WSCoordinate.x, &CPlayer2D::GetInstance()->i32vec2Index.x, &CPlayer2D::GetInstance()->i32vec2NumMicroSteps.x);
+					CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::y, CPlayer2D::GetInstance()->vec2WSCoordinate.y, &CPlayer2D::GetInstance()->i32vec2Index.y, &CPlayer2D::GetInstance()->i32vec2NumMicroSteps.y);
 				} else if (cPhysics.CalculateDistance(orangePortal->vec2WSCoordinate, ev->getTo()) <= .5f) {
 					glm::vec2 dist = ev->getTo() - orangePortal->vec2WSCoordinate;
 					CPlayer2D::GetInstance()->vec2WSCoordinate = dist + bluePortal->vec2WSCoordinate + CPlayer2D::GetInstance()->vec2Velocity;
 					while (cPhysics.CalculateDistance(bluePortal->vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) <= .5f) {
 						CPlayer2D::GetInstance()->vec2WSCoordinate += CPlayer2D::GetInstance()->vec2Velocity;
 					}
+					CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::x, CPlayer2D::GetInstance()->vec2WSCoordinate.x, &CPlayer2D::GetInstance()->i32vec2Index.x, &CPlayer2D::GetInstance()->i32vec2NumMicroSteps.x);
+					CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::y, CPlayer2D::GetInstance()->vec2WSCoordinate.y, &CPlayer2D::GetInstance()->i32vec2Index.y, &CPlayer2D::GetInstance()->i32vec2NumMicroSteps.y);
 				}
 				return;
 			}
@@ -113,12 +120,16 @@ bool PortalManager::Init(void)
 					while (cPhysics.CalculateDistance(orangePortal->vec2WSCoordinate, ev->getEntity()->vec2WSCoordinate) <= .5f) {
 						ev->getEntity()->vec2WSCoordinate += ev->getEntity()->vec2Velocity;
 					}
+					CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::x, ev->getEntity()->vec2WSCoordinate.x, &ev->getEntity()->i32vec2Index.x, &ev->getEntity()->i32vec2NumMicroSteps.x);
+					CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::y, ev->getEntity()->vec2WSCoordinate.y, &ev->getEntity()->i32vec2Index.y, &ev->getEntity()->i32vec2NumMicroSteps.y);
 				} else if (cPhysics.CalculateDistance(orangePortal->vec2WSCoordinate, ev->getTo()) <= .5f) {
 					glm::vec2 dist = ev->getTo() - orangePortal->vec2WSCoordinate;
 					ev->getEntity()->vec2WSCoordinate = dist + bluePortal->vec2WSCoordinate + ev->getEntity()->vec2Velocity;
 					while (cPhysics.CalculateDistance(bluePortal->vec2WSCoordinate, ev->getEntity()->vec2WSCoordinate) <= .5f) {
 						ev->getEntity()->vec2WSCoordinate += ev->getEntity()->vec2Velocity;
 					}
+					CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::x, ev->getEntity()->vec2WSCoordinate.x, &ev->getEntity()->i32vec2Index.x, &ev->getEntity()->i32vec2NumMicroSteps.x);
+					CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::y, ev->getEntity()->vec2WSCoordinate.y, &ev->getEntity()->i32vec2Index.y, &ev->getEntity()->i32vec2NumMicroSteps.y);
 				}
 			}
 		}

@@ -22,6 +22,9 @@ using namespace std;
 // Include Game Manager
 #include "GameManager.h"
 #include "EventControl/EventHandler.h"
+#include "EventControl/Player2DMoveEvent.h"
+#include "EventControl/Item2DPickUpEvent.h"
+#include "EventControl/NextRoomEvent.h"
 #include "Scene2D.h"
 
 #include "EntityFactory.h"
@@ -370,7 +373,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 			if (!counter2) break;
 			cMap2D->SetMapInfo(InvisRow, InvisCol, 96);
 		}
-		cSoundController->PlaySoundByID(8);
+		cSoundController->PlaySoundByID(CSoundController::SOUNDS::SWAP);
 
 
 	} else if ((cMouseController->IsButtonPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP]) || cKeyboardController->IsKeyPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP])) && swap == false)
@@ -402,7 +405,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 			if (!counter2) break;
 			cMap2D->SetMapInfo(InvisRow2, InvisCol2, 102);
 		}
-		cSoundController->PlaySoundByID(8);
+		cSoundController->PlaySoundByID(CSoundController::SOUNDS::SWAP);
 	}
 
 	static float delay = 0.f;
@@ -436,8 +439,19 @@ void CPlayer2D::Update(const double dElapsedTime)
 		cSettings->ConvertMouseToWSSpace(mouse.x, mouse.y, &(wsSpace.x), &(wsSpace.y));
 		glm::vec2 direction = wsSpace - vec2WSCoordinate;
 		direction = glm::normalize(direction);
+		EntityFactory::GetInstance()->ProduceGrenade(vec2WSCoordinate, direction, glm::vec3(1, 1, 1), E_GRENADE);
+		//EntityFactory::GetInstance()->ProduceBeam(vec2WSCoordinate, direction, E_BEAM, 50);
+	}
+	if (cKeyboardController->IsKeyDown(GLFW_KEY_B) && delay <= 0.f) // Throwing of grenade
+	{
+		delay = 0.5f;
+		glm::i32vec2 mouse((int)CMouseController::GetInstance()->GetMousePositionX(), (int)CMouseController::GetInstance()->GetMousePositionY());
+		glm::vec2 wsSpace(0.f, 0.f);
+		cSettings->ConvertMouseToWSSpace(mouse.x, mouse.y, &(wsSpace.x), &(wsSpace.y));
+		glm::vec2 direction = wsSpace - vec2WSCoordinate;
+		direction = glm::normalize(direction);
 		//EntityFactory::GetInstance()->ProduceGrenade(vec2WSCoordinate, direction, glm::vec3(1, 1, 1), E_GRENADE);
-		EntityFactory::GetInstance()->ProduceBeam(vec2WSCoordinate, direction, E_BEAM, 100);
+		EntityFactory::GetInstance()->ProduceBeam(vec2WSCoordinate, direction, E_BEAM, 50);
 	}
 	if (delay > 0) {
 		delay -= dElapsedTime;
@@ -521,7 +535,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 					}
 
 				}
-				cSoundController->PlaySoundByID(6);
+				cSoundController->PlaySoundByID(CSoundController::SOUNDS::DOOR);
 				cMap2D->once = true;
 			}
 		}
@@ -560,7 +574,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 			{
 				cMap2D->SetMapInfo(12,16, 98);// next floor
 				cMap2D->SetMapInfo(8, 16, 2); // powerup
-				cSoundController->PlaySoundByID(6);
+				cSoundController->PlaySoundByID(CSoundController::SOUNDS::DOOR);
 				cMap2D->once = true;
 			}
 		}

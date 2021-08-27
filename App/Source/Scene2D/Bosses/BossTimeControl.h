@@ -2,6 +2,12 @@
 #include "DesignPatterns/SingletonTemplate.h"
 #include "Primitives/Packet.h"
 #include "EventControl/EventHandler.h"
+#include "EventControl/Entity2DMoveEvent.h"
+#include "EventControl/Player2DMoveEvent.h"
+#include "EventControl/Block2DChangeEvent.h"
+#include "EventControl/Entity2DDespawnEvent.h"
+#include "EventControl/Entity2DSpawnEvent.h"
+#include "EventControl/AnimationFrameChangeEvent.h"
 #include <vector>
 
 class CBossTimeControl : public CSingletonTemplate<CBossTimeControl> {
@@ -15,6 +21,17 @@ public:
 	}
 	void saveBlockPacket(int tile, glm::vec2 position, CFloor2D* floor) {
 		BlockPacket* packet = new BlockPacket(currentFrame, position, tile, floor, floor->GetCurrentLevel());
+		packets.push_back(packet);
+	}
+
+	void saveAnimationPacket(AnimationEvent* e, bool respawn = false) {
+		AnimationPacket* packet = nullptr;
+		if (dynamic_cast<AnimationFrameChangeEvent*>(e)) {
+			AnimationFrameChangeEvent* ev = (AnimationFrameChangeEvent*)e;
+			packet = new AnimationPacket(currentFrame, e->getSprite(), e->getAnimation(), ev->getPreviousFrame(), respawn);
+		} else {
+			packet = new AnimationPacket(currentFrame, e->getSprite(), e->getAnimation(), 0, respawn);
+		}
 		packets.push_back(packet);
 	}
 
@@ -35,14 +52,18 @@ public:
 			}
 			if (e->getName() == Block2DChangeEvent::BASE_NAME()) {
 				Block2DChangeEvent* ev = (Block2DChangeEvent*)e;
-				std::cout << e->getName() << std::endl;
 				saveBlockPacket(ev->getPreviousTile(), ev->getPosition(), CFloorManager::GetInstance()->GetCurrentFloor());
+			}
+			if (e->getName() == AnimationFrameChangeEvent::BASE_NAME()) {
+				AnimationFrameChangeEvent* ev = (AnimationFrameChangeEvent*)e;
+				saveAnimationPacket(ev);
 			}
 		});
 	}
 
 	void Update() {
 		currentFrame++;
+		if (currentFrame >= 180) listening = false;
 	}
 
 	bool UpdateReverse() {
@@ -56,7 +77,9 @@ public:
 					entityPacket->getEntity()->vec2WSCoordinate = entityPacket->getPosition();
 					entityPacket->getEntity()->vec2Velocity = entityPacket->getVelocity();
 					entityPacket->getEntity()->counter = entityPacket->getCounter();
-					entityPacket->getEntity()->rotation = atan2f(entityPacket->getEntity()->vec2Velocity.y, entityPacket->getEntity()->vec2Velocity.x);
+					entityPacket->getEntity()->timer = entityPacket->getTimer();
+					if (!dynamic_cast<CEnemy2D*>(entityPacket->getEntity()))
+						entityPacket->getEntity()->rotation = atan2f(entityPacket->getEntity()->vec2Velocity.y, entityPacket->getEntity()->vec2Velocity.x);
 					CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->x, entityPacket->getEntity()->vec2WSCoordinate.x, &entityPacket->getEntity()->i32vec2Index.x, &entityPacket->getEntity()->i32vec2NumMicroSteps.x);
 					CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->y, entityPacket->getEntity()->vec2WSCoordinate.y, &entityPacket->getEntity()->i32vec2Index.y, &entityPacket->getEntity()->i32vec2NumMicroSteps.y);
 					if (entityPacket->isReturnActive() && !entityPacket->getEntity()->bIsActive) {
@@ -72,10 +95,30 @@ public:
 					blockPacket->getFloor()->SetCurrentLevel(blockPacket->getRoomID());
 					blockPacket->getFloor()->SetMapInfo(blockPacket->getPosition().y, blockPacket->getPosition().x, blockPacket->getTile());
 					blockPacket->getFloor()->SetCurrentLevel(temp);
+					continue;
+				}
+				if (dynamic_cast<AnimationPacket*>(packet)) {
+					AnimationPacket* animPacket = (AnimationPacket*)packet;
+					animPacket->getSprite()->currentFrame = animPacket->getAnimFrame();
+					animPacket->getSprite()->playCount = animPacket->getPlayCount();
+					animPacket->getSprite()->currentTime = animPacket->getTime();
+					//animPacket->getSprite()->currentAnimation = animPacket->getAnimation()->frames[animPacket->getAnimFrame()];
+					if (animPacket->isReturnActive() && !animPacket->getAnimation()->ended) {
+						animPacket->getAnimation()->ended = false;
+						animPacket->getAnimation()->animActive = true;
+					} else if (animPacket->isReturnActive() && animPacket->getAnimation()->ended) {
+						animPacket->getAnimation()->ended = true;
+						animPacket->getAnimation()->animActive = false;
+					}
+					continue;
 				}
 			}
 		}
 		currentFrame--;
+		if (currentFrame <= 0) {
+			Reset();
+			listening = false;
+		}
 		return true;
 	}
 	

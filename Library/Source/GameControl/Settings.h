@@ -91,6 +91,7 @@ public:
 	void ConvertFloatToIndexSpace(const AXIS sAxis, const float fCoord, int* iIndex,  int* iMicro);
 	void ConvertMouseToWSSpace(int mouseX, int mouseY, float* posX, float* posY);
 	void ConvertMouseToIndexSpace(int mouseX, int mouseY, int* posX, int* posY);
+	void ConvertWSToMouseSpace(float x, float y, int* posX, int* posY);
 	void SaveKeybinds();
 	float Random(float min, float max);
 protected:

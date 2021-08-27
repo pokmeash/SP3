@@ -43,6 +43,8 @@
     <ClCompile Include="Source\Scene2D\InventoryItem.cpp" />
     <ClCompile Include="Source\Scene2D\InventoryManager.cpp" />
     <ClCompile Include="Source\Scene2D\LivingEntity.cpp" />
+    <ClCompile Include="Source\Scene2D\Particles\Particle.cpp" />
+    <ClCompile Include="Source\Scene2D\Particles\ParticleManager.cpp" />
     <ClCompile Include="Source\Scene2D\Physics2D.cpp" />
     <ClCompile Include="Source\Scene2D\Player2D.cpp" />
     <ClCompile Include="Source\Scene2D\Projectile\Beam.cpp" />
@@ -89,6 +91,8 @@
     <ClInclude Include="Source\Scene2D\InventoryItem.h" />
     <ClInclude Include="Source\Scene2D\InventoryManager.h" />
     <ClInclude Include="Source\Scene2D\LivingEntity.h" />
+    <ClInclude Include="Source\Scene2D\Particles\Particle.h" />
+    <ClInclude Include="Source\Scene2D\Particles\ParticleManager.h" />
     <ClInclude Include="Source\Scene2D\Physics2D.h" />
     <ClInclude Include="Source\Scene2D\Player2D.h" />
     <ClInclude Include="Source\Scene2D\Projectile\Beam.h" />

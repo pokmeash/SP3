@@ -33,6 +33,9 @@
     <Filter Include="Enemies\Bosses">
       <UniqueIdentifier>{b911bbf2-0fdd-41ca-afc1-f6d5c1c16a95}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Particles">
+      <UniqueIdentifier>{d3b9dab2-5914-4f9c-9dec-a9518734c137}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp">
@@ -172,6 +175,13 @@
     </ClCompile>
     <ClCompile Include="Source\Scene2D\Enemies\SpaceSpawner.cpp">
       <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\Particles\Particle.cpp">
+      <Filter>Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\Particles\ParticleManager.cpp">
+      <Filter>Particles</Filter>
+    </ClCompile>
     </ClCompile>
     <ClCompile Include="Source\Scene2D\Bosses\Boss2D.cpp">
       <Filter>Enemies\Bosses</Filter>
@@ -318,6 +328,12 @@
     </ClInclude>
     <ClInclude Include="Source\Scene2D\Enemies\SpaceSpawner.h">
       <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\Particles\Particle.h">
+      <Filter>Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\Particles\ParticleManager.h">
+      <Filter>Particles</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scene2D\Bosses\Boss2D.h">
       <Filter>Enemies\Bosses</Filter>

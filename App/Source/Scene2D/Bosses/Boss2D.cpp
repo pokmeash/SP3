@@ -22,9 +22,7 @@ using namespace std;
 #include "../Player2D.h"
 #include "../EntityManager.h"
 #include "EventControl/EventHandler.h"
-/**
- @brief Constructor This constructor has protected access modifier as this class will be a Singleton
- */
+#include "EventControl/Entity2DMoveEvent.h"
 
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
@@ -162,6 +160,7 @@ void CBoss2D::Update(const double dElapsedTime)
 		{
 			sCurrentFSM = MELEEATTACK;
 		}
+		break;
 	case MELEEATTACK:
 		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 20.0f)
 		{

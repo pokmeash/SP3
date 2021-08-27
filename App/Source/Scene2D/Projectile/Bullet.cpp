@@ -4,6 +4,9 @@
 #include "System/ImageLoader.h"
 #include "Primitives/MeshBuilder.h"
 #include "EventControl/EventHandler.h"
+#include "EventControl/Entity2DDespawnEvent.h"
+#include "EventControl/Entity2DMoveEvent.h"
+#include "../Player2D.h"
 #include "../FloorManager.h"
 
 Bullet::Bullet()

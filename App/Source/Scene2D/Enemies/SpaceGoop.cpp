@@ -30,6 +30,8 @@ using namespace std;
 
 #include "EventControl/EventHandler.h"
 
+#include "EventControl/Entity2DMoveEvent.h"
+
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
  */

@@ -113,7 +113,7 @@ bool CSettingsState::Init(void)
 	cSoundController->PlaySoundByID(2);
 	for (int i = 0; i < 6; i++)
 	{
-		cSoundController->VolumeDecrease(2);
+		cSoundController->VolumeDecrease(CSoundController::SOUNDS::WII);
 	}
 	bgm = true;
 	std::cout << "CSettingsState::Init\n";
@@ -215,7 +215,7 @@ bool CSettingsState::Update(const double dElapsedTime)
 	//BGM
 	if (bgm)
 	{
-		cSoundController->PlaySoundByID(2);
+		cSoundController->PlaySoundByID(CSoundController::SOUNDS::WII);
 		bgm = false;
 	}
 
