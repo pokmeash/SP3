@@ -562,7 +562,7 @@ bool CFloor2D::LoadTexture(const char* filename, const int iTextureCode)
  */
 void CFloor2D::RenderTile(const unsigned int uiRow, const unsigned int uiCol)
 {
-	if (arrMapInfo[uiCurRoom][uiRow][uiCol].value > 1 && arrMapInfo[uiCurRoom][uiRow][uiCol].value != 96)
+	if (arrMapInfo[uiCurRoom][uiRow][uiCol].value > 1 && arrMapInfo[uiCurRoom][uiRow][uiCol].value != 96 && arrMapInfo[uiCurRoom][uiRow][uiCol].value != 95)
 	{
 		//if (arrMapInfo[uiCurLevel][uiRow][uiCol].value < 3)
 		glBindTexture(GL_TEXTURE_2D, MapOfTextureIDs.at(arrMapInfo[uiCurRoom][uiRow][uiCol].value));

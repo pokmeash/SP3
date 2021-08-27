@@ -87,7 +87,7 @@ bool CBoss2D::Init(void)
 		return false;	// Unable to find the start position of the player, so quit this game
 
 	// Erase the value of the player in the arrMapInfo
-	cMap2D->SetMapInfo(uiRow, uiCol, 0);
+	cMap2D->SetMapInfo(uiRow, uiCol, 95);
 
 	// Set the start position of the Player to iRow and iCol
 	i32vec2Index = glm::i32vec2(uiCol, uiRow);

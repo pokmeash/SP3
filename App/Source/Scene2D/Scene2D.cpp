@@ -414,6 +414,13 @@ void CScene2D::LevelCompleted(int DoorDir)
 				cMap2D->SetMapInfo(DoorRow, DoorCol, random2);
 			}
 		}
+		unsigned int DoorRow = CSettings::GetInstance()->NUM_TILES_YAXIS;
+		unsigned int DoorCol = CSettings::GetInstance()->NUM_TILES_XAXIS;
+		if (cMap2D->FindValue(95, DoorRow, DoorCol))
+		{
+			int random2 = rand() % 2 + 1101;
+			cMap2D->SetMapInfo(DoorRow, DoorCol, random2);
+		}
 	}
 
 	//ENEMY
