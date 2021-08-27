@@ -8,6 +8,7 @@ using namespace std;
 #include "System\filesystem.h"
 
 #include "Bosses/BossTimeControl.h"
+#include "Particles/ParticleManager.h"
 
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
@@ -92,8 +93,6 @@ bool CScene2D::Init(void)
 	// Set a shader to this class
 	cMap2D->SetShader("2DShader");
 	
-
-
 	cMap2D->GenerateNewLevel(11,24,32);
 
 	// Activate diagonal movement
@@ -138,16 +137,9 @@ bool CScene2D::Init(void)
 
 	// Load the sounds into CSoundController
 	cSoundController = CSoundController::GetInstance();
-	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Jump.ogg"), 4, true);
-	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Pickup.ogg"), 5, true);
-	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Door.ogg"), 6, true);
-	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Button.ogg"), 7, true);
-	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Swap.ogg"), 8, true);
-	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Hurt.ogg"), 9, true);
 	CBossTimeControl::GetInstance()->Init();
 
-	for (int i = 1; i < 11; ++i)
-	{
+	for (int i = 1; i < 11; ++i) {
 		randomvect.push_back(i);
 	}
 	temp = 0;
@@ -173,18 +165,10 @@ bool CScene2D::Update(const double dElapsedTime)
 	if (!CBossTimeControl::GetInstance()->UpdateReverse()) {
 		cPlayer2D->Update(dElapsedTime);
 		cEntityManager->Update(dElapsedTime);
+		ParticleManager::GetInstance()->Update(dElapsedTime);
 		for (unsigned int i = 0; i < enemyVector.size(); i++) enemyVector[i]->Update(dElapsedTime);
 		if (CBossTimeControl::GetInstance()->isListening()) {
 			CBossTimeControl::GetInstance()->Update();
-			if (CBossTimeControl::GetInstance()->getCurrentFrame() >= 60) {
-				CBossTimeControl::GetInstance()->setListening(false);
-			}
-		}
-	} else {
-		std::cout << "Reversing\n";
-		if (CBossTimeControl::GetInstance()->getCurrentFrame() <= 0) {
-			CBossTimeControl::GetInstance()->Reset();
-			CBossTimeControl::GetInstance()->setListening(false);
 		}
 	}
 
@@ -272,6 +256,8 @@ void CScene2D::Render(void)
 	cMap2D->Render();
 	// Call the Map2D's PostRender()
 	cMap2D->PostRender();
+
+	ParticleManager::GetInstance()->Render();
 
 	// Call the cGUI_Scene2D's PreRender()
 	cGUI_Scene2D->PreRender();

@@ -1,20 +1,26 @@
 #include "EntityManager.h"
 #include "Scene2D.h"
-#include "../Library/Source/System/MyMath.h"
+#include "System/MyMath.h"
 #include "EventControl/EventHandler.h"
+#include "EventControl/NextRoomEvent.h"
+#include "EventControl/Entity2DDespawnEvent.h"
+#include "EventControl/Entity2DSpawnEvent.h"
+#include "EventControl/GrenadeExplodeEvent.h"
+#include "../SoundController/SoundController.h"
 
-EntityManager::EntityManager(void)
+EntityManager::EntityManager(void) : listener(NULL), cMap2D(NULL)
 {
 }
 
 EntityManager::~EntityManager(void)
 {
+	EventHandler::GetInstance()->Remove(listener);
 }
 
 bool EntityManager::Init(void)
 {
 	cMap2D = CFloorManager::GetInstance();
-	EventHandler::GetInstance()->On([&](Event* e) {
+	listener = EventHandler::GetInstance()->On([&](Event* e) {
 		if (e->getName() == NextRoomEvent::BASE_NAME()) {
 			for (unsigned i = 0; i < entitylist.size(); ++i) {
 				CEntity2D* entity = entitylist[i];
@@ -23,6 +29,31 @@ bool EntityManager::Init(void)
 				}
 			}
 			entitylist.clear();
+			return;
+		}
+		if (e->getName() == Entity2DSpawnEvent::BASE_NAME()) {
+			Entity2DSpawnEvent* ev = (Entity2DSpawnEvent*)e;
+			if (ev->getEntity()->type == CEntity2D::E_GRENADE) {
+				CSoundController::GetInstance()->Replay(CSoundController::SOUNDS::THROW);
+			}
+			return;
+		}
+		if (e->getName() == GrenadeExplodeEvent::BASE_NAME()) {
+			Grenade* grenade = (Grenade*)((GrenadeExplodeEvent*)e)->getEntity();
+			CSoundController::GetInstance()->Replay(CSoundController::SOUNDS::GRENADE);
+			for (unsigned j = 0; j < CScene2D::GetInstance()->enemyVector.size(); ++j) {
+				CLivingEntity* enemy = (CLivingEntity*)CScene2D::GetInstance()->enemyVector[j];
+				if (!enemy->bIsActive) continue;
+				float dist = glm::length(grenade->vec2WSCoordinate - enemy->vec2WSCoordinate);
+				if (dist <= enemy->scale.x * 0.5f + 1.f) {
+					enemy->addHP(-1 / dist);
+					if (enemy->getHP() <= 0) {
+						enemy->bIsActive = false;
+						EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(enemy));
+					}
+				}
+			}
+			return;
 		}
 	});
 	return false;
@@ -54,7 +85,7 @@ void EntityManager::Update(const double dElapsedTime)
 						if (!enemy->bIsActive) continue;
 						if (cPhysics.CalculateDistance(entity->vec2WSCoordinate, enemy->vec2WSCoordinate) <= enemy->scale.x)
 						{
-							enemy->setHP(enemy->getHP() - CPlayer2D::GetInstance()->getDmg());
+							enemy->addHP(-CPlayer2D::GetInstance()->getDmg());
 							if (enemy->getHP() <= 0)
 							{
 								enemy->bIsActive = false;
@@ -73,7 +104,7 @@ void EntityManager::Update(const double dElapsedTime)
 						if (!enemy->bIsActive) continue;
 						if (cPhysics.CalculateDistance(entity->vec2WSCoordinate, enemy->vec2WSCoordinate) <= 1)
 						{
-							enemy->setHP(enemy->getHP() - 1);
+							enemy->addHP(- 1);
 							if (enemy->getHP() <= 0)
 							{
 								enemy->bIsActive = false;
@@ -85,6 +116,17 @@ void EntityManager::Update(const double dElapsedTime)
 					}
 					break;
 				case CEntity2D::E_GRENADE:
+					break;
+				case CEntity2D::E_BEAM:
+					for (unsigned j = 0; j < entitylist.size(); ++j) {
+						CEntity2D* entity2 = entitylist[j];
+						if (!entity2->bIsActive || entity2 == entity) continue;
+						if (entity2->type != CEntity2D::E_GRENADE) continue;
+						Grenade* grenade = (Grenade*)entity2;
+						if (glm::length(entity->vec2WSCoordinate - grenade->vec2WSCoordinate) <= .5f) {
+							grenade->setExplode(true);
+						}
+					}
 					break;
 				default:
 					break;
@@ -111,20 +153,3 @@ void EntityManager::Render(void)
 		}
 	}
 }
-
-bool EntityManager::getExplode()
-{
-	return explode;
-}
-
-void EntityManager::setExplode()
-{
-	explode = !explode;
-}
-
-glm::vec2 EntityManager::getPos()
-{
-	return tempPos;
-}
-
-

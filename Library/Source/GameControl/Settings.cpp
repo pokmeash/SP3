@@ -141,6 +141,14 @@ void CSettings::ConvertMouseToIndexSpace(int mouseX, int mouseY, int* posX, int*
 	}
 }
 
+void CSettings::ConvertWSToMouseSpace(float x, float y, int* posX, int* posY)
+{
+	int w = iWindowWidth;
+	int h = iWindowHeight;
+	*posX = x / NUM_TILES_XAXIS * w;
+	*posY = abs(y / NUM_TILES_YAXIS * h - h);
+}
+
 void CSettings::SaveKeybinds()
 {
 	std::map<unsigned, unsigned> keybinds;

@@ -214,9 +214,6 @@
     <ClInclude Include="Source\GUI\backends\imgui_impl_opengl3.h">
       <Filter>GUI</Filter>
     </ClInclude>
-    <ClInclude Include="Source\EventControl\Event.h">
-      <Filter>EventControl</Filter>
-    </ClInclude>
     <ClInclude Include="Source\EventControl\EventHandler.h">
       <Filter>EventControl</Filter>
     </ClInclude>
@@ -234,6 +231,69 @@
     </ClInclude>
     <ClInclude Include="Source\Primitives\DynamicMetadata.h">
       <Filter>Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventControl\AbstractEvent.h">
+      <Filter>EventControl</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventControl\AnimationEvent.h">
+      <Filter>EventControl</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventControl\AnimationFrameChangeEvent.h">
+      <Filter>EventControl</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventControl\AnimationStartEvent.h">
+      <Filter>EventControl</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventControl\AnimationStopEvent.h">
+      <Filter>EventControl</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventControl\Block2DChangeEvent.h">
+      <Filter>EventControl</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventControl\Entity2DAttackEvent.h">
+      <Filter>EventControl</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventControl\Entity2DDespawnEvent.h">
+      <Filter>EventControl</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventControl\Entity2DEvent.h">
+      <Filter>EventControl</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventControl\Entity2DMoveEvent.h">
+      <Filter>EventControl</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventControl\Entity2DSpawnEvent.h">
+      <Filter>EventControl</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventControl\Item2DEvent.h">
+      <Filter>EventControl</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventControl\Item2DPickUpEvent.h">
+      <Filter>EventControl</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventControl\NextRoomEvent.h">
+      <Filter>EventControl</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventControl\Player2DAttackEvent.h">
+      <Filter>EventControl</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventControl\Player2DDeathEvent.h">
+      <Filter>EventControl</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventControl\Player2DEvent.h">
+      <Filter>EventControl</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventControl\Player2DInteractEvent.h">
+      <Filter>EventControl</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventControl\Player2DInventoryFullEvent.h">
+      <Filter>EventControl</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventControl\Player2DMoveEvent.h">
+      <Filter>EventControl</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventControl\GrenadeExplodeEvent.h">
+      <Filter>EventControl</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

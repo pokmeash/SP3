@@ -42,8 +42,28 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\DesignPatterns\SingletonTemplate.h" />
-    <ClInclude Include="Source\EventControl\Event.h" />
+    <ClInclude Include="Source\EventControl\AbstractEvent.h" />
+    <ClInclude Include="Source\EventControl\AnimationEvent.h" />
+    <ClInclude Include="Source\EventControl\AnimationFrameChangeEvent.h" />
+    <ClInclude Include="Source\EventControl\AnimationStartEvent.h" />
+    <ClInclude Include="Source\EventControl\AnimationStopEvent.h" />
+    <ClInclude Include="Source\EventControl\Block2DChangeEvent.h" />
+    <ClInclude Include="Source\EventControl\Entity2DAttackEvent.h" />
+    <ClInclude Include="Source\EventControl\Entity2DDespawnEvent.h" />
+    <ClInclude Include="Source\EventControl\Entity2DEvent.h" />
+    <ClInclude Include="Source\EventControl\Entity2DMoveEvent.h" />
+    <ClInclude Include="Source\EventControl\Entity2DSpawnEvent.h" />
     <ClInclude Include="Source\EventControl\EventHandler.h" />
+    <ClInclude Include="Source\EventControl\GrenadeExplodeEvent.h" />
+    <ClInclude Include="Source\EventControl\Item2DEvent.h" />
+    <ClInclude Include="Source\EventControl\Item2DPickUpEvent.h" />
+    <ClInclude Include="Source\EventControl\NextRoomEvent.h" />
+    <ClInclude Include="Source\EventControl\Player2DAttackEvent.h" />
+    <ClInclude Include="Source\EventControl\Player2DDeathEvent.h" />
+    <ClInclude Include="Source\EventControl\Player2DEvent.h" />
+    <ClInclude Include="Source\EventControl\Player2DInteractEvent.h" />
+    <ClInclude Include="Source\EventControl\Player2DInventoryFullEvent.h" />
+    <ClInclude Include="Source\EventControl\Player2DMoveEvent.h" />
     <ClInclude Include="Source\GameControl\Settings.h" />
     <ClInclude Include="Source\GUI\backends\imgui_impl_glfw.h" />
     <ClInclude Include="Source\GUI\backends\imgui_impl_opengl3.h" />

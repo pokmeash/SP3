@@ -2,6 +2,7 @@
 #include "Inputs/KeyboardController.h"
 #include "Inputs/MouseController.h"
 #include "EventControl/EventHandler.h"
+#include "EventControl/Block2DChangeEvent.h"
 
 CFloorManager::CFloorManager() : currentFloor(NULL), currentRoom(0) {
 	currentFloor = new CFloor2D();
