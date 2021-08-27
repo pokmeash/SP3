@@ -146,7 +146,7 @@ void CSpaceGoop::Update(const double dElapsedTime)
 		UpdateDirection();
 		UpdatePosition();
 
-		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) > 5.0f)
+		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) > 20.0f)
 		{
 			sCurrentFSM = MOVELEFT;
 			iFSMCounter = 0;
@@ -217,7 +217,7 @@ void CSpaceGoop::Update(const double dElapsedTime)
 				CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->y, vec2WSCoordinate.y, &i32vec2Index.y, &i32vec2NumMicroSteps.y);
 			}
 		}
-		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 5.0f)
+		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 20.0f)
 		{
 			sCurrentFSM = MELEEATTACK;
 		}

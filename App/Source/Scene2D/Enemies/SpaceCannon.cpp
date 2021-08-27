@@ -144,7 +144,7 @@ void CSpaceCannon::Update(const double dElapsedTime)
 
 			if (bulletTimer >= 1)
 			{
-				for (double theta = 0; theta <= 2 * 3.14159; theta += 3.14159 / 5.f) 
+				for (double theta = 0; theta <= 2 * 3.14159; theta += 3.14159 / 10.f) 
 				{
 					glm::vec2 temp(cos(theta), sin(theta));
 					temp = glm::normalize(temp) * .5f;

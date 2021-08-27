@@ -8,6 +8,7 @@
 #include "EventControl/Entity2DSpawnEvent.h"
 #include "EventControl/GrenadeExplodeEvent.h"
 #include "../SoundController/SoundController.h"
+#include "Bosses/ContagionBoss.h"
 
 EntityManager::EntityManager(void) : listener(NULL), cMap2D(NULL)
 {
@@ -117,13 +118,19 @@ void EntityManager::Update(const double dElapsedTime)
 					break;
 				case CEntity2D::E_BULLET:
 				{
-					
 					for (unsigned j = 0; j < CScene2D::GetInstance()->enemyVector.size(); ++j)
 					{
 						CLivingEntity* enemy = (CLivingEntity*)CScene2D::GetInstance()->enemyVector[j];
 						if (!enemy->bIsActive) continue;
 						if (cPhysics.CalculateDistance(entity->vec2WSCoordinate, enemy->vec2WSCoordinate) <= enemy->scale.x)
 						{
+							if (dynamic_cast<CContagionBoss*>(enemy)) {
+								CContagionBoss* boss = (CContagionBoss*)enemy;
+								if (boss->sCurrentFSM == boss->PH3) {
+									continue;
+								}
+							}
+
 							enemy->minusHP(CPlayer2D::GetInstance()->getDmg());
 							CGameManager::GetInstance()->addFinalDmg(CPlayer2D::GetInstance()->getDmg());
 							if (enemy->getHP() <= 0)
