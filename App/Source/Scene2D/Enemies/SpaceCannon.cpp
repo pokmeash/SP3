@@ -109,7 +109,7 @@ bool CSpaceCannon::Init(void)
 		return false;
 	}
 
-	//CS: Create the animated sprite and setup the animation 
+	//CS: Create the animated sprite and setup the animation  
 	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(1, 1, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
 	animatedSprites->AddAnimation("idle", 0, 3);
 	

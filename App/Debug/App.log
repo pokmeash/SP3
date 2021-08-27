@@ -16,21 +16,5 @@ D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Floor2D.cpp(
 D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Floor2D.cpp(1219,26): warning C4018: '<': signed/unsigned mismatch
 D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Floor2D.cpp(1280,20): warning C4018: '<': signed/unsigned mismatch
 D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Floor2D.cpp(1289,20): warning C4018: '<': signed/unsigned mismatch
-  Scene2D.cpp
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.h(67,21): warning C4305: 'initializing': truncation from 'double' to 'float'
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Bosses\BossTimeControl.h(73,98): warning C4244: 'argument': conversion from 'T' to 'const unsigned int', possible loss of data
-          with
-          [
-              T=float
-          ]
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Bosses\BossTimeControl.h(73,68): warning C4244: 'argument': conversion from 'T' to 'const unsigned int', possible loss of data
-          with
-          [
-              T=float
-          ]
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Scene2D.cpp(53,20): warning C4018: '<': signed/unsigned mismatch
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Scene2D.cpp(173,29): warning C4244: 'argument': conversion from 'const double' to 'float', possible loss of data
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Scene2D.cpp(254,20): warning C4018: '<': signed/unsigned mismatch
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Scene2D.cpp(304,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   Generating Code...
   App.vcxproj -> D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Debug\App.exe
