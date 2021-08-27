@@ -57,13 +57,14 @@ public:
 
 	virtual void Render();
 
-	void PlayerDamaged();
-	//iFrames
-	bool iFrames = false;
-	bool iframesState = false;
-	float iframesTimer = 0.3;
-	float iframesDuration = 3;
+	void PlayerDamaged(int amtOfDmg);
+
 	float RNG(float min, float max);
+
+	bool getiFramesState();
+	void addRicochetTimes(int times);
+
+	int getRicochetTimes();
 
 protected:
 
@@ -81,6 +82,7 @@ protected:
 
 	// Count the number of jumps
 	int jumpCount;
+
 
 	// Handler to the CSoundController
 	CSoundController* cSoundController;
@@ -100,5 +102,11 @@ protected:
 	bool swap;
 	int dirx; // -1 = left +1 = right
 	int diry; // -1 = down +1 = up
-
+private:
+	//iFrames
+	bool iFrames = false;
+	bool iframesState = false;
+	float iframesTimer = 0.3;
+	float iframesDuration = 3;
+	int numberOfRicochet = 1;
 };

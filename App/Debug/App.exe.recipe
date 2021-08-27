@@ -1,7 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
+<<<<<<< HEAD
+  <ProjectOutputs>
+    <ProjectOutput>
+      <FullPath>D:\Year 2 Sem 1\SP3\SP3\Debug\App.exe</FullPath>
+    </ProjectOutput>
+  </ProjectOutputs>
+  <ContentFiles />
+  <SatelliteDlls />
+  <NonRecipeFileRefs />
+=======
   <ProjectOutputs>C:\Users\desti\Documents\GitHub\SP3\Debug\App.exe</ProjectOutputs>
   <ContentFiles></ContentFiles>
   <SatelliteDlls></SatelliteDlls>
   <NonRecipeFileRefs></NonRecipeFileRefs>
+>>>>>>> main
 </Project>

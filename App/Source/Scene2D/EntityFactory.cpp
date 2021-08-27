@@ -27,14 +27,14 @@ Bullet* EntityFactory::ProduceBullets(glm::f32vec2 EntityVec2Index, glm::f32vec2
 		temp->Init();
 		EntityManager::GetInstance()->entitylist.push_back(temp);
 	}
-	temp->counter = 3;
+	
+	temp->counter = CPlayer2D::GetInstance()->getRicochetTimes();
 	temp->vec2WSCoordinate = EntityVec2Index;
 	temp->vec2Velocity = EntityVec2Vel;
 	temp->scale = EntityVec3Scale;
 	temp->rotation = atan2f(EntityVec2Vel.y, EntityVec2Vel.x);
 	temp->type = type;
 	temp->bIsActive = true;
-	
 	EventHandler::GetInstance()->CallThenDelete(new Entity2DSpawnEvent(temp));
 	return temp;
 }

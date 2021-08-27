@@ -32,10 +32,24 @@ public:
 	// Boolean flag to indicate if the game is be restarted
 	bool bGameToRestart;
 
+	int getFinalDmg();
+
+	void addFinalDmg(int Finaldmg);
+
+	int getDamageTaken();
+
+	void addDamageTaken(int dmgTaken);
+
+	void addPowerUp(int power);
+
+	int getTotalPower();
 protected:
 	// Constructor
 	CGameManager(void);
 
 	// Destructor
 	virtual ~CGameManager(void);
+	int FinalDmg;
+	int totalPowerUp;
+	int DamageTaken;
 };

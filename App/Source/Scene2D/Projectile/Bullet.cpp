@@ -37,7 +37,7 @@ void Bullet::Update(const double dElapsedTime)
         bIsActive = false;
     }
     if (type == E_EBULLET && glm::length(vec2WSCoordinate - CPlayer2D::GetInstance()->vec2WSCoordinate) <= 1.f) {
-        CPlayer2D::GetInstance()->PlayerDamaged();
+        CPlayer2D::GetInstance()->PlayerDamaged(1);
         bIsActive = false;
         EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(this));
     } else if (type == E_FRAGMENT) {
@@ -78,7 +78,6 @@ void Bullet::Update(const double dElapsedTime)
             EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(this));
         }
     }
-    
     if (vec2WSOldCoordinates != vec2WSCoordinate) {
         if (EventHandler::GetInstance()->CallDeleteIsCancelled(new Entity2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates))) {
             vec2WSCoordinate = vec2WSOldCoordinates;

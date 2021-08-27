@@ -67,6 +67,7 @@ public:
 
 	void updatePause(float dElapsedTime);
 
+
 protected:
 	// Constructor
 	CGUI_Scene2D(void);

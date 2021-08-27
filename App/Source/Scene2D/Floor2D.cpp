@@ -131,10 +131,21 @@ bool CFloor2D::Init(	const unsigned int uiNumLevels,
 		return false;
 	}
 	// Load Health up power up
-	if (LoadTexture("Image/healthup.tga", 13) == false)
+	if (LoadTexture("Image/GoldenHeart.png", 13) == false)
 	{
 		std::cout << "Failed to load Health up tile texture" << std::endl;
 		return false;
+	}
+	if (LoadTexture("Image/health.tga", 14) == false)
+	{
+		std::cout << "Failed to load Health up tile texture" << std::endl;
+		return false;
+	}
+	if (LoadTexture("Image/Mirror.png", 15) == false)
+	{
+		std::cout << "Failed to load Ricochet power up tile texture" << std::endl;
+		return false;
+
 	}
 	// Load the spike texture
 	if (LoadTexture("Image/Scene2D_Lava.tga", 20) == false)
@@ -736,6 +747,27 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				if ((uiRow == cSettings->NUM_TILES_YAXIS - 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2) || (uiRow == 1 && uiCol == cSettings->NUM_TILES_XAXIS / 2) || (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == 1) || (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS - 2))
 				{
 					arrMapInfo[uiLevel][uiRow][uiCol].value = 100;
+				}
+				//Power up testing
+				else if (uiRow == 5 && uiCol == 5)
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 11;
+				}
+				else if (uiRow == 6 && uiCol == 5)
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 12;
+				}
+				else if (uiRow == 6 && uiCol == 6)
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 13;
+				}
+				else if (uiRow == 7 && uiCol == 6)
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 14;
+				}
+				else if (uiRow == 7 && uiCol == 7)
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 15;
 				}
 				else if ((uiRow < 2) || (uiCol < 2) || (uiCol > cSettings->NUM_TILES_XAXIS - 3) || (uiRow > cSettings->NUM_TILES_YAXIS - 3))
 				{

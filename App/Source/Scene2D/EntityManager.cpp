@@ -102,16 +102,30 @@ void EntityManager::Update(const double dElapsedTime)
 				switch (entity->type)
 				{
 				case CEntity2D::E_EBULLET:
+				{
+					if (cPhysics.CalculateDistance(entity->vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) <= 1)
+					{
+						for (std::vector<CEntity2D*>::iterator it2 = CScene2D::GetInstance()->enemyVector.begin(); it2 != CScene2D::GetInstance()->enemyVector.end(); ++it2)
+						{
+							CLivingEntity* enemy = (CLivingEntity*)*it2;
+							if (!enemy->bIsActive) continue;
+							CPlayer2D::GetInstance()->PlayerDamaged(enemy->getDmg());
+						}
+						
+						entity->bIsActive = false;
+					}
 					break;
 				case CEntity2D::E_BULLET:
 				{
+					
 					for (unsigned j = 0; j < CScene2D::GetInstance()->enemyVector.size(); ++j)
 					{
-						CLivingEntity* enemy = (CLivingEntity*) CScene2D::GetInstance()->enemyVector[j];
+						CLivingEntity* enemy = (CLivingEntity*)CScene2D::GetInstance()->enemyVector[j];
 						if (!enemy->bIsActive) continue;
 						if (cPhysics.CalculateDistance(entity->vec2WSCoordinate, enemy->vec2WSCoordinate) <= enemy->scale.x)
 						{
-							enemy->addHP(-CPlayer2D::GetInstance()->getDmg());
+							enemy->minusHP(CPlayer2D::GetInstance()->getDmg());
+							CGameManager::GetInstance()->addFinalDmg(CPlayer2D::GetInstance()->getDmg());
 							if (enemy->getHP() <= 0)
 							{
 								enemy->bIsActive = false;
@@ -130,7 +144,8 @@ void EntityManager::Update(const double dElapsedTime)
 						if (!enemy->bIsActive) continue;
 						if (cPhysics.CalculateDistance(entity->vec2WSCoordinate, enemy->vec2WSCoordinate) <= 1)
 						{
-							enemy->addHP(- 1);
+							enemy->minusHP(CPlayer2D::GetInstance()->getDmg());
+							CGameManager::GetInstance()->addFinalDmg(CPlayer2D::GetInstance()->getDmg());
 							if (enemy->getHP() <= 0)
 							{
 								enemy->bIsActive = false;
@@ -156,6 +171,7 @@ void EntityManager::Update(const double dElapsedTime)
 					break;
 				default:
 					break;
+				}
 				}
 			}
 		}
