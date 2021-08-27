@@ -4,6 +4,7 @@
 #include "EventControl/EventHandler.h"
 #include "EventControl/NextRoomEvent.h"
 #include "EventControl/Entity2DDespawnEvent.h"
+#include "EventControl/Entity2DMoveEvent.h"
 #include "EventControl/Entity2DSpawnEvent.h"
 #include "EventControl/GrenadeExplodeEvent.h"
 #include "../SoundController/SoundController.h"
@@ -55,7 +56,7 @@ bool EntityManager::Init(void)
 			}
 			return;
 		}
-    if (e->getName() == Entity2DMoveEvent::BASE_NAME()) {
+		if (e->getName() == Entity2DMoveEvent::BASE_NAME()) {
 			Entity2DMoveEvent* ev = (Entity2DMoveEvent*)e;
 			if (dynamic_cast<CEnemy2D*>(ev->getEntity())) {
 				CEnemy2D* enemy = (CEnemy2D*)ev->getEntity();
@@ -77,8 +78,9 @@ bool EntityManager::Init(void)
 						}
 					}
 				}
-        return;
+				return;
 			}
+		}
 	});
 	return false;
 }

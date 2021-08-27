@@ -182,7 +182,6 @@
     <ClCompile Include="Source\Scene2D\Particles\ParticleManager.cpp">
       <Filter>Particles</Filter>
     </ClCompile>
-    </ClCompile>
     <ClCompile Include="Source\Scene2D\Bosses\Boss2D.cpp">
       <Filter>Enemies\Bosses</Filter>
     </ClCompile>
