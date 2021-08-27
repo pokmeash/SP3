@@ -1,8 +1,1 @@
-﻿  Settings.cpp
-D:\Github\SP3\Library\Source\GameControl\Settings.cpp(105,56): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\Github\SP3\Library\Source\GameControl\Settings.cpp(113,56): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\Github\SP3\Library\Source\GameControl\Settings.cpp(124,52): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-D:\Github\SP3\Library\Source\GameControl\Settings.cpp(132,12): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Github\SP3\Library\Source\GameControl\Settings.cpp(148,30): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\Github\SP3\Library\Source\GameControl\Settings.cpp(149,13): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-  Library.vcxproj -> D:\Github\SP3\Debug\Library.lib
+

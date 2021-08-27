@@ -161,6 +161,9 @@
     <ClCompile Include="Source\Scene2D\GoopAttribute.cpp">
       <Filter>Powerups</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Scene2D\Enemies\SpaceCannon.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Scene2D\Projectile\Portal.cpp">
       <Filter>Projectiles</Filter>
     </ClCompile>
@@ -170,13 +173,20 @@
     <ClCompile Include="Source\Scene2D\Projectile\Beam.cpp">
       <Filter>Projectiles</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Scene2D\Enemies\SpaceSpawner.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Scene2D\Particles\Particle.cpp">
       <Filter>Particles</Filter>
     </ClCompile>
     <ClCompile Include="Source\Scene2D\Particles\ParticleManager.cpp">
       <Filter>Particles</Filter>
     </ClCompile>
+    </ClCompile>
     <ClCompile Include="Source\Scene2D\Bosses\Boss2D.cpp">
+      <Filter>Enemies\Bosses</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene2D\Bosses\ContagionBoss.cpp">
       <Filter>Enemies\Bosses</Filter>
     </ClCompile>
   </ItemGroup>
@@ -304,6 +314,9 @@
     <ClInclude Include="Source\Scene2D\GoopAttribute.h">
       <Filter>Powerups</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Scene2D\Enemies\SpaceCannon.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Scene2D\Projectile\Portal.h">
       <Filter>Projectiles</Filter>
     </ClInclude>
@@ -313,6 +326,9 @@
     <ClInclude Include="Source\Scene2D\Projectile\Beam.h">
       <Filter>Projectiles</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Scene2D\Enemies\SpaceSpawner.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Scene2D\Particles\Particle.h">
       <Filter>Particles</Filter>
     </ClInclude>
@@ -320,6 +336,9 @@
       <Filter>Particles</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scene2D\Bosses\Boss2D.h">
+      <Filter>Enemies\Bosses</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene2D\Bosses\ContagionBoss.h">
       <Filter>Enemies\Bosses</Filter>
     </ClInclude>
   </ItemGroup>

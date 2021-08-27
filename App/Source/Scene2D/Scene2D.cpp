@@ -6,7 +6,11 @@ using namespace std;
 #include "RenderControl\ShaderManager.h"
 
 #include "System\filesystem.h"
-
+#include "Enemies/SpaceFly.h"
+#include "Enemies/SpaceTurret.h"
+#include "Enemies/SpaceSkeleton.h"
+#include "Enemies/SpaceCannon.h"
+#include "Enemies/SpaceSpawner.h"
 #include "Bosses/BossTimeControl.h"
 #include "Particles/ParticleManager.h"
 
@@ -407,7 +411,6 @@ void CScene2D::LevelCompleted(int DoorDir)
 	cPlayer2D->Reset();
 	cMap2D->once = false;
 
-	// Create and initialise the CEnemy2D
 	//ENEMY
 	cMap2D->LoadEnemies();
 

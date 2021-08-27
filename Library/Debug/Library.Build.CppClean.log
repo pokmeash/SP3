@@ -1,3 +1,42 @@
+<<<<<<< HEAD
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\debug\library.pdb
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\debug\library.idb
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\library\debug\shadermanager.obj
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\library\debug\spriteanimation.obj
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\library\debug\packet.obj
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\library\debug\meshbuilder.obj
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\library\debug\mesh.obj
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\library\debug\levelofdetails.obj
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\library\debug\entity3d.obj
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\library\debug\entity2d.obj
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\library\debug\collider.obj
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\library\debug\mousecontroller.obj
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\library\debug\keyboardcontroller.obj
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\library\debug\imgui_widgets.obj
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\library\debug\imgui_tables.obj
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\library\debug\imgui_draw.obj
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\library\debug\imgui_demo.obj
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\library\debug\imgui.obj
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\library\debug\gui.obj
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\library\debug\imgui_impl_opengl3.obj
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\library\debug\imgui_impl_glfw.obj
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\library\debug\settings.obj
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\library\debug\stopwatch.obj
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\library\debug\fpscounter.obj
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\library\debug\loadobj.obj
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\library\debug\imageloader.obj
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\library\debug\csvwriter.obj
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\library\debug\csvreader.obj
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\library\debug\scriptmanager.obj
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\library\debug\textrenderer.obj
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\debug\library.lib
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\library\debug\library.tlog\cl.command.1.tlog
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\library\debug\library.tlog\cl.read.1.tlog
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\library\debug\library.tlog\cl.write.1.tlog
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\library\debug\library.tlog\lib-link.read.1.tlog
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\library\debug\library.tlog\lib-link.write.1.tlog
+c:\mark stuff dont touch\year 2\1_studioproject3\sp3 workspace\sp3\library\debug\library.tlog\lib.command.1.tlog
+=======
 d:\sp3\sp3\library\debug\library.pdb
 d:\sp3\sp3\library\debug\library.idb
 d:\sp3\sp3\library\debug\shadermanager.obj
@@ -35,3 +74,4 @@ d:\sp3\sp3\library\debug\library.tlog\cl.write.1.tlog
 d:\sp3\sp3\library\debug\library.tlog\lib-link.read.1.tlog
 d:\sp3\sp3\library\debug\library.tlog\lib-link.write.1.tlog
 d:\sp3\sp3\library\debug\library.tlog\lib.command.1.tlog
+>>>>>>> main

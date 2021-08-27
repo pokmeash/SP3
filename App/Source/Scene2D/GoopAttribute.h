@@ -12,7 +12,4 @@ public:
 		setDmg(1);
 		
 	}
-
-
-	
 };

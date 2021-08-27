@@ -53,7 +53,7 @@ public:
 
 	// Set the number of microsteps of the enemy2D
 	void Seti32vec2NumMicroSteps(const int iNumMicroSteps_XAxis, const int iNumMicroSteps_YAxis);
-protected:
+
 	enum FSM
 	{
 		IDLE = 0,
@@ -69,8 +69,14 @@ protected:
 		MOVEUP = 10,
 		MOVEDOWN = 11,
 		SHOOT = 10,
+		SPAWN = 11,
 		NUM_FSM
 	};
+
+	// Current FSM
+	FSM sCurrentFSM;
+protected:
+
 
 	// The i32vec2 which stores the indices of the destination for enemy2D in the Map2D
 	glm::i32vec2 i32vec2Destination;
@@ -86,8 +92,7 @@ protected:
 	// Current color
 	glm::vec4 currentColor;
 
-	// Current FSM
-	FSM sCurrentFSM;
+
 
 	// FSM counter - count how many frames it has been in this FSM
 	int iFSMCounter;
@@ -108,7 +113,7 @@ protected:
 	void FlipHorizontalDirection(void);
 
 	// Update position
-	void UpdatePosition(void);
+	virtual void UpdatePosition(void);
 
 	void PathFinding(void);
 

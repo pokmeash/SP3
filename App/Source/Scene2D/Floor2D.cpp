@@ -23,6 +23,8 @@
 #include "Enemies/SpaceFly.h"
 #include "Enemies/SpaceTurret.h"
 #include "Enemies/SpaceSkeleton.h"
+#include "Enemies/SpaceCannon.h"
+#include "Enemies/SpaceSpawner.h"
 #include "Bosses/Boss2D.h"
 
 
@@ -1037,7 +1039,7 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1101;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1102;
 				}
 				else
 				{
@@ -1061,7 +1063,7 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				}
 				else if (uiRow == cSettings->NUM_TILES_YAXIS / 2 && uiCol == cSettings->NUM_TILES_XAXIS / 2)
 				{
-					arrMapInfo[uiLevel][uiRow][uiCol].value = 1101;
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 1102;
 				}
 				else
 				{
@@ -1163,6 +1165,40 @@ void CFloor2D::LoadEnemies()
 	while (true)
 	{
 		CEnemy2D* cEnemy2D = new CBoss2D();
+		// Pass shader to cEnemy2D
+		cEnemy2D->SetShader("2DColorShader");
+		// Initialise the instance
+		if (cEnemy2D->Init() == true)
+		{
+			CScene2D::GetInstance()->enemyVector.push_back(cEnemy2D);
+		}
+		else
+		{
+			// Break out of this loop if the enemy has all been loaded
+			break;
+		}
+	}
+
+	while (true)
+	{
+		CEnemy2D* cEnemy2D = new CSpaceCannon();
+		// Pass shader to cEnemy2D
+		cEnemy2D->SetShader("2DColorShader");
+		// Initialise the instance
+		if (cEnemy2D->Init() == true)
+		{
+			CScene2D::GetInstance()->enemyVector.push_back(cEnemy2D);
+		}
+		else
+		{
+			// Break out of this loop if the enemy has all been loaded
+			break;
+		}
+	}
+
+	while (true)
+	{
+		CEnemy2D* cEnemy2D = new CSpaceSpawner();
 		// Pass shader to cEnemy2D
 		cEnemy2D->SetShader("2DColorShader");
 		// Initialise the instance
