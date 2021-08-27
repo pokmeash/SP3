@@ -30,8 +30,6 @@ public:
     // Update
     virtual void Update(const double dElapsedTime);
 
-    float timer;
-
     std::vector<CLivingEntity*> hitEntities;
 };
 

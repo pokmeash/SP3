@@ -2,6 +2,8 @@
 #include "ParticleManager.h"
 #include "EventControl/EventHandler.h"
 #include "EventControl/Entity2DDespawnEvent.h"
+#include "EventControl/Entity2DSpawnEvent.h"
+#include "EventControl/AnimationStopEvent.h"
 
 Particle::Particle() : CBackgroundEntity("")
 {
@@ -33,6 +35,7 @@ bool Particle::Init(PARTICLE_TYPE type, float size, float interval, bool repeat)
 	if (!animatedSprites) return false;
 	animatedSprites->PlayAnimation("anim", repeat ? -1 : 1, interval);
 	bIsActive = true;
+	EventHandler::GetInstance()->CallThenDelete(new Entity2DSpawnEvent(this));
 	return true;
 }
 
@@ -45,7 +48,10 @@ void Particle::Update(const double dt)
 		EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(this));
 		return;
 	}
-	if (animatedSprites) animatedSprites->Update(dt);
+	if (animatedSprites) {
+		currentFrame = animatedSprites->currentFrame;
+		animatedSprites->Update(dt);
+	}
 }
 
 void Particle::LoadSprite(std::string filename, unsigned rows, unsigned cols)

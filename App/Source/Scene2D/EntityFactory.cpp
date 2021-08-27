@@ -75,39 +75,54 @@ std::vector<Beam*> EntityFactory::ProduceBeam(glm::vec2 pos, glm::vec2 dir, CEnt
 		if (!dynamic_cast<Beam*>(entity)) continue;
 		beams.push_back((Beam*)entity);
 	}
-	while (beams.size() < length) {
-		Beam* temp = new Beam();
-		temp->Init();
-		EntityManager::GetInstance()->entitylist.push_back(temp);
-		beams.push_back(temp);
+	if (beams.size() < length) {
+		while (beams.size() < length) {
+			Beam* temp = new Beam();
+			temp->Init();
+			EntityManager::GetInstance()->entitylist.push_back(temp);
+			beams.push_back(temp);
+		}
 	}
+	CFloorManager* cMap2D = CFloorManager::GetInstance();
+	glm::i32vec2 index, micro;
+	int counter = CPlayer2D::GetInstance()->getRicochetTimes();
 	for (unsigned i = 0; i < beams.size(); ++i) {
 		Beam* beam = beams[i];
-		EventHandler::GetInstance()->CallThenDelete(new Entity2DSpawnEvent(beam));
 		if (PortalManager::GetInstance()->getPortal(pos) && PortalManager::GetInstance()->getPortal(pos)->getDestination()) {
 			Portal* portal = PortalManager::GetInstance()->getPortal(pos)->getDestination();
-			glm::vec2 dist = pos - PortalManager::GetInstance()->getPortal(pos)->vec2WSCoordinate;
-			pos = dist + portal->vec2WSCoordinate + dir * 0.8f;
+			pos = pos - PortalManager::GetInstance()->getPortal(pos)->vec2WSCoordinate + portal->vec2WSCoordinate + dir * 0.8f;
 		}
 		pos += dir * 0.7f;
-		glm::i32vec2 index, micro;
 		CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::x, pos.x, &index.x, &micro.x);
 		CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::y, pos.y, &index.y, &micro.y);
 		if (index.x > 0 && index.x < CSettings::GetInstance()->NUM_TILES_XAXIS && index.y > 0 && index.y < CSettings::GetInstance()->NUM_TILES_YAXIS) {
-			CFloorManager* cMap2D = CFloorManager::GetInstance();
 			if (cMap2D->GetMapInfo(index.y + 1, index.x) >= 100 && dir.y > 0)
 			{
 				dir.y *= -1;
+				counter--;
 			} else if (cMap2D->GetMapInfo(index.y - 1, index.x) >= 100 && dir.y < 0 && micro.y <= CSettings::GetInstance()->NUM_STEPS_PER_TILE_YAXIS * 0.5f)
 			{
 				dir.y *= -1;
+				counter--;
+			}
+			if (counter < 0) {
+				CSoundController::GetInstance()->Replay(CSoundController::SOUNDS::LASER);
+				ParticleManager::GetInstance()->SpawnParticle(Particle::PARTICLE_TYPE::EXPLOSION, pos += dir * 0.7f, 0.5f);
+				break;
 			}
 			if (cMap2D->GetMapInfo(index.y, index.x + 1) >= 100 && dir.x > 0)
 			{
 				dir.x *= -1;
+				counter--;
 			} else if (cMap2D->GetMapInfo(index.y, index.x - 1) >= 100 && dir.x < 0 && micro.x <= CSettings::GetInstance()->NUM_STEPS_PER_TILE_XAXIS * 0.25f)
 			{
 				dir.x *= -1;
+				counter--;
+			}
+			if (counter < 0) {
+				CSoundController::GetInstance()->Replay(CSoundController::SOUNDS::LASER);
+				ParticleManager::GetInstance()->SpawnParticle(Particle::PARTICLE_TYPE::EXPLOSION, pos += dir * 0.7f, 0.5f);
+				break;
 			}
 		}
 		beam->vec2WSCoordinate = pos;

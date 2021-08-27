@@ -98,6 +98,7 @@ bool CCharacterSelectionState::Init(void)
  */
 bool CCharacterSelectionState::Update(const double dElapsedTime)
 {
+	
 	// Start the Dear ImGui frame
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
@@ -128,6 +129,7 @@ bool CCharacterSelectionState::Update(const double dElapsedTime)
 		// Add codes for Start button here
 		if (ImGui::ImageButton(Character1, ImVec2(CharacterWidth, CharacterHeight), ImVec2(0, 0), ImVec2(1, 1), 1)) {
 			//Load into the game
+
 			CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
 			CPlayer2D::GetInstance()->setHP(3);
 			CPlayer2D::GetInstance()->setMaxHP(4);
@@ -139,8 +141,6 @@ bool CCharacterSelectionState::Update(const double dElapsedTime)
 			//Load into the game
 			CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
 		}
-
-		
 
 		ImGui::End();
 	}
@@ -179,6 +179,4 @@ void CCharacterSelectionState::Destroy(void)
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
 	cout << "CCharacterSelectionState::Destroy()\n" << endl;
-
-
 }

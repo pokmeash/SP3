@@ -147,7 +147,6 @@ void CSpaceTurret::Update(const double dElapsedTime)
 			glm::vec2 direction = CPlayer2D::GetInstance()->vec2WSCoordinate - vec2WSCoordinate;
 			direction = glm::normalize(direction);
 
-			cout << direction.x << ", " << direction.y << endl;
 
 			if (bulletTimer >= 1)
 			{

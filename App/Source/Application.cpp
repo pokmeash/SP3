@@ -167,7 +167,7 @@ bool Application::Init(void)
 
 	//Create a window and create its OpenGL context
 	cSettings->pWindow = glfwCreateWindow(	cSettings->iWindowWidth, cSettings->iWindowHeight,
-											"NYP Framework", NULL, NULL);
+											"Caves of Massive Astounding Mystery", NULL, NULL);
 	//If the window couldn't be created, then return false
 	if (cSettings->pWindow == NULL)
 	{
@@ -197,6 +197,10 @@ bool Application::Init(void)
 	glfwSetMouseButtonCallback(cSettings->pWindow, MouseButtonCallbacks);
 	//Set the mouse scroll callback function
 	glfwSetScrollCallback(cSettings->pWindow, MouseScrollCallbacks);
+
+	GLFWimage icon; int nr;
+	icon.pixels = CImageLoader::GetInstance()->Load("Image//SpeedUp.tga", icon.width, icon.height, nr);
+	glfwSetWindowIcon(cSettings->pWindow, 1, &icon);
 
 	// Additional customisation for the GLFW environment
 	// Disable the cursor
@@ -263,7 +267,7 @@ bool Application::Init(void)
 	CGameStateManager::GetInstance()->AddGameState("GameOverState", new CGameOverState());
 	CGameStateManager::GetInstance()->AddGameState("CharacterSelectionState", new CCharacterSelectionState());
 	// Set the active scene
-	CGameStateManager::GetInstance()->SetActiveGameState("CharacterSelectionState");
+	CGameStateManager::GetInstance()->SetActiveGameState("MenuState");
 
 	return true;
 }
