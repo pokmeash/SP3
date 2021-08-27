@@ -21,8 +21,17 @@ public:
 		, position(entity->vec2WSCoordinate)
 		, velocity(entity->vec2Velocity)
 		, counter(entity->counter)
-		, timer(entity->timer) {
+		, timer(entity->timer) 
+		, health(0) 
+		, damage(0) 
+		, maxHealth(0) {
 		this->frame = frame;
+		if (dynamic_cast<CLivingEntity*>(entity)) {
+			CLivingEntity* living = (CLivingEntity*)entity;
+			damage = living->getDmg();
+			health = living->getMaxHP();
+			maxHealth = living->getMaxHP();
+		}
 	}
 	virtual ~EntityPacket() {
 		entity = NULL;
@@ -51,6 +60,15 @@ public:
 	float getTimer() {
 		return timer;
 	}
+	float getHealth() {
+		return health;
+	}
+	float getDamage() {
+		return damage;
+	}
+	float getMaxHealth() {
+		return maxHealth;
+	}
 protected:
 	CEntity2D* entity;
 	bool returnActiveState;
@@ -58,6 +76,9 @@ protected:
 	glm::vec2 velocity;
 	int counter;
 	float timer;
+	float health;
+	float maxHealth;
+	float damage;
 };
 
 class BlockPacket : public Packet {

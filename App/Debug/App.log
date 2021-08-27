@@ -1,6 +1,66 @@
+<<<<<<< HEAD
 ﻿  EntityManager.cpp
 D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.h(109,21): warning C4305: 'initializing': truncation from 'double' to 'float'
 D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\EventControl\EventHandler.h(11,17): warning C4099: 'Listener': type name first seen using 'class' now seen using 'struct'
 D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\EventControl\EventHandler.h(11): message : see declaration of 'Listener'
 D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\EntityManager.cpp(50,22): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
   App.vcxproj -> D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Debug\App.exe
+=======
+﻿  Floor2D.cpp
+C:\Users\desti\Documents\GitHub\SP3\App\Source\Scene2D\Player2D.h(109,21): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\desti\Documents\GitHub\SP3\Library\Source\Primitives\Packet.h(31,27): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\desti\Documents\GitHub\SP3\Library\Source\Primitives\Packet.h(32,29): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\desti\Documents\GitHub\SP3\Library\Source\Primitives\Packet.h(33,32): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\desti\Documents\GitHub\SP3\Library\Source\EventControl\EventHandler.h(11,17): warning C4099: 'Listener': type name first seen using 'class' now seen using 'struct'
+C:\Users\desti\Documents\GitHub\SP3\Library\Source\EventControl\EventHandler.h(11): message : see declaration of 'Listener'
+C:\Users\desti\Documents\GitHub\SP3\Library\Source\EventControl\AnimationEvent.h(4,17): warning C4099: 'CAnimation': type name first seen using 'struct' now seen using 'class'
+C:\Users\desti\Documents\GitHub\SP3\Library\Source\Primitives\SpriteAnimation.h(20): message : see declaration of 'CAnimation'
+C:\Users\desti\Documents\GitHub\SP3\App\Source\Scene2D\Bosses\BossTimeControl.h(84,44): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\desti\Documents\GitHub\SP3\App\Source\Scene2D\Bosses\BossTimeControl.h(85,50): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\desti\Documents\GitHub\SP3\App\Source\Scene2D\Bosses\BossTimeControl.h(86,45): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\desti\Documents\GitHub\SP3\App\Source\Scene2D\Bosses\BossTimeControl.h(101,98): warning C4244: 'argument': conversion from 'T' to 'const unsigned int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\desti\Documents\GitHub\SP3\App\Source\Scene2D\Bosses\BossTimeControl.h(101,68): warning C4244: 'argument': conversion from 'T' to 'const unsigned int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\desti\Documents\GitHub\SP3\App\Source\Scene2D\Floor2D.cpp(739,14): warning C4018: '>': signed/unsigned mismatch
+C:\Users\desti\Documents\GitHub\SP3\App\Source\Scene2D\Floor2D.cpp(742,6): warning C4101: 'random': unreferenced local variable
+C:\Users\desti\Documents\GitHub\SP3\App\Source\Scene2D\Floor2D.cpp(1125,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\desti\Documents\GitHub\SP3\App\Source\Scene2D\Floor2D.cpp(1245,32): warning C4018: '<': signed/unsigned mismatch
+C:\Users\desti\Documents\GitHub\SP3\App\Source\Scene2D\Floor2D.cpp(1246,26): warning C4018: '<': signed/unsigned mismatch
+C:\Users\desti\Documents\GitHub\SP3\App\Source\Scene2D\Floor2D.cpp(1307,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\desti\Documents\GitHub\SP3\App\Source\Scene2D\Floor2D.cpp(1316,20): warning C4018: '<': signed/unsigned mismatch
+  Scene2D.cpp
+C:\Users\desti\Documents\GitHub\SP3\App\Source\Scene2D\Player2D.h(109,21): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\desti\Documents\GitHub\SP3\Library\Source\Primitives\Packet.h(31,27): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\desti\Documents\GitHub\SP3\Library\Source\Primitives\Packet.h(32,29): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\desti\Documents\GitHub\SP3\Library\Source\Primitives\Packet.h(33,32): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\desti\Documents\GitHub\SP3\Library\Source\EventControl\EventHandler.h(11,17): warning C4099: 'Listener': type name first seen using 'class' now seen using 'struct'
+C:\Users\desti\Documents\GitHub\SP3\Library\Source\EventControl\EventHandler.h(11): message : see declaration of 'Listener'
+C:\Users\desti\Documents\GitHub\SP3\Library\Source\EventControl\AnimationEvent.h(4,17): warning C4099: 'CAnimation': type name first seen using 'struct' now seen using 'class'
+C:\Users\desti\Documents\GitHub\SP3\Library\Source\Primitives\SpriteAnimation.h(20): message : see declaration of 'CAnimation'
+C:\Users\desti\Documents\GitHub\SP3\App\Source\Scene2D\Bosses\BossTimeControl.h(84,44): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\desti\Documents\GitHub\SP3\App\Source\Scene2D\Bosses\BossTimeControl.h(85,50): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\desti\Documents\GitHub\SP3\App\Source\Scene2D\Bosses\BossTimeControl.h(86,45): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\desti\Documents\GitHub\SP3\App\Source\Scene2D\Bosses\BossTimeControl.h(101,98): warning C4244: 'argument': conversion from 'T' to 'const unsigned int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\desti\Documents\GitHub\SP3\App\Source\Scene2D\Bosses\BossTimeControl.h(101,68): warning C4244: 'argument': conversion from 'T' to 'const unsigned int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\desti\Documents\GitHub\SP3\App\Source\Scene2D\Scene2D.cpp(49,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\desti\Documents\GitHub\SP3\App\Source\Scene2D\Scene2D.cpp(162,29): warning C4244: 'argument': conversion from 'const double' to 'float', possible loss of data
+C:\Users\desti\Documents\GitHub\SP3\App\Source\Scene2D\Scene2D.cpp(235,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\desti\Documents\GitHub\SP3\App\Source\Scene2D\Scene2D.cpp(287,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Generating Code...
+  App.vcxproj -> C:\Users\desti\Documents\GitHub\SP3\Debug\App.exe
+>>>>>>> 5462fd0032ab7878f0e9accbfc0263737f5a88f9
