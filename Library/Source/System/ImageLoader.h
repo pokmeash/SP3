@@ -25,6 +25,7 @@ public:
 	unsigned char * Load(	const char* filename, 
 							int& width, int& height, 
 							int& nrChannels, const bool bInvert = false);
+	unsigned char* LoadImg(const char* file_path, int& width, int& height);
 
 	// Load an image and return as a Texture ID
 	unsigned LoadTextureGetID(const char* filename, const bool bInvert);

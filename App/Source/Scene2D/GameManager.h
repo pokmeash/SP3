@@ -43,6 +43,8 @@ public:
 	void addPowerUp(int power);
 
 	int getTotalPower();
+
+	void Reset();
 protected:
 	// Constructor
 	CGameManager(void);

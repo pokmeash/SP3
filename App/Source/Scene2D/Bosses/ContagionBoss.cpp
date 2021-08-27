@@ -31,6 +31,7 @@ using namespace std;
 #include "EventControl/EventHandler.h"
 #include "EventControl/Entity2DMoveEvent.h"
 #include <time.h>
+#include "../App/Source/Scene2D/Enemies/SpaceGoop.h"
 
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
@@ -51,8 +52,7 @@ CContagionBoss::CContagionBoss(void)
 	i32vec2Destination = glm::i32vec2(0, 0);	// Initialise the iDestination
 	i32vec2Direction = glm::i32vec2(0, 0);		// Initialise the iDirection
 
-	setHP(40);
-	setDmg(5);
+
 
 }
 
@@ -81,8 +81,7 @@ CContagionBoss::~CContagionBoss(void)
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
 
-	setHP(10);
-	setProjSpeed(0.3);
+
 }
 
 /**
@@ -115,15 +114,16 @@ bool CContagionBoss::Init(void)
 	}
 
 	//CS: Create the animated sprite and setup the animation 
-	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(9, 12, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
+	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(12, 14, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
 	scale = glm::vec3(5, 5, 5);
 	animatedSprites->AddAnimation("idle", 30, 39);
 	animatedSprites->AddAnimation("right", 10, 16);
 	animatedSprites->AddAnimation("left", 10, 16);
-
-	srand(time(0));
-	beamRand = rand() % 10 + 1;
 	
+	setHP(40);
+	setDmg(5);
+	setProjSpeed(0.8);
+	setMoveSpeed(10);
 
 	return true;
 }
@@ -139,96 +139,100 @@ void CContagionBoss::Update(const double dElapsedTime)
 	switch (sCurrentFSM)
 	{
 	case IDLE:
+
+		spawnMinion();
+
 		//Means that each state changes every 2 seconds
 		if (iFSMCounter > iMaxFSMCounter)
 		{
-			sCurrentFSM = MOVELEFT;
-			iFSMCounter = 0;
+			if (getHP() >= 20)
+			{
+				sCurrentFSM = PH1;
+				iFSMCounter = 0;
+				cout << "Phase One" << endl;
+			}
+
+			else if (getHP() >= 10 && getHP() < 20)
+			{
+				sCurrentFSM = PH2;
+				iFSMCounter = 0;
+				cout << "Phase Two" << endl;
+			}
+
+			else if (getHP() >= 0 && getHP() < 10)
+			{
+				sCurrentFSM = PH3;
+				iFSMCounter = 0;
+				cout << "Phase Three" << endl;
+			}
 		}
 		iFSMCounter++;
+		
 		animatedSprites->PlayAnimation("idle", -1, 1.0f);
 		break;
-	case MOVELEFT:
-		//movementLEFT
-		if (vec2WSCoordinate.x >= 0)
+	case PH3:
+		bulletTimer+= dElapsedTime;
+		//shieldTimer += dElapsedTime;
+
+		//Go to player
+		PathFinding();
+		UpdateDirection();
+		UpdatePosition();
+
+		if (bulletTimer >= 1)
 		{
-			vec2WSCoordinate.x -= 1.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
-			animatedSprites->PlayAnimation("right", -1, 1.0f);
-		}
-		cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
-
-
-		Constraint(LEFT);
-
-		//Constraints
-		if (CheckPosition(LEFT) == false)
-		{
-			vec2WSCoordinate.x += 1.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
-			cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
-			sCurrentFSM = MOVERIGHT;
-		}
-		vec2Velocity = vec2WSCoordinate - vec2WSOldCoordinates;
-		if (vec2WSOldCoordinates != vec2WSCoordinate) {
-			if (EventHandler::GetInstance()->CallDeleteIsCancelled(new Entity2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates))) {
-				vec2WSCoordinate = vec2WSOldCoordinates;
-				CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
-				CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->y, vec2WSCoordinate.y, &i32vec2Index.y, &i32vec2NumMicroSteps.y);
+			for (double theta = 0; theta <= 2 * 3.14159; theta += 3.14159 / 2.f)
+			{
+				glm::vec2 temp(cos(theta + offset), sin(theta + offset));
+				temp = glm::normalize(temp) * getProjSpeed();
+				EntityFactory::GetInstance()->ProduceBullets(vec2WSCoordinate, temp, glm::vec3(1, 1, 1), E_EBULLET);
+				offset += 3.14159 / 8;
 			}
+			bulletTimer = 0;
 		}
 
-		if (iFSMCounter > iMaxFSMCounter)
+		if (iFSMCounter > iMaxFSMCounter + 90)
 		{
-			sCurrentFSM = SHOOT;
+			sCurrentFSM = PH2;
 			iFSMCounter = 0;
 		}
 		iFSMCounter++;
 		break;
+	case PH2:
+		//Go to player
+		PathFinding();
+		UpdateDirection();
+		UpdatePosition();
 
-	case MOVERIGHT:
-		if (vec2WSCoordinate.x < cSettings->NUM_TILES_XAXIS)
+		//SHOOTING
+		bulletTimer += dElapsedTime;
+		glm::vec2 direction = CPlayer2D::GetInstance()->vec2WSCoordinate - vec2WSCoordinate;
+		direction = glm::normalize(direction);
+		if (bulletTimer >= 1)
 		{
-			vec2WSCoordinate.x += 1.f / cSettings->NUM_STEPS_PER_TILE_XAXIS;
-			animatedSprites->PlayAnimation("right", -1, 1.0f);
+			glm::vec2 temp = direction;
+			temp.y = sinf(atan2f(temp.y, temp.x) + 0.1 * 5);
+			temp.x = cosf(atan2f(temp.y, temp.x) + 0.1 * 5);
+			temp = glm::normalize(temp) * getProjSpeed();
+			EntityFactory::GetInstance()->ProduceBullets(vec2WSCoordinate, glm::vec2(temp.x, temp.y), glm::vec3(1, 1, 1), E_EBULLET);
+			bulletTimer = 0;
 		}
-		cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
 
-
-		// Constraint the player's position within the screen boundary
-		Constraint(RIGHT);
-
-		vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
-
-		// Find a feasible position for the enemy2D's current position
-		if (CheckPosition(RIGHT) == false)
+		if (iFSMCounter > iMaxFSMCounter + 90)
 		{
-			FlipHorizontalDirection();
-			i32vec2NumMicroSteps.x = 0;
-			vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
-			sCurrentFSM = MOVELEFT;
-		}
-		vec2Velocity = vec2WSCoordinate - vec2WSOldCoordinates;
-		if (vec2WSOldCoordinates != vec2WSCoordinate) {
-			if (EventHandler::GetInstance()->CallDeleteIsCancelled(new Entity2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates))) {
-				vec2WSCoordinate = vec2WSOldCoordinates;
-				CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
-				CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->y, vec2WSCoordinate.y, &i32vec2Index.y, &i32vec2NumMicroSteps.y);
-			}
-		}
-		if (iFSMCounter > iMaxFSMCounter)
-		{
-			sCurrentFSM = SHOOT;
+			sCurrentFSM = PH1;
 			iFSMCounter = 0;
 		}
 		iFSMCounter++;
 		break;
-	case SHOOT:
+	case PH1:
 			bulletTimer += dElapsedTime;
 			if (bulletTimer >= 1 && phaseOne == false)
 			{
 				for (double theta = 0; theta <= 2 * 3.14159; theta += 3.14159 / 3.f) 
 				{
 					glm::vec2 temp(cos(theta), sin(theta));
-					temp = glm::normalize(temp) * .5f;
+					temp = glm::normalize(temp) * getProjSpeed();
 					EntityFactory::GetInstance()->ProduceBullets(vec2WSCoordinate, temp, glm::vec3(1, 1, 1), E_EBULLET);
 					phaseOne = true;
 				}
@@ -239,9 +243,8 @@ void CContagionBoss::Update(const double dElapsedTime)
 				for (double theta1 = 0; theta1 <= 2 * 3.14159; theta1 += 3.14159 / 2.f)
 				{
 					glm::vec2 temp(cos(theta1 + offset), sin(theta1 + offset));
-					temp = glm::normalize(temp) * .5f;
+					temp = glm::normalize(temp) * getProjSpeed();
 					EntityFactory::GetInstance()->ProduceBullets(vec2WSCoordinate, temp, glm::vec3(1, 1, 1), E_EBULLET);
-					cout << beamRand;
 					offset += 3.14159 / 4;
 				}
 				phaseOne = false;
@@ -252,7 +255,7 @@ void CContagionBoss::Update(const double dElapsedTime)
 				for (double theta1 = 0; theta1 <= 2 * 3.14159; theta1 += 3.14159 / 12.f)
 				{
 					glm::vec2 temp(cos(theta1), sin(theta1));
-					temp = glm::normalize(temp) * .5f;
+					temp = glm::normalize(temp) * getProjSpeed();
 					EntityFactory::GetInstance()->ProduceBullets(vec2WSCoordinate, temp, glm::vec3(1, 1, 1), E_EBULLET);
 					phaseTwo = true;
 				}
@@ -268,8 +271,8 @@ void CContagionBoss::Update(const double dElapsedTime)
 				iFSMCounter = 0;
 			}
 			iFSMCounter++;
-
 		break;
+
 	default:
 		break;
 	}
@@ -277,4 +280,11 @@ void CContagionBoss::Update(const double dElapsedTime)
 	//Animation
 	animatedSprites->Update(dElapsedTime);
 
+}
+
+void CContagionBoss::spawnMinion()
+{
+	cMap2D->SetMapInfo((int)vec2WSCoordinate.y + 10, (int)vec2WSCoordinate.x + 10, 1001, false);
+	CSpaceGoop* minion = new CSpaceGoop();
+	minion->Init();
 }

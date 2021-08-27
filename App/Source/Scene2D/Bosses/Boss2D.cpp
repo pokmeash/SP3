@@ -151,7 +151,6 @@ void CBoss2D::Update(const double dElapsedTime)
 		}
 		iFSMCounter++;
 		animatedSprites->PlayAnimation("idle", -1, 1.0f);
-		cout << "IDLE" << endl;
 		break;
 	case ATTACK:
 		if (iFSMCounter > iMaxFSMCounter)
@@ -213,7 +212,6 @@ void CBoss2D::Update(const double dElapsedTime)
 		}
 		iFSMCounter++;
 		animatedSprites->PlayAnimation("dig", -1, 1.0f);
-		cout << "ATTACK" << endl;
 		break;
 	case HEALING:
 		if (iFSMCounter > iMaxFSMCounter)
@@ -227,7 +225,6 @@ void CBoss2D::Update(const double dElapsedTime)
 		}
 		iFSMCounter++;
 		animatedSprites->PlayAnimation("heal", -1, 1.0f);
-		cout << "HEAL" << endl;
 		break;
 	case SEARCH:
 		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) >= 5.0f && cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 10.0f)
@@ -241,7 +238,6 @@ void CBoss2D::Update(const double dElapsedTime)
 			sCurrentFSM = ATTACK;
 		}
 		animatedSprites->PlayAnimation("dig", -1, 1.0f);
-		cout << "SEARCH" << endl;
 		break;
 	case SHOOT:
 		bulletTimer += dElapsedTime;
@@ -254,14 +250,13 @@ void CBoss2D::Update(const double dElapsedTime)
 			temp.y = sinf(atan2f(temp.y, temp.x) + 0.1);
 			temp.x = cosf(atan2f(temp.y, temp.x) + 0.1);
 			temp = glm::normalize(temp) * getProjSpeed();
-			EntityFactory::GetInstance()->ProduceBullets(vec2WSCoordinate, glm::vec2(temp.x, temp.y), glm::vec3(1, 1, 1), E_EBULLET);
+			EntityFactory::GetInstance()->ProduceBullets(vec2WSCoordinate, glm::vec2(temp.x, temp.y), glm::vec3(1, 1, 1), E_EBULLET)->setDmg(Dmg);
 			bulletTimer = 0;
 			sCurrentFSM = ATTACK;
 			if (!CBossTimeControl::GetInstance()->isListening())
 				CBossTimeControl::GetInstance()->setListening(true);
 		}
 		animatedSprites->PlayAnimation("shoot", -1, 1.0f);
-		cout << "SHOOT" << endl;
 		break;
 	case RANGEDATTACK:
 		bulletTimer += dElapsedTime;
@@ -276,13 +271,12 @@ void CBoss2D::Update(const double dElapsedTime)
 			{
 				glm::vec2 temp(cos(theta + offset), sin(theta + offset));
 				temp = glm::normalize(temp) * projectileSpeed;
-				EntityFactory::GetInstance()->ProduceBullets(vec2WSCoordinate, temp, glm::vec3(1, 1, 1), E_EBULLET);
+				EntityFactory::GetInstance()->ProduceBullets(vec2WSCoordinate, temp, glm::vec3(1, 1, 1), E_EBULLET)->setDmg(Dmg);
 			}
 			bulletTimer = 0;
 			offset += 3.14159 / 16.f;
 		}
 		animatedSprites->PlayAnimation("shoot", -1, 1.0f);
-		cout << "RANGEDATTACK" << endl;
 		break;
 	case MELEEATTACK:
 		if (dirx == -1)
@@ -374,7 +368,6 @@ void CBoss2D::Update(const double dElapsedTime)
 			}
 			animatedSprites->PlayAnimation("idle", -1, 1.0f);
 		}
-		cout << "MELEEATTACK" << endl;
 		break;
 	default:
 		break;

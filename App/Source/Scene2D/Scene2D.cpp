@@ -42,7 +42,11 @@ CScene2D::~CScene2D(void)
 		cGUI_Scene2D->Destroy();
 		cGUI_Scene2D = NULL;
 	}
-
+	if (cGameManager)
+	{
+		cGameManager->Destroy();
+		cGameManager = NULL;
+	}
 	// We won't delete this since it was created elsewhere
 	cKeyboardController = NULL;
 
@@ -183,24 +187,6 @@ bool CScene2D::Update(const double dElapsedTime)
 	if (cKeyboardController->IsKeyDown(GLFW_KEY_H)) {
 		if (!CBossTimeControl::GetInstance()->isListening() && CBossTimeControl::GetInstance()->getPackets().size() == 0) {
 			CBossTimeControl::GetInstance()->setListening(true);
-		}
-	}
-
-	// Get keyboard updates
-	if (cKeyboardController->IsKeyDown(GLFW_KEY_F6))
-	{
-		// Save the current game to a save file
-		// Make sure the file is open
-		try {
-			if (cMap2D->SaveMap("Maps/DM2213_Map_Level_01_SAVEGAMEtest.csv") == false)
-			{
-				throw runtime_error("Unable to save the current game to a file");
-			}
-		}
-		catch (runtime_error e)
-		{
-			cout << "Runtime error: " << e.what();
-			return false;
 		}
 	}
 

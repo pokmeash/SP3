@@ -143,13 +143,12 @@ void CSpaceTurret::Update(const double dElapsedTime)
 		animatedSprites->PlayAnimation("idle", -1, 1.0f);
 		break;
 	case SHOOT:
-		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 10.0f)
+		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 30.0f)
 		{
 			bulletTimer += dElapsedTime;
 			glm::vec2 direction = CPlayer2D::GetInstance()->vec2WSCoordinate - vec2WSCoordinate;
 			direction = glm::normalize(direction);
 
-			cout << direction.x << ", " << direction.y << endl;
 
 			if (bulletTimer >= 1)
 			{

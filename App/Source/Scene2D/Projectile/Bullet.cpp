@@ -9,7 +9,7 @@
 #include "../Player2D.h"
 #include "../FloorManager.h"
 
-Bullet::Bullet()
+Bullet::Bullet() : BaseAttribute(1,1,1)
 {
     rotation = 0.f;
     scale = glm::vec3(1, 1, 1);
@@ -37,9 +37,10 @@ void Bullet::Update(const double dElapsedTime)
         bIsActive = false;
     }
     if (type == E_EBULLET && glm::length(vec2WSCoordinate - CPlayer2D::GetInstance()->vec2WSCoordinate) <= 1.f) {
-        CPlayer2D::GetInstance()->PlayerDamaged(1);
+        CPlayer2D::GetInstance()->PlayerDamaged(Dmg);
         bIsActive = false;
         EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(this));
+        cout << "Called in Bullet.cpp" << endl;
     } else if (type == E_FRAGMENT) {
         vec2Velocity *= 0.8;
         if (cMap2D->GetMapInfo(i32vec2Index.y, i32vec2Index.x) >= 100 || glm::length(vec2Velocity) <= 0.1f)

@@ -20,8 +20,10 @@ public:
 
 protected:
 
-	int beamRand;
+	float shieldTimer = 0;
 	float offset = 0;
 	bool phaseOne = false;
 	bool phaseTwo = false;
+
+	void spawnMinion();
 };

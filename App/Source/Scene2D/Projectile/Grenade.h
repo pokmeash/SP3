@@ -35,8 +35,7 @@ public:
     // Update
     virtual void Update(const double dElapsedTime);
     void setExplode(bool explode);
-    bool getExplode()
-    {
+    bool getExplode() {
         return explode;
     }
 };

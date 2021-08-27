@@ -13,6 +13,7 @@ Sprite Animation
 #include "../EventControl/AnimationFrameChangeEvent.h"
 #include "../EventControl/AnimationStartEvent.h"
 #include "../EventControl/AnimationStopEvent.h"
+#include <iostream>
 
 /******************************************************************************/
 /*!
@@ -28,6 +29,7 @@ CSpriteAnimation::CSpriteAnimation(int row, int col)
 	, currentFrame(0)
 	, playCount(0)
 	, currentAnimation("")
+	, called(false)
 {
 }
 
@@ -76,7 +78,8 @@ void CSpriteAnimation::Update(double dt)
 		float frameTime = animationList[currentAnimation]->animTime / numFrame;
 		int oldFrame = currentFrame;
 		//Set the current frame based on the current time
-		currentFrame = animationList[currentAnimation]->frames[fmin((int)animationList[currentAnimation]->frames.size() - 1 , static_cast<int>(currentTime / frameTime))];
+		int f = fmin((int)animationList[currentAnimation]->frames.size() - 1, static_cast<int>(currentTime / frameTime));
+		currentFrame = animationList[currentAnimation]->frames[f];
 		if (currentFrame != oldFrame) {
 			EventHandler::GetInstance()->CallThenDelete(new AnimationFrameChangeEvent(this, animationList[currentAnimation], oldFrame, currentFrame));
 		}
@@ -89,14 +92,12 @@ void CSpriteAnimation::Update(double dt)
 				++playCount;
 				currentTime = 0;
 				currentFrame = animationList[currentAnimation]->frames[0];
-				EventHandler::GetInstance()->CallThenDelete(new AnimationFrameChangeEvent(this, animationList[currentAnimation], oldFrame, currentFrame));
 			}
 			//if we repeat count is 0 or we have reach same number of play count
 			else
 			{
 				animationList[currentAnimation]->animActive = false;
 				animationList[currentAnimation]->ended = true;
-				EventHandler::GetInstance()->CallThenDelete(new AnimationStopEvent(this, animationList[currentAnimation]));
 			}
 
 			//If the animaton is infinite
@@ -108,6 +109,14 @@ void CSpriteAnimation::Update(double dt)
 				animationList[currentAnimation]->animActive = true;
 				animationList[currentAnimation]->ended = false;
 			}
+		}
+
+		if (currentFrame + 1 == numFrame && animationList[currentAnimation]->repeatCount != -1 && !called) {
+			currentFrame = animationList[currentAnimation]->frames[f];
+			called = true;
+		} else if (called) {
+			called = false;
+			EventHandler::GetInstance()->CallThenDelete(new AnimationStopEvent(this, animationList[currentAnimation]));
 		}
 	}
 }
