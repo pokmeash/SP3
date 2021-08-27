@@ -115,8 +115,7 @@ bool CSpaceGoop::Init(void)
 
 	//Attributes
 	setHP(5);
-	setDmg(2);
-	setMoveSpeed(1);
+	setDmg(1);
 
 	return true;
 }

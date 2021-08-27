@@ -116,9 +116,8 @@ bool CSpaceSkeleton::Init(void)
 	bulletTimer = 0;
 
 	setHP(7);
-	setDmg(3);
+	setDmg(1);
 	setProjSpeed(1);
-	setMoveSpeed(1);
 
 	return true;
 }

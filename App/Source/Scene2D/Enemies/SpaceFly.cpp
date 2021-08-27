@@ -107,7 +107,6 @@ bool CSpaceFly::Init(void)
 
 	//Attributes
 	setHP(2);
-	setMoveSpeed(1);
 
 	return true;
 }

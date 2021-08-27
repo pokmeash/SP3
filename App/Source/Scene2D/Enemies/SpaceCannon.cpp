@@ -114,7 +114,7 @@ bool CSpaceCannon::Init(void)
 
 	//Attributes
 	setHP(10);
-	setMoveSpeed(0);
+	setDmg(1);
 	
 	return true;
 }
