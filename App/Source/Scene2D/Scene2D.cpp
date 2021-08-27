@@ -10,7 +10,6 @@ using namespace std;
 #include "Enemies/SpaceTurret.h"
 #include "Enemies/SpaceSkeleton.h"
 #include "Enemies/SpaceCannon.h"
-#include "Enemies/SpaceSpawner.h"
 #include "Bosses/BossTimeControl.h"
 #include "Particles/ParticleManager.h"
 
