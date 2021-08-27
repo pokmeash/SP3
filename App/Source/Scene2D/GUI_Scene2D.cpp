@@ -222,7 +222,6 @@ void CGUI_Scene2D::Update(const double dElapsedTime)
 		if (!enemy->bIsActive) continue;
 		glm::ivec2 screenPos(50, 50);
 		CSettings::GetInstance()->ConvertWSToMouseSpace(enemy->vec2WSCoordinate.x - enemy->scale.x * 0.5f, enemy->vec2WSCoordinate.y + enemy->scale.x, &screenPos.x, &screenPos.y);
-		std::cout << screenPos.x << ", " << screenPos.y << std::endl;
 		ImGuiWindowFlags enemyHealthWindowFlags = ImGuiWindowFlags_AlwaysAutoResize |
 			ImGuiWindowFlags_NoBackground |
 			ImGuiWindowFlags_NoTitleBar |

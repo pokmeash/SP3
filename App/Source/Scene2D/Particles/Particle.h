@@ -17,6 +17,7 @@ public:
 	virtual ~Particle();
 	virtual bool Init(PARTICLE_TYPE type, float size, float interval, bool repeat);
 	virtual void Update(const double dt);
+	//virtual void Render(void);
 	virtual void LoadSprite(std::string filename, unsigned rows, unsigned cols);
 	virtual Particle::PARTICLE_TYPE getType();
 	virtual float getDuration();
@@ -26,4 +27,5 @@ protected:
 	float duration;
 	float totalDuration;
 	unsigned numOfStates;
+	int currentFrame;
 };

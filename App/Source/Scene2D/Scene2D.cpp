@@ -182,24 +182,6 @@ bool CScene2D::Update(const double dElapsedTime)
 		}
 	}
 
-	// Get keyboard updates
-	if (cKeyboardController->IsKeyDown(GLFW_KEY_F6))
-	{
-		// Save the current game to a save file
-		// Make sure the file is open
-		try {
-			if (cMap2D->SaveMap("Maps/DM2213_Map_Level_01_SAVEGAMEtest.csv") == false)
-			{
-				throw runtime_error("Unable to save the current game to a file");
-			}
-		}
-		catch (runtime_error e)
-		{
-			cout << "Runtime error: " << e.what();
-			return false;
-		}
-	}
-
 	// Call the cGUI_Scene2D's update method
 	cGUI_Scene2D->Update(dElapsedTime);
 	if (cGameManager->bPlayerLost == true)

@@ -140,8 +140,6 @@ bool CCharacterSelectionState::Update(const double dElapsedTime)
 			CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
 		}
 
-		
-
 		ImGui::End();
 	}
 	return true;
@@ -179,6 +177,4 @@ void CCharacterSelectionState::Destroy(void)
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
 	cout << "CCharacterSelectionState::Destroy()\n" << endl;
-
-
 }
