@@ -30,6 +30,8 @@ using namespace std;
 
 #include "EventControl/EventHandler.h"
 
+#include "../Scene2D.h"
+
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
  */
@@ -114,8 +116,8 @@ bool CSpaceTurret::Init(void)
 	animatedSprites->AddAnimation("idle", 0, 3);
 
 	//Attributes
-	setHP(10);
-	setDmg(1);
+	setHP(10 * CScene2D::GetInstance()->difficulty);
+	setDmg(1 * CScene2D::GetInstance()->difficulty);
 
 	return true;
 }
@@ -141,7 +143,7 @@ void CSpaceTurret::Update(const double dElapsedTime)
 		animatedSprites->PlayAnimation("idle", -1, 1.0f);
 		break;
 	case SHOOT:
-		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 10.0f)
+		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 30.0f)
 		{
 			bulletTimer += dElapsedTime;
 			glm::vec2 direction = CPlayer2D::GetInstance()->vec2WSCoordinate - vec2WSCoordinate;

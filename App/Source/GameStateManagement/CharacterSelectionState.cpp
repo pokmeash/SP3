@@ -177,6 +177,4 @@ void CCharacterSelectionState::Destroy(void)
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
 	cout << "CCharacterSelectionState::Destroy()\n" << endl;
-
-
 }

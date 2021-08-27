@@ -24,6 +24,8 @@ using namespace std;
 #include "EventControl/EventHandler.h"
 #include "BossTimeControl.h"
 #include <time.h>
+
+#include "../Scene2D.h"
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
  */
@@ -49,10 +51,6 @@ CBoss2D::CBoss2D(void)
 
 	i32vec2Destination = glm::i32vec2(0, 0);	// Initialise the iDestination
 	i32vec2Direction = glm::i32vec2(0, 0);		// Initialise the iDirection
-
-	setHP(20);
-	setDmg(5);
-	setProjSpeed(0.5f);
 }
 
 CBoss2D::~CBoss2D(void)
@@ -124,6 +122,10 @@ bool CBoss2D::Init(void)
 	offset = 0;
 	dirx = 0;
 	diry = 0;
+
+	setHP(20 * CScene2D::GetInstance()->difficulty);
+	setDmg(5 * CScene2D::GetInstance()->difficulty);
+	setProjSpeed(0.5f);
 
 	return true;
 }

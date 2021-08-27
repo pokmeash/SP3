@@ -32,6 +32,8 @@ using namespace std;
 
 #include "EventControl/Entity2DMoveEvent.h"
 
+#include "../Scene2D.h"
+
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
  */
@@ -114,8 +116,8 @@ bool CSpaceGoop::Init(void)
 	animatedSprites->AddAnimation("left", 6, 8);
 
 	//Attributes
-	setHP(5);
-	setDmg(1);
+	setHP(5 * CScene2D::GetInstance()->difficulty);
+	setDmg(1 * CScene2D::GetInstance()->difficulty);
 
 	return true;
 }
@@ -146,7 +148,7 @@ void CSpaceGoop::Update(const double dElapsedTime)
 		UpdateDirection();
 		UpdatePosition();
 
-		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) > 5.0f)
+		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) > 20.0f)
 		{
 			sCurrentFSM = MOVELEFT;
 			iFSMCounter = 0;
@@ -217,7 +219,7 @@ void CSpaceGoop::Update(const double dElapsedTime)
 				CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->y, vec2WSCoordinate.y, &i32vec2Index.y, &i32vec2NumMicroSteps.y);
 			}
 		}
-		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 5.0f)
+		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 20.0f)
 		{
 			sCurrentFSM = MELEEATTACK;
 		}

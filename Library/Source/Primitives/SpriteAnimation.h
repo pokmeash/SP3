@@ -89,7 +89,7 @@ public:
 	int currentFrame;
 	//How many time it has play
 	int playCount;
-
+	bool called;
 	//The name of the current animation
 	std::string currentAnimation;
 	//The list of the animations with their names

@@ -29,6 +29,8 @@ using namespace std;
 #include "../EntityManager.h"
 #include "EventControl/EventHandler.h"
 #include "EventControl/Entity2DMoveEvent.h"
+
+#include "../Scene2D.h"
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
  */
@@ -115,8 +117,8 @@ bool CSpaceSkeleton::Init(void)
 	animatedSprites->AddAnimation("down", 18, 26);
 	bulletTimer = 0;
 
-	setHP(7);
-	setDmg(1);
+	setHP(7 * CScene2D::GetInstance()->difficulty);
+	setDmg(1 * CScene2D::GetInstance()->difficulty);
 	setProjSpeed(1);
 
 	return true;
@@ -144,7 +146,7 @@ void CSpaceSkeleton::Update(const double dElapsedTime)
 		animatedSprites->PlayAnimation("idle", -1, 1.0f);
 		break;
 	case MELEEATTACK:
-		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 15.0f)
+		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 25.0f)
 		{
 			PathFinding();
 
@@ -208,7 +210,7 @@ void CSpaceSkeleton::Update(const double dElapsedTime)
 				CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->y, vec2WSCoordinate.y, &i32vec2Index.y, &i32vec2NumMicroSteps.y);
 			}
 		}
-		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 5.0f)
+		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 25.0f)
 		{
 			sCurrentFSM = MELEEATTACK;
 		}
@@ -244,7 +246,7 @@ void CSpaceSkeleton::Update(const double dElapsedTime)
 				CSettings::GetInstance()->ConvertFloatToIndexSpace(CSettings::GetInstance()->y, vec2WSCoordinate.y, &i32vec2Index.y, &i32vec2NumMicroSteps.y);
 			}
 		}
-		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 5.0f)
+		if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 25.0f)
 		{
 			sCurrentFSM = MELEEATTACK;
 		}

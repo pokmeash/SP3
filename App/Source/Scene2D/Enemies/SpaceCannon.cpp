@@ -30,6 +30,7 @@ using namespace std;
 
 #include "EventControl/EventHandler.h"
 
+#include "../Scene2D.h"
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
  */
@@ -113,8 +114,8 @@ bool CSpaceCannon::Init(void)
 	animatedSprites->AddAnimation("idle", 0, 3);
 
 	//Attributes
-	setHP(10);
-	setDmg(1);
+	setHP(10 * CScene2D::GetInstance()->difficulty);
+	setDmg(1 * CScene2D::GetInstance()->difficulty);
 	
 	return true;
 }
@@ -144,7 +145,7 @@ void CSpaceCannon::Update(const double dElapsedTime)
 
 			if (bulletTimer >= 1)
 			{
-				for (double theta = 0; theta <= 2 * 3.14159; theta += 3.14159 / 5.f) 
+				for (double theta = 0; theta <= 2 * 3.14159; theta += 3.14159 / 10.f) 
 				{
 					glm::vec2 temp(cos(theta), sin(theta));
 					temp = glm::normalize(temp) * .5f;

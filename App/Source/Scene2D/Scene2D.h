@@ -75,6 +75,11 @@ public:
 	
 	void LevelCompleted(int DoorDir);
 
+	bool resetfloor;
+
+	int floor;
+
+	int difficulty;
 protected:
 	// The handler containing the instance of the 2D Map
 	CFloorManager* cMap2D;
