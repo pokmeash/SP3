@@ -24,6 +24,8 @@ using namespace std;
 #include "EventControl/EventHandler.h"
 #include "EventControl/Entity2DMoveEvent.h"
 
+#include "../Scene2D.h"
+
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
  */
@@ -105,8 +107,8 @@ bool CSpaceFly::Init(void)
 	animatedSprites->AddAnimation("down", 6, 8);
 
 	//Attributes
-	setHP(2);
-	setDmg(1);
+	setHP(2 * CScene2D::GetInstance()->difficulty);
+	setDmg(1 * CScene2D::GetInstance()->difficulty);
 
 	return true;
 }

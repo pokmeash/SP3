@@ -31,6 +31,9 @@ using namespace std;
 #include "EntityManager.h"
 #include "Projectile/PortalManager.h"
 
+
+#include "Bosses/BossTimeControl.h"
+
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
  */
@@ -172,12 +175,9 @@ bool CPlayer2D::Init(void)
 
 	jumpCount = 0;
 
-	dirx = 0;
-	diry = -1;
-
 	// Get the handler to the CSoundController
 	cSoundController = CSoundController::GetInstance();
-	swap = true;
+
 	bIsActive = true;
 
 	PortalManager::GetInstance()->Init();
@@ -214,13 +214,8 @@ bool CPlayer2D::Reset()
 	//CS: Play the "idle" animation as default
 	animatedSprites->PlayAnimation("idle", -1, 1.0f);
 
-	dirx = 0;
-	diry = 1;
-
 	//CS: Init the color to white
 	currentColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
-
-	swap = true;
 
 	return true;
 }
@@ -344,71 +339,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 
 	}
 	vec2Velocity = vec2WSCoordinate - vec2WSOldCoordinates;
-	//Swapping
-	bool activate = cSettings->iKeybinds[CSettings::TRIGGER_POWERUP] <= GLFW_MOUSE_BUTTON_LAST && cMouseController->IsButtonPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP]);
-	if (activate || cKeyboardController->IsKeyPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP]) && swap == true)
-	{
-		unsigned int InvisRow = -1;
-		unsigned int InvisCol = -1;
-		unsigned int InvisRow2 = -1;
-		unsigned int InvisCol2 = -1;
-		bool counter = true;
-		bool counter2 = true;
-		swap = false;
-		cPhysics2D.SetStatus(CPhysics2D::STATUS::FALL);
 
-		while (counter)
-		{
-			counter = cMap2D->FindValue(97, InvisRow, InvisCol);
-			if (cMap2D->FindValue(97, InvisRow, InvisCol) == false)
-			{
-			}
-			if (!counter) break;
-			cMap2D->SetMapInfo(InvisRow, InvisCol, 101);
-		}
-		while (counter2)
-		{
-			counter2 = cMap2D->FindValue(102, InvisRow, InvisCol);
-			if (cMap2D->FindValue(102, InvisRow, InvisCol) == false)
-			{
-			}
-			if (!counter2) break;
-			cMap2D->SetMapInfo(InvisRow, InvisCol, 96);
-		}
-		cSoundController->PlaySoundByID(CSoundController::SOUNDS::SWAP);
-
-
-	} else if ((cMouseController->IsButtonPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP]) || cKeyboardController->IsKeyPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP])) && swap == false)
-	{
-		unsigned int InvisRow = -1;
-		unsigned int InvisCol = -1;
-		unsigned int InvisRow2 = -1;
-		unsigned int InvisCol2 = -1;
-		bool counter = true;
-		bool counter2 = true;
-		swap = true;
-
-		cPhysics2D.SetStatus(CPhysics2D::STATUS::FALL);
-		while (counter)
-		{
-			counter = cMap2D->FindValue(101, InvisRow, InvisCol);
-			if (cMap2D->FindValue(101, InvisRow, InvisCol) == false)
-			{
-			}
-			if (!counter) break;
-			cMap2D->SetMapInfo(InvisRow, InvisCol, 97);
-		}
-		while (counter2)
-		{
-			counter2 = cMap2D->FindValue(96, InvisRow2, InvisCol2);
-			if (cMap2D->FindValue(96, InvisRow2, InvisCol2) == false)
-			{
-			}
-			if (!counter2) break;
-			cMap2D->SetMapInfo(InvisRow2, InvisCol2, 102);
-		}
-		cSoundController->PlaySoundByID(CSoundController::SOUNDS::SWAP);
-	}
 
 	static float delay = 0.f;
 	bool shoot = cSettings->iKeybinds[CSettings::TRIGGER_SHOOT] <= GLFW_MOUSE_BUTTON_LAST && cMouseController->IsButtonDown(cSettings->iKeybinds[CSettings::TRIGGER_SHOOT]);
@@ -580,9 +511,23 @@ void CPlayer2D::Update(const double dElapsedTime)
 				cMap2D->SetMapInfo(8, 16, random); // powerup
 				cSoundController->PlaySoundByID(CSoundController::SOUNDS::DOOR);
 				cMap2D->once = true;
+				CBossTimeControl::GetInstance()->Reset();
 			}
 		}
 	}
+	if (cMap2D->GetMapInfo(12, 16) == 98)// next floor
+	{
+		//Swapping
+		bool activate = cSettings->iKeybinds[CSettings::TRIGGER_POWERUP] <= GLFW_MOUSE_BUTTON_LAST && cMouseController->IsButtonPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP]);
+		if (activate || cKeyboardController->IsKeyPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP]) && (cMap2D->GetCurrentLevel() == 9 || cMap2D->GetCurrentLevel() == 10))
+		{
+			cMap2D->SetCurrentLevel(0);
+			CScene2D::GetInstance()->resetfloor = true;
+			CScene2D::GetInstance()->LevelCompleted(5);
+			cSoundController->PlaySoundByID(CSoundController::SOUNDS::SWAP);
+		}
+	}
+	
 
 
 }
