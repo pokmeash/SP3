@@ -183,38 +183,7 @@ void CBoss2D::Update(const double dElapsedTime)
 			}
 			else if (cPhysics2D.CalculateDistance(vec2WSCoordinate, CPlayer2D::GetInstance()->vec2WSCoordinate) < 5.0f)
 			{
-				srand(time(NULL));
-				int random = rand() % 2 + 1;
-				
-				if (random == 1)
-				{
-					if (CPlayer2D::GetInstance()->vec2WSCoordinate.x < vec2WSCoordinate.x - 3)
-					{
-						dirx = -1;
-						diry = 0;
-					}
-					else if (CPlayer2D::GetInstance()->vec2WSCoordinate.x > vec2WSCoordinate.x + 3)
-					{
-						dirx = 1;
-						diry = 0;
-					}
-					else if (CPlayer2D::GetInstance()->vec2WSCoordinate.y < vec2WSCoordinate.y)
-					{
-						dirx = 0;
-						diry = -1;
-					}
-					else if (CPlayer2D::GetInstance()->vec2WSCoordinate.y > vec2WSCoordinate.y)
-					{
-						dirx = 0;
-						diry = 1;
-					}
-					sCurrentFSM = MELEEATTACK;
-				}
-				else if (random == 2)
-				{
-					rushdirection = CPlayer2D::GetInstance()->vec2WSCoordinate - vec2WSCoordinate;
-					sCurrentFSM = RUSHATTACK;
-				}
+				sCurrentFSM = MELEEATTACK;
 			}
 			iFSMCounter = 0;
 
@@ -383,69 +352,6 @@ void CBoss2D::Update(const double dElapsedTime)
 			animatedSprites->PlayAnimation("idle", -1, 1.0f);
 		}
 		cout << "MELEEATTACK" << endl;
-		break;
-	case RUSHATTACK:
-		if (wallcounter > 2)
-		{
-			wallcounter = 0;
-			sCurrentFSM = ATTACK;
-		}
-		if (vec2WSCoordinate.y < cSettings->NUM_TILES_YAXIS && vec2WSCoordinate.y >= 0 && vec2WSCoordinate.x < cSettings->NUM_TILES_XAXIS && vec2WSCoordinate.x >= 0)
-		{
-			rushdirection = glm::normalize(rushdirection);
-			vec2WSCoordinate.x += rushdirection.x / cSettings->NUM_STEPS_PER_TILE_XAXIS;
-			vec2WSCoordinate.y += rushdirection.y / cSettings->NUM_STEPS_PER_TILE_YAXIS;
-			cout << rushdirection.x << "," << rushdirection.y << endl;
-		}
-		Constraint(LEFT);
-		Constraint(RIGHT);
-		Constraint(DOWN);
-		Constraint(UP);
-		/*vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
-		vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);*/
-
-		if (CheckPosition(LEFT) == false)
-		{
-			vec2WSCoordinate.x += rushdirection.x / cSettings->NUM_STEPS_PER_TILE_XAXIS;
-			cSettings->ConvertFloatToIndexSpace(cSettings->x, vec2WSCoordinate.x, &i32vec2Index.x, &i32vec2NumMicroSteps.x);
-			rushdirection.x *= -1;
-			wallcounter++;
-		}
-		if (CheckPosition(RIGHT) == false)
-		{
-			i32vec2NumMicroSteps.x = 0;
-			vec2WSCoordinate.x = cSettings->ConvertIndexToWSSpace(cSettings->x, i32vec2Index.x, i32vec2NumMicroSteps.x);
-			rushdirection.x *= -1;
-			wallcounter++;
-		}
-		if (CheckPosition(UP) == false)
-		{
-			i32vec2NumMicroSteps.y = 0;
-			vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
-			rushdirection.y *= -1;
-			wallcounter++;
-		}
-		if (CheckPosition(DOWN) == false)
-		{
-			i32vec2Index.y++;
-			i32vec2NumMicroSteps.y = 0;
-			vec2WSCoordinate.y = cSettings->ConvertIndexToWSSpace(cSettings->y, i32vec2Index.y, i32vec2NumMicroSteps.y);
-			rushdirection.y *= -1;
-			wallcounter++;
-		}
-		if (CPlayer2D::GetInstance()->vec2WSCoordinate.x < vec2WSCoordinate.x)
-		{
-			animatedSprites->PlayAnimation("left", -1, 1.0f);
-		}
-		else if (CPlayer2D::GetInstance()->vec2WSCoordinate.x > vec2WSCoordinate.x)
-		{
-			animatedSprites->PlayAnimation("right", -1, 1.0f);
-		}
-		else
-		{
-			animatedSprites->PlayAnimation("idle", -1, 1.0f);
-		}
-		cout << "RUSHATTACK" << endl;
 		break;
 	default:
 		break;
