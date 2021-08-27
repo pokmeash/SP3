@@ -1,1 +1,31 @@
-﻿
+﻿  GUI.cpp
+  Settings.cpp
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\GameControl\Settings.cpp(105,56): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\GameControl\Settings.cpp(113,56): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\GameControl\Settings.cpp(124,52): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\GameControl\Settings.cpp(132,12): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\GameControl\Settings.cpp(148,30): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\GameControl\Settings.cpp(149,13): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Entity2D.cpp
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\Primitives\Entity2D.cpp(137,26): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\Primitives\Entity2D.cpp(138,26): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+  Entity3D.cpp
+  MeshBuilder.cpp
+  SpriteAnimation.cpp
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\EventControl\AnimationEvent.h(4,17): warning C4099: 'CAnimation': type name first seen using 'struct' now seen using 'class'
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\Primitives\SpriteAnimation.h(20): message : see declaration of 'CAnimation'
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\Primitives\SpriteAnimation.cpp(81,9): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+  TextRenderer.cpp
+  CSVReader.cpp
+  CSVWriter.cpp
+  ImageLoader.cpp
+  Generating Code...
+  Library.vcxproj -> D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Debug\Library.lib

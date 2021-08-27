@@ -44,8 +44,15 @@
 class CPlayer2D : public CSingletonTemplate<CPlayer2D>, public CLivingEntity
 {
 	friend CSingletonTemplate<CPlayer2D>;
-public:
 
+public:
+	enum CHARACTERS {
+		Male = 0,
+		Female,
+		TOTAL
+	};
+
+	CHARACTERS charType;
 	// Init
 	bool Init(void);
 
@@ -65,6 +72,8 @@ public:
 	void addRicochetTimes(int times);
 
 	int getRicochetTimes();
+
+	void SelectCharacter(CHARACTERS);
 
 protected:
 
@@ -106,4 +115,5 @@ private:
 	float iframesTimer = 0.3;
 	float iframesDuration = 3;
 	int numberOfRicochet = 1;
+	
 };

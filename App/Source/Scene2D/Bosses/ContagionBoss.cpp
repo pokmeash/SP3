@@ -25,7 +25,7 @@ using namespace std;
 #include <math.h>
 
 #include "../Player2D.h"
-
+#include "../Scene2D.h"
 #include "../EntityManager.h"
 
 #include "EventControl/EventHandler.h"
@@ -51,9 +51,6 @@ CContagionBoss::CContagionBoss(void)
 
 	i32vec2Destination = glm::i32vec2(0, 0);	// Initialise the iDestination
 	i32vec2Direction = glm::i32vec2(0, 0);		// Initialise the iDirection
-
-
-
 }
 
 /**
@@ -114,14 +111,12 @@ bool CContagionBoss::Init(void)
 	}
 
 	//CS: Create the animated sprite and setup the animation 
-	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(12, 14, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
-	scale = glm::vec3(5, 5, 5);
-	animatedSprites->AddAnimation("idle", 30, 39);
-	animatedSprites->AddAnimation("right", 10, 16);
-	animatedSprites->AddAnimation("left", 10, 16);
+	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(10, 10, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
+	scale = glm::vec3(2, 2, 2);
+	animatedSprites->AddAnimation("idle", 30, 38);
 	
-	setHP(40);
-	setDmg(5);
+	setHP(40 * CScene2D::GetInstance()->difficulty);
+	setDmg(5 * CScene2D::GetInstance()->difficulty);
 	setProjSpeed(0.8);
 	setMoveSpeed(10);
 
@@ -172,7 +167,6 @@ void CContagionBoss::Update(const double dElapsedTime)
 		break;
 	case PH3:
 		bulletTimer+= dElapsedTime;
-		//shieldTimer += dElapsedTime;
 
 		//Go to player
 		PathFinding();
@@ -191,7 +185,7 @@ void CContagionBoss::Update(const double dElapsedTime)
 			bulletTimer = 0;
 		}
 
-		if (iFSMCounter > iMaxFSMCounter + 90)
+		if (iFSMCounter > iMaxFSMCounter + 60)
 		{
 			sCurrentFSM = PH2;
 			iFSMCounter = 0;
@@ -218,7 +212,7 @@ void CContagionBoss::Update(const double dElapsedTime)
 			bulletTimer = 0;
 		}
 
-		if (iFSMCounter > iMaxFSMCounter + 90)
+		if (iFSMCounter > iMaxFSMCounter)
 		{
 			sCurrentFSM = PH1;
 			iFSMCounter = 0;
@@ -252,7 +246,7 @@ void CContagionBoss::Update(const double dElapsedTime)
 
 			if (bulletTimer >= 2.2 && phaseTwo == false)
 			{
-				for (double theta1 = 0; theta1 <= 2 * 3.14159; theta1 += 3.14159 / 12.f)
+				for (double theta1 = 0; theta1 <= 2 * 3.14159; theta1 += 3.14159 / 8.f)
 				{
 					glm::vec2 temp(cos(theta1), sin(theta1));
 					temp = glm::normalize(temp) * getProjSpeed();
@@ -265,7 +259,7 @@ void CContagionBoss::Update(const double dElapsedTime)
 				phaseTwo = false;
 			}
 
-			if (iFSMCounter > iMaxFSMCounter + 60)
+			if (iFSMCounter > iMaxFSMCounter)
 			{
 				sCurrentFSM = IDLE;
 				iFSMCounter = 0;
