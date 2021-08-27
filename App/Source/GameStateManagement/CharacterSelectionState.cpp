@@ -89,7 +89,7 @@ bool CCharacterSelectionState::Init(void)
 
 	CImageLoader* ImageLoad = CImageLoader::GetInstance();
 	Character1 = (ImTextureID)ImageLoad->LoadTextureGetID("Image\\GUI\\Character1.png", false);
-	//Character2 = (ImTextureID)ImageLoad->LoadTextureGetID("Image\\GUI\\ExitButton2.png", false);
+	Character2 = (ImTextureID)ImageLoad->LoadTextureGetID("Image\\GUI\\Character2.png", false);
 	return true;
 }
 
@@ -112,8 +112,8 @@ bool CCharacterSelectionState::Update(const double dElapsedTime)
 	window_flags |= ImGuiWindowFlags_NoCollapse;
 	window_flags |= ImGuiWindowFlags_NoNav;
 
-	float CharacterWidth = 180;
-	float CharacterHeight = 130;
+	float CharacterWidth = CSettings::GetInstance()->iWindowWidth * 0.225f;
+	float CharacterHeight = CSettings::GetInstance()->iWindowWidth * 0.1625f;
 	// 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
 	{
 		//static float f = 0.0f;
@@ -129,21 +129,17 @@ bool CCharacterSelectionState::Update(const double dElapsedTime)
 		// Add codes for Start button here
 		if (ImGui::ImageButton(Character1, ImVec2(CharacterWidth, CharacterHeight), ImVec2(0, 0), ImVec2(1, 1), 1)) {
 			//Load into the game
-
+			CPlayer2D::GetInstance()->SelectCharacter(CPlayer2D::Male);
+			CKeyboardController::GetInstance()->Reset();
 			CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
-			CPlayer2D::GetInstance()->setHP(3);
-			CPlayer2D::GetInstance()->setMaxHP(4);
-			CPlayer2D::GetInstance()->setDmg(1);
-			CPlayer2D::GetInstance()->setProjSpeed(0.5);
 		}
 		ImGui::SameLine();
-		if (ImGui::ImageButton(Character1, ImVec2(CharacterWidth, CharacterHeight), ImVec2(0, 0), ImVec2(1, 1), 1)) {
+		if (ImGui::ImageButton(Character2, ImVec2(CharacterWidth, CharacterHeight), ImVec2(0, 0), ImVec2(1, 1), 1)) {
 			//Load into the game
+			CPlayer2D::GetInstance()->SelectCharacter(CPlayer2D::Female);
+			CKeyboardController::GetInstance()->Reset();
 			CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
 		}
-
-		
-
 		ImGui::End();
 	}
 	return true;

@@ -95,6 +95,10 @@ void EntityManager::Update(const double dElapsedTime)
 			CEntity2D* entity = entitylist[i];
 			if (entity->bIsActive)
 			{
+				cout << entity->vec2Velocity.x << " " << entity->vec2Velocity.y << endl;
+				entity->vec2Velocity.x = Math::Clamp(entity->vec2Velocity.x, -1.f, 1.f);
+				entity->vec2Velocity.y = Math::Clamp(entity->vec2Velocity.y, -1.f, 1.f);
+				cout << entity->vec2Velocity.x << " " << entity->vec2Velocity.y << endl;
 				entity->Update(dElapsedTime);
 				if (entity->vec2WSCoordinate.x >= CSettings::GetInstance()->NUM_TILES_XAXIS || entity->vec2WSCoordinate.x < 0) entity->bIsActive = false;
 				if (entity->vec2WSCoordinate.y >= CSettings::GetInstance()->NUM_TILES_YAXIS || entity->vec2WSCoordinate.y < 0) entity->bIsActive = false;
@@ -102,7 +106,6 @@ void EntityManager::Update(const double dElapsedTime)
 				switch (entity->type)
 				{
 				case CEntity2D::E_EBULLET:
-					cout << "Shoot2" << endl;
 					if (cMap2D->GetMapInfo(entity->vec2WSCoordinate.y, entity->vec2WSCoordinate.x) >= 100)
 					{
 						entity->bIsActive = false;
@@ -119,8 +122,6 @@ void EntityManager::Update(const double dElapsedTime)
 						{
 							enemy->minusHP(CPlayer2D::GetInstance()->getDmg());
 							CGameManager::GetInstance()->addFinalDmg(CPlayer2D::GetInstance()->getDmg());
-							cout << CPlayer2D::GetInstance()->getDmg() << endl;
-							cout << CGameManager::GetInstance()->getFinalDmg() << endl;
 							if (enemy->getHP() <= 0)
 							{
 								if (cMap2D->GetMapInfo(enemy->i32vec2Index.y, enemy->i32vec2Index.x) == 0)

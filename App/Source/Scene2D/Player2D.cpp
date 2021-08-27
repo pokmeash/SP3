@@ -91,7 +91,6 @@ CPlayer2D::~CPlayer2D(void)
   */
 bool CPlayer2D::Init(void)
 {
-	
 	// Store the keyboard controller singleton instance here
 	cKeyboardController = CKeyboardController::GetInstance();
 	cMouseController = CMouseController::GetInstance();
@@ -128,10 +127,21 @@ bool CPlayer2D::Init(void)
 		std::cout << "Failed to load player tile texture" << std::endl;
 		return false;
 	}*/
-	if (LoadTexture("Image/test.png", iTextureID) == false)
+	if (charType == Male)
 	{
-		std::cout << "Failed to load player tile texture" << std::endl;
-		return false;
+		if (LoadTexture("Image/test.png", iTextureID) == false)
+		{
+			std::cout << "Failed to load player tile texture" << std::endl;
+			return false;
+		}
+	}
+	else if (charType == Female)
+	{
+		if (LoadTexture("Image/test2.png", iTextureID) == false)
+		{
+			std::cout << "Failed to load player tile texture" << std::endl;
+			return false;
+		}
 	}
 	//CS: Create the animated sprite and setup the animation 
 	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(4, 4, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
@@ -221,7 +231,6 @@ bool CPlayer2D::Reset()
 	currentColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
 
 	swap = true;
-
 	return true;
 }
 
@@ -231,6 +240,7 @@ bool CPlayer2D::Reset()
 void CPlayer2D::Update(const double dElapsedTime)
 {
 	// Store the old position
+
 	vec2WSOldCoordinates = vec2WSCoordinate;
 
 	// Get keyboard updates
@@ -644,6 +654,24 @@ void CPlayer2D::addRicochetTimes(int times)
 int CPlayer2D::getRicochetTimes()
 {
 	return numberOfRicochet;
+}
+
+void CPlayer2D::SelectCharacter(CHARACTERS type)
+{
+	switch (type)
+	{
+	case Male:
+		setHP(3);
+		setDmg(2);
+		setProjSpeed(0.5);
+		break;
+	case Female:
+		setHP(5);
+		setDmg(1);
+		setProjSpeed(2.);
+		break;
+	}
+	charType = type;
 }
 
 /**

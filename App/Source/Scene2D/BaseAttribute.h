@@ -10,5 +10,6 @@ public:
 		setHP(hp);
 		setDmg(dmg);
 		setProjSpeed(projspeed);
+		setMaxHP(getHP());
 	}
 };

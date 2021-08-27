@@ -36,11 +36,11 @@ void Bullet::Update(const double dElapsedTime)
         i32vec2Index.y < 0 || i32vec2Index.y > CSettings::GetInstance()->NUM_TILES_YAXIS) {
         bIsActive = false;
     }
+    // Enemy bullet collide with player
     if (type == E_EBULLET && glm::length(vec2WSCoordinate - CPlayer2D::GetInstance()->vec2WSCoordinate) <= 1.f) {
         CPlayer2D::GetInstance()->PlayerDamaged(Dmg);
         bIsActive = false;
         EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(this));
-        cout << "Called in Bullet.cpp" << endl;
     } else if (type == E_FRAGMENT) {
         vec2Velocity *= 0.8;
         if (cMap2D->GetMapInfo(i32vec2Index.y, i32vec2Index.x) >= 100 || glm::length(vec2Velocity) <= 0.1f)
