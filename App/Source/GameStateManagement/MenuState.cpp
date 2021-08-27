@@ -65,7 +65,7 @@ bool CMenuState::Init(void)
 	cSoundController = CSoundController::GetInstance();
 
 	//Create Background Entity
-	background = new CBackgroundEntity("Image/MenuBackground.png");
+	background = new CBackgroundEntity("Image/MainMenu.png");
 	background->SetShader("2DShader");
 	background->Init();
 
