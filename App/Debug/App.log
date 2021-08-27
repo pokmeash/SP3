@@ -2,13 +2,12 @@
 D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Player2D.h(109,21): warning C4305: 'initializing': truncation from 'double' to 'float'
 D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\EventControl\EventHandler.h(11,17): warning C4099: 'Listener': type name first seen using 'class' now seen using 'struct'
 D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Library\Source\EventControl\EventHandler.h(11): message : see declaration of 'Listener'
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Bosses\ContagionBoss.cpp(125,18): warning C4305: 'argument': truncation from 'double' to 'float'
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Bosses\ContagionBoss.cpp(174,29): warning C4244: '+=': conversion from 'const double' to 'float', possible loss of data
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Bosses\ContagionBoss.cpp(189,26): warning C4305: '+=': truncation from 'double' to 'float'
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Bosses\ContagionBoss.cpp(208,30): warning C4244: '+=': conversion from 'const double' to 'float', possible loss of data
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Bosses\ContagionBoss.cpp(214,41): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Bosses\ContagionBoss.cpp(215,41): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Bosses\ContagionBoss.cpp(229,31): warning C4244: '+=': conversion from 'const double' to 'float', possible loss of data
-D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Bosses\ContagionBoss.cpp(248,27): warning C4305: '+=': truncation from 'double' to 'float'
-LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Bosses\ContagionBoss.cpp(120,18): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Bosses\ContagionBoss.cpp(169,29): warning C4244: '+=': conversion from 'const double' to 'float', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Bosses\ContagionBoss.cpp(183,26): warning C4305: '+=': truncation from 'double' to 'float'
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Bosses\ContagionBoss.cpp(202,30): warning C4244: '+=': conversion from 'const double' to 'float', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Bosses\ContagionBoss.cpp(208,41): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Bosses\ContagionBoss.cpp(209,41): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Bosses\ContagionBoss.cpp(223,31): warning C4244: '+=': conversion from 'const double' to 'float', possible loss of data
+D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\App\Source\Scene2D\Bosses\ContagionBoss.cpp(242,27): warning C4305: '+=': truncation from 'double' to 'float'
   App.vcxproj -> D:\School\YEAR 2 SEMESTER 1\1_STUDIOPROJECT3\SP3\Debug\App.exe
