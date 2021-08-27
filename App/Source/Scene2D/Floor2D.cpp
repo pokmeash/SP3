@@ -25,6 +25,7 @@
 #include "Enemies/SpaceSkeleton.h"
 #include "Enemies/SpaceCannon.h"
 #include "Bosses/Boss2D.h"
+#include "Bosses/BossTimeControl.h"
 
 
 using namespace std;
@@ -264,6 +265,12 @@ void CFloor2D::PreRender(void)
 void CFloor2D::Render(void)
 {
 	// get matrix's uniform location and set matrix
+	if (CBossTimeControl::GetInstance()->isReversing()) {
+		CShaderManager::GetInstance()->Use("2DColorShader");
+		currentColor = glm::vec4(.0, 1.0, .0, 1.0);
+		unsigned int colorLoc = glGetUniformLocation(CShaderManager::GetInstance()->activeShader->ID, "runtime_color");
+		glUniform4fv(colorLoc, 1, glm::value_ptr(currentColor));
+	}
 	unsigned int transformLoc = glGetUniformLocation(CShaderManager::GetInstance()->activeShader->ID, "transform");
 	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
 

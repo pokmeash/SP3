@@ -86,6 +86,10 @@ bool CScene2D::Init(void)
 	//CShaderManager::GetInstance()->Add("2DShader", "Shader//Scene2D.vs", "Shader//Scene2D.fs");
 	CShaderManager::GetInstance()->Use("2DShader");
 	CShaderManager::GetInstance()->activeShader->setInt("texture1", 0);
+
+	CShaderManager::GetInstance()->Add("2DColorShader", "Shader//Scene2DColor.vs", "Shader//Scene2DColor.fs");
+	CShaderManager::GetInstance()->Use("2DColorShader");
+	CShaderManager::GetInstance()->activeShader->setInt("texture1", 0);
 	isPaused = false;
 	// Create and initialise the Map 2D
 	cMap2D = CFloorManager::GetInstance();
@@ -98,9 +102,7 @@ bool CScene2D::Init(void)
 	cMap2D->SetDiagonalMovement(false);
 
 	// Load Scene2DColor into ShaderManager
-	CShaderManager::GetInstance()->Add("2DColorShader", "Shader//Scene2DColor.vs", "Shader//Scene2DColor.fs");
-	CShaderManager::GetInstance()->Use("2DColorShader");
-	CShaderManager::GetInstance()->activeShader->setInt("texture1", 0);
+	
 	// Create and initialise the CPlayer2D
 	cPlayer2D = CPlayer2D::GetInstance();
 	// Pass shader to cPlayer2D
