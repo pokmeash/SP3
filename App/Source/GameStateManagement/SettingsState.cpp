@@ -104,19 +104,17 @@ bool CSettingsState::Init(void)
 	buttonData[CHANGE_GRENADE].keybindType = "Grenade";
 	buttonData[CHANGE_ACTIVATE].keybindID = CSettings::TRIGGER_POWERUP;
 	buttonData[CHANGE_ACTIVATE].keybindType = "Activate";
+	buttonData[CHANGE_BEAM].keybindID = CSettings::TRIGGER_BEAM;
+	buttonData[CHANGE_BEAM].keybindType = "Beam";
 	
 	for (unsigned i = 0; i < TOTAL_BUTTONS; ++i) {
 		if (buttonData[i].keybindID == -1)
 		buttonData[i].textureID = il->LoadTextureGetID(buttonData[i].fileName.c_str(), false);
 	}
 
-	cSoundController->PlaySoundByID(2);
-	for (int i = 0; i < 6; i++)
-	{
-		cSoundController->VolumeDecrease(CSoundController::SOUNDS::WII);
-	}
+	cSoundController->PlaySoundByID(CSoundController::SOUNDS::WII);
+
 	bgm = true;
-	std::cout << "CSettingsState::Init\n";
 	return true;
 }
 
@@ -157,20 +155,25 @@ bool CSettingsState::Update(const double dElapsedTime)
 			CKeyboardController::GetInstance()->Reset();
 			CGameStateManager::GetInstance()->SetActiveGameState("MenuState");
 		}
-		// Add codes for Start button here
 		ImGui::SameLine();
+		ImGui::Begin("Volume", NULL, window_flags);
+		// Add codes for Start button here
 		if (ImGui::ImageButton((ImTextureID)buttonData[VOL_UP].textureID,
 			ImVec2(buttonWidth, buttonHeight), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0)))
 		{
 			cSoundController->MasterVolumeIncrease();
 		}
 		// Add codes for Exit button here
-		ImGui::SameLine();
 		if (ImGui::ImageButton((ImTextureID)buttonData[VOL_DOWN].textureID,
 			ImVec2(buttonWidth, buttonHeight), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0)))
 		{
 			cSoundController->MasterVolumeDecrease();
 		}
+		ImGui::End();
+		ImGui::Begin("Keybinds", NULL, window_flags);
+		ImGui::SetWindowPos(ImVec2(CSettings::GetInstance()->iWindowWidth / 1.5, CSettings::GetInstance()->iWindowHeight / 12.0));
+		ImGui::SetWindowSize(ImVec2(CSettings::GetInstance()->iWindowWidth, CSettings::GetInstance()->iWindowHeight));
+
 		for (unsigned i = 0; i < TOTAL_BUTTONS; ++i) {
 			if (buttonData[i].keybindID == -1) continue;
 			if (glfwGetKeyName(CSettings::GetInstance()->iKeybinds[buttonData[i].keybindID], 0) != NULL)
@@ -185,7 +188,7 @@ bool CSettingsState::Update(const double dElapsedTime)
 				activeKeybindSetButton = &buttonData[i];
 			}
 		}
-
+		ImGui::End();
 		if (activeKeybindSetButton) {
 			ImGuiWindowFlags inventoryWindowFlags = ImGuiWindowFlags_AlwaysAutoResize |
 				ImGuiWindowFlags_NoTitleBar |
@@ -223,13 +226,6 @@ bool CSettingsState::Update(const double dElapsedTime)
 		CKeyboardController::GetInstance()->Reset();
 		CGameStateManager::GetInstance()->SetActiveGameState("MenuState");
 		return true;
-	}
-
-	//BGM
-	if (bgm)
-	{
-		cSoundController->PlaySoundByID(CSoundController::SOUNDS::WII);
-		bgm = false;
 	}
 
 	return true;

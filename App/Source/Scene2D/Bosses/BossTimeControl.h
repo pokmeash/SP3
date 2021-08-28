@@ -10,6 +10,7 @@
 #include "EventControl/AnimationFrameChangeEvent.h"
 #include "EventControl/AnimationStopEvent.h"
 #include "EventControl/AnimationStartEvent.h"
+#include "EventControl/NextRoomEvent.h"
 #include <vector>
 
 class CBossTimeControl : public CSingletonTemplate<CBossTimeControl> {
@@ -41,8 +42,14 @@ public:
 
 	void Init(void) {
 		Reset();
-		EventHandler::GetInstance()->IgnoreCancelOn([&](Event* e) {
+		if (listener) return;
+		listener = EventHandler::GetInstance()->IgnoreCancelOn([&](Event* e) {
 			if (!listening) return;
+			if (e->getName() == NextRoomEvent::BASE_NAME()) {
+				listening = false;
+				Reset();
+				return;
+			}
 			if (e->getName() == Entity2DMoveEvent::BASE_NAME()) {
 				saveEntityPacket(((Entity2DMoveEvent*)e)->getEntity());
 				return;
@@ -181,6 +188,7 @@ public:
 protected:
 	std::vector<Packet*> packets;
 	CBossTimeControl() {
+		listener = NULL;
 		listening = true;
 		reversing = false;
 		currentFrame = 1;
@@ -188,8 +196,10 @@ protected:
 	}
 	virtual ~CBossTimeControl() {
 		Reset();
+		EventHandler::GetInstance()->Remove(listener);
 	}
 	bool listening;
 	long currentFrame;
 	bool reversing;
+	Listener* listener;
 };

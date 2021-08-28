@@ -48,12 +48,6 @@ bool CPlayGameState::Init(void)
 		return false;
 	}
 	cSoundController = CSoundController::GetInstance();
-
-	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Lance.ogg"), 3, true, true);
-	for (int i = 0; i < 8; i++)
-	{
-		cSoundController->VolumeDecrease(CSoundController::SOUNDS::LANCE);
-	}
 	bgm = true;
 
 	return true;
@@ -78,7 +72,7 @@ bool CPlayGameState::Update(const double dElapsedTime)
 	{
 		CGameStateManager::GetInstance()->SetActiveGameState("GameOverState");
 		cSoundController->StopAllSound();
-		cSoundController->PlaySoundByID(1);
+		cSoundController->PlaySoundByID(CSoundController::SOUNDS::ORAS);
 	}
 
 	if (CGameManager::GetInstance()->bPlayerWon == true)

@@ -230,9 +230,7 @@ void CContagionBoss::Update(const double dElapsedTime)
 					EntityFactory::GetInstance()->ProduceBullets(vec2WSCoordinate, temp, glm::vec3(1, 1, 1), E_EBULLET);
 					phaseOne = true;
 				}
-			}
-
-			if (bulletTimer >= 1.8)
+			} else if (bulletTimer >= 1.8)
 			{
 				for (double theta1 = 0; theta1 <= 2 * 3.14159; theta1 += 3.14159 / 2.f)
 				{
@@ -242,11 +240,9 @@ void CContagionBoss::Update(const double dElapsedTime)
 					offset += 3.14159 / 4;
 				}
 				phaseOne = false;
-			}
-
-			if (bulletTimer >= 2.2 && phaseTwo == false)
+			} else if (bulletTimer >= 2.2 && phaseTwo == false)
 			{
-				for (double theta1 = 0; theta1 <= 2 * 3.14159; theta1 += 3.14159 / 8.f)
+				for (double theta1 = 0; theta1 <= 2 * 3.14159; theta1 += 3.14159 / 4.f)
 				{
 					glm::vec2 temp(cos(theta1), sin(theta1));
 					temp = glm::normalize(temp) * getProjSpeed();

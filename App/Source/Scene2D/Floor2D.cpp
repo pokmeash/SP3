@@ -113,6 +113,11 @@ bool CFloor2D::Init(	const unsigned int uiNumLevels,
 		std::cout << "Failed to load Wing tile texture" << std::endl;
 		return false;
 	}
+	if (LoadTexture("Image/PortalGun.png", 5) == false)
+	{
+		std::cout << "Failed to load Wing tile texture" << std::endl;
+		return false;
+	}
 	// Load the Life texture
 	if (LoadTexture("Image/Scene2D_Lives.tga", 10) == false)
 	{
@@ -145,6 +150,12 @@ bool CFloor2D::Init(	const unsigned int uiNumLevels,
 	if (LoadTexture("Image/Mirror.png", 15) == false)
 	{
 		std::cout << "Failed to load Ricochet power up tile texture" << std::endl;
+		return false;
+
+	}
+	if (LoadTexture("Image/Feather.tga", 16) == false)
+	{
+		std::cout << "Failed to load fire rate power up tile texture" << std::endl;
 		return false;
 
 	}
@@ -562,10 +573,11 @@ bool CFloor2D::LoadTexture(const char* filename, const int iTextureCode)
  */
 void CFloor2D::RenderTile(const unsigned int uiRow, const unsigned int uiCol)
 {
-	if (arrMapInfo[uiCurRoom][uiRow][uiCol].value > 1 && arrMapInfo[uiCurRoom][uiRow][uiCol].value != 96 && arrMapInfo[uiCurRoom][uiRow][uiCol].value != 95)
+	int value = arrMapInfo[uiCurRoom][uiRow][uiCol].value;
+	if (value > 1 && value != 96 && value != 95 && value < 1000)
 	{
 		//if (arrMapInfo[uiCurLevel][uiRow][uiCol].value < 3)
-		glBindTexture(GL_TEXTURE_2D, MapOfTextureIDs.at(arrMapInfo[uiCurRoom][uiRow][uiCol].value));
+		glBindTexture(GL_TEXTURE_2D, MapOfTextureIDs.at(value));
 
 		glBindVertexArray(VAO);
 		//CS: Render the tile
@@ -789,6 +801,7 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				}
 
 			}
+			arrMapInfo[uiLevel][(int)cSettings->NUM_TILES_YAXIS * (int)0.5][(int)cSettings->NUM_TILES_YAXIS * (int)0.5 + 2].value = 5;
 		}
 		break;
 	}

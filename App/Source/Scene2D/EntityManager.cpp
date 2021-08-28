@@ -3,6 +3,7 @@
 #include "System/MyMath.h"
 #include "EventControl/EventHandler.h"
 #include "EventControl/NextRoomEvent.h"
+#include "EventControl/Entity2DEvent.h"
 #include "EventControl/Entity2DDespawnEvent.h"
 #include "EventControl/Entity2DMoveEvent.h"
 #include "EventControl/Entity2DSpawnEvent.h"
@@ -31,6 +32,15 @@ bool EntityManager::Init(void)
 				}
 			}
 			entitylist.clear();
+			for (unsigned i = 0; i < 50; ++i) {
+				Bullet* bullet = new Bullet();
+				bullet->Init();
+				bullet->bIsActive = false;
+				bullet->vec2WSCoordinate = glm::vec2(0.f, 0.f);
+				bullet->vec2Velocity = glm::vec2(0.f, 0.f);
+				bullet->type = CEntity2D::E_EBULLET;
+				entitylist.push_back(bullet);
+			}
 			return;
 		}
 		if (e->getName() == Entity2DSpawnEvent::BASE_NAME()) {
@@ -88,6 +98,7 @@ bool EntityManager::Init(void)
 
 void EntityManager::Update(const double dElapsedTime)
 {
+	std::vector<Entity2DEvent*> eventsCalled;
 	//iterator
 	if (entitylist.size() > 0)
 	{
@@ -96,10 +107,8 @@ void EntityManager::Update(const double dElapsedTime)
 			CEntity2D* entity = entitylist[i];
 			if (entity->bIsActive)
 			{
-				cout << entity->vec2Velocity.x << " " << entity->vec2Velocity.y << endl;
 				entity->vec2Velocity.x = Math::Clamp(entity->vec2Velocity.x, -1.f, 1.f);
 				entity->vec2Velocity.y = Math::Clamp(entity->vec2Velocity.y, -1.f, 1.f);
-				cout << entity->vec2Velocity.x << " " << entity->vec2Velocity.y << endl;
 				entity->Update(dElapsedTime);
 				if (entity->vec2WSCoordinate.x >= CSettings::GetInstance()->NUM_TILES_XAXIS || entity->vec2WSCoordinate.x < 0) entity->bIsActive = false;
 				if (entity->vec2WSCoordinate.y >= CSettings::GetInstance()->NUM_TILES_YAXIS || entity->vec2WSCoordinate.y < 0) entity->bIsActive = false;
@@ -107,10 +116,10 @@ void EntityManager::Update(const double dElapsedTime)
 				switch (entity->type)
 				{
 				case CEntity2D::E_EBULLET:
-					if (cMap2D->GetMapInfo(entity->vec2WSCoordinate.y, entity->vec2WSCoordinate.x) >= 100)
+					if (cMap2D->GetMapInfo((unsigned)entity->vec2WSCoordinate.y, (unsigned)entity->vec2WSCoordinate.x) >= 100)
 					{
 						entity->bIsActive = false;
-						EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(entity));
+						eventsCalled.push_back(new Entity2DDespawnEvent(entity));
 					}
 					break;
 				case CEntity2D::E_BULLET:
@@ -118,7 +127,7 @@ void EntityManager::Update(const double dElapsedTime)
 					for (unsigned j = 0; j < CScene2D::GetInstance()->enemyVector.size(); ++j)
 					{
 						CLivingEntity* enemy = (CLivingEntity*)CScene2D::GetInstance()->enemyVector[j];
-						if (!enemy->bIsActive) continue;
+						if (!enemy || !enemy->bIsActive) continue;
 						if (cPhysics.CalculateDistance(entity->vec2WSCoordinate, enemy->vec2WSCoordinate) <= enemy->scale.x)
 						{
 							if (dynamic_cast<CContagionBoss*>(enemy)) {
@@ -142,10 +151,10 @@ void EntityManager::Update(const double dElapsedTime)
 									}
 								}
 								enemy->bIsActive = false;
-								EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(enemy));
+								eventsCalled.push_back(new Entity2DDespawnEvent(enemy));
 							}
 							entity->bIsActive = false;
-							EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(entity));
+							eventsCalled.push_back(new Entity2DDespawnEvent(entity));
 						}
 					}
 					break;
@@ -171,10 +180,10 @@ void EntityManager::Update(const double dElapsedTime)
 									}
 								}
 								enemy->bIsActive = false;
-								EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(enemy));
+								eventsCalled.push_back(new Entity2DDespawnEvent(enemy));
 							}
 							entity->bIsActive = false;
-							EventHandler::GetInstance()->CallThenDelete(new Entity2DDespawnEvent(entity));
+							eventsCalled.push_back(new Entity2DDespawnEvent(entity));
 						}
 					}
 					break;
@@ -197,6 +206,10 @@ void EntityManager::Update(const double dElapsedTime)
 			}
 		}
 	}
+	for (auto ev : eventsCalled) {
+		EventHandler::GetInstance()->CallThenDelete(ev);
+	}
+	eventsCalled.clear();
 }
 
 void EntityManager::Render(void)

@@ -356,7 +356,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 	bool shoot = cSettings->iKeybinds[CSettings::TRIGGER_SHOOT] <= GLFW_MOUSE_BUTTON_LAST && cMouseController->IsButtonDown(cSettings->iKeybinds[CSettings::TRIGGER_SHOOT]);
 	if ((shoot || cKeyboardController->IsKeyDown(cSettings->iKeybinds[CSettings::TRIGGER_SHOOT])) && delay <= 0.f)
 	{
-		delay = 0.5f;
+		delay = CPlayer2D::GetInstance()->getFireRate();
 		glm::i32vec2 mouse((int)CMouseController::GetInstance()->GetMousePositionX(), (int)CMouseController::GetInstance()->GetMousePositionY());
 		glm::vec2 wsSpace(0.f, 0.f);
 		cSettings->ConvertMouseToWSSpace(mouse.x, mouse.y, &(wsSpace.x), &(wsSpace.y));
@@ -374,27 +374,23 @@ void CPlayer2D::Update(const double dElapsedTime)
 				EntityFactory::GetInstance()->ProduceBullets(vec2WSCoordinate, glm::vec2(temp.x, temp.y), glm::vec3(1, 1, 1), E_BULLET)->setDmg(getDmg());
 			}
 		}
-	}
-	if (cKeyboardController->IsKeyDown(cSettings->iKeybinds[CSettings::TRIGGER_THROW]) && delay <= 0.f) // Throwing of grenade
+	} else if (cKeyboardController->IsKeyDown(cSettings->iKeybinds[CSettings::TRIGGER_THROW]) && delay <= 0.f) // Throwing of grenade
 	{
-		delay = 0.5f;
+		delay = CPlayer2D::GetInstance()->getFireRate();
 		glm::i32vec2 mouse((int)CMouseController::GetInstance()->GetMousePositionX(), (int)CMouseController::GetInstance()->GetMousePositionY());
 		glm::vec2 wsSpace(0.f, 0.f);
 		cSettings->ConvertMouseToWSSpace(mouse.x, mouse.y, &(wsSpace.x), &(wsSpace.y));
 		glm::vec2 direction = wsSpace - vec2WSCoordinate;
 		direction = glm::normalize(direction);
 		EntityFactory::GetInstance()->ProduceGrenade(vec2WSCoordinate, direction, glm::vec3(1, 1, 1), E_GRENADE);
-		//EntityFactory::GetInstance()->ProduceBeam(vec2WSCoordinate, direction, E_BEAM, 50);
-	}
-	if (cKeyboardController->IsKeyDown(GLFW_KEY_B) && delay <= 0.f) // Throwing of grenade
+	} else if (cKeyboardController->IsKeyDown(cSettings->iKeybinds[CSettings::TRIGGER_BEAM]) && delay <= 0.f) // Throwing of grenade
 	{
-		delay = 0.5f;
+		delay = CPlayer2D::GetInstance()->getFireRate();
 		glm::i32vec2 mouse((int)CMouseController::GetInstance()->GetMousePositionX(), (int)CMouseController::GetInstance()->GetMousePositionY());
 		glm::vec2 wsSpace(0.f, 0.f);
 		cSettings->ConvertMouseToWSSpace(mouse.x, mouse.y, &(wsSpace.x), &(wsSpace.y));
 		glm::vec2 direction = wsSpace - vec2WSCoordinate;
 		direction = glm::normalize(direction);
-		//EntityFactory::GetInstance()->ProduceGrenade(vec2WSCoordinate, direction, glm::vec3(1, 1, 1), E_GRENADE);
 		EntityFactory::GetInstance()->ProduceBeam(vec2WSCoordinate, direction, E_BEAM, 10);
 	}
 	if (delay > 0) {
@@ -419,27 +415,27 @@ void CPlayer2D::Update(const double dElapsedTime)
 	vec2UVCoordinate.x = cSettings->ConvertFloatToUVSpace(cSettings->x, vec2WSCoordinate.x, false);
 	vec2UVCoordinate.y = cSettings->ConvertFloatToUVSpace(cSettings->y, vec2WSCoordinate.y, false);
 
-	if (iframesState == true)
+	if (iframesState)
 	{
 		iframesDuration -= dElapsedTime;
 		iframesTimer -= dElapsedTime;
 
-		if (iframesTimer < 0.1 && iFrames == false)
+		if (iframesTimer < 0.05 && !iFrames)
 		{
 			iFrames = true;
 		}
 
-		else if (iframesTimer <= 0 && iFrames == true)
+		else if (iframesTimer <= 0 && iFrames)
 		{
 			iFrames = false;
-			iframesTimer = 0.2;
+			iframesTimer = 0.1;
 		}
 
 		if (iframesDuration <= 0)
 		{
 			iframesState = false;
 			iFrames = false;
-			iframesDuration = 3;
+			iframesDuration = 1.5;
 		}
 
 	}
@@ -447,7 +443,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 		EventHandler::GetInstance()->CallThenDelete(new Player2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates));
 	}
 	CInventoryItem* portalItem = cInventoryManager->GetItem("Portal");
-	if (!cInventoryManager->Check("Portal")) {
+	if (cInventoryManager->Check("Portal")) {
 		PortalManager::GetInstance()->Update(dElapsedTime);
 	}
 	if (cMap2D->GetMapInfo(22,16) == 100 && cMap2D->once == false)
@@ -545,7 +541,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 
 void CPlayer2D::Render(void)
 {
-	if (iFrames == false)
+	if (!iFrames)
 	{
 		glBindVertexArray(VAO);
 		// get matrix's uniform location and set matrix
@@ -635,7 +631,6 @@ void CPlayer2D::InteractWithMap(void)
 	case 5:
 		cInventoryItem = cInventoryManager->GetItem("Portal");
 		cInventoryItem->Add(1);
-		EventHandler::GetInstance()->CallThenDelete(new Item2DPickUpEvent("Portal", cInventoryItem, i32vec2Index));
 		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
 		break;
 	case 11:
@@ -663,6 +658,11 @@ void CPlayer2D::InteractWithMap(void)
 		break;
 	case 15:
 		addRicochetTimes(1);
+		CGameManager::GetInstance()->addPowerUp(1);
+		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
+		break;
+	case 16:
+		incFireRate(0.5);
 		CGameManager::GetInstance()->addPowerUp(1);
 		cMap2D->SetMapInfo(i32vec2Index.y, i32vec2Index.x, 0);
 		break;

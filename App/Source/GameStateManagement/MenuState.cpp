@@ -93,11 +93,6 @@ bool CMenuState::Init(void)
 	volupButtonData.textureID = il->LoadTextureGetID(volupButtonData.fileName.c_str(), false);
 	voldownButtonData.fileName = "Image\\GUI\\VolDown.png";
 	voldownButtonData.textureID = il->LoadTextureGetID(voldownButtonData.fileName.c_str(), false);
-	cSoundController->LoadSound(FileSystem::getPath("Sounds\\Wii.ogg"), 2, true, true);
-	for (int i = 0; i < 6; i++)
-	{
-		cSoundController->VolumeDecrease(CSoundController::SOUNDS::WII);
-	}
 	bgm = true;
 
 	return true;

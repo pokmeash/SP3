@@ -19,7 +19,7 @@ Bullet* EntityFactory::ProduceBullets(glm::f32vec2 EntityVec2Index, glm::f32vec2
 	for (unsigned i = 0; i < EntityManager::GetInstance()->entitylist.size(); ++i) {
 		CEntity2D* entity = EntityManager::GetInstance()->entitylist[i];
 		if (entity->bIsActive) continue;
-		if (!dynamic_cast<Bullet*>(entity)) continue;
+		if (entity->type != type) continue;
 		temp = (Bullet*)entity;
 		break;
 	}
@@ -46,7 +46,7 @@ Grenade* EntityFactory::ProduceGrenade(glm::f32vec2 EntityVec2Index, glm::f32vec
 	for (unsigned i = 0; i < EntityManager::GetInstance()->entitylist.size(); ++i) {
 		CEntity2D* entity = EntityManager::GetInstance()->entitylist[i];
 		if (entity->bIsActive) continue;
-		if (!dynamic_cast<Grenade*>(entity)) continue;
+		if (entity->type != type) continue;
 		temp = (Grenade*)entity;
 		break;
 	}
@@ -72,7 +72,7 @@ std::vector<Beam*> EntityFactory::ProduceBeam(glm::vec2 pos, glm::vec2 dir, CEnt
 	for (unsigned i = 0; i < EntityManager::GetInstance()->entitylist.size() && beams.size() < length; ++i) {
 		CEntity2D* entity = EntityManager::GetInstance()->entitylist[i];
 		if (entity->bIsActive) continue;
-		if (!dynamic_cast<Beam*>(entity)) continue;
+		if (entity->type != type) continue;
 		beams.push_back((Beam*)entity);
 	}
 	if (beams.size() < length) {

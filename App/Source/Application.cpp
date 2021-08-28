@@ -199,7 +199,7 @@ bool Application::Init(void)
 	glfwSetScrollCallback(cSettings->pWindow, MouseScrollCallbacks);
 
 	GLFWimage icon; int nr;
-	icon.pixels = CImageLoader::GetInstance()->Load("Image//SpeedUp.tga", icon.width, icon.height, nr);
+	icon.pixels = CImageLoader::GetInstance()->Load("Image//CaveIcon.png", icon.width, icon.height, nr);
 	glfwSetWindowIcon(cSettings->pWindow, 1, &icon);
 
 	// Additional customisation for the GLFW environment

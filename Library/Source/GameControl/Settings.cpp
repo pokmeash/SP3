@@ -24,6 +24,7 @@ CSettings::CSettings(void)
 	iKeybinds[TRIGGER_THROW] = GLFW_KEY_G;
 	iKeybinds[TRIGGER_POWERUP] = GLFW_KEY_E;
 	iKeybinds[TRIGGER_PORTAL] = 1;
+	iKeybinds[TRIGGER_BEAM] = GLFW_KEY_B;
 	std::map<unsigned, unsigned> keybinds;
 	if (!LoadIni("settings.ini", keybinds)) {
 		for (unsigned i = 0; i < TOTAL_KEYBINDS; ++i) {

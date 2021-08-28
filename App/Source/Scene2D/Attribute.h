@@ -10,6 +10,7 @@ protected:
 	int Dmg;
 	float MovingSpeed;
 	float projectileSpeed;
+	float fireRate = 0.5f;
 public:
 	virtual int getHP() {
 		return HP;
@@ -28,6 +29,15 @@ public:
 	virtual float getMoveSpeed()
 	{
 		return MovingSpeed;
+	}
+	virtual void setFireRate(float fr) {
+		fireRate = fr;
+	}
+	virtual void incFireRate(float fr) {
+		fireRate -= fr;
+		if (fireRate <= 0.f) {
+			fireRate = 0.05f;
+		}
 	}
 	virtual void setHP(int hp)
 	{
@@ -75,5 +85,7 @@ public:
 	{
 		HP -= amtOfHP;
 	}
-
+	virtual float getFireRate() {
+		return fireRate;
+	}
 };
