@@ -153,9 +153,6 @@ bool CPlayer2D::Init(void)
 	animatedSprites->AddAnimation("right", 12, 15);
 	animatedSprites->AddAnimation("left", 8, 11);
 
-	animatedSprites->AddAnimation("idleWing", 9, 11);
-	animatedSprites->AddAnimation("rightWing", 12, 14);
-	animatedSprites->AddAnimation("leftWing", 15, 17);
 	//CS: Play the "idle" animation as default
 	animatedSprites->PlayAnimation("idle", -1, 1.0f);
 
@@ -179,9 +176,7 @@ bool CPlayer2D::Init(void)
 	cInventoryItem = cInventoryManager->Add("Health", "Image/Scene2D_Health.tga", 100, 100);
 	cInventoryItem->vec2Size = glm::vec2(25, 25);
 
-	// Add a Wing icon as one of the inventory items
-	cInventoryItem = cInventoryManager->Add("Wing", "Image/Scene2D_WingsTile.tga", 100, 100);
-	cInventoryItem->vec2Size = glm::vec2(25, 25);
+
 
 	jumpCount = 0;
 
@@ -514,7 +509,7 @@ void CPlayer2D::Update(const double dElapsedTime)
 			{
 				cMap2D->SetMapInfo(12,16, 98);// next floor
 				srand(time(NULL));
-				int random = rand() % 5 + 11; 
+				int random = rand() % 6 + 11; 
 				cMap2D->SetMapInfo(8, 16, random); // powerup
 				cSoundController->PlaySoundByID(CSoundController::SOUNDS::DOOR);
 				cMap2D->once = true;

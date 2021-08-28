@@ -771,6 +771,10 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				{
 					arrMapInfo[uiLevel][uiRow][uiCol].value = 11;
 				}
+				else if (uiRow == 5 && uiCol == 6)
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 5;
+				}
 				else if (uiRow == 6 && uiCol == 5)
 				{
 					arrMapInfo[uiLevel][uiRow][uiCol].value = 12;
@@ -786,6 +790,10 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				else if (uiRow == 7 && uiCol == 7)
 				{
 					arrMapInfo[uiLevel][uiRow][uiCol].value = 15;
+				}
+				else if (uiRow == 7 && uiCol == 5)
+				{
+					arrMapInfo[uiLevel][uiRow][uiCol].value = 16;
 				}
 				else if ((uiRow < 2) || (uiCol < 2) || (uiCol > cSettings->NUM_TILES_XAXIS - 3) || (uiRow > cSettings->NUM_TILES_YAXIS - 3))
 				{

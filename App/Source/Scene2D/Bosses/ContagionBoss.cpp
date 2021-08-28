@@ -136,9 +136,6 @@ void CContagionBoss::Update(const double dElapsedTime)
 	{
 	case IDLE:
 
-		if (iFSMCounter == 0)
-			spawnMinion();
-
 		//Means that each state changes every 2 seconds
 		if (iFSMCounter > iMaxFSMCounter)
 		{
@@ -269,12 +266,4 @@ void CContagionBoss::Update(const double dElapsedTime)
 
 	//Animation
 	animatedSprites->Update(dElapsedTime);
-}
-
-void CContagionBoss::spawnMinion()
-{
-	cMap2D->SetMapInfo((int)vec2WSCoordinate.y + 10, (int)vec2WSCoordinate.x + 10, 1001);
-	CSpaceGoop* minion = new CSpaceGoop();
-	minion->Init();
-	CScene2D::GetInstance()->enemyVector.push_back(minion);
 }
