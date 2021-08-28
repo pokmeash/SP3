@@ -2,6 +2,7 @@
 
 // Include CEntity2D
 #include "../Enemies/Enemy2D.h"
+#include "../Particles/ParticleManager.h"
 
 class CContagionBoss : public CEnemy2D
 {
@@ -24,6 +25,6 @@ protected:
 	float offset = 0;
 	bool phaseOne = false;
 	bool phaseTwo = false;
-
+	Particle* barrier;
 	void spawnMinion();
 };

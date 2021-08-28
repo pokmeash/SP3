@@ -6,9 +6,6 @@
 #include "GUI_Scene2D.h"
 #include "Scene2D.h"
 
-#include <iostream>
-using namespace std;
-bool wings = false;
 /**
  @brief Constructor This constructor has protected access modifier as this class will be a Singleton
  */
@@ -175,25 +172,6 @@ void CGUI_Scene2D::Update(const double dElapsedTime)
 	ImGui::TextColored(ImVec4(1.0, 1.0, 1.0, 1), "%i",
 		CPlayer2D::GetInstance()->getDmg());
 	ImGui::End();
-	if (wings == true)
-	{
-		// Render the Lives
-		ImGuiWindowFlags WingsWindowFlags = ImGuiWindowFlags_AlwaysAutoResize |
-			ImGuiWindowFlags_NoBackground |
-			ImGuiWindowFlags_NoTitleBar |
-			ImGuiWindowFlags_NoMove |
-			ImGuiWindowFlags_NoResize |
-			ImGuiWindowFlags_NoCollapse |
-			ImGuiWindowFlags_NoScrollbar;
-		ImGui::Begin("Wing", NULL, WingsWindowFlags);
-		ImGui::SetWindowPos(ImVec2(725.0f, 550.0f));
-		ImGui::SetWindowSize(ImVec2(100.0f, 25.0f));
-		cInventoryItem = cInventoryManager->GetItem("Wing");
-		ImGui::Image((void*)(intptr_t)cInventoryItem->GetTextureID(),
-			ImVec2(cInventoryItem->vec2Size.x, cInventoryItem->vec2Size.y),
-			ImVec2(0, 1), ImVec2(1, 0));
-		ImGui::End();
-	}
 
 	for (unsigned i = 0; i < CScene2D::GetInstance()->enemyVector.size(); ++i) {
 		CLivingEntity* enemy = (CLivingEntity*)CScene2D::GetInstance()->enemyVector[i];
@@ -207,7 +185,8 @@ void CGUI_Scene2D::Update(const double dElapsedTime)
 			ImGuiWindowFlags_NoResize |
 			ImGuiWindowFlags_NoCollapse |
 			ImGuiWindowFlags_NoScrollbar;
-		ImGui::Begin("EnemyHealth"+i, NULL, enemyHealthWindowFlags);
+		std::string s = "EnemyHealth" + std::to_string(i);
+		ImGui::Begin(s.c_str(), NULL, enemyHealthWindowFlags);
 		ImGui::SetWindowPos(ImVec2(screenPos.x, screenPos.y));
 		ImGui::SetWindowSize(ImVec2(cSettings->iWindowWidth / cSettings->NUM_TILES_XAXIS, cSettings->iWindowHeight / cSettings->NUM_TILES_YAXIS * 0.25f));
 		ImGui::PushStyleColor(ImGuiCol_PlotHistogram, ImVec4(0.0f, 1.0f, 0.0f, 1.0f));

@@ -10,6 +10,7 @@ public:
 		EXPLOSION,
 		BEAM,
 		FIRE,
+		BARRIER,
 		TOTAL_PARTICLE_TYPE,
 	};
 

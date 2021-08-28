@@ -443,9 +443,9 @@ void CPlayer2D::Update(const double dElapsedTime)
 		EventHandler::GetInstance()->CallThenDelete(new Player2DMoveEvent(this, vec2WSCoordinate, vec2WSOldCoordinates));
 	}
 	CInventoryItem* portalItem = cInventoryManager->GetItem("Portal");
-	if (cInventoryManager->Check("Portal")) {
+	if (cInventoryManager->Check("Portal")) 
 		PortalManager::GetInstance()->Update(dElapsedTime);
-	}
+	
 	if (cMap2D->GetMapInfo(22,16) == 100 && cMap2D->once == false)
 	{
 		int counter = 0;

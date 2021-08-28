@@ -55,6 +55,11 @@ Particle* ParticleManager::SpawnParticle(Particle::PARTICLE_TYPE type, glm::vec2
 	}
 	case Particle::PARTICLE_TYPE::FIRE: {
 		particle->LoadSprite("Image/Fire.png", 4, 8);
+		break;
+	}
+	case Particle::PARTICLE_TYPE::BARRIER: {
+		particle->LoadSprite("Image/Barrier.tga", 1, 1);
+		break;
 	}
 	default: break;
 	}

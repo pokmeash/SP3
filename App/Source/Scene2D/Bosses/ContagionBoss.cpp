@@ -38,6 +38,7 @@ using namespace std;
  */
 CContagionBoss::CContagionBoss(void)
 {
+	barrier = NULL;
 	transform = glm::mat4(1.0f);	// make sure to initialize matrix to identity matrix first
 
 	// Initialise vecIndex
@@ -78,7 +79,7 @@ CContagionBoss::~CContagionBoss(void)
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
 
-
+	barrier = NULL;
 }
 
 /**
@@ -87,7 +88,6 @@ CContagionBoss::~CContagionBoss(void)
 bool CContagionBoss::Init(void)
 {
 	CEnemy2D::Init();
-	std::cout << "Initing SpaceCannon\n";
 	// Find the indices for the player in arrMapInfo, and assign it to cPlayer2D
 	unsigned int uiRow = -1;
 	unsigned int uiCol = -1;
@@ -109,10 +109,11 @@ bool CContagionBoss::Init(void)
 		std::cout << "Failed to load enemy2D tile texture" << std::endl;
 		return false;
 	}
-
 	//CS: Create the animated sprite and setup the animation 
 	animatedSprites = CMeshBuilder::GenerateSpriteAnimation(10, 10, cSettings->TILE_WIDTH, cSettings->TILE_HEIGHT);
 	scale = glm::vec3(2, 2, 2);
+	barrier = ParticleManager::GetInstance()->SpawnParticle(Particle::PARTICLE_TYPE::BARRIER, vec2WSCoordinate, scale.x, 1.f, true);
+	barrier->bIsActive = false;
 	animatedSprites->AddAnimation("idle", 30, 38);
 	
 	setHP(40 * CScene2D::GetInstance()->difficulty);
@@ -130,12 +131,13 @@ void CContagionBoss::Update(const double dElapsedTime)
 {
 	if (!bIsActive)
 		return;
-
+	barrier->bIsActive = false;
 	switch (sCurrentFSM)
 	{
 	case IDLE:
 
-		spawnMinion();
+		if (iFSMCounter == 0)
+			spawnMinion();
 
 		//Means that each state changes every 2 seconds
 		if (iFSMCounter > iMaxFSMCounter)
@@ -144,21 +146,18 @@ void CContagionBoss::Update(const double dElapsedTime)
 			{
 				sCurrentFSM = PH1;
 				iFSMCounter = 0;
-				cout << "Phase One" << endl;
 			}
 
 			else if (getHP() >= 10 && getHP() < 20)
 			{
 				sCurrentFSM = PH2;
 				iFSMCounter = 0;
-				cout << "Phase Two" << endl;
 			}
 
 			else if (getHP() >= 0 && getHP() < 10)
 			{
 				sCurrentFSM = PH3;
 				iFSMCounter = 0;
-				cout << "Phase Three" << endl;
 			}
 		}
 		iFSMCounter++;
@@ -172,7 +171,8 @@ void CContagionBoss::Update(const double dElapsedTime)
 		PathFinding();
 		UpdateDirection();
 		UpdatePosition();
-
+		barrier->vec2WSCoordinate = vec2WSCoordinate;
+		barrier->bIsActive = true;
 		if (bulletTimer >= 1)
 		{
 			for (double theta = 0; theta <= 2 * 3.14159; theta += 3.14159 / 2.f)
@@ -269,12 +269,12 @@ void CContagionBoss::Update(const double dElapsedTime)
 
 	//Animation
 	animatedSprites->Update(dElapsedTime);
-
 }
 
 void CContagionBoss::spawnMinion()
 {
-	cMap2D->SetMapInfo((int)vec2WSCoordinate.y + 10, (int)vec2WSCoordinate.x + 10, 1001, false);
+	cMap2D->SetMapInfo((int)vec2WSCoordinate.y + 10, (int)vec2WSCoordinate.x + 10, 1001);
 	CSpaceGoop* minion = new CSpaceGoop();
 	minion->Init();
+	CScene2D::GetInstance()->enemyVector.push_back(minion);
 }
