@@ -153,6 +153,7 @@ bool CScene2D::Init(void)
 
 	resetfloor = false;
 	difficulty = 1;
+	floor = 0;
 	return true;
 }
 

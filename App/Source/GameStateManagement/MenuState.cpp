@@ -174,20 +174,7 @@ bool CMenuState::Update(const double dElapsedTime)
 	}
 	
 
-	//For keyboard controls
-	if (CKeyboardController::GetInstance()->IsKeyReleased(GLFW_KEY_SPACE))
-	{
-		cSoundController->PlaySoundByID(CSoundController::SOUNDS::BUTTON);
-		// Reset the CKeyboardController
-		CKeyboardController::GetInstance()->Reset();
-
-		// Load the menu state
-		CGameStateManager::GetInstance()->SetActiveGameState("PlayGameState");
-		cSoundController->StopAllSound();
-		cSoundController->PlaySoundByID(CSoundController::SOUNDS::LANCE);
-		return true;
-	}
-	else if (CKeyboardController::GetInstance()->IsKeyReleased(GLFW_KEY_ESCAPE))
+	if (CKeyboardController::GetInstance()->IsKeyReleased(GLFW_KEY_ESCAPE))
 	{
 		cSoundController->PlaySoundByID(CSoundController::SOUNDS::BUTTON);
 		// Reset the CKeyboardController
