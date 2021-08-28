@@ -152,7 +152,7 @@ bool CGameOverState::Update(const double dElapsedTime)
 		ImGui::SetWindowSize(ImVec2(100.0f, 25.0f));
 		ImGui::SameLine();
 		ImGui::SetWindowFontScale(CSettings::GetInstance()->iWindowWidth * (1.f/640.f)); // 2.f
-		ImGui::TextColored(ImVec4(1.0, 1.0, 1.0, 1), "Floors Cleared: %i", CScene2D::GetInstance()->floor);
+		ImGui::TextColored(ImVec4(1.0, 1.0, 1.0, 1), "Floors Cleared: %i", CGameManager::GetInstance()->getFloor());
 		ImGui::End();
 
 		ImGui::Begin("Retry Button", NULL, DmgWindowFlags);

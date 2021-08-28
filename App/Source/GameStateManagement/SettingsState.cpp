@@ -144,7 +144,7 @@ bool CSettingsState::Update(const double dElapsedTime)
 		static int counter = 0;
 
 		ImGui::Begin("Main Menu", NULL, window_flags);
-		ImGui::SetWindowPos(ImVec2(CSettings::GetInstance()->iWindowWidth / 2.0 - buttonWidth / 2.0,
+		ImGui::SetWindowPos(ImVec2(CSettings::GetInstance()->iWindowWidth / 2.0 - buttonWidth ,
 			CSettings::GetInstance()->iWindowHeight / 12.0));					// Set the top-left of the window at (10,10)
 		ImGui::SetWindowSize(ImVec2(CSettings::GetInstance()->iWindowWidth, CSettings::GetInstance()->iWindowHeight));
 
@@ -158,12 +158,14 @@ bool CSettingsState::Update(const double dElapsedTime)
 			CGameStateManager::GetInstance()->SetActiveGameState("MenuState");
 		}
 		// Add codes for Start button here
+		ImGui::SameLine();
 		if (ImGui::ImageButton((ImTextureID)buttonData[VOL_UP].textureID,
 			ImVec2(buttonWidth, buttonHeight), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0)))
 		{
 			cSoundController->MasterVolumeIncrease();
 		}
 		// Add codes for Exit button here
+		ImGui::SameLine();
 		if (ImGui::ImageButton((ImTextureID)buttonData[VOL_DOWN].textureID,
 			ImVec2(buttonWidth, buttonHeight), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0)))
 		{

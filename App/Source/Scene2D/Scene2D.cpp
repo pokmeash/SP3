@@ -34,6 +34,7 @@ CScene2D::CScene2D(void)
 CScene2D::~CScene2D(void)
 {
 	std::cout << "destroy\n";
+	CGameManager::GetInstance()->setFloor(floor);
 	cSoundController = NULL;
 	cGameManager = NULL;
 

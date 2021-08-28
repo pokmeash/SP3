@@ -195,28 +195,6 @@ void CGUI_Scene2D::Update(const double dElapsedTime)
 		ImGui::End();
 	}
 
-	// Render the inventory items
-	cInventoryItem = cInventoryManager->GetItem("Tree");
-	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.0f, 0.0f, 1.0f, 1.0f));  // Set a background color
-	ImGuiWindowFlags inventoryWindowFlags = ImGuiWindowFlags_AlwaysAutoResize |
-		ImGuiWindowFlags_NoTitleBar |
-		ImGuiWindowFlags_NoMove |
-		ImGuiWindowFlags_NoResize |
-		ImGuiWindowFlags_NoCollapse |
-		ImGuiWindowFlags_NoScrollbar;
-	ImGui::Begin("Image", NULL, inventoryWindowFlags);
-	ImGui::SetWindowPos(ImVec2(25.0f, 550.0f));
-	ImGui::SetWindowSize(ImVec2(200.0f, 25.0f));
-	ImGui::Image((void*)(intptr_t)cInventoryItem->GetTextureID(),
-		ImVec2(cInventoryItem->vec2Size.x, cInventoryItem->vec2Size.y),
-		ImVec2(0, 1), ImVec2(1, 0));
-	ImGui::SameLine();
-	ImGui::SetWindowFontScale(1.5f);
-	ImGui::TextColored(ImVec4(1, 1, 0, 1), "Star: %d / %d",
-		cInventoryItem->GetCount(), cInventoryItem->GetMaxCount());
-	ImGui::End();
-	ImGui::PopStyleColor();
-
 	for (unsigned i = 0; i < CScene2D::GetInstance()->enemyVector.size(); ++i) {
 		CLivingEntity* enemy = (CLivingEntity*)CScene2D::GetInstance()->enemyVector[i];
 		if (!enemy->bIsActive) continue;
