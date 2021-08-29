@@ -282,124 +282,124 @@ void CScene2D::LevelCompleted(int DoorDir)
 	EventHandler::GetInstance()->CallThenDelete(new NextRoomEvent());
 	switch (DoorDir)
 	{
-		case 0://Top
+	case 0://Top
+	{
+		if (cMap2D->GetDoorInfo(22, 16) != -1)
 		{
-			if (cMap2D->GetDoorInfo(22,16) != -1)
+			cMap2D->SetCurrentLevel(cMap2D->GetDoorInfo(22, 16));
+		}
+		else
+		{
+			if (randomvect.size() - 1 > 0)
 			{
-				cMap2D->SetCurrentLevel(cMap2D->GetDoorInfo(22, 16));
+				std::random_shuffle(randomvect.begin(), randomvect.end()); // 1 to 8 with random order.
+				random = (randomvect[randomvect.size() - 1]); // Use the outcome in whatever way.
+				randomvect.pop_back();
 			}
-			else
-			{
-				if (randomvect.size() - 1 > 0)
-				{
-					std::random_shuffle(randomvect.begin(), randomvect.end()); // 1 to 8 with random order.
-					random = (randomvect[randomvect.size() - 1]); // Use the outcome in whatever way.
-					randomvect.pop_back();
-				}
-				cMap2D->SetDoorInfo(22, 16, random);
-				temp = cMap2D->GetCurrentLevel();
-				cMap2D->SetCurrentLevel(random);
-				cMap2D->SetDoorInfo(1, 16, temp);
+			cMap2D->SetDoorInfo(22, 16, random);
+			temp = cMap2D->GetCurrentLevel();
+			cMap2D->SetCurrentLevel(random);
+			cMap2D->SetDoorInfo(1, 16, temp);
 
-			}
-			cPlayer2D->vec2WSCoordinate.x = 16.5;
-			cPlayer2D->vec2WSCoordinate.y = 3;
-			break;
 		}
-		case 1://Right
+		cPlayer2D->vec2WSCoordinate.x = 16.5;
+		cPlayer2D->vec2WSCoordinate.y = 3;
+		break;
+	}
+	case 1://Right
+	{
+		if (cMap2D->GetDoorInfo(11, 30) != -1)
 		{
-			if (cMap2D->GetDoorInfo(11, 30) != -1)
-			{
-				cMap2D->SetCurrentLevel(cMap2D->GetDoorInfo(11, 30));
+			cMap2D->SetCurrentLevel(cMap2D->GetDoorInfo(11, 30));
 
-			}
-			else
-			{
-				if (randomvect.size() - 1 > 0)
-				{
-					std::random_shuffle(randomvect.begin(), randomvect.end()); // 1 to 8 with random order.
-					random = (randomvect[randomvect.size() - 1]); // Use the outcome in whatever way.
-					randomvect.pop_back();
-				}
-				cMap2D->SetDoorInfo(11, 30, random);
-				temp = cMap2D->GetCurrentLevel();
-				cMap2D->SetCurrentLevel(random);
-				cMap2D->SetDoorInfo(11, 1, temp);
-			}
-			cPlayer2D->vec2WSCoordinate.x = 3;
-			cPlayer2D->vec2WSCoordinate.y = 11;
-			break;
 		}
-		case 2://Bot
+		else
 		{
-			if (cMap2D->GetDoorInfo(1, 16) != -1)
+			if (randomvect.size() - 1 > 0)
 			{
-				cMap2D->SetCurrentLevel(cMap2D->GetDoorInfo(1, 16));
+				std::random_shuffle(randomvect.begin(), randomvect.end()); // 1 to 8 with random order.
+				random = (randomvect[randomvect.size() - 1]); // Use the outcome in whatever way.
+				randomvect.pop_back();
 			}
-			else
-			{
-				if (randomvect.size() - 1 > 0)
-				{
-					std::random_shuffle(randomvect.begin(), randomvect.end()); // 1 to 8 with random order.
-					random = (randomvect[randomvect.size() - 1]); // Use the outcome in whatever way.
-					randomvect.pop_back();
-				}
-				cMap2D->SetDoorInfo(1, 16, random);
-				temp = cMap2D->GetCurrentLevel();
-				cMap2D->SetCurrentLevel(random);
-				cMap2D->SetDoorInfo(22, 16, temp);
-			}
-			cPlayer2D->vec2WSCoordinate.x = 16.5;
-			cPlayer2D->vec2WSCoordinate.y = 21;
-			break;
+			cMap2D->SetDoorInfo(11, 30, random);
+			temp = cMap2D->GetCurrentLevel();
+			cMap2D->SetCurrentLevel(random);
+			cMap2D->SetDoorInfo(11, 1, temp);
 		}
-		case 3://Left
+		cPlayer2D->vec2WSCoordinate.x = 3;
+		cPlayer2D->vec2WSCoordinate.y = 11;
+		break;
+	}
+	case 2://Bot
+	{
+		if (cMap2D->GetDoorInfo(1, 16) != -1)
 		{
-			if (cMap2D->GetDoorInfo(11, 1) != -1)
+			cMap2D->SetCurrentLevel(cMap2D->GetDoorInfo(1, 16));
+		}
+		else
+		{
+			if (randomvect.size() - 1 > 0)
 			{
-				cMap2D->SetCurrentLevel(cMap2D->GetDoorInfo(11, 1));
+				std::random_shuffle(randomvect.begin(), randomvect.end()); // 1 to 8 with random order.
+				random = (randomvect[randomvect.size() - 1]); // Use the outcome in whatever way.
+				randomvect.pop_back();
+			}
+			cMap2D->SetDoorInfo(1, 16, random);
+			temp = cMap2D->GetCurrentLevel();
+			cMap2D->SetCurrentLevel(random);
+			cMap2D->SetDoorInfo(22, 16, temp);
+		}
+		cPlayer2D->vec2WSCoordinate.x = 16.5;
+		cPlayer2D->vec2WSCoordinate.y = 21;
+		break;
+	}
+	case 3://Left
+	{
+		if (cMap2D->GetDoorInfo(11, 1) != -1)
+		{
+			cMap2D->SetCurrentLevel(cMap2D->GetDoorInfo(11, 1));
 
-			}
-			else
-			{
-				if (randomvect.size() - 1 > 0)
-				{
-					std::random_shuffle(randomvect.begin(), randomvect.end()); // 1 to 8 with random order.
-					random = (randomvect[randomvect.size() - 1]); // Use the outcome in whatever way.
-					randomvect.pop_back();
-				}
-				cMap2D->SetDoorInfo(11, 1, random);
-				temp = cMap2D->GetCurrentLevel();
-				cMap2D->SetCurrentLevel(random);
-				cMap2D->SetDoorInfo(11, 30, temp);
-			}
-			cPlayer2D->vec2WSCoordinate.x = 28;
-			cPlayer2D->vec2WSCoordinate.y = 11;
-			break;
 		}
-		case 4://next floor
+		else
 		{
-			randomvect.clear();
-			for (int i = 1; i < 11; ++i)
+			if (randomvect.size() - 1 > 0)
 			{
-				randomvect.push_back(i);
+				std::random_shuffle(randomvect.begin(), randomvect.end()); // 1 to 8 with random order.
+				random = (randomvect[randomvect.size() - 1]); // Use the outcome in whatever way.
+				randomvect.pop_back();
 			}
-			cPlayer2D->vec2WSCoordinate.x = 16;
-			cPlayer2D->vec2WSCoordinate.y = 12;
-			resetfloor = false;
+			cMap2D->SetDoorInfo(11, 1, random);
+			temp = cMap2D->GetCurrentLevel();
+			cMap2D->SetCurrentLevel(random);
+			cMap2D->SetDoorInfo(11, 30, temp);
+		}
+		cPlayer2D->vec2WSCoordinate.x = 28;
+		cPlayer2D->vec2WSCoordinate.y = 11;
+		break;
+	}
+	case 4://next floor
+	{
+		randomvect.clear();
+		for (int i = 1; i < 11; ++i)
+		{
+			randomvect.push_back(i);
+		}
+		cPlayer2D->vec2WSCoordinate.x = 16;
+		cPlayer2D->vec2WSCoordinate.y = 12;
+		resetfloor = false;
 
-			cMap2D->GenerateNewLevel(11, 24, 32);
-			++floor;
-			if (floor%10 == 0)
-			{
-				++difficulty;
-			}
-		}
-		default:
+		cMap2D->GenerateNewLevel(11, 24, 32);
+		++floor;
+		if (floor % 10 == 0)
 		{
-			cMap2D->SetCurrentLevel(cMap2D->GetCurrentLevel());
-			break;
+			++difficulty;
 		}
+	}
+	default:
+	{
+		cMap2D->SetCurrentLevel(cMap2D->GetCurrentLevel());
+		break;
+	}
 	}
 
 	cPlayer2D->Reset();
@@ -428,5 +428,4 @@ void CScene2D::LevelCompleted(int DoorDir)
 
 	//ENEMY
 	cMap2D->LoadEnemies();
-
 }

@@ -176,7 +176,9 @@ bool CPlayer2D::Init(void)
 	cInventoryItem = cInventoryManager->Add("Health", "Image/Scene2D_Health.tga", 100, 100);
 	cInventoryItem->vec2Size = glm::vec2(25, 25);
 
-
+	// Add a Health icon as one of the inventory items
+	cInventoryItem = cInventoryManager->Add("Portal", "Image/PortalGun.png", 100, 100);
+	cInventoryItem->vec2Size = glm::vec2(25, 25);
 
 	jumpCount = 0;
 
@@ -516,19 +518,20 @@ void CPlayer2D::Update(const double dElapsedTime)
 				CBossTimeControl::GetInstance()->Reset();
 			}
 		}
+
 	}
-	if (cMap2D->GetMapInfo(12, 16) == 98)// next floor
-	{
-		//Swapping
-		bool activate = cSettings->iKeybinds[CSettings::TRIGGER_POWERUP] <= GLFW_MOUSE_BUTTON_LAST && cMouseController->IsButtonPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP]);
-		if (activate || cKeyboardController->IsKeyPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP]) && (cMap2D->GetCurrentLevel() == 9 || cMap2D->GetCurrentLevel() == 10))
-		{
-			cMap2D->SetCurrentLevel(0);
-			CScene2D::GetInstance()->resetfloor = true;
-			CScene2D::GetInstance()->LevelCompleted(5);
-			cSoundController->PlaySoundByID(CSoundController::SOUNDS::SWAP);
-		}
-	}
+	//if (cMap2D->GetMapInfo(12, 16) == 98)// next floor
+	//{
+	//	//Swapping
+	//	bool activate = cSettings->iKeybinds[CSettings::TRIGGER_POWERUP] <= GLFW_MOUSE_BUTTON_LAST && cMouseController->IsButtonPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP]);
+	//	if (activate || cKeyboardController->IsKeyPressed(cSettings->iKeybinds[CSettings::TRIGGER_POWERUP]) && (cMap2D->GetCurrentLevel() == 9 || cMap2D->GetCurrentLevel() == 10))
+	//	{
+	//		cMap2D->SetCurrentLevel(0);
+	//		CScene2D::GetInstance()->resetfloor = true;
+	//		CScene2D::GetInstance()->LevelCompleted(5);
+	//		cSoundController->PlaySoundByID(CSoundController::SOUNDS::SWAP);
+	//	}
+	//}
 	
 
 

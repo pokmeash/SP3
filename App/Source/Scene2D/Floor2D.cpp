@@ -809,7 +809,6 @@ void CFloor2D::GeneratePreset(int uiLevel)
 				}
 
 			}
-			arrMapInfo[uiLevel][(int)cSettings->NUM_TILES_YAXIS * (int)0.5][(int)cSettings->NUM_TILES_YAXIS * (int)0.5 + 2].value = 5;
 		}
 		break;
 	}
